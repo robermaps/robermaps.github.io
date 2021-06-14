@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wmspnoa2.html</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
+		<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+		
+		<!-- Añadimos esta librería para poder hacer la transformación de 25830 a 4326 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4-src.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+		
+	<div id='coords'></div>	
+		
+    </head>
+	
+	 <!-- En este caso definimos el estilo del mapa aquí -->
+	<style>
+		#map{
+			width: 1080px;
+			height: 720px;
+			box-shadow: 5px 5px 5px #888;
+		}
+		
+		.coordenadas {
+			position: absolute;
+			left: 15px;
+			bottom: 35px;
+			color: #fff;
+			z-index: 50;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px
+			0 #000;
+		}
+	</style>	
+		
+	<body>
+		<div id="map"></div>
+		<script>
+			//Agregar proyección 25830 para que la reconozca
+			proj4.defs("EPSG:25830", "+proj=utm +zone=30 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+			
+			//register(proj4);
+			ol.proj.proj4.register(proj4);
+			var proj25830 = ol.proj.get('EPSG:25830');
+			
+			//Proyeccion
+			var projection = new ol.proj.Projection({
+				code: 'EPSG:25830', 
+				units: 'm'
+			});
+
+			
+			
+			
+			// Lista de capas
+			var layers =[
+		
+				new ol.layer.Image({
+					title: 'PNOA',
+					source: new ol.source.ImageWMS({
+						url: 'http://www.ign.es/wms-inspire/pnoa-ma',
+						params: {'LAYERS':'OI.MosaicElement,OI.OrthoimageCoverage'},
+						visible: true,
+					})
+				}),
+
+				
+					
+					
+			]
+			
+			// Recuadro del mapa
+			var map = new ol.Map({
+			
+				// Capas que se cargarán en el mapa
+				layers: layers, 
+				target: 'map',
+				
+				// Vista del mapa
+				view: new ol.View({
+					center: [-3.703520,40.416911],
+					zoom: 5,
+					projection: new ol.proj.Projection({
+						code: 'EPSG:25830', //sistema de coordenadas de nuestro mapa
+						units: 'm'
+					}), 
+				}),	
+				
+				// Elementos interactivos del mapa
+				controls: [
+					new ol.control.MousePosition({
+						coordinateFormat: ol.coordinate.createStringXY(3),
+						projection: 'EPSG:25830',
+						target: 'coords',
+						
+					}),
+					
+					new ol.control.ZoomSlider(),
+					new ol.control.Zoom(),
+					new ol.control.ZoomToExtent({
+						//extent: ol.proj.transformExtent([-2827558.5921,2920505.9431,591928.3679,5537709.8231], 'EPSG:4326', 'EPSG:25830'),
+						extent: [-2827558.5921,2920505.9431,591928.3679,5537709.8231],
+					}),
+					new ol.control.ScaleLine(),
+					new ol.control.OverviewMap({
+						collapsed: false,
+						view:new ol.View({
+							projection: projection
+						})
+
+					})
+					
+				]
+			});
+ 
+
+			map.getView().fit(ol.proj.transformExtent([-1.64904, 37.7114, 0.791289, 40.8224], 'EPSG:4326', 'EPSG:25830'), map.getSize()
+			); //cambiamos el sistema de coordenadas a 4326 y mostramos la zona que hemos definido en el extent
+		</script>
+	</body>
+</html>
+
+					
