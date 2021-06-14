@@ -85,31 +85,7 @@
 					}), 
 				}),	
 				
-				// Elementos interactivos del mapa
-				controls: [
-					new ol.control.MousePosition({
-						coordinateFormat: ol.coordinate.createStringXY(3),
-						projection: 'EPSG:25830',
-						target: 'coords',
-						
-					}),
-					
-					new ol.control.ZoomSlider(),
-					new ol.control.Zoom(),
-					new ol.control.ZoomToExtent({
-						//extent: ol.proj.transformExtent([-2827558.5921,2920505.9431,591928.3679,5537709.8231], 'EPSG:4326', 'EPSG:25830'),
-						extent: [-2827558.5921,2920505.9431,591928.3679,5537709.8231],
-					}),
-					new ol.control.ScaleLine(),
-					new ol.control.OverviewMap({
-						collapsed: false,
-						view:new ol.View({
-							projection: projection
-						})
 
-					})
-					
-				]
 			});
  
 
