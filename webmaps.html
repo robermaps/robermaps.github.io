@@ -3,7 +3,7 @@
 
 <head>
 	<!--Título del documento-->
- 	<title>wmspnoa5-GETFEATUREINFO.html</title>
+ 	<title>ejercicio4-tema5</title>
 
 	<!--Cargar openlayers desde internet-->
  	<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
@@ -52,12 +52,13 @@
 
 	<!--Objetos HTML que almacenan el contenido de la página-->
 	<!--Caja del mapa-->
- 	<div id="map"></div>
+ 	<div id="map1"></div>
+	<div id="map2"></div>
 	
 	<!--Ventana con la información de las entidades-->
  	<div id="overlay" style="background-color: rgb(253, 173, 0); background-size: 250px 250px ; border-radius: 5px; border: 10px solid black; padding: 5px 10px;">
 	
-	<!--Script de JavaScript en el que se configuran los objetos <div> anteriores-->	
+	<!--Script de JavaScript en el que se configuran los objetos div anteriores-->	
 	<script>
 
 		//PROYECCIONES
@@ -149,10 +150,52 @@
  		});
 
 
-		//Configuración de la caja del mapa
+		//Configuración de la caja del mapa 1 
 		var map = new ol.Map({
 			layers: [baselayers,overlays], //objetos con las capas
-			target: 'map', //objeto <div> en el que se insertará el mapa
+			target: 'map', //objeto div en el que se insertará el mapa
+			view: new ol.View({
+				center: [265405 , 4283148],
+				zoom: 5,
+				projection: projection	//proyección definida anteriormente
+			}),
+
+			//Elementos interactivos del mapa
+			controls: [
+
+				//Mostrar las coordenadas del ratón
+				new ol.control.MousePosition({
+					coordinateFormat: ol.coordinate.createStringXY(3),
+					projection: 'EPSG:25830',
+					className: 'coordenadas' //clase CSS en la que configuramos su diseño
+				}),
+
+				//Controles de zoom
+				new ol.control.ZoomSlider(),
+				new ol.control.Zoom(),
+				new ol.control.ZoomToExtent({
+					extent: ol.proj.transformExtent([-21.895752,31.531726,-0.988770,40.229218],
+						'EPSG:4326',
+						'EPSG:25830'
+					),
+				}),
+
+				//Barra de escala
+				new ol.control.ScaleLine(),
+
+				//Minimapa
+				new ol.control.OverviewMap({
+					view: new ol.View({
+						layers : [pnoa],
+						projection: projection
+					}) 
+				})
+			]
+		});
+
+		var map2 = new ol.Map({
+			layers: [baselayers,overlays], //objetos con las capas
+			target: 'map2', //objeto div en el que se insertará el mapa
 			view: new ol.View({
 				center: [265405 , 4283148],
 				zoom: 5,
@@ -207,7 +250,7 @@
  		); 
 
 		//OBTENCIÓN DE INFORMACIÓN DE LAS ENTIDADES 
-		//Configuración del objeto <div> 'overlay' en el que se mostrará la info de la entidad seleccionada 
+		//Configuración del objeto  div 'overlay' en el que se mostrará la info de la entidad seleccionada 
  		var overlay = new ol.Overlay({
  			element: document.getElementById('overlay'), 
  			positioning: 'bottom-center'
