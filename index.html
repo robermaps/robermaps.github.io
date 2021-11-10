@@ -7,7 +7,7 @@
 			h1 {text-align: center;}
 			h2 {text-align: center;}
 			p {text-align: center;}
-			
+				
 			<!-- Fixed/sticky icon bar (vertically aligned 50% from the top of the screen) -->
 				.icon-bar {
 				  position: fixed;
@@ -32,14 +32,10 @@
 				  background-color: #000;
 				}
 
-				
-
 				.twitter {
 				  background: #55ACEE;
 				  color: white;
 				}
-
-				
 
 				.linkedin {
 				  background: #007bb5;
@@ -50,6 +46,59 @@
 				  background: #000000;
 				  color: white;
 				}
+			
+			<!-- COLUMNAS y POLAROID -->
+			
+			body {margin:25px;}
+
+			
+			div.polaroid {
+			  width: 100%;
+			  background-color: white;
+			  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			  margin-bottom: 25px;
+			  
+			  
+			}
+
+			div.container {
+			  text-align: center;
+			  padding: 5px 20px;
+			  color: black;
+
+			}
+			
+		
+			* {
+			  box-sizing: border-box;
+			}
+
+			/* Create three equal columns that floats next to each other */
+			.column {
+			  float: left;
+			  width: 20%;
+			  padding: 1%;
+			  
+			}
+
+			/* Clear floats after the columns */
+			.row:after {
+			  content: "";
+			  display: table;
+			  clear: both;
+			}
+
+			/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+			@media screen and (max-width: 600px) {
+			  .column {
+				width: 100%;
+			  }
+			}
+			
+			div.par {
+				text-align: left;
+				padding: 1%;
+			}
 			
 			
 		</style>
@@ -70,15 +119,88 @@
 			  <a href="#" class="git"><i class="fa fa-github"></i></a>
 			</div>
 		<spacer type="vertical" width="100" height="100"></spacer>
-		<h1 style= padding:30px;>PROGRAMAPA</h1>	
-		<p>Portfolio de Rober J - Programación y cartografía</p>
+		<h1 style= padding:30px;>PROGRAMAPA</h1>
 		<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
 		
-		<h2><a href="https://programapa.wordpress.com">Blog</a></h2>
-		<h2><a href="https://github.com/PrograMapa">GitHub</a></h2>
-		<h2><a href="https://twitter.com/progra_mapa">Twitter</a></h2>
-		<h2><a href="https://www.linkedin.com/in/robertojl/">LinkedIn</a></h2>
-		<h2><a href="https://www.instagram.com/progra_mapa/">Instagram</a></h2>
+		<p>Portfolio de Rober J - Programación y cartografía</p>
+		
+		<div class="row">
+		  
+		  
+		  
+		  <div class="column" style="background-color:#0;">
+		  </div>
+		  
+		  <div class="column" style="background-color:#0;">
+			
+			
+			
+			
+			<div class="polaroid">
+			  <a href="">
+				<img src='' class = "img-responsive" width = "100%" >
+			  </a>
+			  <div class="container">
+				<h2>MyOcean Pro</h2>
+				<p>Visores oceánicos del Copernicus Maritime Service</p>
+			  </div>
+			</div>
+			
+			<div class="polaroid">
+			  <a href="">
+				<img src='' class = "img-responsive" width = "100%" >
+			  </a>
+			  <div class="container">
+				<h2>MyOcean Light</h2>
+				<p>Visores oceánicos del Copernicus Maritime Service</p>
+			  </div>
+			</div>
+			
+		  </div>
+
+		  <div class="column" style="background-color:#0;">
+			<div class="polaroid">
+			  <a href="">
+				<img src='' class = "img-responsive" width = "100%" >
+			  </a>
+			  <div class="container">
+				<h2>Flood Map</h2>
+				<p>Mapa de territorio inundado según la crecida del mar</p>
+			  </div>
+			</div>
+			
+			<div class="polaroid">
+			  <a href="">
+				<img src='' class = "img-responsive" width = "100%" >
+			  </a>
+			  <div class="container">
+				<h2>Global Climate Monitor</h2>
+				<p>Visualización y descarga de datos climáticos</p>
+			  </div>
+			</div>
+			
+			
+			
+		  </div>
+		  
+		  <div class="column" style="background-color:#0;">
+			<div class="polaroid">
+			  <a href="">
+				<img src='https://programapa.files.wordpress.com/2020/05/olas_ventusky.png' class = "img-responsive" width = "100%" >
+			  </a>
+			  <div class="container">
+				<h2>Ventusky</h2>
+				<p>Visualizador climático</p>
+			  </div>
+			</div>
+			
+			
+			
+			
+			
+		  </div>
+		  
+		</div> <!-- BLOQUE DE COLUMNAS -->
 
 	</body>
 </html>
