@@ -3,146 +3,40 @@
 <html>
 	<head>
 	    <title>Cartoteca Digital</title>
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1" /> 
 		<meta charset="ISO-8859-1">
+		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-		
-		<style>
-	
-			div.polaroid {
-			  width: 100%;
-			  background-color: white;
-			  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			  margin-bottom: 25px;
-			  
-			  
-			}
-
-			div.container {
-			  text-align: center;
-			  padding: 5px 20px;
-			  color: black;
-
-			}
-			
-		
-			* {
-			  box-sizing: border-box;
-			  
-			}
-
-			/* Create three equal columns that floats next to each other */
-			.column {
-			  float: left;
-			  width: 33.33%;
-			  padding: 1%;
-			  
-			}
-
-			/* Clear floats after the columns */
-			.row:after {
-			  content: "";
-			  display: table;
-			  clear: both;
-			  
-			}
-
-			div.social{
-				text-align:right;
-			}
-			
-			/* Style all font awesome icons */
-			.fa {
-			  padding: 15px;
-			  font-size: 25px;
-			  width: 50px;
-			  height: 50px;
-			  text-align: center;
-			  text-decoration: none;
-			}
-
-			/* Add a hover effect if you want */
-			.fa:hover {
-			  opacity: 0.7;
-			}
-
-			/* Set a specific color for each brand */
-
-			.fa-twitter {
-			  background: #55ACEE;
-			  color: white;
-			}
-
-			.fa-linkedin {
-			  background: #007bb5;
-			  color: white;
-			}
-
-			.fa-github {
-			  background: #000000;
-			  color: white;
-			}
-
-			/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-			@media screen and (max-width: 600px) {
-			  .column {
-				width: 100%;
-			  }
-			}
-			
-			
-			div.par {
-				text-align: center;
-				padding: 1%;
-				margin-left:20px;
-				margin-right:20px;
-			}
-			
-			div.indice {
-				text-align: left;
-				padding:2%;
-				margin-left:25px;
-				margin-right:25px;;
-				
-			}
-			
-			div.cartoteca {
-				text-align: center;
-				padding: 2%;
-				
-				
-			}
-			
-		</style>
-		
+		<link rel="stylesheet" href="styles.css">	
 		
 	</head>
 
-	<body bgcolor="EDEDED">
-	<div class=social>
-			  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
-			  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
-			  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
-			</div>
-		<br>
-	<font face="Montserrat">
-	<h1 align=center style="color:000000">Cartoteca Digital</h1>
-	<a href="https://programapa.github.io/index">
-	<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
-	</a>
-
-	<div class="par">
+	<body>
+		<div class=social>
+				  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
+				  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
+				  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
+				</div>
 			<br>
-				<p>Si te gusta la cartografía y la visualización de datos… ¡estás de suerte! En este post recopilo y clasifico toda clase de plataformas y servicios de Web Maps dispersos por la red. </p>
-				<p>¡Para fanáticos de los mapas! </p>
-				<p>Recomiendo acceder a través del PC pues algunos mapas pueden no funcionar correctamente desde el móvil. </p>
-			<br>
-	</div>
 	
-	<div class="indice">
+		<div class=cabecera>
+			<h1>Cartoteca Digital</h1>
+			<a href="https://programapa.github.io/index">
+			<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+			</a>
+		
+			<br>
+				Si te gusta la cartografía y la visualización de datos… ¡estás de suerte! En este post recopilo y clasifico toda clase de plataformas y servicios de Web Maps dispersos por la red. 
+			<br><br>	
+				¡Para fanáticos de los mapas!
+			<br><br>
+				Recomiendo acceder a través del PC pues algunos mapas pueden no funcionar correctamente desde el móvil. 
+			<br>
+		
+			<div class="indice">
 				<h2><strong>Índice</strong></h2>
-				<p><a href="#Clima">Clima</a> 🌦<br>
+					<a href="#Clima">Clima</a> 🌦<br>
 					<a href="#Medio-ambiente">Medio ambiente</a> 🌱<br>
 					<a href="#Proyecciones-y-coordenadas">Proyecciones y coordenadas</a> 🌐<br>
 					<a href="#Urbanismo-y-movilidad">Urbanismo, movilidad e infraestructuras</a> 🚉<br>
@@ -151,9 +45,11 @@
 					<a href="#Teledeteccion">Teledetección</a> 🛰<br />
 					<a href="#Espacio">Espacio</a> 🔭<br>
 					<a href="#Galerias-de-mapas">Galerías de mapas️</a> 🗺<br>
-					<a href="#Cartografia-de-España">Mapas de España</a> 🇪🇸</p>
-				
-	</div>
+					<a href="#Cartografia-de-España">Mapas de España</a> 🇪🇸<br>
+						
+			</div>
+		</div>
+
 
 	<div class="cartoteca">
 	<p><a id="Clima"></a></p>

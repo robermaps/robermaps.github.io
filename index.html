@@ -1,199 +1,109 @@
 <!DOCTYPE html>
-<html>
+
+<html> 
 	<head>
 		<title>PrograMapa</title>
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1" /> 
-		<!-- Social Media bar -->
+		<meta charset="ISO-8859-1">
+		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<style>
-			h1 {text-align: center;}
-			h2 {text-align: center;}
-			p {text-align: center;}
-
-			
-			div.polaroid {
-			  width: 100%;
-			  background-color: white;
-			  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			  margin-bottom: 25px;
-			  
-			  
-			}
-
-			div.container {
-			  text-align: center;
-			  padding: 5px 20px;
-			  color: black;
-
-			}
-			
-		
-			* {
-			  box-sizing: border-box;
-			}
-
-			/* Create three equal columns that floats next to each other */
-			.column {
-			  float: left;
-			  width: 33.33%;
-			  padding: 1%;
-			  
-			}
-
-			/* Clear floats after the columns */
-			.row:after {
-			  content: "";
-			  display: table;
-			  clear: both;
-			}
-
-			/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-			@media screen and (max-width: 600px) {
-			  .column {
-				width: 100%;
-			  }
-			}
-			
-			div.par {
-				text-align: center;
-				padding: 1%;
-				margin-left:20px;
-				margin-right:20px;
-			}
-			
-			div.social{
-				text-align:right;
-			}
-			
-			/* Style all font awesome icons */
-			.fa {
-			  padding: 15px;
-			  font-size: 25px;
-			  width: 50px;
-			  height: 50px;
-			  text-align: center;
-			  text-decoration: none;
-			}
-
-			/* Add a hover effect if you want */
-			.fa:hover {
-			  opacity: 0.7;
-			}
-
-			/* Set a specific color for each brand */
-
-			.fa-twitter {
-			  background: #55ACEE;
-			  color: white;
-			}
-
-			.fa-linkedin {
-			  background: #007bb5;
-			  color: white;
-			}
-
-			.fa-github {
-			  background: #000000;
-			  color: white;
-			}
-			
-			
-		</style>
-		
-		
-			
+		<link rel="stylesheet" href="styles.css">		
 	
 	</head>
 	
-	<body bgcolor="EDEDED">
+	<body>
 	
 		<div class=social>
 			  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
 			  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
 			  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
-			</div>
-		<br>
-                <font face="Montserrat">
-		<h1>PrograMapa</h1>
-		<p align=center>Un portfolio de Rober J</p>
-		<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+		</div>
+		
 		<br>
 		
-		<div class="row" style="text-align: center; padding: 2%;">
-		  
-		  
-		  
-		  
-		  <div class="column" style="background-color:#0;">
+		<div class=cabecera>
+                
+			<h1>PrograMapa</h1>
+			<p align=center>Un portfolio de Rober J</p>
+			<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+			<br>
 			
-			
-			
-			
-			<div class="polaroid">
-			  <a href="https://twitter.com/esmapbot">
-				<img src='https://raw.githubusercontent.com/PrograMapa/esmapbot/master/%40esmapbot.png' class = "img-responsive" width = "100%" >
-			  </a>
-			  <div class="container">
-				<h2>España desde el cielo</h2>
-				<p>Bot de Twitter que comparte una imagen aleatoria de satélite cada 6 horas</p>
+			<div class="row" style="text-align: center; padding: 2%;">
+			  
+			  
+			  
+			  
+			  <div class="column" style="background-color:#0;">
+				
+				
+				
+				
+				<div class="polaroid">
+				  <a href="https://twitter.com/esmapbot">
+					<img src='https://raw.githubusercontent.com/PrograMapa/esmapbot/master/%40esmapbot.png' class = "img-responsive" width = "100%" >
+				  </a>
+				  <div class="container">
+					<h2>España desde el cielo</h2>
+					<p>Bot de Twitter que comparte una imagen aleatoria de satélite cada 6 horas</p>
+				  </div>
+				</div>
+				<div class="polaroid">
+				  <a href="https://programapa.github.io/cartoteca-digital.html">
+					<img src='https://programapa.files.wordpress.com/2020/05/olas_ventusky.png' class = "img-responsive" width = "100%" >
+				  </a>
+				  <div class="container">
+					<h2>Cartoteca Digital</h2>
+					<p>¿Te gustan los mapas? ¿Y la visualización de datos? Entra y descubre docenas de Web Maps clasificados por ámbito temático.</p>
+				  </div>
+				</div>
+				
 			  </div>
-			</div>
-			<div class="polaroid">
-			  <a href="https://programapa.github.io/cartoteca-digital.html">
-				<img src='https://programapa.files.wordpress.com/2020/05/olas_ventusky.png' class = "img-responsive" width = "100%" >
-			  </a>
-			  <div class="container">
-				<h2>Cartoteca Digital</h2>
-				<p>¿Te gustan los mapas? ¿Y la visualización de datos? Entra y descubre docenas de Web Maps clasificados por ámbito temático.</p>
-			  </div>
-			</div>
-			
-		  </div>
 
-		  <div class="column" style="background-color:#0;">
-			<div class="polaroid">
-			  <a href="">
-				<img src='' class = "img-responsive" width = "100%" >
-			  </a>
-			  <div class="container">
-				<h2>Fundamentos de PostgreSQL y PostGIS</h2>
-				<p></p>
+			  <div class="column" style="background-color:#0;">
+				<div class="polaroid">
+				  <a href="">
+					<img src='' class = "img-responsive" width = "100%" >
+				  </a>
+				  <div class="container">
+					<h2>Fundamentos de PostgreSQL y PostGIS</h2>
+					<p></p>
+				  </div>
+				</div>
+				
+				<div class="polaroid">
+				  <a href="">
+					<img src='' class = "img-responsive" width = "100%" >
+				  </a>
+				  <div class="container">
+					<h2>Fundamentos de Python</h2>
+					<p></p>
+				  </div>
+				</div>
+				
+				
+				
 			  </div>
-			</div>
-			
-			<div class="polaroid">
-			  <a href="">
-				<img src='' class = "img-responsive" width = "100%" >
-			  </a>
-			  <div class="container">
-				<h2>Fundamentos de Python</h2>
-				<p></p>
-			  </div>
-			</div>
-			
-			
-			
-		  </div>
-		  
-		  <div class="column" style="background-color:#0;">
-			
-			
-			
-			<div class="polaroid">
-			  <a href="">
-				<img src='' class = "img-responsive" width = "100%" >
-			  </a>
-			  <div class="container">
-				<h2>Fuentes de geodatos</h2>
-				<p></p>
-			  </div>
-			</div>
-			
-		</div>	
-			
-		  
-		  
-		</div> <!-- BLOQUE DE COLUMNAS -->
-        </font>
+			  
+			  <div class="column" style="background-color:#0;">
+				
+				
+				
+				<div class="polaroid">
+				  <a href="">
+					<img src='' class = "img-responsive" width = "100%" >
+				  </a>
+				  <div class="container">
+					<h2>Fuentes de geodatos</h2>
+					<p></p>
+				  </div>
+				</div>
+				
+			</div>	
+				
+			  
+			  
+			</div> <!-- BLOQUE DE COLUMNAS -->
+		</div>
 	</body>
 </html>

@@ -1,23 +1,33 @@
-body { font-family: OpenSans;}
-h1 {text-align: center; font-family: OpenSans;}
-h2 {text-align: center;}
-p {text-align: center;}
+body { 
+	font-family: Arial, Sans-serif;
+	background-color: #EDEDED;
+}
+
+div.cabecera {
+	max-width: 1024px;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
+}
+	
+h1 {
+	text-align: center; 
+	font-family: Verdana, Sans-serif;
+}
+
 
 
 div.polaroid {
   width: 100%;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 25px;
-  
-  
+  margin-bottom: 25px;  
 }
 
 div.container {
   text-align: center;
   padding: 5px 20px;
   color: black;
-
 }
 
 
@@ -88,4 +98,15 @@ div.social{
 .fa-github {
   background: #000000;
   color: white;
+}
+
+div.indice {
+	text-align: left;	
+}
+			
+div.cartoteca {
+	text-align: center;
+	padding: 2%;
+	
+	
 }
