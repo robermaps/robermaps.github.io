@@ -1,4 +1,4 @@
-/* ESTRUCTIRA GENERAL */
+/* ESTRUCTURA GENERAL */
 body { 
 	font-family: Arial, Sans-serif;
 	background-color: #EDEDED;
@@ -76,7 +76,6 @@ div.social{
 }
 
 /* COLUMNAS */
-
 div.polaroid {
   width: 100%;
   background-color: white;
