@@ -32,12 +32,13 @@ div.cuerpo {
 /* OTROS */
 div.indice {
 	text-align: left;
-        target: _self;	
+        	
 }
 			
 div.cartoteca {
 	text-align: center;
 	padding: 2%;
+        target: _blank;
 		
 }
 
