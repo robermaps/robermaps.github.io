@@ -9,9 +9,9 @@ h1 {
 	font-family: Verdana, Sans-serif;
 }
 
-a{
-  text-decoration: none;
-  color: green;
+a {
+        text-decoration: none;
+        color: green;
 }
 
 div.cabecera {
@@ -31,7 +31,8 @@ div.cuerpo {
 
 /* OTROS */
 div.indice {
-	text-align: left;	
+	text-align: left;
+        target: _self;	
 }
 			
 div.cartoteca {
