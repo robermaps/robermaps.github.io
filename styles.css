@@ -8,7 +8,14 @@ div.cabecera {
 	text-align: left;
 	margin-left:auto;
 	margin-right:auto;
-	padding: 1%;
+	padding: 2%;
+}
+
+div.cuerpo {
+	max-width: 1280px;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
 }
 	
 h1 {
