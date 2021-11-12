@@ -1,6 +1,12 @@
+/* ESTRUCTIRA GENERAL */
 body { 
 	font-family: Arial, Sans-serif;
 	background-color: #EDEDED;
+}
+
+h1 {
+	text-align: center; 
+	font-family: Verdana, Sans-serif;
 }
 
 div.cabecera {
@@ -17,52 +23,16 @@ div.cuerpo {
 	margin-left:auto;
 	margin-right:auto;
 }
-	
-h1 {
-	text-align: center; 
-	font-family: Verdana, Sans-serif;
+
+/* OTROS */
+div.indice {
+	text-align: left;	
 }
-
-
-
-div.polaroid {
-  width: 100%;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 25px;  
-}
-
-div.container {
-  text-align: center;
-  padding: 5px 20px;
-  color: black;
-}
-
-
-* {
-  box-sizing: border-box;
-}
-
-/* Create three equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 1%;
-  
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-	width: 100%;
-  }
+			
+div.cartoteca {
+	text-align: center;
+	padding: 2%;
+		
 }
 
 div.par {
@@ -72,11 +42,11 @@ div.par {
 	margin-right:20px;
 }
 
+/* ICONOS SOCIALES */
 div.social{
 	text-align:right;
 }
 
-/* Style all font awesome icons */
 .fa {
   padding: 15px;
   font-size: 25px;
@@ -86,12 +56,9 @@ div.social{
   text-decoration: none;
 }
 
-/* Add a hover effect if you want */
 .fa:hover {
   opacity: 0.7;
 }
-
-/* Set a specific color for each brand */
 
 .fa-twitter {
   background: #55ACEE;
@@ -108,13 +75,41 @@ div.social{
   color: white;
 }
 
-div.indice {
-	text-align: left;	
+/* COLUMNAS */
+
+div.polaroid {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;  
 }
-			
-div.cartoteca {
-	text-align: center;
-	padding: 2%;
-	
-	
+
+div.container {
+  text-align: center;
+  padding: 5px 20px;
+  color: black;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 1%;
+  
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+	width: 100%;
+  }
+}
+
