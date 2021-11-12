@@ -1,0 +1,91 @@
+body { font-family: OpenSans;}
+h1 {text-align: center; font-family: OpenSans;}
+h2 {text-align: center;}
+p {text-align: center;}
+
+
+div.polaroid {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+  
+  
+}
+
+div.container {
+  text-align: center;
+  padding: 5px 20px;
+  color: black;
+
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 1%;
+  
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+	width: 100%;
+  }
+}
+
+div.par {
+	text-align: center;
+	padding: 1%;
+	margin-left:20px;
+	margin-right:20px;
+}
+
+div.social{
+	text-align:right;
+}
+
+/* Style all font awesome icons */
+.fa {
+  padding: 15px;
+  font-size: 25px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+.fa-github {
+  background: #000000;
+  color: white;
+}
