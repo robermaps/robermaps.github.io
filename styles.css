@@ -14,8 +14,6 @@ a {
         color: green;
 }
 
-
-
 div.cabecera {
 	max-width: 1024px;
 	text-align: left;
@@ -29,6 +27,21 @@ div.cuerpo {
 	text-align: left;
 	margin-left:auto;
 	margin-right:auto;
+}
+
+/* TABLAS */
+
+table {
+    width:100%; 
+	border: 2px solid black;
+    border-collapse:collapse;
+}
+th, td {
+    width: 50%;
+	padding: 15px;
+	text-align:left;
+	vertical-align: top;
+	padding: 1%;
 }
 
 /* OTROS */
