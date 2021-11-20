@@ -29,6 +29,10 @@ div.cuerpo {
 	margin-right:auto;
 }
 
+div.centro {
+        text-align: center;
+}
+
 /* TABLAS */
 
 table {
