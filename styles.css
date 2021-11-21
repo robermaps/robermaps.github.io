@@ -111,6 +111,10 @@ div.polaroid {
   margin-bottom: 25px;  
 }
 
+.img{
+border-radius: 20px;
+}
+
 div.container {
   text-align: center;
   padding: 5px 20px;
