@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Crear herramientas QGIS</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/> 
+		<meta charset="ISO-8859-1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="styles.css">	
+		
+	</head>
+
+	<body>
+            
+		<div class=social>
+				  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
+				  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
+				  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
+				</div>
+			<br>
+	
+		<div class=cabecera>
+			<h1>Crear herramientas de procesamiento de QGIS</h1>
+			<a href="https://programapa.github.io/index">
+			<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+			</a>
+		
+			
+			<br>
+			<h2><strong>Índice</strong></h2>
+			<div class="indice">
+							
+					<ul>
+						<li><a href="#inicio">Las herramientas de procesamiento</a><br></li>
+						<li><a href="#estructura">Estructura de las herramientas</a><br></li>
+						<li><a href="#crear_herramienta">Crear una herramienta</a><br></li>
+						<li><a href="#modulos">1 &#8211; Codificación y módulos</a><br></li>
+						<li><a href="#nueva_clase">2 &#8211; Definir la nueva clase</a><br></li>
+						<li><a href="#nombrar">3 &#8211; Nombrar los parámetros</a><br></li>
+						<li><a href="#info">4 &#8211; Información de la herramienta</a><br></li>
+						<li><a href="#parametros">5 &#8211; Definir los parámetros</a><br></li>
+						<li><a href="#algoritmo">6 &#8211; Definir el algoritmo</a><br></li>
+						<li><a href="#multidifference">Script al &#8216;completo&#8217;</a><br></li>
+						<li><a href="#enlaces">Enlaces de interés</a><br></li>					
+					</ul>
+						
+			</div>
+		</div>
+
+		<div class="cuerpo">
+		
+		<p><a id="inicio"></a></p>
+
+
+		<h2 class="has-text-align-center"><strong>Las herramientas de procesamiento</strong></h2>
+
+
+
+<p>Las herramientas son el alma de un SIG puesto que son los algoritmos que nos permiten tratar la información geográfica y generar nuevos datos. </p>
+
+
+
+<p>QGIS trae por defecto numerosas herramientas de geoproceso dentro del <strong>módulo <em>Processing</em></strong>, y también permite añadir herramientas de terceros, ampliando las características y posibilidades del programa. Pero es que además nos da la oportunidad de crear nuevas herramientas a nuestra medida para adaptar QGIS a nuestro flujo de trabajo.</p>
+
+
+
+<p>Las herramientas en QGIS se encuentran agrupados en proveedores dentro de la caja de herramientas de Procesos:</p>
+
+			<div style="text-align: center;"><img src="" width="200" height="200" text-align: center></div>
+
+<p>Cuando decimos aquí <em>herramientas </em><strong>no nos referimos a plugins</strong>, que son extensiones de QGIS que modifican el propio programa y pueden abarcar aspectos más profundos como la interfaz gráfica. Nos referimos a los <strong>algoritmos de procesamiento</strong> del módulo <em>Processing</em> que cuentan una interfaz sencilla similar a la mostrada arriba y que podremos crearlos y añadirlos a la caja de herramientas.</p>
+
+
+
+<p>Visto de otro modo, un <strong>plugin</strong> es un mini-programa en forma de carpeta que contiene una serie de archivos y subcarpetas, entre ellos el script (comúnmente en Python pero también admite otros lenguajes), mientras que una <strong>herramienta</strong> es un script que dentro del módulo <em>Processing </em>QGIS toma una sencilla interfaz que permite definir los parámetros a ejecutar.</p>
+
+<p>El módulo <em>processing</em> es una característica fundamental de QGIS que proporciona un entorno de trabajo para trabajar con los distintos algoritmos de geoprocesamiento que pertenecen al propio <a rel="noreferrer noopener" href="https://www.qgis.org/es/site/" target="_blank">proyecto QGIS</a>, pero que además incorpora las herramientas que otros proveedores externos como <a rel="noreferrer noopener" href="https://gdal.org/" target="_blank">GDAL</a> o <a rel="noreferrer noopener" href="https://grass.osgeo.org/" target="_blank">GRASS</a> desarrollan para la plataforma. </p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/04/processing.png?w=1024" alt="" class="wp-image-5808" srcset="https://programapa.files.wordpress.com/2021/04/processing.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/04/processing.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/processing.png?w=300 300w, https://programapa.files.wordpress.com/2021/04/processing.png?w=768 768w, https://programapa.files.wordpress.com/2021/04/processing.png 1198w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Incluso es posible añadir otras aplicaciones externas a través de los plugins de QGIS como <a rel="noreferrer noopener" href="http://lastools.org/" target="_blank">LASTools</a> o <a rel="noreferrer noopener" href="https://www.r-project.org/" target="_blank">R</a>. El caso es que este módulo se encuentra programado en Python, y como tal podremos <strong>acceder a él a través de la consola de Python de QGIS</strong> que podemos encontrar en la misma caja de procesos. </p>
+
+
+
+<p>Además, también permite crear modelos de forma similar a lo que hace <a rel="noreferrer noopener" href="https://programapa.wordpress.com/2021/02/23/analisis-ubicacion-vertedero/" target="_blank">Model Builder</a> en ArcGIS de forma gráfica y crear con ellos ventanas interactivas o exportarlos como scripts de Python.</p>
+
+
+
+<p>En <a rel="noreferrer noopener" href="https://docs.qgis.org/3.16/es/docs/training_manual/processing/index.html" target="_blank">este enlace</a> tenéis la documentación oficial del módulo <em>Processing </em>en español.</p>
+
+
+
+<p><a id="estructura"></a></p>
+
+
+<h2 class="has-text-align-center"><strong>Estructura de las herramientas</strong></h2>
+
+
+
+<p>La caja de herramientas de Procesos posee un icono de Python que desplega un menú con varias opciones. Una de ellas nos permite generar un sencillo script a modo de plantilla con comentarios sobre cada una de las partes que debe poseer el código para que la herramienta funcione correctamente. </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/04/image-5.png?w=321" alt="" class="wp-image-5955" srcset="https://programapa.files.wordpress.com/2021/04/image-5.png 321w, https://programapa.files.wordpress.com/2021/04/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/image-5.png?w=300 300w" sizes="(max-width: 321px) 100vw, 321px" /></figure></div>
+
+
+
+<p>Pero también nos permite crear scripts de 0, abrir alguno existente que tengamos en nuestro PC o incorporarlo a la caja de herramientas para tenerlo a mano.</p>
+
+
+
+<p>Al hacer clic sobre la opciónd e la plantilla se abrirá el <em>editor de scripts de procesamiento</em> con un sencillo script (que consiste en una herramienta que copia el archivo vectorial que seleccionemos) en el que podemos diferenciar dos grandes partes:</p>
+
+
+
+<p class="has-light-green-cyan-background-color has-background">⚠ El editor de scripts de procesamiento NO es lo mismo que la consola de Python de QGIS.</p>
+
+
+
+<ol><li>Codificación del sistema e importación de módulos </li><li>Definición de una nueva clase </li></ol>
+
+
+
+<p>El primer punto es algo básico en cualquier script de Python y no iba a faltar aquí. El tema principal está en que el diseño de la herramienta consistirá en <strong>crear una</strong> <strong>nueva clase</strong>.</p>
+
+
+
+<p>Al construir una nueva <a rel="noreferrer noopener" href="https://docs.python.org/es/3/tutorial/classes.html" target="_blank">clase</a> en Python lo que se hace es crear un tipo de objeto nuevo al que podremos aplicarle métodos. ¿Cuáles? Podemos crearlos desde 0 o <strong>heredar </strong>todas aquellas que ya pertenecen a otra clase.  </p>
+
+
+
+<p><strong><a rel="noreferrer noopener" href="https://qgis.org/pyqgis/3.0/core/Processing/QgsProcessingAlgorithm.html?#qgis.core.QgsProcessingAlgorithm" target="_blank">QgsProcessingAlgorithm</a></strong> es la clase en la que se encuentran construidas las herramientas de la caja de geoprocesos de QGIS. Dicho de otra forma, cada una de estas herramientas es una clase construida sobre la clase <em>QgsProcessingAlgorithm</em>.</p>
+
+
+
+<p>Usando los métodos de <em>QgsProcessingAlgorithm</em> a través del concepto de <a rel="noreferrer noopener" href="https://uniwebsidad.com/libros/algoritmos-python/capitulo-15/herencia" target="_blank">herencia</a> podremos <strong>definir</strong> los <strong>parámetros </strong>de entrada, los geoprocesos a realizar y los parámetros de salida de una herramienta <em>processing</em>, así como la información que se ofrezca en pantalla, todo una ventana con un aspecto similar a la de cualquier herramienta de la Caja de Procesos..</p>
+
+
+
+<p>De forma esquemática y por orden, en nuestra clase o herramienta nueva <strong>debemos definir</strong>:</p>
+
+
+
+<ol><li>El nombre de la <strong><span class="has-inline-color has-luminous-vivid-orange-color">nueva clase</span></strong> y la clase de la que heredará los métodos y variables (<em>QgsProcessingAlgorithm</em>)</li><li>Los nombres de todos los <span class="has-inline-color has-vivid-green-cyan-color"><strong>parámetros</strong> </span>(atributos) que se van a usar en la herramienta</li><li>La <strong><span class="has-inline-color has-vivid-cyan-blue-color">información </span></strong>básica de la herramienta como su nombre, descripción, enlace de ayuda&#8230;</li><li>Las <strong><span class="has-inline-color has-vivid-green-cyan-color">propiedades </span></strong>de todos los parámetros de entrada y salida del algoritmo</li><li>Las funciones de <strong><span class="has-inline-color has-vivid-red-color">geoproceso </span></strong>que tomarán los parámetros definidos previamente</li></ol>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=1024" alt="" class="wp-image-5990" srcset="https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=300 300w, https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=768 768w, https://programapa.files.wordpress.com/2021/04/image-8-1.png 1038w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="crear_herramienta"></a></p>
+
+
+<h2 class="has-text-align-center"><strong>Crear una herramienta</strong></h2>
+
+
+
+<p>A continuación veremos punto por punto y a modo de ejemplo el proceso para construir esta herramienta que aplica el algoritmo <em><a rel="noreferrer noopener" href="https://docs.qgis.org/3.16/es/docs/user_manual/processing_algs/qgis/vectoroverlay.html?highlight=diferencia#difference" target="_blank">Diferencia</a> </em>a todos los shapefiles de una carpeta.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+
+
+<h3><strong>1- Codificación del sistema e importación de módulos</strong></h3>
+
+
+
+<p>En esta primera parte la plantilla nos lo pone fácil ofreciéndonos ya la importación básica de módulos necesaria y la codificación del sistema. En caso de necesitarlo será conveniente añadir más módulos o cambiar la codificación si nos da algún problema. </p>
+
+
+
+<p>Para nuestro ejemplo elegiremos la codificación utf-8 e importaremos los siguientes módulos:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+# -*- coding: utf-8 -*-
+
+from qgis.PyQt.QtCore import QCoreApplication, QVariant
+from qgis.core import (QgsProcessing,
+                       QgsProcessingException,
+                       QgsProcessingAlgorithm,
+                       QgsProcessingParameterFeatureSource,
+                       QgsProcessingParameterFile,
+                       QgsProcessingParameterFolderDestination)
+from qgis import processing
+import os
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="nueva_clase"></a></p>
+
+
+<h3><strong>2- Comenzar a definir la nueva clase </strong></h3>
+
+
+
+<p>Para definir la nueva clase tendremos que seguir la siguiente estructura:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+class Multidifference(QgsProcessingAlgorithm):
+      ## definición del resto de elementos 
+</pre></div>
+
+
+<p>Con <em>class</em> indicamos que estamos creando una nueva clase, y tras el nombre que queramos darle (<em><strong>Multidifference</strong></em>) debemos indicar entre paréntesis el nombre de la <strong>clase de la que heredará los métodos y subclases</strong> (crearlos de 0 es algo muy avanzado y la gracia de Python es ahorrar tiempo con estas cosas), en este caso <em>QgsProcessingAlgorithm</em>.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+
+
+<h3><strong>3- Nombrar los parámetros de la herramienta</strong></h3>
+
+
+
+<p>A continuación, lo primero será crear las variables de clase de nuestra herramienta en forma de objetos que almacenen como texto los nombres de los distintos parámetros que necesitará nuestra herramienta para funcionar:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+class Multidifference(QgsProcessingAlgorithm):
+      INPUT = 'INPUT'
+      OVERLAY = 'OVERLAY'
+      OUTPUT = 'OUTPUT'    
+</pre></div>
+
+
+<p>Más adelante configuraremos con Init.Algorithm el INPUT (las capas vectoriales que se encuentren en una carpeta), el OVERLAY (la capa que se superpondrá al resto) y el OUTPUT (la carpeta de salida junto con el nombre y la extensión de los nuevos archivos).</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+
+
+<h3><strong>4- Información de la herramienta</strong></h3>
+
+
+
+<p>Lo siguiente es darle forma a la herramienta definiendo los siguientes métodos, cada uno correspondiendo a un ítem distinto de la herramienta, algunos correspondientes a la ventana gráfica y otros a su propia estructura interna:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+    def __init__(self):   ## Lo primero que debemos definir. Es el constructor de la clase (imprescindible)
+        super().__init__() 
+ 
+    def name(self):   ## Nombre identificativo de la herramienta (solo números y minúsculas)         
+        return "recortemultiple" 
+ 
+    def tr(self, text):   ## Método para que el texto de la interfaz se traduzca (si es posible)        
+        return QCoreApplication.translate("Multidifference", text) 
+ 
+    def displayName(self):   ## Nombre que se mostrará al usuario en la interfaz         
+        return self.tr("Diferencia múltiple") 
+        
+    def group(self):   ## Nombre del grupo que contendrá la herramienta en la caja de procesos         
+        return self.tr("Scripts de prueba") 
+
+    def groupId(self):   ## Nombre identificativo del grupo (solo números y minúsculas)
+        return "scriptsdeprueba"
+    
+    def shortHelpString(self):   ## Texto descriptivo con las instrucciones de la herramienta         
+        return self.tr("Este proceso recorta todos los shapes de un directorio especificando una única capa") 
+    
+    def helpUrl(self):   ## Enlace que se abrirá al hacer clic sobre el botón de ayuda         
+        return "https://programapa.wordpress.com" 
+ 
+    def createInstance(self):   ## Crea una nueva instancia de la clase que estamos creando (imprescindible)          
+        return type(self)() 
+</pre></div>
+
+
+<p><strong>¿Qué es <em>self</em>?</strong> Es el objeto o instancia que referencia a la clase para poder aplicarle los métodos que estamos definiendo. En este caso, <em>self </em>se refiere nuestra clase <em>Multidifference</em>.</p>
+
+
+
+<p><strong>¿Qué es <em>__init__</em>?</strong> Es el constructor del &#8216;patrón de diseño del objeto&#8217; o constructor de clase (object state), es decir, el que organiza la estructura de la herramienta que luego vemos representada en su ventana o salida gráfica. Al usar <em>super()__init__() </em>tomamos la estructura que viene marcada en la clase <em>QgsProcesingAlgorithm</em> de la que heredamos los métodos que hemos definido.</p>
+
+
+
+<p>Gracias a esto, cuando definimos los métodos <em>name</em>, <em>helpUrl</em>, etc. lo que hacemos es simplemente darles un valor que luego se nos mostrará en su lugar correspondiente en la ventana.  </p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="parametros"></a></p>
+
+
+<h3><strong>5- Definición de los parámetros</strong></h3>
+
+
+
+<p>Después hay que definir los parámetros indicados al comienzo de la creación de la clase: las capas de entrada INPUT, la capa superposición OVERLAY y las capas de salida OUTPUT.</p>
+
+
+
+<p>La subclase que se utiliza para esta cuestión es <em>initAlgorithm()</em>, y dentro de ella hay que usar el método <em>addParameter() </em>para irlos añadiendo uno a uno usando funciones <em>QgsProcessingParameter</em>. Estas funciones crearán objetos de tipo <em>QVariant</em> y estarán referenciados por las cadenas de texto que definimos al principio para nombrar a los parámetros.</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+## iniciamos la definicion de los parametros
+def initAlgorithm(self, config=None): 
+        
+        ## capeta con los archivos de entrada
+        self.addParameter(QgsProcessingParameterFile(
+            self.INPUT, 
+            self.tr("Input folder (Required)"),
+            behavior = QgsProcessingParameterFile.Folder))
+         
+        ## capa de tipo poligono que hace de overlay   
+        self.addParameter(QgsProcessingParameterFeatureSource(            
+            self.OVERLAY,             
+            self.tr("Input overlay layer (Required)"), 
+            &#91;QgsProcessing.TypeVectorPolygon])) 
+        
+        ## carpeta de salida de los archivos generados    
+        self.addParameter(QgsProcessingParameterFolderDestination(
+            self.OUTPUT, 
+            self.tr("Output folder (Required)"))) 
+</pre></div>
+
+
+<ul><li>Nuestro INPUT consistirá en la selección de una ruta que al iniciar el algoritmo será escaneada para encontrar los shapefiles</li><li>El OVERLAY será un desplegable que cargará la capa de tipo polígono que seleccionemos de todas las que tengamos cargadas en QGIS para superponerla a cada capa de entrada y con ello calcular la <em>diferencia</em></li><li>El OUTPUT será la selección de otra ruta de nuestro PC que almacene los resultados de la <em>diferencia </em></li></ul>
+
+
+
+<p>Estos y muchos otros parámetros los podéis encontrar en la <a rel="noreferrer noopener" href="https://docs.qgis.org/3.10/es/docs/user_manual/processing/scripts.html#input-and-output-types-for-processing-algorithms" target="_blank">documentación oficial</a>.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="algoritmo"></a></p>
+
+
+<h3><strong>6- Definición del algoritmo</strong></h3>
+
+
+
+<p>La última parte de nuestra clase corresponde a todos aquellos procesos que se ejecutan al pulsar el botón <em>ejecutar </em>de nuestra herramienta. El método a utilizar para este apartado es <em><a href="https://qgis.org/pyqgis/3.10/core/QgsProcessingAlgorithm.html?highlight=processing#qgis.core.QgsProcessingAlgorithm.processAlgorithm" target="_blank" rel="noreferrer noopener">processAlgorithm</a></em>:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+def processAlgorithm(self, parameters, context, feedback):
+
+      ## Se recogerán las rutas de entrada y salida introducidas por el usuario de la herramienta en cadenas de texto
+      ruta_entrada = self.parameterAsString(parameters, self.INPUT, context)
+      ruta_salida = self.parameterAsString(parameters, self.OUTPUT, context)
+
+      ## Se listarán los archivos de la ruta de entrada
+      archivos = os.listdir(ruta_entrada)
+
+      ## Se iniciará un bucle que recorrerá todos los archivos de la lista y seleccionará solo los shapes
+      for archivo in archivos:
+            if os.path.splitext(archivo)&#91;1] == '.shp':
+                
+                 nombre = os.path.splitext(archivo)&#91;0]   ## el nombre de la capa
+               
+                 ## construcción de las rutas de entrada y salida 
+                 capa_input = ruta_entrada + '\\' + archivo
+                 capa_output = ruta_salida + '\\' + nombre + '_cut.shp'
+                 
+                 ## geoproceso 'difference' que se aplicará a cada shapefile
+                 processing.run("qgis:difference", {'INPUT': entrada, 'OVERLAY': parameters&#91;'OVERLAY'], 'OUTPUT': salida})
+
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="multidifference"></a></p>
+
+
+<h2 class="has-text-align-center"><strong>Script &#8216;completado&#8217;: Multidifference</strong></h2>
+
+
+
+<p>Y digo &#8216;completado&#8217; porque realmente no estaría completo, ya que se le podría añadir multitud de mejoras: que asegurara su correcto funcionamiento en toda clase de circunstancias (<strong>se detiene cuando la geometría de una capa de entrada es incorrecta</strong>), que podamos elegir el sufijo con el que se guardarían las nuevas capas, que se creara una carpeta de resultados automáticamente dentro de la carpeta INPUT, mayor comunicación con el usuario sobre el progreso del proceso o reescribir los geoprocesos para que resultara más eficiente!</p>
+
+
+
+<p>Sin embargo, creo que para ilustrar el proceso de creación de herramientas con lo expuesto es más que suficiente para no complicarlo más aún, y muchas de estas cuestiones pueden encontrarse en la <a rel="noreferrer noopener" style="font-size:revert;" href="https://docs.qgis.org/3.10/es/docs/user_manual/processing/scripts.html" target="_blank">documentación oficial sobre la creación de nuevas herramientas de geoproceso</a>.</p>
+
+
+
+<p>El script de este post al completo quedaría así: </p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+# -*- coding: utf-8 -*-
+
+from qgis.PyQt.QtCore import QCoreApplication, QVariant
+from qgis.core import (QgsProcessing,
+                       QgsProcessingException,
+                       QgsProcessingAlgorithm,
+                       QgsProcessingParameterFeatureSource,
+                       QgsProcessingParameterFile,
+                       QgsProcessingParameterFolderDestination)
+from qgis import processing
+import os
+
+class Multidifference(QgsProcessingAlgorithm):
+    INPUT = 'INPUT'
+    OVERLAY = 'OVERLAY'
+    OUTPUT = 'OUTPUT'    
+      
+    def __init__(self):   ## Lo primero que debemos definir. Es el constructor de la clase (imprescindible)
+        super().__init__() 
+ 
+    def name(self):   ## Nombre identificativo de la herramienta (solo números y minúsculas)         
+        return "recortemultiple" 
+ 
+    def tr(self, text):   ## Método para que el texto de la interfaz se traduzca (si es posible)        
+        return QCoreApplication.translate("Multidifference", text) 
+ 
+    def displayName(self):   ## Nombre que se mostrará al usuario en la interfaz         
+        return self.tr("Diferencia múltiple") 
+        
+    def group(self):   ## Nombre del grupo que contendrá la herramienta en la caja de procesos         
+        return self.tr("Scripts de prueba") 
+
+    def groupId(self):   ## Nombre identificativo del grupo (solo números y minúsculas)
+        return "scriptsdeprueba"
+    
+    def shortHelpString(self):   ## Texto descriptivo con las instrucciones de la herramienta         
+        return self.tr("Este proceso recorta todos los shapes de un directorio especificando una única capa") 
+    
+    def helpUrl(self):   ## Enlace que se abrirá al hacer clic sobre el botón de ayuda         
+        return "https://programapa.wordpress.com" 
+ 
+    def createInstance(self):   ## Crea una nueva instancia de la clase que estamos creando (imprescindible)          
+        return type(self)() 
+        
+    ## iniciamos la definicion de los parametros
+    def initAlgorithm(self, config=None): 
+            
+            ## capeta con los archivos de entrada
+            self.addParameter(QgsProcessingParameterFile(
+                self.INPUT, 
+                self.tr("Input folder (Required)"),
+                behavior = QgsProcessingParameterFile.Folder))
+             
+            ## capa de tipo poligono que hace de overlay   
+            self.addParameter(QgsProcessingParameterFeatureSource(            
+                self.OVERLAY,             
+                self.tr("Input overlay layer (Required)"), 
+                &#91;QgsProcessing.TypeVectorPolygon])) 
+            
+            ## carpeta de salida de los archivos generados    
+            self.addParameter(QgsProcessingParameterFolderDestination(
+                self.OUTPUT, 
+                self.tr("Output folder (Required)"))) 
+                
+    def processAlgorithm(self, parameters, context, feedback):
+
+        ## Se recogerán las rutas de entrada y salida introducidas por el usuario de la herramienta en cadenas de texto
+        ruta_entrada = self.parameterAsString(parameters, self.INPUT, context)
+        ruta_salida = self.parameterAsString(parameters, self.OUTPUT, context)
+
+        ## Se listarán los archivos de la ruta de entrada
+        archivos = os.listdir(ruta_entrada)
+
+        ## Se iniciará un bucle que recorrerá todos los archivos de la lista y seleccionará solo los shapes
+        for archivo in archivos:
+            if os.path.splitext(archivo)&#91;1] == '.shp':
+                    
+                nombre = os.path.splitext(archivo)&#91;0]   ## el nombre de la capa
+                   
+                ## construcción de las rutas de entrada y salida 
+                capa_input = ruta_entrada + '\\' + archivo
+                capa_output = ruta_salida + '\\' + nombre + '_cut.shp'
+                     
+                ## geoproceso 'difference' que se aplicará a cada shapefile
+                processing.run("qgis:difference", {'INPUT': capa_input, 'OVERLAY': parameters&#91;'OVERLAY'], 'OUTPUT': capa_output})
+</pre></div>
+
+
+<p>Este y otros scripts ilustrativos de la programación con Sistemas de Información Geográfica podéis <a rel="noreferrer noopener" href="https://github.com/PrograMapa" target="_blank">encontrarlos en mi GitHub</a></p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="enlaces"></a></p>
+
+
+<h2 class="has-text-align-center"><strong>Enlaces de interés</strong></h2>
+
+
+
+<p>Bibliografía que me ha resultado de utilidad para entender los conceptos de Python que han intervenido en la creación de esta herramienta:</p>
+
+
+
+<ul><li><a rel="noreferrer noopener" href="https://docs.qgis.org/3.10/es/docs/user_manual/processing/scripts.html" target="_blank">Documentación oficial sobre la creación de nuevas herramientas de geoproceso</a></li><li><a rel="noreferrer noopener" href="https://qgis.org/pyqgis/3.10/core/QgsProcessingAlgorithm.html?highlight=processing#module-QgsProcessingAlgorithm" target="_blank">Documentación oficial de la clase QGsProcessingAlgorithm en la API de QGIS</a></li><li><a rel="noreferrer noopener" href="https://docs.qgis.org/3.16/es/docs/user_manual/processing_algs/qgis/vectoroverlay.html?highlight=diferencia#difference" target="_blank">Documentación oficial sobre el algoritmo <em>diferencia</em></a></li><li><a rel="noreferrer noopener" href="https://programapa.wordpress.com/2021/04/19/el-modulo-processing-de-qgis-en-python/" target="_blank">Introducción al módulo <em>processing </em>en Python</a></li><li><a rel="noreferrer noopener" href="https://pythones.net/variables-de-clases/" target="_blank">Variables de clases en Python</a></li><li><a rel="noreferrer noopener" href="https://www.w3schools.com/python/python_classes.asp" target="_blank">Clases y objetos en Python</a></li><li><a href="https://uniwebsidad.com/libros/algoritmos-python/capitulo-15/herencia" target="_blank" rel="noreferrer noopener">La herencia en Python</a></li><li><a rel="noreferrer noopener" href="https://programapa.wordpress.com/2021/01/23/fundamentos-de-python-1-variables-clases-funciones-y-metodos/" target="_blank">Fundamentos de Python</a></li><li><a rel="noreferrer noopener" href="https://github.com/qgis/QGIS/tree/release-3_10/python/plugins/processing/algs/qgis" target="_blank">Repositorio de scripts de geoprocesamiento de QGIS en GitHub</a></li></ul>
+
+
+
+
+		
+		</div>
+	
+	</body>
+</html>
