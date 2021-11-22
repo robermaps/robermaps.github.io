@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Crear plugins de QGIS</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/> 
+		<meta charset="ISO-8859-1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="styles.css">	
+		
+	</head>
+
+	<body>
+            
+		<div class=social>
+				  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
+				  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
+				  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
+				</div>
+			<br>
+	
+		<div class=cabecera>
+			<h1>Guía para crear plugins de QGIS</h1>
+			<a href="https://programapa.github.io/index">
+			<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+			</a>
+		
+			<br>
+				<p>Los plugins o complementos son extensiones que extienden la funcionalidad de QGIS más allá de las posibilidades que trae por defecto. De hecho, una de las cuestiones más importantes acerca de QGIS y su concepción como Sistema de Información Geográfica <em>libre</em> es precisamente que cualquiera con los conocimientos apropiados contribuya a aumentar sus funcionalidades a través de estos plugins.</p>
+
+
+
+				<p>QGIS cuenta con un completo <a rel="noreferrer noopener" href="https://plugins.qgis.org/plugins/" target="_blank">repositorio de plugins</a> al cual podemos acceder directamente desde el propio programa de escritorio, realizar búsquedas e instalarlos en un momento, así como compartir los que hayamos credo nosotros. </p>
+
+
+
+				<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/04/plugins_qgis.png?w=1024" alt="" class="wp-image-6043" srcset="https://programapa.files.wordpress.com/2021/04/plugins_qgis.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/04/plugins_qgis.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/plugins_qgis.png?w=300 300w, https://programapa.files.wordpress.com/2021/04/plugins_qgis.png?w=768 768w, https://programapa.files.wordpress.com/2021/04/plugins_qgis.png 1363w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+				<p class="has-text-align-left">A diferencia de las <a href="https://programapa.wordpress.com/2021/04/23/crear-herramientas-de-procesamiento-en-qgis-con-python/">herramientas de geoproceso</a>, los plugins otorgan una mayor libertad para personalizar la ventana gráfica de la herramienta o la estructura de los algoritmos que queremos que se ejecuten. Hay de todo tipo: algunos funcionan prácticamente como herramientas de geoproceso, pero otros añaden maravillosas funcionalidades como la de <a rel="noreferrer noopener" href="https://www.cartografiadigital.es/2017/09/de-qgis-google-earth-y-viceversa.html" target="_blank">mostrar nuestro lienzo de QGIS en GoogleEarth</a> o <a rel="noreferrer noopener" href="https://mappinggis.com/2016/09/plugin-quickmapservices-capas-base-de-google-landsat-openstreetmap-para-qgis/" target="_blank">tener a mano un catálogo de mapas base</a>.</p>
+
+			<br>
+			<h2><strong>Índice</strong></h2>
+			<div class="indice">
+						
+					<ul>
+						<li><a href="#comenzar">Lo necesario para comenzar</a><br></li>
+						<li><a href="#estructura">Crear la estructura base</a><br></li>
+						<li><a href="#compilar">Compilar el plugin</a><br></li>
+						<li><a href="#instalacion">Instalar el plugin en QGIS</a><br></li>
+						<li><a href="#interfaz">Diseñar la interfaz</a><br></li>
+						<li><a href="#programar">Programar el script</a><br></li>
+						<li><a href="#funcionalidad">Funcionalidad de la interfaz</a><br></li>
+						<li><a href="#algoritmo">Programar el algoritmo</a><br></li>
+						<li><a href="#resultados">Resultados</a><br></li>
+					</ul>
+						
+			</div>
+		</div>
+
+		<div class="cuerpo">
+
+<p><a id="comenzar"></a></p>
+
+
+		<p>Para crear nuestros plugins necesitaremos tener listo lo siguiente:</p>
+
+
+
+
+
+<p><a id="osgeo"></a></p>
+
+
+<h3><strong>&#8211; Instalación de QGIS con OSGeo</strong></h3>
+
+
+
+<p>La instalación de QGIS a través del paquete de OSGeo (OSGeo4W para Windows) es necesaria para la creación de plugins puesto que incluye la consola <em>Shell</em> necesaria para compilar el plugin y QtDesigner.</p>
+
+
+
+<p>Podéis <a rel="noreferrer noopener" href="https://www.osgeo.org/projects/osgeo4w/" target="_blank">descargarlo desde aquí</a></p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="ide"></a></p>
+
+
+<h3><strong>&#8211; IDE Python</strong></h3>
+
+
+
+<p>Para programar en Python es recomendable en muchas ocasiones usar una IDE como Pycharm o VSCode para trabajar cómodamente, aunque también puede hacerse a través del editor de texto de la consola de Python de QGIS.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="plugin_builder"></a></p>
+
+
+<h3><strong>&#8211; <a href="https://plugins.qgis.org/plugins/pluginbuilder3/">Plugin </a><a rel="noreferrer noopener" href="https://plugins.qgis.org/plugins/pluginbuilder3/" target="_blank">Builder 3 </a></strong></h3>
+
+
+
+<p>Este plugin nos permite crear automáticamente toda la estructura de archivos básica necesaria para construir el plugin. Bastará con instalarlo a través del administrador de complementos de QGIS e iniciarlo desde el propio QGIS para comenzar a crear el plugin. </p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="plugin_reloader"></a></p>
+
+
+<h3><strong>&#8211; Plugin Reloader</strong></h3>
+
+
+
+<p>Con este plugin podremos actualizar nuestro plugin para ver en tiempo real los cambios que hagamos durante su creación y probar si las características que implementamos dan los resultados esperados.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="qtdesigner"></a></p>
+
+
+<h3><strong>&#8211; QtDesigner</strong></h3>
+
+
+
+<p>Este programa servirá para construir la salida gráfica de nuestro plugin a través de un lienzo en el que podremos colocar distintos objetos y enlazarlos con los objetos de nuestro código de Python.</p>
+
+
+
+<p>QtDesigner puede descargarse o venir integrado con la instalación de QGIS a través del paquete de <a rel="noreferrer noopener" href="https://www.osgeo.org/projects/qgis/" target="_blank">OSGeo4W</a>. ¿No parece de QGIS verdad? Ocurre que <a rel="noreferrer noopener" href="https://qgis.org/es/site/getinvolved/development/development.html" target="_blank">QGIS está desarrollado en base a Qt</a>, un framework que provee herramientas de desarrollo que también es utilizado por otras aplicaciones informáticas, y entre estas herramientas se encuentra QtDesigner.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="multiexploding"></a></p>
+
+
+<h2 class="has-text-align-center"><strong>Pasos a seguir</strong></h2>
+
+
+
+<p>Vamos a crear un plugin que realice un <a rel="noreferrer noopener" href="https://docs.qgis.org/3.16/es/docs/user_manual/processing_algs/qgis/vectorgeometry.html#qgismultiparttosingleparts" target="_blank">Multiparte a partes sencillas</a> a todas las capas vectoriales que se encuentren en una carpeta, dado que la herramienta de procesamiento que proporciona QGIS solo permite aplicarlo a una capa cada vez que se ejecuta.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/multiparts.png?w=395" alt="" class="wp-image-6238" width="270" height="268" srcset="https://programapa.files.wordpress.com/2021/05/multiparts.png?w=270 270w, https://programapa.files.wordpress.com/2021/05/multiparts.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/multiparts.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/multiparts.png 395w" sizes="(max-width: 270px) 100vw, 270px" /></figure></div>
+
+
+
+<p>Este es un procedimiento básico en el control de calidad de datos geográficos y se le conoce en inglés como <em>Exploding Multipart Polygons</em>. A nuestro nuevo plugin lo llamaremos <strong><em>MultiExploding</em>.</strong></p>
+
+
+
+<p>Para entender más a fondo lo que expongo a continuación recomiendo echarle un vistazo a los otros posts que tengo sobre Python y QGIS:</p>
+
+
+
+
+
+
+<p><a id="estructura"></a></p>
+
+
+<h3 class="has-text-align-left"><strong>1 &#8211; Crear la estructura base del plugin con Plugin Builder 3</strong></h3>
+
+
+
+<p>El primer paso será instalar Plugin Builder 3 en QGIS, activarlo e iniciarlo. Una vez hecho esto, se abrirá la siguiente ventana:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/05/image-1.png?w=577" alt="" class="wp-image-6207" srcset="https://programapa.files.wordpress.com/2021/05/image-1.png 577w, https://programapa.files.wordpress.com/2021/05/image-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-1.png?w=300 300w" sizes="(max-width: 577px) 100vw, 577px" /></figure></div>
+
+
+
+<p>Debemos rellenar todos los datos que pide. Como podéis observar, se sugieren ejemplos para introducir correctamente los nombres de la nueva clase de Python que se va a crear, el módulo etc.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder.png?w=674" alt="" class="wp-image-6240" width="543" height="383" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder.png?w=543 543w, https://programapa.files.wordpress.com/2021/05/plugin_builder.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder.png 674w" sizes="(max-width: 543px) 100vw, 543px" /></figure></div>
+
+
+
+<p>El siguiente paso será rellanar el <em>About</em>, que es la descripción detallada de lo que hace el plugin que aparecerá en el repositorio oficial en caso de que lo compartamos.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder1.png?w=665" alt="" class="wp-image-6241" width="472" height="334" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder1.png?w=470 470w, https://programapa.files.wordpress.com/2021/05/plugin_builder1.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder1.png?w=300 300w" sizes="(max-width: 472px) 100vw, 472px" /></figure></div>
+
+
+
+<p>A continuación tendremos que escoger una plantilla para nuestro plugin, el menú en el que aparecerá el plugin cuando lo añadamos a QGIS y un texto descriptivo que aparecerá en dicho menú:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder2.png?w=671" alt="" class="wp-image-6243" width="562" height="398" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder2.png?w=562 562w, https://programapa.files.wordpress.com/2021/05/plugin_builder2.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder2.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder2.png 671w" sizes="(max-width: 562px) 100vw, 562px" /></figure></div>
+
+
+
+<p>El siguiente paso es para pedir que se creen archivos adicionales que pueden ser de utilidad. Por defecto se encuentran marcados:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder8.png" alt="" class="wp-image-6362" width="411" height="356" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder8.png?w=411&amp;h=356 411w, https://programapa.files.wordpress.com/2021/05/plugin_builder8.png?w=150&amp;h=130 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder8.png?w=300&amp;h=259 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder8.png 548w" sizes="(max-width: 411px) 100vw, 411px" /></figure></div>
+
+
+
+<p>Por último, podemos añadir distintos enlaces para compartir el repositorio de código del plugin, la página web o las etiquetas que mejor describan nuestro plugin para que sea encontrado fácilmente. Además, podemos marcar el plugin como experimental para advertir que no está completo y/o puede generar resultados no deseados:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder3.png?w=673" alt="" class="wp-image-6244" width="585" height="413" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder3.png?w=585 585w, https://programapa.files.wordpress.com/2021/05/plugin_builder3.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder3.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder3.png 673w" sizes="(max-width: 585px) 100vw, 585px" /></figure></div>
+
+
+
+<p>Una vez hecho todo esto, guardaremos el plugin en la ruta que queramos. En el directorio escogido se creará una nueva carpeta con el nombre del plugin en la que se encontrarán todos los archivos del plugin:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder4.png?w=670" alt="" class="wp-image-6245" width="586" height="416" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder4.png?w=586 586w, https://programapa.files.wordpress.com/2021/05/plugin_builder4.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder4.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder4.png 670w" sizes="(max-width: 586px) 100vw, 586px" /></figure></div>
+
+
+
+<p>Si todo ha salido bien, se mostrará el siguiente mensaje:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder6.png?w=775" alt="" class="wp-image-6247" width="666" height="598" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder6.png?w=666 666w, https://programapa.files.wordpress.com/2021/05/plugin_builder6.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder6.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder6.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/plugin_builder6.png 775w" sizes="(max-width: 666px) 100vw, 666px" /></figure></div>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="compilar"></a></p>
+
+
+<h3 class="has-text-align-left"><strong>2 &#8211; Compilar manualmente el nuevo plugin</strong></h3>
+
+
+
+<p>Es muy probable que al crear el plugin haya saltado el siguiente error:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/plugin_builder5.png?w=521" alt="" class="wp-image-6246" width="446" height="158" srcset="https://programapa.files.wordpress.com/2021/05/plugin_builder5.png?w=446 446w, https://programapa.files.wordpress.com/2021/05/plugin_builder5.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/plugin_builder5.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/plugin_builder5.png 521w" sizes="(max-width: 446px) 100vw, 446px" /></figure></div>
+
+
+
+<p>Significa que no pudo compilarse (en resumen, traducirse al lenguaje del PC para que funcione) y que tendremos que hacerlo manualmente, pero es muy sencillo. Debemos abrir la terminal &#8211; Shell &#8211; de OSGEO e introducir los siguientes comandos:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: powershell; title: ; notranslate" title="">
+cd C:\ruta_carpeta_plugin
+call qt5_env.bat
+py3_env.bat
+pyrcc5 –o resources.py resources.qrc
+</pre></div>
+
+
+<p>Si todo ha salido bien, el proceso completo sería el siguiente:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/05/image-9.png?w=1024" alt="" class="wp-image-6249" srcset="https://programapa.files.wordpress.com/2021/05/image-9.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/image-9.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-9.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-9.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/image-9.png 1111w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>La estructura de archivos dentro del plugin quedaría de la siguiente manera:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/image-10.png?w=774" alt="" class="wp-image-6252" width="626" height="406" srcset="https://programapa.files.wordpress.com/2021/05/image-10.png?w=626 626w, https://programapa.files.wordpress.com/2021/05/image-10.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-10.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-10.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/image-10.png 774w" sizes="(max-width: 626px) 100vw, 626px" /></figure></div>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h3><strong>3 &#8211; Instalación del nuevo plugin en QGIS</strong></h3>
+
+
+
+<p>Con el plugin ya compilado, tan solo tendremos que copiarlo a la carpeta de plugins de QGIS y, si tenemos QGIS abierto, reiniciarlo.</p>
+
+
+
+<p>En Windows, la carpeta de plugins de QGIS suele encontrarse en <em>C:\Users\Usuario\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins</em></p>
+
+
+
+<p>Una vez abierto de nuevo QGIS, recordad <strong>activar el plugin</strong> desde el administrador de complementos.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h3 class="has-text-align-left"><strong>4 &#8211; Diseñar la interfaz</strong></h3>
+
+
+
+<p>Para diseñar la interfaz tendremos que abrir <a href="https://doc.qt.io/qt-5/qtdesigner-manual.html" target="_blank" rel="noreferrer noopener">QtDesigner</a> y abrir con él un archivo que encontraremos dentro de la carpeta del plugin llamado <em>nombreplugin_dialog_base.ui </em>(en mi caso <em>Multi_Exploding_dialog_base.ui</em>) que es el que contiene los datos relativos a la interfaz de usuario del plugin.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/qtdesigner1.png?w=1024" alt="" class="wp-image-6254" width="729" height="400" srcset="https://programapa.files.wordpress.com/2021/05/qtdesigner1.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/qtdesigner1.png?w=727 727w, https://programapa.files.wordpress.com/2021/05/qtdesigner1.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/qtdesigner1.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/qtdesigner1.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/qtdesigner1.png 1264w" sizes="(max-width: 729px) 100vw, 729px" /></figure></div>
+
+
+
+<p>La ventana que se abre dentro de Qt Designer será el lienzo en el que montaremos la interfaz de usuario de nuestro plugin, es decir, los botones para seleccionar la carpeta de entrada, los parámetros con los que queremos que se ejecute la herramienta, el nombre de la carpeta de salida&#8230;</p>
+
+
+
+<p>La plantilla que hayamos seleccionado en la creación del plugin con Plugin Builder 3 determinará el aspecto que presentará nuestra interfaz. Al haber seleccionado <em>Tool button with dialog </em>obtendremos la clásica ventana con los botones de <em>aceptar </em>para ejecutar la herramienta y <em>cancelar </em>para cerrarla.</p>
+
+
+
+<p>Lo siguiente que tendremos que hacer será arrastrar los widgets que necesitemos desde las cajas de la izquierda a nuestro lienzo. Para nuestro plugin necesitaremos:</p>
+
+
+
+<ul><li><strong>Push Button</strong> &#8211; botón para acceder al sistema de archivos y seleccionar manualmente la carpeta en la que se encuentren nuestras capas</li><li><strong>Line Edit</strong> <strong>1</strong> &#8211; cuadro de texto que recogerá la ruta al directorio seleccionado anteriormente</li><li><strong>Line Edit 2</strong> &#8211; cuadro de texto en el que indicaremos el nombre de la carpeta de salida que se creará dentro de la carpeta de entrada y que almacenará las capas con las entidades explotadas.</li><li><strong>Labels</strong> &#8211; cuadros de texto con etiquetas para guiar al usuario a través de la herramienta</li></ul>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/image-11.png?w=681" alt="" class="wp-image-6257" width="469" height="278" srcset="https://programapa.files.wordpress.com/2021/05/image-11.png?w=469 469w, https://programapa.files.wordpress.com/2021/05/image-11.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-11.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-11.png 681w" sizes="(max-width: 469px) 100vw, 469px" /></figure></div>
+
+
+
+<p>Podemos cambiar tanto la posición de los widgets como su tamaño o la etiqueta que muestran:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/image-12.png?w=565" alt="" class="wp-image-6305" width="415" height="224" srcset="https://programapa.files.wordpress.com/2021/05/image-12.png?w=415 415w, https://programapa.files.wordpress.com/2021/05/image-12.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-12.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-12.png 565w" sizes="(max-width: 415px) 100vw, 415px" /></figure></div>
+
+
+
+<p>En la parte derecha de Qt Designer nos aparecerán las propiedades de cada uno de estos widgets y la posibilidad de modificarlas (algunas de ellas). Las más básicas que necesitamos conocer para programar el plugin son:</p>
+
+
+
+<ul><li><strong>objectName</strong> &#8211; es el nombre que usaremos en el script de Python para referirnos a cada objeto. Podemos modificarlo para que la sintaxis del script sea lo más clara posible.</li><li><strong>Clase</strong> &#8211; la <a rel="noreferrer noopener" href="https://doc.qt.io/qt-5/qtwidgets-module.html" target="_blank">clase a la que pertenece cada widget</a>, necesaria para conocer a través de la documentación oficial los distintos métodos que podremos aplicarle en nuestro script</li></ul>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/05/qtdesigner2.png?w=1024" alt="" class="wp-image-6323" srcset="https://programapa.files.wordpress.com/2021/05/qtdesigner2.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/qtdesigner2.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/qtdesigner2.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/qtdesigner2.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/qtdesigner2.png 1230w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>En la <strong>documentación de las clases </strong>de los widgets que hemos incorporado podremos encontrar los métodos que nos permitirán jugar con ellos:</p>
+
+
+
+<ul><li><a href="https://doc.qt.io/qt-5/qlabel.html" target="_blank" rel="noreferrer noopener">Documentación de QLabel</a></li><li><a href="https://doc.qt.io/qt-5/qlineedit.html" target="_blank" rel="noreferrer noopener">Documentación de QLineEdit</a></li><li><a href="https://doc.qt.io/qt-5/qpushbutton.html" target="_blank" rel="noreferrer noopener">Documentación QPushButton</a></li></ul>
+
+
+
+<p>Una vez <strong>guardamos los cambios</strong>, si vamos a QGIS y <strong>recargamos el plugin usando Plugin Reloader</strong> (1) al volver a hacer click en nuestro plugin (2) se deberían ver los cambios hechos en la interfaz:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/image-13.png?w=757" alt="" class="wp-image-6315" width="469" height="327" srcset="https://programapa.files.wordpress.com/2021/05/image-13.png?w=469 469w, https://programapa.files.wordpress.com/2021/05/image-13.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-13.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-13.png 757w" sizes="(max-width: 469px) 100vw, 469px" /></figure></div>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="programar"></a></p>
+
+
+<h3><strong>5 &#8211; Programar el script</strong></h3>
+
+
+
+<p>El último paso consiste en programar el script para darle funcionalidad a la interfaz y hacer que se ejecute el algoritmo de Multiparte a partes sencillas para todas las entidades de todos los archivos vectoriales de la carpeta de entrada, y que sus resultados se almacenen en la carpeta con el nombre indicado (que se localizará dentro de la carpeta de entrada)</p>
+
+
+
+<p>Para ello, tendremos que abrir con un IDE (VSCode en las capturas) el archivo <em>nombreplugin.py</em> que encontraremos en la carpeta del plugin. En mi caso, dicho archivo es <em>Multi_Exploding.py</em>.</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/05/image-15.png?w=1024" alt="" class="wp-image-6326" srcset="https://programapa.files.wordpress.com/2021/05/image-15.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/image-15.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-15.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-15.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/image-15.png 1156w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Al abrirlo veremos que la <strong>estructura básica</strong> del script se encuentra ya creada gracias a Model Builder 3. La estructura es muy similar a <a href="https://programapa.wordpress.com/2021/04/23/crear-herramientas-de-procesamiento-en-qgis-con-python/">la que vemos en las herramientas de geoproceso</a>:</p>
+
+
+
+<ol><li>Codificación del sistema y descripción del plugin</li><li>Importación de módulos</li><li>Creación de la nueva clase MultiExploding </li></ol>
+
+
+
+<p>La mayor diferencia respecto a las herramientas de geoproceso va a estar en cómo definiremos la nueva clase. En esta ocasión no usaremos la herencia para basar nuestro plugin en otra clase, y tampoco tendremos que definir los parámetros justo al comienzo de la clase. </p>
+
+
+
+<p>Nos encontraremos los siguientes <strong>métodos ya definidos</strong> para nuestra nueva clase:</p>
+
+
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td>def __init__(self, iface)</td><td>Constructor de clase</td></tr><tr><td>def&nbsp;tr(self,&nbsp;message)</td><td>Traductor de la interfaz</td></tr><tr><td>def add_action(self, iconpath&#8230;) </td><td>Configuración del icono en la barra de herramientas de QGIS</td></tr><tr><td>def&nbsp;initGui(self)</td><td>Integra el plugin en la interfaz de usuario de QGIS</td></tr><tr><td>def&nbsp;unload(self)</td><td>Configura el proceso de eliminación del plugin de la interfaz de QGIS</td></tr><tr><td>def&nbsp;run(self)</td><td>Código que se ejecutará una vez se abra el plugin</td></tr></tbody></table></figure>
+
+
+
+<p>Por lo general, no será necesario editar ninguno de estos métodos salvo <em>run</em>, que es el que ejecutará las funciones que implementemos al script. </p>
+
+
+
+<p>Lo que sí tendremos que hacer es <strong>crear un nuevo método</strong> para dar funcionalidad a la interfaz de nuestro plugin, como veremos en el siguiente punto.</p>
+
+
+
+<p class="has-light-green-cyan-background-color has-background">⚠ <em>Self</em> es el nombre que habitualmente se le da al objeto que representa a la propia clase. <em>Iface</em> es el nombre obligatorio para referenciar la interfaz de QGIS. Ambos quedaron definidos por Plugin Builder 3 en el método <em>__init__</em> al comienzo de la clase. </p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="funcionalidad"></a></p>
+
+
+<h4><strong>5.1 &#8211; Programar el Push Button y el Line Edit para obtener la ruta de entrada</strong></h4>
+
+
+
+<p>Lo primero que debemos hacer es <strong>definir un nuevo método</strong> llamado <em>select_input_folder</em> para nuestra clase (<em>self</em>)<em> </em>por el cual, cuando se invoque, se acceda al sistema de archivos del PC y se copie nuestro Line Edit (nombrado por defecto <em>lineEdit</em>) la ruta de la carpeta seleccionada:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+def select_input_folder(self):
+        inputfolder = QFileDialog.getExistingDirectory(self.dlg,"Choose input directory", 
+                "",QFileDialog.DontResolveSymlinks)
+        self.dlg.lineEdit.setText(inputfolder)
+</pre></div>
+
+
+<p>Dicho método lo hemos colocado justo después del método <em>unload </em>que ya venía definido. Lo que hace es guardar en el objeto <em>inputfolder </em>la ruta seleccionada y lo inserta con <em>.setText() </em>en el Line Edit.</p>
+
+
+
+<p>Para que <strong>al pulsar el botón accedamos al sistema de archivos</strong> deberemos añadir la línea resaltada en la sentencia <em>if</em> que hay al comienzo del bloque <em>run</em>:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; highlight: [9]; title: ; notranslate" title="">
+def run(self):
+        """Run method that performs all the real work"""
+
+        # Create the dialog with elements (after translation) and keep reference
+        # Only create GUI ONCE in callback, so that it will only load when the plugin is started
+        if self.first_start == True:
+            self.first_start = False
+            self.dlg = MultiExplodingDialog()
+            self.dlg.pushButton.clicked.connect(self.select_input_folder)
+</pre></div>
+
+
+<p>Dentro de esta sentencia <em>if </em>añadiremos todas aquellas conexiones de que queremos que se establezcan al abrir el plugin dentro de QGIS. En este caso, lo que hacemos es indicar con los métodos <em>.clicked.connect()</em> que cuando hagamos click a nuestro botón de nombre <em>pushButton </em>se ejecute el método <em>.select_input_folder </em>que hemos definido anteriormente.</p>
+
+
+
+<p>El último paso para que funcione será importar la <a rel="noreferrer noopener" href="https://doc.qt.io/qt-5/qfiledialog.html#details" target="_blank">clase QFileDialog</a> al comienzo de nuestro script para poder navegar por el sistema de archivos:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+from qgis.PyQt.QtWidgets import QAction, QFileDialog
+</pre></div>
+
+
+<p>Guardamos los cambios, recargamos el plugin con Plugin Reloader y probamos si funciona:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/push_button.png?w=787" alt="" class="wp-image-6367" width="494" height="368" srcset="https://programapa.files.wordpress.com/2021/05/push_button.png?w=494 494w, https://programapa.files.wordpress.com/2021/05/push_button.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/push_button.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/push_button.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/push_button.png 787w" sizes="(max-width: 494px) 100vw, 494px" /></figure></div>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="linedit"></a></p>
+
+
+<h4><strong>5.2 &#8211; Limpiar los Line Edit</strong></h4>
+
+
+
+<p>Tanto el primer Line Edit (<em>lineEdit</em>) como el segundo (<em>lineEdit_2</em>) por defecto almacenarán el texto que contengan aunque cerremos el plugin y volvamos a abrirlo. Para evitar esto, añadiremos las siguientes líneas dentro de <em>run </em>(después de la sentencia <em>if </em>que ya modificamos previamente) para que ambos Line Edits se limpien al iniciar el plugin:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; highlight: [9,10]; title: ; notranslate" title="">
+self.dlg.lineEdit.setText('')
+self.dlg.lineEdit_2.setText('')
+</pre></div>
+
+
+<p>Es tan sencillo como aplicar el método <em>.setText()</em> a los Line Edits y darles un texto vacío.</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="algoritmo"></a></p>
+
+
+<h4><strong>5.3 &#8211; Programar la ejecución del algoritmo</strong></h4>
+
+
+
+<p>Lo único que nos quedaría es indicar qué ocurre cuando pulsemos el botón de ACEPTAR de nuestro plugin. Básicamente, se tomará el texto de nuestros Line Edits como variables de entrada y salida del algoritmo <a rel="noreferrer noopener" href="https://docs.qgis.org/3.16/es/docs/user_manual/processing_algs/qgis/vectorgeometry.html#qgismultiparttosingleparts" target="_blank">Multiparte a partes sencillas</a> que queremos aplicar a todos los shapefiles de la carpeta seleccionada.</p>
+
+
+
+<p>Lo primero será <strong>importar los siguientes módulos:</strong></p>
+
+
+
+<ul><li><em><strong>processing</strong></em> &#8211; para poder usar el algoritmo <em>Multipart to Singlepart</em></li><li><strong><em>os </em></strong><em>&#8211; </em>para crear la carpeta de salida</li><li><strong><em>shutil </em></strong><em>&#8211; </em>para borrar la carpeta de resultados en caso de que ya exista</li><li><em><strong>QgsVectorLayer </strong></em>&#8211; para poder cargar capas vectoriales</li><li><strong><em>QgsField </em></strong><em>&#8211; </em>para crear un nuevo campo que asigne un ID único a cada entidad, ya que al dividirse las nuevas entidades conservan los atributos de la entidad original</li><li><strong style="color:initial;"><em>iface</em></strong><span style="color:initial;"> &#8211; para poder añadir a nuestro proyecto QGIS todas las nuevas capas y generar una barra de progreso en la interfaz</span></li></ul>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+from qgis.core import QgsVectorLayer, QgsField
+from qgis.utils import iface
+import processing
+import os
+import shutil
+</pre></div>
+
+
+<p>A continuación, nos iremos a la sentencia <em>if result </em>que se encuentra al final del script&#8230;</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+if result:
+            # Do something useful here - delete the line containing pass and
+            # substitute with your code.
+            pass
+</pre></div>
+
+
+<p> &#8230; y tal como se indica sustituiremos su contenido por todo aquello que queramos que suceda al pulsar ACEPTAR (o ejecutar) Lo tenéis a detallado a continuación:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+        if result:
+
+            ## objetos con las rutas de entrada y salida a partir de los Line Edits
+            entrada = self.dlg.lineEdit.text() + '/'
+            nombre_salida = self.dlg.lineEdit_2.text()
+            salida = entrada + nombre_salida + '/'
+
+            ## filtrar los ficheros de la carpeta de entrada 
+            listaFicheros = os.listdir(entrada)
+            ext = '.shp'
+            listaShp = &#91;]
+
+            for i in listaFicheros:
+                if os.path.splitext(i)&#91;1] == ext:
+                    listaShp.append(i)
+
+            ## comprobar si existe la capa de salida
+            if os.path.exists(salida):
+                shutil.rmtree(salida)
+                os.mkdir(salida)
+            else:
+                os.mkdir(salida)
+
+            ## por cada capa de nuestra lista de capas
+            for f in listaShp:
+
+                ## obtener su nombre sin la extension
+                nombre = os.path.splitext(f)&#91;0]
+
+                ## cargar el archivo como capa vectorial
+                capa = QgsVectorLayer(entrada + f, nombre, 'ogr')
+
+                ## definir la ruta de salida completa, incluyendo el nombre y la extension
+                output = salida + nombre + '_exploded' + '.shp'
+
+                ## generar una barra de progreso cuando se ejecute el plugin
+                iface.messageBar().pushInfo(u'Exploding features', output)
+
+                ## definir en un diccionario los parametros del algoritmo
+                params = {'INPUT': capa, 'OUTPUT': output}
+
+                ## ejecutar el algoritmo
+                processing.run('qgis:multiparttosingleparts', params)
+
+                ## nuevo campo id autoincrementable
+                capa2 = QgsVectorLayer(output,nombre,'ogr')
+                capa2.startEditing()
+
+                capa2.dataProvider().addAttributes(&#91;QgsField('newID', QVariant.Int)])
+                capa2.updateFields()
+                
+                entidades = capa2.getFeatures()
+                contador = 0
+
+                for entidad in entidades:
+                    entidad&#91;'newID'] = contador
+                    capa2.updateFeature(entidad)
+                    contador += 1
+                    
+                capa2.commitChanges()
+
+                ## cargar la capa resultante al proyecto
+                iface.addVectorLayer(output, nombre + '_exploded', 'ogr')
+            
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="resultados"></a></p>
+
+
+<h2 class="has-text-align-center"><strong>Resultados</strong></h2>
+
+
+
+<p>Pondremos a prueba el plugin aplicándolo a dos capas que se encuentran en una carpeta de mi escritorio. Cada una contiene 3 polígonos distintos pero dos de ellos pertenecen a la misma entidad, es decir, son entidades multiparte:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/image-16.png?w=1024" alt="" class="wp-image-6381" width="768" height="405" srcset="https://programapa.files.wordpress.com/2021/05/image-16.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/image-16.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/image-16.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-16.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-16.png 1268w" sizes="(max-width: 768px) 100vw, 768px" /></figure></div>
+
+
+
+<p>Si abrimos sus atributos comprobamos que, efectivamente, cada una tiene solo 2 entidades y además solo cuentan con un único campo <em>id</em>:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/multiparts-1.png?w=965" alt="" class="wp-image-6387" width="724" height="542" srcset="https://programapa.files.wordpress.com/2021/05/multiparts-1.png?w=724 724w, https://programapa.files.wordpress.com/2021/05/multiparts-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/multiparts-1.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/multiparts-1.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/multiparts-1.png 965w" sizes="(max-width: 724px) 100vw, 724px" /></figure></div>
+
+
+
+<p>A continuación abrimos el nuevo plugin y seleccionamos la carpeta en la que se encuentran estas dos capas. Además, indicamos que la carpeta en la que se guardarán los resultados (que se ubicará dentro de la carpeta de entrada) se llamará <em>resultados:</em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/image-18.png?w=682" alt="" class="wp-image-6384" width="512" height="326" srcset="https://programapa.files.wordpress.com/2021/05/image-18.png?w=512 512w, https://programapa.files.wordpress.com/2021/05/image-18.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/image-18.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/image-18.png 682w" sizes="(max-width: 512px) 100vw, 512px" /></figure></div>
+
+
+
+<p>Vemos que la carpeta de resultados se creó correctamente y las capas creadas se añadieron automáticamente a QGIS:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/multiparts2-1.png?w=1024" alt="" class="wp-image-6398" width="787" height="428" srcset="https://programapa.files.wordpress.com/2021/05/multiparts2-1.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/multiparts2-1.png?w=785 785w, https://programapa.files.wordpress.com/2021/05/multiparts2-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/multiparts2-1.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/multiparts2-1.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/multiparts2-1.png 1398w" sizes="(max-width: 787px) 100vw, 787px" /></figure></div>
+
+
+
+<p>Si a continuación abrimos la tabla de atributos, vemos que se creó correctamente el nuevo campo de identificación <em>newID</em> necesario para identificar de forma única cada entidad, puesto que al dividirse las nuevas entidades conservan los atributos de la entidad original: </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/05/multiparts3-1.png?w=545" alt="" class="wp-image-6401" width="-52" height="-59" srcset="https://programapa.files.wordpress.com/2021/05/multiparts3-1.png 545w, https://programapa.files.wordpress.com/2021/05/multiparts3-1.png?w=130 130w, https://programapa.files.wordpress.com/2021/05/multiparts3-1.png?w=259 259w" sizes="(max-width: 545px) 100vw, 545px" /></figure></div>
+
+
+
+<p>Gracias a este nuevo campo podemos editar la simbología de las capas nuevas para que cada una esté representada por un color distinto:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/05/multiparts4-1.png?w=1024" alt="" class="wp-image-6396" srcset="https://programapa.files.wordpress.com/2021/05/multiparts4-1.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/05/multiparts4-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/05/multiparts4-1.png?w=300 300w, https://programapa.files.wordpress.com/2021/05/multiparts4-1.png?w=768 768w, https://programapa.files.wordpress.com/2021/05/multiparts4-1.png 1495w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Tenéis al plugin al completo <a href="https://github.com/PrograMapa/PyQGIS-Plugins" target="_blank" rel="noreferrer noopener">en GitHub</a>.</p>
+		
+		</div>
+	
+	</body>
+</html>
