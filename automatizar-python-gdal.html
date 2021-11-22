@@ -12,7 +12,7 @@
 	<body>
             
 		<div class=social>
-				  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
+				  <a href="https://twitter.com/programapa_" class="fa fa-twitter"></a>
 				  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
 				  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
 				</div>
@@ -26,7 +26,7 @@
 		
 			<br>
 		
-			<h2><strong>Índice</strong></h2>
+			<h3><strong>Índice</strong></h3>
 			<div class="indice">
 			
 			
@@ -48,7 +48,7 @@
 		<p><a id="introduccion"></a></p>
 
 
-<h2 class="has-text-align-center">Python y GDAL</h2>
+<h2>Python y GDAL</h2>
 
 
 
@@ -64,17 +64,13 @@
 
 
 
-<p class="has-text-align-center has-background" style="background-color:#b6e9b8;">os.system(&#8216;comando&#8217;)</p>
 
-
-
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
 
 
 <p><a id="script"></a></p>
 
 
-<h2 class="has-text-align-center">¿En qué consistirá el script de este post?</h2>
+<h2>¿En qué consistirá el script de este post?</h2>
 
 
 
@@ -98,7 +94,7 @@
 
 
 
-<p class="has-text-align-center has-background" style="background-color:#edc8b1;">C:\&gt; python3 script.py</p>
+<p style="background-color:#edc8b1;">C:\&gt; python3 script.py</p>
 
 
 
@@ -106,20 +102,20 @@
 
 
 
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
 
 
 <p><a id="preparacion"></a></p>
 
 
-<h2 class="has-text-align-center">Preparando el script</h2>
+<h2>Preparando el script</h2>
 
 
 
 <p>Al principio del script pondremos todas aquellas cuestiones necesarias para que éste funcione correctamente, como la codificación, los módulos o las variables introducidas por el usuario, así como la carpeta de salida en la que se guardará el geopackage:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+<pre>
 # -*- coding: utf8 -*-
 
 import os, shutil
@@ -146,20 +142,20 @@ if os.path.exists(carpeta):
 else:
     os.mkdir(carpeta)
     print('Carpeta creada')
-</pre></div>
+</pre>
 
 
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
 
 
 <p><a id="mosaico"></a></p>
 
 
-<h2 class="has-text-align-center">Generación del mosaico</h2>
+<h2>Generación del mosaico</h2>
 
 
 
-<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024" alt="" class="wp-image-7282" srcset="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-2.png 1363w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure><img src="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024" alt="" class="wp-image-7282" srcset="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-2.png 1363w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
 
 
 
@@ -170,7 +166,7 @@ else:
 <p>La función de GDAL que lo permite es <em><strong>gdalbuildvrt</strong></em>:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+<pre>
 print('Generando el raster virtual...')
 
 # cambiar al directorio de las imágenes 
@@ -183,23 +179,23 @@ os.system('dir /b *.tif &gt; archivos.txt')
 os.system('gdalbuildvrt mosaico.vrt -input_file_list archivos.txt')
 
 print('Raster virtual generado')
-</pre></div>
+</pre>
 
 
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
 
 
 <p><a id="curvas"></a></p>
 
 
-<h2 class="has-text-align-center">Vectorizar y reproyectar curvas de nivel</h2>
+<h2>Vectorizar y reproyectar curvas de nivel</h2>
 
 
 
 <p>A partir del ráster virtual creado anteriormente podemos extraer las curvas de nivel con <em><strong>gdal_contour</strong></em>, además de reproyectarlas con <strong><em>ogr2ogr</em></strong> al SRC que introdujo el usuario:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+<pre>
 # Vectorizacion de curvas de nivel
 print('Vectorizando curvas de nivel...')
 
@@ -213,37 +209,37 @@ print(f'Reproyectando las curvas de nivel a EPSG:{codigo}')
 os.system(f'ogr2ogr -t_srs EPSG:{codigo} cn{distancia}_rep.shp cn{distancia}.shp')
 
 print(f'Las curvas se han reproyectado a EPSG:{codigo}')
-</pre></div>
-
-
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+</pre>
 
 
 
-<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024" alt="" class="wp-image-7283" srcset="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-3.png 1168w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
 
 
 
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+<figure><img src="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024" alt="" class="wp-image-7283" srcset="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-3.png 1168w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+
 
 
 <p><a id="recorte"></a></p>
 
 
-<h2 class="has-text-align-center">Recortar las curvas de nivel y guardarlas en un geopackage separadas según su provincia</h2>
+<h2>Recortar las curvas de nivel y guardarlas en un geopackage separadas según su provincia</h2>
 
 
 
 <p>Antes de llevar a cabo la última tarea, conviene <strong>crear un índice espacial</strong> para la capa de curvas de nivel, ya que <strong>mejorará mucho el rendimiento del recorte</strong>:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+<pre>
 print('Creando indice espacial...')
 
 os.system(f'ogrinfo cn{distancia}_rep.shp -sql "CREATE SPATIAL INDEX ON cn{distancia}_rep"')
 
 print('Indice espacial creado')
-</pre></div>
+</pre>
 
 
 <p>Ahora sí, con el siguiente código lograremos separar las curvas de nivel en capas separadas según la provincia a la que pertenezcan. </p>
@@ -257,7 +253,7 @@ print('Indice espacial creado')
 <p>El GeoPackage es creado en el momento en el que se lleva a cabo el primer recorte. Para evitar que sea sobrescrito por los siguientes recortes y se vayan almacenando uno a uno, tendremos que hacer que se le añada automáticamente la cláusula -update una vez se haya hecho ese primer recorte. Esto lo haremos con los contadores:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+<pre>
 print('Recortando las curvas de nivel para cada provincia en un nuevo archivo GeoPackage...')
 
 # Cambiar a la carpeta de provincias
@@ -289,10 +285,10 @@ for provincia in os.listdir(prov_dir):
         print(f'Curvas de nivel para la provincia de {nombre} recortadas')
 
 print('Terminado')
-</pre></div>
+</pre>
 
 
-<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
 
 
 
@@ -300,11 +296,11 @@ print('Terminado')
 
 
 
-<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024" alt="" class="wp-image-7287" srcset="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-5.png 1516w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure><img src="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024" alt="" class="wp-image-7287" srcset="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-5.png 1516w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
 
 
 
-<p class="has-text-align-center has-white-color has-dark-gray-background-color has-text-color has-background">Tenéis el código completo <a href="https://github.com/PrograMapa/GDAL-OGR/blob/main/mosaico_recorte_curvas.py" target="_blank" rel="noreferrer noopener"><span style="text-decoration:underline;">en mi GitHub</span></a></p>
+<p>Tenéis el código completo <a href="https://github.com/PrograMapa/GDAL-OGR/blob/main/mosaico_recorte_curvas.py" target="_blank" rel="noreferrer noopener"><span style="text-decoration:underline;">en mi GitHub</span></a></p>
 		
 		</div>
 	
