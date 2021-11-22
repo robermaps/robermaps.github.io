@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Python y GDAL</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/> 
+		<meta charset="ISO-8859-1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="styles.css">	
+		
+	</head>
+
+	<body>
+            
+		<div class=social>
+				  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
+				  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
+				  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
+				</div>
+			<br>
+	
+		<div class=cabecera>
+			<h1>Automatizar procesos con Python y GDAL</h1>
+			<a href="https://programapa.github.io/index">
+			<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+			</a>
+		
+			<br>
+		
+			<h2><strong>Índice</strong></h2>
+			<div class="indice">
+			
+			
+					<ul>
+						<li><a href="#introduccion">Python y GDAL</a><br></li>
+						<li><a href="#script">El script de este post</a><br></li>
+						<li><a href="#preparacion">Preparando el script</a><br></li>
+						<li><a href="#mosaico">Generación del mosaico</a><br></li>
+						<li><a href="#curvas">Vectorizar y reproyectar curvas de nivel</a><br></li>
+						<li><a href="#recorte">Recortar curvas por provincias</a><br></li>
+						
+					</ul>
+						
+			</div>
+		</div>
+
+		<div class="cuerpo">
+
+		<p><a id="introduccion"></a></p>
+
+
+<h2 class="has-text-align-center">Python y GDAL</h2>
+
+
+
+<p>GDAL/OGR es, resumidamente, una librería de software de código abierto para operar con datos espaciales. Está presente, entre otros lugares, en sistemas de información geográfica como QGIS y permite trabajar tanto con datos ráster (GDAL) como vectoriales (OGR).</p>
+
+
+
+<p>Entre las muchas formas de trabajar con GDAL/OGR se encuentra el Shell, una consola de comandos incluida en la instalación del paquete de OSGEO con la que podemos hacer toda clase de operaciones con datos espaciales a través de instrucciones. Con ella es posible trabajar con grandes volúmenes de datos que de hacerlo mediante programas con interfaz gráfica resultaría inviable.</p>
+
+
+
+<p>Pues bien, una de las posibilidades que ofrece es la de ejecutar scripts de Python que automaticen la consecución de comandos necesaria para lograr nuestro objetivo. Para ello, existe una función llamada <em>os.system()</em> en la que podremos escribir comandos en formato texto o <em>array</em> para que sean ejecutados por el Shell.</p>
+
+
+
+<p class="has-text-align-center has-background" style="background-color:#b6e9b8;">os.system(&#8216;comando&#8217;)</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="script"></a></p>
+
+
+<h2 class="has-text-align-center">¿En qué consistirá el script de este post?</h2>
+
+
+
+<p>En este post voy a explicar el proceso para programar un script de Python que:</p>
+
+
+
+<ol><li>Genere un mosaico MDE para toda España a partir de otros MDE dispersos</li><li>Genere curvas de nivel a partir del mosaico. </li><li>Recorte las curvas de nivel según la provincia a la que pertenezcan y se guarden en un único GeoPackage.</li></ol>
+
+
+
+<p>El usuario tendrá que especificar al ejecutar el script:</p>
+
+
+
+<ul><li>La carpeta en la que se encuentran los MDE</li><li>La carpeta en la que se encuentran los shapefiles correspondientes a los límites administartivos de cada provincia</li><li>El sistema de referencia al que reproyectar las curvas de nivel (si lo desea)</li><li>La distancia en metros a la que se encontrarán las curvas de nivel </li></ul>
+
+
+
+<p>⚠ Para que funcione correctamente, hay que ejecutar este script desde el Shell de OSGeo con python3:</p>
+
+
+
+<p class="has-text-align-center has-background" style="background-color:#edc8b1;">C:\&gt; python3 script.py</p>
+
+
+
+<p>Si python3 no estuviera configurado y saltara error habría que escribir<em> py3_env</em> y ejecutar. ¡Ya estaría listo!</p>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="preparacion"></a></p>
+
+
+<h2 class="has-text-align-center">Preparando el script</h2>
+
+
+
+<p>Al principio del script pondremos todas aquellas cuestiones necesarias para que éste funcione correctamente, como la codificación, los módulos o las variables introducidas por el usuario, así como la carpeta de salida en la que se guardará el geopackage:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+# -*- coding: utf8 -*-
+
+import os, shutil
+
+# Valores de entrada del usuario
+img_dir = str(input('Introduzca la ruta en la que se encuentran las imagenes: '))
+
+prov_dir = str(input('Introduzca la ruta en la que se encuentran las provincias: '))
+
+codigo = str(input('Introduzca el codigo EPSG al que quiere reproyectar las capas: ')) 
+
+distancia = str(input('Introduzca la distancia entre curvas de nivel: '))
+
+
+# Crear carpeta de salida
+carpeta = f'{prov_dir}/cn{distancia}'
+
+print(f'Creando la carpteta de salida -{carpeta}...')
+
+if os.path.exists(carpeta):
+    shutil.rmtree(carpeta)
+    os.mkdir(carpeta)
+    print('La carpeta ya esxistia y se ha sistituido por una nueva y vacia')
+else:
+    os.mkdir(carpeta)
+    print('Carpeta creada')
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="mosaico"></a></p>
+
+
+<h2 class="has-text-align-center">Generación del mosaico</h2>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024" alt="" class="wp-image-7282" srcset="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-2.png 1363w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>El siguiente paso es generar un mosaico que una todos estos MDE en uno solo, del cual extraeremos las curvas de nivel. Para ello, crearemos un ráster virtual que nos permita trabajar más adelante con todas estas imágenes pero sin generar un nuevo y pesado archivo.</p>
+
+
+
+<p>La función de GDAL que lo permite es <em><strong>gdalbuildvrt</strong></em>:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+print('Generando el raster virtual...')
+
+# cambiar al directorio de las imágenes 
+os.chdir(img_dir)
+
+# comando para crear un archivo de texto que liste los MDE
+os.system('dir /b *.tif &gt; archivos.txt')
+
+# comando para generar el mosaico en forma de raster virtual
+os.system('gdalbuildvrt mosaico.vrt -input_file_list archivos.txt')
+
+print('Raster virtual generado')
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="curvas"></a></p>
+
+
+<h2 class="has-text-align-center">Vectorizar y reproyectar curvas de nivel</h2>
+
+
+
+<p>A partir del ráster virtual creado anteriormente podemos extraer las curvas de nivel con <em><strong>gdal_contour</strong></em>, además de reproyectarlas con <strong><em>ogr2ogr</em></strong> al SRC que introdujo el usuario:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+# Vectorizacion de curvas de nivel
+print('Vectorizando curvas de nivel...')
+
+os.system(f'gdal_contour -a elev -i {distancia} mosaico.vrt cn{distancia}.shp')
+
+print('Curvas de nivel vectorizadas')
+
+# Reproyeccion
+print(f'Reproyectando las curvas de nivel a EPSG:{codigo}')
+
+os.system(f'ogr2ogr -t_srs EPSG:{codigo} cn{distancia}_rep.shp cn{distancia}.shp')
+
+print(f'Las curvas se han reproyectado a EPSG:{codigo}')
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024" alt="" class="wp-image-7283" srcset="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-3.png 1168w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+<p><a id="recorte"></a></p>
+
+
+<h2 class="has-text-align-center">Recortar las curvas de nivel y guardarlas en un geopackage separadas según su provincia</h2>
+
+
+
+<p>Antes de llevar a cabo la última tarea, conviene <strong>crear un índice espacial</strong> para la capa de curvas de nivel, ya que <strong>mejorará mucho el rendimiento del recorte</strong>:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+print('Creando indice espacial...')
+
+os.system(f'ogrinfo cn{distancia}_rep.shp -sql "CREATE SPATIAL INDEX ON cn{distancia}_rep"')
+
+print('Indice espacial creado')
+</pre></div>
+
+
+<p>Ahora sí, con el siguiente código lograremos separar las curvas de nivel en capas separadas según la provincia a la que pertenezcan. </p>
+
+
+
+<p>El recorte se hará también con el comando <em><strong>ogr2ogr</strong></em></p>
+
+
+
+<p>El GeoPackage es creado en el momento en el que se lleva a cabo el primer recorte. Para evitar que sea sobrescrito por los siguientes recortes y se vayan almacenando uno a uno, tendremos que hacer que se le añada automáticamente la cláusula -update una vez se haya hecho ese primer recorte. Esto lo haremos con los contadores:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+print('Recortando las curvas de nivel para cada provincia en un nuevo archivo GeoPackage...')
+
+# Cambiar a la carpeta de provincias
+os.chdir(prov_dir)
+
+# Creacion de contadores
+count = 0
+update = ''
+
+# Iterar sobre los archivos de la carpeta de provincias
+for provincia in os.listdir(prov_dir):
+
+    # si los archivos son shapes...
+    if provincia.endswith('.shp'):
+
+        # añadir -update al comando 
+        if count &gt; 1:
+            update = '-update'
+
+        nombre = os.path.splitext(provincia)&#91;0]
+        print(f'Recortando curvas de nivel para la provincia de {nombre}')
+
+        # comando para recortar capas
+        os.system(f'ogr2ogr -f GPKG {carpeta}/cn{distancia}.gpkg -progress -clipsrc {provincia} {img_dir}/cn{distancia}_rep.shp {update} -nln {nombre}')
+
+        # incrementar el contador
+        count += 1
+
+        print(f'Curvas de nivel para la provincia de {nombre} recortadas')
+
+print('Terminado')
+</pre></div>
+
+
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>El resultado es satisfactorio salvo por errores de geometría en la provincia de Álava y en la isla de Mallorca, pero nada grave. El GeoPackage contiene las curvas de nivel separadas según la provincia:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024" alt="" class="wp-image-7287" srcset="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-5.png 1516w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p class="has-text-align-center has-white-color has-dark-gray-background-color has-text-color has-background">Tenéis el código completo <a href="https://github.com/PrograMapa/GDAL-OGR/blob/main/mosaico_recorte_curvas.py" target="_blank" rel="noreferrer noopener"><span style="text-decoration:underline;">en mi GitHub</span></a></p>
+		
+		</div>
+	
+	</body>
+</html>
