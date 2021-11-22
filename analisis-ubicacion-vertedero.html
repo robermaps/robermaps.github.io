@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Análisis de ubicación</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/> 
+		<meta charset="ISO-8859-1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="styles.css">	
+		
+	</head>
+
+	<body>
+            
+		<div class=social>
+				  <a href="https://twitter.com/progra_mapa" class="fa fa-twitter"></a>
+				  <a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
+				  <a href="https://github.com/PrograMapa" class="fa fa-github"></a>
+				</div>
+			<br>
+	
+		<div class=cabecera>
+			<h1>Análisis de ubicación de un vertedero con Model Builder</h1>
+			<a href="https://programapa.github.io/index">
+			<div style="text-align: center;"><img src="img/programapa-logo-gris-circulo.png" width="200" height="200" text-align: center></div>
+			</a>
+		
+			<br>
+			
+			<h2><strong>Índice</strong></h2>
+			<div class="indice">
+				
+			 <br><strong></strong></p>
+				
+					<ul>
+						<li><a href="#model-builder">¿Qué es Model Builder?</a><br></li>
+						<li><a href="#construir-modelo">Construcción del modelo</a><br></li>
+						<li><a href="#vectorial">Tratamiento vectorial</a><br></li>
+						<li><a href="#octantes">Seleccionar y disolver los octantes</a><br></li>
+						<li><a href="#carreteras">Recortar carreteras y hacerles buffer</a><br></li>
+						<li><a href="#municipio">Dentro del municipio pero lejos del casco urbano</a><br></li>
+						<li><a href="#suelos">Suelos impermeables solo</a><br></li>
+						<li><a href="#interseccion">Intersección de resultados y eliminación de áreas protegidas</a><br></li>
+						<li><a href="#raster">Tratamiento ráster</a><br></li>
+						<li><a href="#rasterizacion">Rasterización de la capa vectorial</a><br></li>
+						<li><a href="#pendientes">Creación de pendientes y reclasificación</a><br></li>
+						<li><a href="#resultado">Superposición ponderada y resultados</a><br></li>
+						
+					</ul>
+						
+			</div>
+		</div>
+
+		<div class="cuerpo">
+
+		<h2 class="has-text-align-center">¿Qué es Model Builder?</h2>
+
+
+
+<p>Model Builder es una herramienta que el Sistema de Información Geográfica ArcGIS incorpora para automatizar la consecución de geoprocesos a través de una interfaz gráfica.</p>
+
+
+
+<p>Resultan de gran utilidad por los siguientes aspectos:</p>
+
+
+
+<ul><li>Por un lado, nos permite visualizar todo el proceso que queremos llevar a cabo y organizarlo de forma esquemática, consiguiendo con ello que tengamos una idea clara de los flujos de trabajo que tenemos que seguir  para alcanzar un resultado.</li><li>Por otro, podremos reutilizar el modelo para aplicarlo a futuros análisis espaciales que requieran emplear los mismos pasos, además de que siempre que queramos podremos modificarlo para adaptarlo sin tener que generar otro modelo desde 0.</li></ul>
+
+
+
+<p>Sin embargo, esta herramienta cuenta con limitaciones que tendremos que tener en cuenta si queremos realizar cierto tipo de operaciones. El caso es que Model Builder funciona como si »programáramos» encadenando funciones de Python (que serían los geoprocesos), pero no permite hacer cosas que sí son posibles en Python como anidar bucles o recorrer los campos de una capa.</p>
+
+
+
+<p>Además, cuando el modelo es muy grande, ya no resulta tan sencillo andar modificándolo para usarlo con otros datos o en otros equipos, y Python resulta mucho más interesante en este aspecto. Recomiendo el <a href="https://mappinggis.com/2015/06/model-builder-o-python/" target="_blank" rel="noreferrer noopener">post de mappingGIS</a> en el que detallan más estas cuestiones.</p>
+
+
+
+<p>Lo que sí puede hacer Model Builder es usar ciertas estructuras de Python para iterar (repetir una acción) sobre varias capas que se encuentren en un directorio o crear rangos como si usáramos la función de Python <em>range</em>. Es lo que se conoce como <strong>iteradores</strong>, pero no será necesario usarlos para este trabajo.</p>
+
+
+
+<p>Por último, añadir que QGIS cuenta con su propio Model Builder y se encuentra en la pestaña de Procesos bajo el nombre de <em>Modelador gráfico</em>.</p>
+
+
+<p><a id="construir-modelo"></a></p>
+
+
+<h2 class="has-text-align-center">Construcción del modelo</h2>
+
+
+
+<p>En este ejercicio vamos a construir un modelo en ArcGIS para ubicar un nuevo vertedero en el entorno del municipio de Zaragoza (España). Teniendo en cuenta los criterios que la normativa ambiental de Aragón establece para la localización de este tipo de espacios y algunas consideraciones para la optimización del proyecto, el análisis espacial que llevaremos a cabo se verá condicionado por los siguientes aspectos:</p>
+
+
+
+<ul><li>Debe encontrarse dentro de la <a rel="noreferrer noopener" href="https://drive.google.com/file/d/1RsNABabyW_EXbH8ZX1hE5zgmO0HHIZ3S/view?usp=sharing" target="_blank">hoja 383 del Mapa Topográfico Nacional</a></li><li>No debe estar a menos de 250 metros de una carretera ni a más de 2000 metros</li><li>Debe estar a más de 2000 metros del casco urbano consolidado pero dentro del municipio de Zaragoza</li><li>La litología debe ser impermeable</li><li>No puede situarse dentro de un área protegida</li><li>La pendiente de la zona debe situarse entre los 4 y los 40 grados</li></ul>
+
+
+
+<p>Por lo tanto, necesitaremos las siguientes capas, todas ellas disponibles en <a rel="noreferrer noopener" href="https://idearagon.aragon.es/portal/" target="_blank">IDEAragón</a>:</p>
+
+
+
+<ol><li>La capa de octantes o cuadrículas del Mapa Topográfico Nacional</li><li>Una capa con los límites municipales y otra con las áreas urbanas para encontrar los lugares a más de 2000 metros del casco urbano consolidado que se encuentren dentro del municipio</li><li>Un modelo digital del terreno para calcular las pendientes</li><li>Una capa de geología o algún derivado que aporte información directa sobre permeabilidad. En este caso existe una capa de Permeabilidad que ofrece esa información.</li><li>Una capa de carreteras</li><li>Capas referentes a las distintas figuras de protección ambiental </li></ol>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/aragon_geodatos.png?w=1022" alt="" class="wp-image-5198" srcset="https://programapa.files.wordpress.com/2021/02/aragon_geodatos.png 1022w, https://programapa.files.wordpress.com/2021/02/aragon_geodatos.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/aragon_geodatos.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/aragon_geodatos.png?w=768 768w" sizes="(max-width: 1022px) 100vw, 1022px" /></figure></div>
+
+
+
+<p>Una vez tengamos todas las capas, comenzaremos a montar en Model Builder los distintos procesos que crucen esta información para obtener una nueva capa de información que nos muestre solo aquellas áreas que coincidan en el espacio según los condicionantes anteriores. </p>
+
+
+
+<p>Concretamente, generaremos un archivo ráster cuyos píxeles tendrán valor 1 en aquellas superficies donde se cumplan las condiciones a través de la <strong>herramienta de superposición ponderada <em>Weighted Overlay</em></strong>. Para usar esta herramienta necesitaremos que los inputs sean capas ráster cuyos valores sean números enteros discretos (los ráster continuos no funcionan), por lo que nos enfrentamos a dos problemas:</p>
+
+
+
+<ol><li>Salvo el modelo digital del terreno, el resto de capas son vectoriales, por lo que tendremos que convertirlas a ráster</li><li>El único ráster que tenemos es continuo, tal y como se ve en la imagen de arriba, por lo que una vez tengamos calculadas las pendientes tendremos que reclasificarlo para que represente solo aquellas que se encuentren entre los 4 y los 40 grados.</li></ol>
+
+
+
+<p>Teniendo todo esto en cuenta, comenzaremos a construir el modelo trabajando en la parte vectorial, que será la más extensa debido a que la mayoría de capas a tratar son de este tipo, y después trabajaremos con los datos ráster.</p>
+
+
+<p><a id="vectorial"></a></p>
+
+
+<h2 class="has-text-align-center">Tratamiento vectorial</h2>
+
+
+
+<p>Pues bien, antes de pasar nuestra información vectorial a ráster convendrá acotarla y simplificarla al máximo. Tratar de pasar cada capa a vectorial a ráster y reclasificarla es una tarea bastante pesada, y buena parte de nuestros geodatos son desechables puesto que solo nos interesa la hoja 383 del MTN, por lo que comenzaremos tratando la capa de octantes.</p>
+
+
+<p><a id="octantes"></a></p>
+
+
+<h3>Seleccionar y disolver los octantes</h3>
+
+
+
+<p>La capa octantes subdivide cada hoja del MTN en 8 entidades menores, por lo que tendremos que hacer usar la herramienta <strong>Select </strong>para quedarnos solo con las entidades que forman parte de la hoja 383 en una nueva capa.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-5.png?w=494" alt="" class="wp-image-5200" srcset="https://programapa.files.wordpress.com/2021/02/image-5.png 494w, https://programapa.files.wordpress.com/2021/02/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-5.png?w=300 300w" sizes="(max-width: 494px) 100vw, 494px" /></figure></div>
+
+
+
+<p>Una vez tengamos esa nueva capa, con la heramienta <strong>Dissolve</strong> uniremos todas estas entidades usando el campo IGN, común a todas ellas, usando la expresión «IGN» = &#8216;383&#8217;. De esta forma nos quedaremos con una única entidad en la nueva capa de salida Octantes_383_Dissolve:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://programapa.files.wordpress.com/2021/02/image-6.png?w=344" alt="" class="wp-image-5201" width="398" height="212" srcset="https://programapa.files.wordpress.com/2021/02/image-6.png 344w, https://programapa.files.wordpress.com/2021/02/image-6.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-6.png?w=300 300w" sizes="(max-width: 398px) 100vw, 398px" /></figure></div>
+
+
+
+<p>Este pequeño proceso quedará así en el Model Builder:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-20.png?w=770" alt="" class="wp-image-5234" srcset="https://programapa.files.wordpress.com/2021/02/image-20.png 770w, https://programapa.files.wordpress.com/2021/02/image-20.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-20.png?w=300 300w" sizes="(max-width: 770px) 100vw, 770px" /></figure>
+
+
+<p><a id="carreteras"></a></p>
+
+
+<h3>Recortar las careteras y hacerles buffers</h3>
+
+
+
+<p>Lo siguiente será encontrar ese área comprendida entre los 250 y los 2000 metros de distancia a las carreteras, y para ello tendremos que hacer un par de buffers. El caso es que nuestra capa de carreteras es demasiado extensa para lo que necesitamos, y calcular los dos buffers para todas las líneas cuando no vamos a usar ni un 5% de todas ellas es malgastar el tiempo, por lo que antes de nada recortaremos la capa de carreteras usando la herramienta <strong>Clip </strong>con la capa Octantes_383_Dissolve generada en el paso anterior:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-10.png?w=464" alt="" class="wp-image-5207" srcset="https://programapa.files.wordpress.com/2021/02/image-10.png 464w, https://programapa.files.wordpress.com/2021/02/image-10.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-10.png?w=300 300w" sizes="(max-width: 464px) 100vw, 464px" /></figure></div>
+
+
+
+<p>A continuación calcularemos los buffers de esta nueva capa de carreteras denominada Carreteras_Clip con la herramienta <strong>Multiple Ring Buffer</strong> poniendo cuidado en las unidades de medida empleadas para el cálculo. Aunque los buffers se salgan de la hoja 383, esto no será un problema como veremos más adelante. De momento hemos conseguido reducir bastante el tamaño de los datos a gestionar.</p>
+
+
+
+<p>Estos buffers han sido guardados en una nueva capa llamada Carreteras_Clip_MultipleRing. Bien, ahora tendremos que quedarnos solo con el buffer de los 2000 metros (el de color rosa) en una nueva capa llamada Carreteras_Clip_MultipleRingBuffe2000:</p>
+
+
+
+<div class="wp-block-columns">
+<div class="wp-block-column" style="flex-basis:100%;">
+<div class="wp-block-coblocks-gallery-offset alignfull"><ul class="coblocks-gallery has-caption-style-dark has-small-images has-medium-gutter"><li class="coblocks-gallery--item"><figure class="wp-block-coblocks-gallery-offset__figure"><img src="https://programapa.files.wordpress.com/2021/02/image-11.png?w=543" alt="" data-id="5209" data-imglink="" class="wp-image-5209" srcset="https://programapa.files.wordpress.com/2021/02/image-11.png 543w, https://programapa.files.wordpress.com/2021/02/image-11.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-11.png?w=300 300w" sizes="(max-width: 543px) 100vw, 543px" /></figure></li><li class="coblocks-gallery--item"><figure class="wp-block-coblocks-gallery-offset__figure"><img src="https://programapa.files.wordpress.com/2021/02/buffer2-1.png?w=527" alt="" data-id="5217" data-imglink="" data-link="https://programapa.wordpress.com/buffer2-1/" class="wp-image-5217" srcset="https://programapa.files.wordpress.com/2021/02/buffer2-1.png 527w, https://programapa.files.wordpress.com/2021/02/buffer2-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/buffer2-1.png?w=300 300w" sizes="(max-width: 527px) 100vw, 527px" /></figure></li></ul></div>
+</div>
+</div>
+
+
+
+<p>Nuestro modelo pasaría ahora a ser el siguiente:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-13.png?w=1024" alt="" class="wp-image-5221" srcset="https://programapa.files.wordpress.com/2021/02/image-13.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/02/image-13.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-13.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-13.png?w=768 768w, https://programapa.files.wordpress.com/2021/02/image-13.png 1031w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+<p><a id="municipio"></a></p>
+
+
+<h3>Dentro del municipio pero lejos del casco urbano</h3>
+
+
+
+<p>El siguiente paso es encontrar ese espacio dentro del municipio de Zaragoza que se encuentra a más de 2000 metros del casco urbano. Para ello tendremos que:</p>
+
+
+
+<ul><li>Hacer un buffer al polígono de la capa de Núcleos urbanos correspondiente al casco urbano consolidado de la ciudad de Zaragoza </li><li>Extraer el municipio de Zaragoza de la capa de Municipios y eliminar el área del buffer</li></ul>
+
+
+
+<p>Para usar la herramienta <strong>Buffer</strong> habrá que introducir una capa en la que se encuentra aislado el casco urbano, por lo que previamente tendremos que hacer un <strong>Select</strong> usando la query «NOMBREMI» = &#8216;Zaragoza&#8217; sobre la capa de Núcleos urbanos. </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-14.png?w=343" alt="" class="wp-image-5223" srcset="https://programapa.files.wordpress.com/2021/02/image-14.png 343w, https://programapa.files.wordpress.com/2021/02/image-14.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-14.png?w=300 300w" sizes="(max-width: 343px) 100vw, 343px" /></figure></div>
+
+
+
+<p>A diferencia del Multiple Ring Buffer, Buffer incluye la superficie del polígono a la que se le aplica dentro de la nueva entidad buffer, por lo que resulta perfecto para eliminar dicha superficie del término municipal con la herramienta <strong>Erase</strong> (previo aislamiento del municipio con otro Select):</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-15.png?w=497" alt="" class="wp-image-5225" srcset="https://programapa.files.wordpress.com/2021/02/image-15.png 497w, https://programapa.files.wordpress.com/2021/02/image-15.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-15.png?w=300 300w" sizes="(max-width: 497px) 100vw, 497px" /></figure></div>
+
+
+
+<p>Podemos visualizar este proceso de forma esquemática en nuestro modelo de Model Builder:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-16.png?w=819" alt="" class="wp-image-5227" srcset="https://programapa.files.wordpress.com/2021/02/image-16.png 819w, https://programapa.files.wordpress.com/2021/02/image-16.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-16.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-16.png?w=768 768w" sizes="(max-width: 819px) 100vw, 819px" /></figure>
+
+
+<p><a id="suelos"></a></p>
+
+
+<h3>Suelos impermeables solo</h3>
+
+
+
+<p>A continuación tendremos que aislar los suelos impermeables haciendo un <strong>Select</strong> al atributo de la tabla de la capa Permeabilidad que nos indique la permeabilidad de cada entidad. Bastará con la sencilla query «CODIGO» = &#8216;A&#8217; para generar una nueva capa que tendremos también que disolver con <strong>Dissolve </strong>para quedarnos con una única entidad.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-17.png?w=588" alt="" class="wp-image-5229" srcset="https://programapa.files.wordpress.com/2021/02/image-17.png 588w, https://programapa.files.wordpress.com/2021/02/image-17.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-17.png?w=300 300w" sizes="(max-width: 588px) 100vw, 588px" /></figure></div>
+
+
+
+<p>Antes de hacer esto puede ser conveniente usar Clip con la hoja 383 para que el proceso se aplique solo a las entidades que se encuentran en el área que nos interesa, pero a diferencia del buffer esta operación no requiere tanto cálculo y de igual manera tendremos que hacer al final del trabajo con las capas vectoriales un Intersect que dejará fuera todo lo que no pertenezca a la hoja. Además así no enreversamos mucho el modelo.</p>
+
+
+
+<p>La parte del modelo dedicada a esta capa quedaría así:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-19.png?w=793" alt="" class="wp-image-5232" srcset="https://programapa.files.wordpress.com/2021/02/image-19.png 793w, https://programapa.files.wordpress.com/2021/02/image-19.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-19.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-19.png?w=768 768w" sizes="(max-width: 793px) 100vw, 793px" /></figure>
+
+
+
+<p>¿Por qué usar Dissolve? Lo veremos más adelante, pero tener una única entidad nos ayudará a crear el ráster que introduciremos en la herramienta de superposición ponderada al final del proceso.</p>
+
+
+<p><a id="interseccion"></a></p>
+
+
+<h3>Intersección de los resultados anteriores y eliminación de las áreas protegidas</h3>
+
+
+
+<p>Llegados a este punto tenemos:</p>
+
+
+
+<ul><li>La hoja 383</li><li>El área entre los 250 y los 2000 metros de distancia de las carreteras</li><li>El área del municipio de Zaragoza a 2000 metros del casco urbano consolidado</li><li>Los suelos impermeables</li></ul>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-21.png?w=1004" alt="" class="wp-image-5235" srcset="https://programapa.files.wordpress.com/2021/02/image-21.png 1004w, https://programapa.files.wordpress.com/2021/02/image-21.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-21.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-21.png?w=768 768w" sizes="(max-width: 1004px) 100vw, 1004px" /></figure>
+
+
+
+<p>Pues bien, mediante un <strong>Intersect</strong> generaremos un nuevo polígono con las superficies en las que estas 4 capas coinciden:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-22.png?w=579" alt="" class="wp-image-5237" srcset="https://programapa.files.wordpress.com/2021/02/image-22.png 579w, https://programapa.files.wordpress.com/2021/02/image-22.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-22.png?w=300 300w" sizes="(max-width: 579px) 100vw, 579px" /></figure></div>
+
+
+
+<p>Después borraremos con <strong>Erase </strong>aquellas zonas que se encuentren protegidas. La herramienta Erase requiere de una única capa de entrada, pero nosotros tenemos las áreas protegidas divididas en tres capas: una de Espacios Naturales Protegidos (ENP), otra de Zonas de Especial Protección para las Aves (ZEPA) y una última de Lugares de Interés Comunitario (LIC).</p>
+
+
+
+<p>Tendremos que unir primero estas capas con la herramienta <strong>Union </strong>y después proceder con el Erase:</p>
+
+
+
+<div class="wp-block-coblocks-gallery-masonry"><div class="coblocks-gallery has-no-alignment has-caption-style-dark has-gutter"><ul class="has-grid-xlrg has-gutter-15 has-gutter-mobile-15"><li class="coblocks-gallery--item"><figure class="coblocks-gallery--figure"><img src="https://programapa.files.wordpress.com/2021/02/erase2.png?w=504" alt="" data-id="5242" data-imglink="" data-link="https://programapa.wordpress.com/erase2/" class="wp-image-5242" srcset="https://programapa.files.wordpress.com/2021/02/erase2.png 504w, https://programapa.files.wordpress.com/2021/02/erase2.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/erase2.png?w=300 300w" sizes="(max-width: 504px) 100vw, 504px" /><figcaption class="coblocks-gallery--caption">Antes de hacer el Union</figcaption></figure></li><li class="coblocks-gallery--item"><figure class="coblocks-gallery--figure"><img src="https://programapa.files.wordpress.com/2021/02/erase.png?w=505" alt="" data-id="5241" data-imglink="" data-link="https://programapa.wordpress.com/erase/" class="wp-image-5241" srcset="https://programapa.files.wordpress.com/2021/02/erase.png 505w, https://programapa.files.wordpress.com/2021/02/erase.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/erase.png?w=300 300w" sizes="(max-width: 505px) 100vw, 505px" /><figcaption class="coblocks-gallery--caption">Superficie eliminada</figcaption></figure></li></ul></div></div>
+
+
+
+<p>El proceso de este apartado visto en Model Builder sería el siguiente:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-24.png?w=885" alt="" class="wp-image-5244" srcset="https://programapa.files.wordpress.com/2021/02/image-24.png 885w, https://programapa.files.wordpress.com/2021/02/image-24.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-24.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-24.png?w=768 768w" sizes="(max-width: 885px) 100vw, 885px" /></figure>
+
+
+<p><a id="raster"></a></p>
+
+
+<h2 class="has-text-align-center">Tratamiento ráster</h2>
+
+
+
+<p>Ya tenemos una capa con una única entidad (formada por varios polígonos) que sintetiza las superficies válidas para el conjunto de datos vectorial. Lo único que queda por hacer antes de la superposición ponderada es:</p>
+
+
+
+<ul><li>Rasterizar la capa vectorial para generar una imagen en la que la superficie de los polígonos tomen valor 1 en dicha imagen y reclasificarla</li><li>Calcular las pendientes a partir del MDT y reclasificarla</li></ul>
+
+
+
+<p>Como indicamos al principio del post, reclasificar las imágenes es necesario para que representen valores discretos en vez de continuos y que así funcione la superposición ponderada (Weightened Overlay). </p>
+
+
+
+<p>En el primer caso, aunque la capa solo tenga un único valor, seguirá siendo continua, por lo que tendremos que reclasificar. En el caso de las pendientes, además, necesitaremos hacer que los pixeles que representan una pendiente comprendida entre los 4 y los 40 grados sexagesimales pasen a tener valor 1 y se descarte el resto.</p>
+
+
+<p><a id="rasterizacion"></a></p>
+
+
+<h3>Rasterización de la capa vectorial</h3>
+
+
+
+<p>Para convertir una capa vectorial en ráster hay que usar la herramienta <strong>Feature to Raster</strong>. Los valores que tomará la imagen provendrán de un campo de la capa de entrada que indiquemos. Recomiendo que dicho campo escogido sea un entero para evitar problemas con la reclasificación. En este caso, como solo tenemos un polígono, si escogemos el campo OBJECTID este valor será 1, poniéndonos las cosas más fáciles:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-26.png?w=720" alt="" class="wp-image-5248" srcset="https://programapa.files.wordpress.com/2021/02/image-26.png 720w, https://programapa.files.wordpress.com/2021/02/image-26.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-26.png?w=300 300w" sizes="(max-width: 720px) 100vw, 720px" /></figure></div>
+
+
+
+<p>Antes de reclasificarlo con la herramienta <strong>Reclassify</strong> es necesario calcular las estadísticas del ráster con la herramienta <strong>Calculate Statistics</strong>. El resultado es la misma imagen pero con los valores discretos. Como la imagen solo tiene valores 1, nos aseguraremos que en la reclasificación sigan tomando ese valor:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/reclassify-2.png?w=326" alt="" class="wp-image-5256" srcset="https://programapa.files.wordpress.com/2021/02/reclassify-2.png 326w, https://programapa.files.wordpress.com/2021/02/reclassify-2.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/reclassify-2.png?w=300 300w" sizes="(max-width: 326px) 100vw, 326px" /></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/reclass-1.png?w=600" alt="" class="wp-image-5258" srcset="https://programapa.files.wordpress.com/2021/02/reclass-1.png 600w, https://programapa.files.wordpress.com/2021/02/reclass-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/reclass-1.png?w=300 300w" sizes="(max-width: 600px) 100vw, 600px" /></figure></div>
+
+
+
+<p>Esto es lo que se ha montado en el Model Builder:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-27.png?w=970" alt="" class="wp-image-5260" srcset="https://programapa.files.wordpress.com/2021/02/image-27.png 970w, https://programapa.files.wordpress.com/2021/02/image-27.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-27.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-27.png?w=768 768w" sizes="(max-width: 970px) 100vw, 970px" /></figure>
+
+
+<p><a id="pendientes"></a></p>
+
+
+<h3>Crear el mapa de pendientes y reclasificarlo</h3>
+
+
+
+<p>Lo siguiente es coger el Modelo Digital del Terreno (MDT) y aplicarle la herramienta <strong>Slope </strong>para que se genere una nueva capa con las pendientes:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-28.png?w=830" alt="" class="wp-image-5263" srcset="https://programapa.files.wordpress.com/2021/02/image-28.png 830w, https://programapa.files.wordpress.com/2021/02/image-28.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-28.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-28.png?w=768 768w" sizes="(max-width: 830px) 100vw, 830px" /></figure>
+
+
+
+<p>Hay que asegurarse que los valores de salida son en grados. Nuestra capa de pendientes va desde una pendiente mínima de 0º (plano) hasta los 67,41º aproximadamente. A continuación tendremos que reclasificar la imagen para que los píxeles con valores entre los 4 y los 40 grados pasen a tener valor 1 y el resto se descarten. </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-30.png?w=325" alt="" class="wp-image-5267" srcset="https://programapa.files.wordpress.com/2021/02/image-30.png 325w, https://programapa.files.wordpress.com/2021/02/image-30.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-30.png?w=300 300w" sizes="(max-width: 325px) 100vw, 325px" /></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-29.png?w=727" alt="" class="wp-image-5265" srcset="https://programapa.files.wordpress.com/2021/02/image-29.png 727w, https://programapa.files.wordpress.com/2021/02/image-29.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-29.png?w=300 300w" sizes="(max-width: 727px) 100vw, 727px" /></figure></div>
+
+
+
+<p>Al igual que con la capa anterior, es necesario <strong>calcular las estadísticas antes de hacer la reclasificación</strong>. Lo podemos ver en el modelo:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-32.png?w=1024" alt="" class="wp-image-5270" srcset="https://programapa.files.wordpress.com/2021/02/image-32.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/02/image-32.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-32.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/image-32.png?w=768 768w, https://programapa.files.wordpress.com/2021/02/image-32.png 1045w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+<p><a id="resultado"></a></p>
+
+
+<h2 class="has-text-align-center">Superposición ponderada y resultado</h2>
+
+
+
+<p>Bien, ya tenemos los dos ráster que buscábamos para poder hacer la superposición ponderada con la herramienta <strong>Weightened Overlay</strong>. Lo que hará reclasificar estas dos capas para generar una nueva en la que dará valor 1 a aquellos píxeles que coincidan en el espacio y descartará al resto.  </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://programapa.files.wordpress.com/2021/02/image-33.png?w=549" alt="" class="wp-image-5271" srcset="https://programapa.files.wordpress.com/2021/02/image-33.png 549w, https://programapa.files.wordpress.com/2021/02/image-33.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/image-33.png?w=300 300w" sizes="(max-width: 549px) 100vw, 549px" /></figure></div>
+
+
+
+<p>Estos píxeles serán el resultado de todos los pasos que hemos seguido a lo largo del post y nos dirán qué lugares cumplen todos los requisitos necesarios para localizar el vertedero:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/resultado.png?w=859" alt="" class="wp-image-5279" srcset="https://programapa.files.wordpress.com/2021/02/resultado.png 859w, https://programapa.files.wordpress.com/2021/02/resultado.png?w=150 150w, https://programapa.files.wordpress.com/2021/02/resultado.png?w=300 300w, https://programapa.files.wordpress.com/2021/02/resultado.png?w=768 768w" sizes="(max-width: 859px) 100vw, 859px" /></figure>
+
+
+
+<p>El modelo podéis <a href="https://drive.google.com/file/d/158CZoK2Ljdj_Cd9c6PP2ANTu2rCnLgEI/view?usp=sharing">descargarlo desde este enlace</a>. Al completo quedaría de la siguiente forma:</p>
+
+
+
+<figure class="wp-block-image size-large"><img src="https://programapa.files.wordpress.com/2021/02/modelo_vertedero.jpg?w=1024" alt="" class="wp-image-5276" srcset="https://programapa.files.wordpress.com/2021/02/modelo_vertedero.jpg?w=1024 1024w, https://programapa.files.wordpress.com/2021/02/modelo_vertedero.jpg?w=2048 2048w, https://programapa.files.wordpress.com/2021/02/modelo_vertedero.jpg?w=150 150w, https://programapa.files.wordpress.com/2021/02/modelo_vertedero.jpg?w=300 300w, https://programapa.files.wordpress.com/2021/02/modelo_vertedero.jpg?w=768 768w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Por último, añadir que Model Builder y los Sistemas de Información Geográfica ofrecen múltiples vías para obtener un resultado, por lo que esta es sólo una forma más de hacer las cosas y el resultado se podría haber logrado de otro modo. Creo que esta es una manera &#8216;sencilla&#8217; de resolver el problema que reduce los tiempos de procesado y la aparición de errores.</p>
+
+
+
+<p>¿Cómo lo habrías hecho tú?</p>
+		
+		</div>
+	
+	</body>
+</html>
