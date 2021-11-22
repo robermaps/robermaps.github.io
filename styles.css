@@ -4,7 +4,7 @@ body {
 	background-color: #EDEDED;
 }
 
-h1 {
+h1, h2 {
 	text-align: center; 
 	font-family: Verdana, Sans-serif;
 }
@@ -53,6 +53,10 @@ div.indice {
 	text-align: left;
 	line-height: 25px;
         margin-left:-10px;	
+}
+
+div.indice > h2 {
+	text-align: left;
 }
 			
 div.cartoteca {
