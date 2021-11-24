@@ -42,12 +42,13 @@ div.centro {
 /* TABLAS */
 
 table {
-    width:100%; 
+    	width:100%; 
 	border: 2px solid black;
-    border-collapse:collapse;
+   	border-collapse:collapse;
 }
 th, td {
-    width: 50%;
+	border: 2px solid black;
+  	width: 50%;
 	padding: 15px;
 	text-align:left;
 	vertical-align: top;
