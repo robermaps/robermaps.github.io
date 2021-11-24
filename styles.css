@@ -30,6 +30,11 @@ div.cuerpo {
 	margin-right:auto;
 }
 
+div.cuerpo > img{
+ 	max-width: 1024px;
+	align: center;
+}
+
 div.centro {
         text-align: center;
 }
