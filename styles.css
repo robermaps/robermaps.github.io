@@ -28,6 +28,7 @@ div.cuerpo {
 	text-align: left;
 	margin-left:auto;
 	margin-right:auto;
+	padding: 2%;
 }
 
 div.cuerpo > img{
