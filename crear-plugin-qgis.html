@@ -270,7 +270,7 @@ cd C:\ruta_carpeta_plugin
 call qt5_env.bat
 py3_env.bat
 pyrcc5 –o resources.py resources.qrc
-</pre>
+</pre><br>
 
 
 <p>Si todo ha salido bien, el proceso completo sería el siguiente:</p>
@@ -453,7 +453,7 @@ def select_input_folder(self):
         inputfolder = QFileDialog.getExistingDirectory(self.dlg,"Choose input directory", 
                 "",QFileDialog.DontResolveSymlinks)
         self.dlg.lineEdit.setText(inputfolder)
-</pre>
+</pre><br>
 
 
 <p>Dicho método lo hemos colocado justo después del método <em>unload </em>que ya venía definido. Lo que hace es guardar en el objeto <em>inputfolder </em>la ruta seleccionada y lo inserta con <em>.setText() </em>en el Line Edit.</p>
@@ -473,7 +473,7 @@ def run(self):
             self.first_start = False
             self.dlg = MultiExplodingDialog()
             self.dlg.pushButton.clicked.connect(self.select_input_folder)
-</pre>
+</pre><br>
 
 
 <p>Dentro de esta sentencia <em>if </em>añadiremos todas aquellas conexiones de que queremos que se establezcan al abrir el plugin dentro de QGIS. En este caso, lo que hacemos es indicar con los métodos <em>.clicked.connect()</em> que cuando hagamos click a nuestro botón de nombre <em>pushButton </em>se ejecute el método <em>.select_input_folder </em>que hemos definido anteriormente.</p>
@@ -485,7 +485,7 @@ def run(self):
 
 <pre>
 from qgis.PyQt.QtWidgets import QAction, QFileDialog
-</pre>
+</pre><br>
 
 
 <p>Guardamos los cambios, recargamos el plugin con Plugin Reloader y probamos si funciona:</p>
@@ -512,7 +512,7 @@ from qgis.PyQt.QtWidgets import QAction, QFileDialog
 <pre>
 self.dlg.lineEdit.setText('')
 self.dlg.lineEdit_2.setText('')
-</pre>
+</pre><br>
 
 
 <p>Es tan sencillo como aplicar el método <em>.setText()</em> a los Line Edits y darles un texto vacío.</p>
@@ -546,7 +546,7 @@ from qgis.utils import iface
 import processing
 import os
 import shutil
-</pre>
+</pre><br>
 
 
 <p>A continuación, nos iremos a la sentencia <em>if result </em>que se encuentra al final del script&#8230;</p>
@@ -557,7 +557,7 @@ if result:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
             pass
-</pre>
+</pre><br>
 
 
 <p> &#8230; y tal como se indica sustituiremos su contenido por todo aquello que queramos que suceda al pulsar ACEPTAR (o ejecutar) Lo tenéis a detallado a continuación:</p>
@@ -628,7 +628,7 @@ if result:
                 ## cargar la capa resultante al proyecto
                 iface.addVectorLayer(output, nombre + '_exploded', 'ogr')
             
-</pre>
+</pre><br>
 
 
 

@@ -142,7 +142,7 @@ if os.path.exists(carpeta):
 else:
     os.mkdir(carpeta)
     print('Carpeta creada')
-</pre>
+</pre><br>
 
 
 
@@ -179,7 +179,7 @@ os.system('dir /b *.tif &gt; archivos.txt')
 os.system('gdalbuildvrt mosaico.vrt -input_file_list archivos.txt')
 
 print('Raster virtual generado')
-</pre>
+</pre><br>
 
 
 
@@ -209,7 +209,7 @@ print(f'Reproyectando las curvas de nivel a EPSG:{codigo}')
 os.system(f'ogr2ogr -t_srs EPSG:{codigo} cn{distancia}_rep.shp cn{distancia}.shp')
 
 print(f'Las curvas se han reproyectado a EPSG:{codigo}')
-</pre>
+</pre><br>
 
 
 
@@ -239,7 +239,7 @@ print('Creando indice espacial...')
 os.system(f'ogrinfo cn{distancia}_rep.shp -sql "CREATE SPATIAL INDEX ON cn{distancia}_rep"')
 
 print('Indice espacial creado')
-</pre>
+</pre><br>
 
 
 <p>Ahora sí, con el siguiente código lograremos separar las curvas de nivel en capas separadas según la provincia a la que pertenezcan. </p>
@@ -285,7 +285,7 @@ for provincia in os.listdir(prov_dir):
         print(f'Curvas de nivel para la provincia de {nombre} recortadas')
 
 print('Terminado')
-</pre>
+</pre><br>
 
 
 

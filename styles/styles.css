@@ -22,6 +22,7 @@ pre {
   margin: 1%;
   background-color: #ECEACA;
   padding: 1%;
+  overflow-x:scroll;
 } 
 
 div.cabecera {
