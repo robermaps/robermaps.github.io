@@ -15,6 +15,15 @@ a {
         color: green;
 }
 
+pre {
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  white-space: pre;
+  margin: 1%;
+  background-color: #ECEACA;
+  padding: 1%;
+} 
+
 div.cabecera {
 	max-width: 1024px;
 	text-align: left;
@@ -42,6 +51,8 @@ div.cuerpo > img{
 div.centro {
         text-align: center;
 }
+
+
 
 /* TABLAS */
 
