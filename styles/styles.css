@@ -1,0 +1,124 @@
+/* ESTRUCTURA GENERAL */
+
+body { 
+	font-family: Arial, Sans-serif;
+	background-color: #EDEDED;
+}
+
+h1, h2 {
+	text-align: center; 
+	font-family: Verdana, Sans-serif;
+}
+
+a {
+        text-decoration: none;
+        color: green;
+}
+
+pre {
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  white-space: pre;
+  margin: 1%;
+  background-color: #ECEACA;
+  padding: 1%;
+  overflow-x:scroll;
+} 
+
+div.cabecera {
+	max-width: 1024px;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 2%;
+}
+
+div.cuerpo {
+	max-width: 1024px;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 2%;
+}
+
+div.cuerpo > img{
+	display: block;
+ 	max-width: 80%;
+	height: auto;
+ 	margin-left: auto;
+ 	margin-right: auto;	
+}
+
+div.centro {
+        text-align: center;
+}
+
+
+
+/* TABLAS */
+
+table {
+    width:100%; 
+	border: 2px solid black;
+   	border-collapse:collapse;
+}
+th, td {
+	border: 1px solid black;
+  	width: 50%;
+	text-align:left;
+	vertical-align: top;
+	padding: 1%;
+}
+
+/* OTROS */
+div.indice {
+	text-align: left;
+	line-height: 25px;
+    margin-left:-10px;	
+}
+
+
+div.par {
+	text-align: center;
+	padding: 1%;
+	margin-left:20px;
+	margin-right:20px;
+}
+
+/* ICONOS SOCIALES */
+
+div.social{
+	text-align:right;
+}
+
+.fa {
+  /*padding: 15px;*/
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-twitter {
+  color: #55ACEE;
+}
+
+.fa-linkedin {
+  color: #007bb5;
+}
+
+.fa-envelope {
+  color: #000000;
+}
+
+.fa-mail {
+  color: #000000;
+}
+
+
