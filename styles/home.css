@@ -33,7 +33,7 @@ div.mifoto > img {
 .column {
   float: left;
   width: 33.33%;
-  padding: 2% 1%;
+  padding: 0% 1% 0% 1%;
 }
 
 
@@ -63,8 +63,6 @@ div.mifoto > img {
   display: block;
   width: 100%;
   height: auto;
-  max-width: 350px;
-  max-height: 175px;
   transition: .5s ease;
   backface-visibility: hidden;
   border-radius: 5px;
