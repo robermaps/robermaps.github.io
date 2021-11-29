@@ -63,6 +63,8 @@ div.mifoto > img {
   display: block;
   width: 100%;
   height: auto;
+  max-width: 350px;
+  max-height: 175px;
   transition: .5s ease;
   backface-visibility: hidden;
   border-radius: 5px;
