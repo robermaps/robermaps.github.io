@@ -4,6 +4,11 @@ div.social{
 	text-align:right;
 }
 
+div.social > p {
+	float:left; 
+	margin-top: 0px; 
+	margin-bottom: 0px;"
+}
 
 .fa {
   font-size: 30px;
