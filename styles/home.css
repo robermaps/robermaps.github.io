@@ -100,4 +100,22 @@ div.mifoto > img {
   
 }
 
+/* DESTACADO */
+
+.contenedor{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+	
+}
+ 
+
+.centrado{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	color: white;
+	text-shadow:5px 5px 5px #000000;
+}
 
