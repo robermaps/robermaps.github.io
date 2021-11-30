@@ -59,46 +59,6 @@ div.mifoto > img {
 }
 
 
-/* BLOQUES */
-
-.container {
-  position: relative;
-  width: 100%;
-}
-
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-  border-radius: 5px;
-}
-
-.middle {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%)
-}
-
-.container:hover .image {
-  opacity: 0.1;
-}
-
-.container:hover .middle {
-  opacity: 1;
-}
-
-.text {
-  color: #0000000;
-  font-size: 16px;
-  
-}
 
 /* DESTACADO */
 
@@ -113,7 +73,6 @@ div.mifoto > img {
 .centrado{
     position: absolute;
     top: 50%;
-    /* left: 50%; */
     transform: translate(-0%, -50%);
 	color: white;
 	text-shadow:5px 5px 5px #000000;
