@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Natura 2000</title>
+
+        <!-- Estilos CSS de Leaflet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.css" />
+        
+		
+
+    </head>
+    <body>
+        <!-- Recuadro del mapa -->
+        <div id="mapa" style="width: 100%; height: 720px;"> 
+
+        <!-- CARGAR -->
+        <!-- Biblioteca Leaflet -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
+
+		<!-- AJAX (cargar geojson)
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script> -->
+
+
+        <!-- Script en el que se configura el recuadro del mapa y las capas que se cargaran -->
+        <script>
+
+            // Objeto de tipo map de leaflet que referencia al div 
+            var mapa = L.map('mapa',{ center: [49.376651,12.029839], zoom: 4});  
+            
+            // Capas
+            var n2k2006 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
+                layers: '0,1',
+                maxZoom: 17,
+                minZoom: 0,
+				format: 'image/jpeg',
+				zIndex: 2
+            }).addTo(mapa);
+
+			var n2k2012 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
+                layers: '0,1',
+                maxZoom: 17,
+                minZoom: 0,
+				format: 'image/jpeg',
+				zIndex: 2
+            });
+
+			var n2k2006_2012 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_Change_2006_2012/MapServer/WMSServer', {
+                layers: '0,1',
+                maxZoom: 17,
+                minZoom: 0,
+				format: 'image/jpeg',
+				zIndex: 2
+            });
+			
+			var riparian2012 = new L.tileLayer.wms('https://copernicus.discomap.eea.europa.eu/arcgis/services/RiparianZones/LCLU/MapServer/WMSServer', {
+                layers: 'LCLU_MAES121840,LCLU_MAES450461',
+                maxZoom: 17,
+                minZoom: 0,
+				format: 'image/jpeg',
+				zIndex: 2
+            });
+			
+
+            var otm = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{  
+                maxZoom: 17,  
+                minZoom: 0,  
+                attribution: '© OpenTopoMap'  
+            }).addTo(mapa);  
+			
+			var img = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{  
+                maxZoom: 17,  
+                minZoom: 0,  
+                attribution: '© OpenTopoMap'  
+            }).addTo(mapa); 
+
+						
+
+            // CONTROLES DEL MAPA //
+            
+            // Capas base y de info
+            
+            var capasInfo = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
+			var capasBase = {'OpenTopoMap': otm}
+
+            // Control de capas y escala
+            L.control.layers(capasBase, capasInfo).addTo(mapa);
+            L.control.scale().addTo(mapa);
+            
+           
+           
+
+
+
+        </script>
+	</div>
+
+    </body>
+</html>
