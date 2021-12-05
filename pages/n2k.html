@@ -86,11 +86,12 @@
             
             // Capas base y de info
             
+            var capasInfo = {'OpenTopoMap': otm}
             var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
 			
 
             // Control de capas y escala
-            L.control.layers(capasBase).addTo(mapa);
+            L.control.layers(capasInfo,capasBase).addTo(mapa);
             L.control.scale().addTo(mapa);
             
            
