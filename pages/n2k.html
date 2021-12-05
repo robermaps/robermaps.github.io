@@ -85,7 +85,7 @@
 			
 			
 // Fetch the geojson file
-$.getJSON('https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2018/MapServer?f=pjson', function(data) {
+$.getJSON('https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2018/MapServer?f=pjson?callback=?', function(data) {
     // Define the geojson layer and add it to the map
     L.geoJson(data).addTo(mapa);
 });
@@ -103,10 +103,6 @@ $.getJSON('https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/
             // Control de capas y escala
             L.control.layers(capasInfo,capasBase).addTo(mapa);
             L.control.scale().addTo(mapa);
-            
-           
-           
-
 
 
         </script>
