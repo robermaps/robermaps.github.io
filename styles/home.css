@@ -73,8 +73,10 @@ div.mifoto > img {
 .centrado{
     position: absolute;
     top: 50%;
-    transform: translate(-0%, -50%);
-	color: white;
-	text-shadow:5px 5px 5px #000000;
+    transform: translate(10%, -50%);
+    color: white;
+    text-shadow:5px 5px 5px #000000;
+    max-width: 80%;
+    max-height: 80%;
 }
 
