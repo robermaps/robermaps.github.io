@@ -33,7 +33,7 @@
         <!-- Biblioteca Leaflet -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
 
-        <!-- AJAX (cargar geojson)
+        <!-- AJAX (cargar geojson) -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
 
 
@@ -84,9 +84,13 @@
             }).addTo(mapa);  
 			
 		
-	var geooo = new L.GeoJSON.AJAX("https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2012/MapServer?f=pjson");
-        
-
+	
+  // load GeoJSON from an external file
+  $.getJSON("https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2012/MapServer?f=pjson",function(data){
+    // add GeoJSON layer to the map once the file is loaded
+    L.geoJson(data).addTo(mapa);
+  });
+ 
 
 		
 
@@ -94,7 +98,7 @@
             
             // Capas base y de info
             
-            var capasInfo = {'OpenTopoMap': otm, 'json': geooo}
+            var capasInfo = {'OpenTopoMap': otm}
             var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
 			
 
