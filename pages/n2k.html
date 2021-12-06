@@ -85,7 +85,7 @@
 			
 		
 	var geooo = new L.GeoJSON.AJAX("https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2012/MapServer?f=pjson");
-        geooo.addTo(mapa);
+        
 
 
 		
@@ -94,7 +94,7 @@
             
             // Capas base y de info
             
-            var capasInfo = {'OpenTopoMap': otm}
+            var capasInfo = {'OpenTopoMap': otm, 'json': geooo}
             var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
 			
 
