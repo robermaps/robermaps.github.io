@@ -86,7 +86,7 @@
 		
 	
   // load GeoJSON from an external file
-  $.getJSON("https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2012/MapServer?f=pjson",function(data){
+  $.getJSON("https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2012/MapServer?f=json",function(data){
     // add GeoJSON layer to the map once the file is loaded
     L.geoJson(data).addTo(mapa);
   });
