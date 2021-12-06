@@ -1,12 +1,3 @@
-div.about {
-	max-width: 600px;
-	text-align: left;
-	margin-left:auto;
-	margin-right:auto;
-        padding: 0% 2%;
-}
-
-
 div.home {
 	max-width: 1240px;
 	text-align: center;
@@ -15,10 +6,6 @@ div.home {
 	
 }
 
-/*a {
-        text-decoration: none;
-        color: black;
-}*/
 
 div.mifoto {
 	text-align: center;
