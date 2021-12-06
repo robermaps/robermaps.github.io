@@ -25,6 +25,14 @@ pre {
   overflow-x:scroll;
 } 
 
+div.about {
+	max-width: 600px;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
+        padding: 0% 2%;
+}
+
 div.cabecera {
 	max-width: 1024px;
 	text-align: left;
