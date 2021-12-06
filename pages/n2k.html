@@ -37,6 +37,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script> -->
 
 
+
         <!-- Script en el que se configura el recuadro del mapa y las capas que se cargaran -->
         <script>
 
@@ -99,23 +100,12 @@
             L.control.layers(capasInfo,capasBase).addTo(mapa);
             L.control.scale().addTo(mapa);
 
-// Insertando una leyenda en el mapa
-var legend = L.control({position: 'bottomright'});
-
-legend.onAdd = function (map) {
-
-var div = L.DomUtil.create('div', 'info legend');
-
-div.innerHTML +=
-'<img alt="legend" src="https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer?request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=0" width="127" height="120" />';
-
-};
-
-legend.addTo(mapa);
 
 
         </script>
 	</div>
+
+<img src="https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer?request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=0" />'
 
     </body>
 </html>
