@@ -17,6 +17,9 @@ div.mifoto > img {
 	width: 200px;
 }
 
+img {
+    border-radius: 5px;
+}
 
 /* COLUMNAS */
 
