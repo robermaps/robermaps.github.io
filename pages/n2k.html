@@ -33,8 +33,8 @@
         <!-- Biblioteca Leaflet -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
 
-        <!-- AJAX (cargar geojson) -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+        <!-- AJAX (cargar geojson) 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script> -->
 
 
         <!-- Script en el que se configura el recuadro del mapa y las capas que se cargaran -->
@@ -81,15 +81,8 @@
                 maxZoom: 17,  
                 minZoom: 0,  
                 attribution: '© OpenTopoMap'  
-            });  
-			
+            }).addTo(mapa);  
 		
-	
-  // load GeoJSON from an external file
-  $.getJSON("https://image.discomap.eea.europa.eu/arcgis/rest/services/Natura2000/N2K_2012/MapServer?f=pjson",function(data){
-    // add GeoJSON layer to the map once the file is loaded
-    L.geoJson(data).addTo(mapa);
-  });
  
 
 		
