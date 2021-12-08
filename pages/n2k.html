@@ -54,7 +54,7 @@
             var mapa = L.map('mapa',{ center: [49.376651,12.029839], zoom: 4});  
             
             // Capas
-            var n2k2006 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
+            var n2k2006 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
                 layers: '0,1',
                 maxZoom: 17,
                 minZoom: 0,
