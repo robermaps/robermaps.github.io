@@ -43,7 +43,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
 
         
-<script src="https://gist.githubusercontent.com/rclark/6908938/raw/7a41a88ac84a6a5595b6b6ecebbadfd2d7f7df5e/L.TileLayer.BetterWMS.js"></script>
+<script src="/js/L.tileLayer.betterWms.js"></script>
 
 
 
@@ -54,7 +54,7 @@
             var mapa = L.map('mapa',{ center: [49.376651,12.029839], zoom: 4});  
             
             // Capas
-            var n2k2006 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
+            var n2k2006 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
                 layers: '0,1',
                 maxZoom: 17,
                 minZoom: 0,
