@@ -61,13 +61,14 @@
 				format: 'image/png',
                                 transparent: true,
 				zIndex: 2
-            });
+            }).addTo(mapa);
 
 			var n2k2012 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
                 layers: '0,1',
                 maxZoom: 17,
                 minZoom: 0,
-				format: 'image/jpeg',
+				format: 'image/png',
+                                transparent: true,
 				zIndex: 2
             });
 
@@ -75,7 +76,8 @@
                 layers: '0,1',
                 maxZoom: 17,
                 minZoom: 0,
-				format: 'image/jpeg',
+				format: 'image/png',
+                                transparent: true,
 				zIndex: 2
             });
 			
@@ -83,7 +85,8 @@
                 layers: 'LCLU_MAES121840,LCLU_MAES450461',
                 maxZoom: 17,
                 minZoom: 0,
-				format: 'image/jpeg',
+				format: 'image/png',
+                                transparent: true,
 				zIndex: 2
             });
 			
