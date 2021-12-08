@@ -63,7 +63,7 @@
 				zIndex: 2
             }).addTo(mapa);
 
-			var n2k2012 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
+			var n2k2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
                 layers: '0,1',
                 maxZoom: 17,
                 minZoom: 0,
@@ -72,7 +72,7 @@
 				zIndex: 2
             });
 
-			var n2k2006_2012 = new L.tileLayer.wms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_Change_2006_2012/MapServer/WMSServer', {
+			var n2k2006_2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_Change_2006_2012/MapServer/WMSServer', {
                 layers: '0,1',
                 maxZoom: 17,
                 minZoom: 0,
@@ -81,7 +81,7 @@
 				zIndex: 2
             });
 			
-			var riparian2012 = new L.tileLayer.wms('https://copernicus.discomap.eea.europa.eu/arcgis/services/RiparianZones/LCLU/MapServer/WMSServer', {
+			var riparian2012 = new L.tileLayer.betterWms('https://copernicus.discomap.eea.europa.eu/arcgis/services/RiparianZones/LCLU/MapServer/WMSServer', {
                 layers: 'LCLU_MAES121840,LCLU_MAES450461',
                 maxZoom: 17,
                 minZoom: 0,
