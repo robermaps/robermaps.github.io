@@ -42,8 +42,8 @@
         <!-- Biblioteca Leaflet -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
 
-        <!-- AJAX (cargar geojson) 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script> -->
+        
+<script src="https://raw.githubusercontent.com/heigeo/leaflet.wms/gh-pages/src/leaflet.wms.js"></script>
 
 
 
@@ -112,6 +112,22 @@
             // Control de capas y escala
             L.control.layers(capasInfo,capasBase).addTo(mapa);
             L.control.scale().addTo(mapa);
+
+            // Perform 'GetFeatureInfo' request.
+map.on('click', function(e) {
+  n2k2006.getFeatureInfo({
+    latlng: e.latlng,
+    done: function(featureCollection) {
+    console.log('getFeatureInfosucceed: ', featureCollection);
+  },
+  fail: function(errorThrown) {
+    console.log('getFeatureInfo failed: ', errorThrown);
+  },
+  always: function() {
+      console.log('getFeatureInfo finished');
+  }
+  });
+});
 
 
 
