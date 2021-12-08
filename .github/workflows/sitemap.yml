@@ -1,2 +1,0 @@
-- name: generate-sitemap
-  uses: cicirello/generate-sitemap@v1.8.1
