@@ -31,7 +31,7 @@ img {
 .column {
   float: left;
   width: 33.33%;
-  padding: 0% 1% 0% 1%;
+  padding: 0% 1% 3% 1%;
 }
 
 
@@ -63,7 +63,7 @@ img {
 .centrado{
     position: absolute;
     top: 50%;
-    transform: translate(12.5%, -50%);
+    transform: translate(12.5%, -60%);
     color: white;
     text-shadow:5px 5px 5px #000000;
     max-width: 80%;
