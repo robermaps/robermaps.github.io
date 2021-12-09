@@ -1,9 +1,9 @@
-
 name: Generate xml sitemap
 
 on:
   push:
-    branches: [ main ]
+    branches: [ staging ]
+    paths: [ '**.html', '**.pdf' ]
 
 jobs:
   sitemap_job:
