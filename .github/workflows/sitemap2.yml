@@ -28,5 +28,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: generate-sitemap
         uses: cicirello/generate-sitemap@v1.8.1
+        with:
+          base-url-path: https://roberer.github.io/
 
      
