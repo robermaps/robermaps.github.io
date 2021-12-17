@@ -1,7 +1,10 @@
 /* ESTRUCTURA GENERAL */
+@font-face {
+	font-family: Arial, Sans-serif;
+	font-display: swap;
+}
 
 body { 
-	font-family: Arial, Sans-serif;
 	background-color: #EDEDED;
 }
 
