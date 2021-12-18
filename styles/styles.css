@@ -1,11 +1,8 @@
 /* ESTRUCTURA GENERAL */
-@font-face {
-	font-family: Calibri;
-	font-display: swap;
-}
-
 body { 
 	background-color: #EDEDED;
+	font-family: Calibri;
+	font-display: swap;
 }
 
 h1, h2 {
