@@ -1,5 +1,8 @@
 /* ESTRUCTURA GENERAL */
-@font-display: swap;
+@font-face {
+    font-display: swap;
+	
+}
 
 body { 
 	background-color: #EDEDED;
