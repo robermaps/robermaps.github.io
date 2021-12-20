@@ -105,7 +105,8 @@
                 attribution: '© OpenStreetMap contributors'  
             });  
 		
-			var bing = new L.BingLayer('AlTSEdbsoNlnn7NvH59EkaGnqZUguWGRjM52Sspfvvj3iT5wdduDNZ2yYJw_mD82').addTo(mapa);
+			var apikey = process.env.BING_KEY
+			var bing = new L.BingLayer(apikey).addTo(mapa);
 
             // CONTROLES DEL MAPA //
             
