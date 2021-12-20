@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="/styles/styles.css">
 		
 		<script src="/js/jquery36min.js"></script> 
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
 	
     <script> 
     $(function(){
@@ -104,17 +105,17 @@
                 maxZoom: 17,  
                 minZoom: 0,  
                 attribution: '© OpenTopoMap'  
-            }).addTo(mapa);  
+            });  
 		
  
-
+			L.tileLayer.bing(getenv("BING_KEY").addTo(mapa);
 		
 
             // CONTROLES DEL MAPA //
             
             // Capas base y de info
             
-            var capasInfo = {'OpenTopoMap': otm}
+            var capasInfo = {'OpenTopoMap': otm, 'Bing Maps': bing}
             var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
 			
 
