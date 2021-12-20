@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /js/
-Disallow: /styles/
-Disallow: /img/
-Disallow: /pages/social.html

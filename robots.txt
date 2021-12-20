@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /img/
+Disallow: /pages/social.html
+Disallow: /.github/
+
+Sitemap: https://roberer.github.io/sitemap.xml
