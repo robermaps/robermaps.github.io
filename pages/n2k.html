@@ -99,10 +99,10 @@
             });
 			
 
-            var otm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{  
+            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{  
                 maxZoom: 17,  
                 minZoom: 0,  
-                attribution: '© OpenTopoMap'  
+                attribution: '© OpenStreetMap contributors'  
             });  
 		
 			var bing = new L.BingLayer('AlTSEdbsoNlnn7NvH59EkaGnqZUguWGRjM52Sspfvvj3iT5wdduDNZ2yYJw_mD82').addTo(mapa);
@@ -111,7 +111,7 @@
             
             // Capas base y de info
             
-            var capasInfo = {'OpenTopoMap': otm, 'Bing Maps': bing}
+            var capasInfo = {'Bing Maps': bing, 'OpenStreetMap': osm}
             var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
 			
 
