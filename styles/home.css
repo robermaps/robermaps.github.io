@@ -63,7 +63,7 @@ img {
 .centrado{
     position: absolute;
     top: 50%;
-    transform: translate(12.5%, -60%);
+    transform: translate(12.5%, -50%);
     color: white;
     text-shadow:5px 5px 5px #000000;
     max-width: 80%;
