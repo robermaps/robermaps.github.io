@@ -5,7 +5,7 @@ div.social{
 }
 
 .fa {
-  
+  font-size: 30px;
   width: 40px;
   height: 40px;
   text-align: center;
@@ -19,22 +19,22 @@ div.social{
 
 .fa-twitter {
   color: #55ACEE;
-  font-size: 30px;
+  
 }
 
 .fa-linkedin {
   color: #007bb5;
-  font-size: 30px;
+  
 }
 
 .fa-github {
   color: black;
-  font-size: 30px;
+  
 }
 
 .fa-info {
   color: grey;
-  font-size: 20px;
+  
   
 }
 
