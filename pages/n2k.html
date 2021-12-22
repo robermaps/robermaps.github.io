@@ -26,23 +26,7 @@
 
     </head>
     <body>
-        <div id="includedContent"></div>
-	    <h1>Contribuciones a la Red Natura 2000</h1>
-	    
-	    <div class=about>
-			<br>
-		    <p> Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update. </p>
-			<p>En Red Natura tuvimos que actualizar la cartografía de 2006 para detectar los cambios producidos con el 2012 para todos los espacios que conforman esta red.</p>
-		    <p>Riparian consistió en cartografiar los márgenes de (casi)todos los ríos de Europa.</p>
-			<p>Podéis echar un vistazo al resultado de estos proyectos en el mapa de abajo realizado con Leaflet. Haciendo click se puede ver la información asociada a cada polígono y más abajo está la leyenda completa.</p>
-			<p>Si queréis ver más productos cartográficos Copernicus los tenéis disponibles desde <a href="https://discomap.eea.europa.eu/Index/">DISCOMAP</a>.</p>
-			<br>
-	    
-		
-		</div>
-	    
         
-
         <!-- Recuadro del mapa -->
         <div id="mapa" style="width: 100%; height: 720px;"></div>
 
@@ -120,7 +104,7 @@
             L.control.layers(capasInfo,capasBase).addTo(mapa);
             L.control.scale().addTo(mapa);
 			L.control.legend({
-				position: "bottomright",
+				position: "topright",
 				title: "Leyenda",
 				collapsed: true,
 				symbolWidth: 785,
@@ -140,13 +124,7 @@
 
         </script>
 		
-		<div class=cuerpo>
-<br>
-<h3 align="center">Leyenda</h3>
-
-<img alt="leyenda red natura 2000" src="https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer?request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=0" />
-
-	</div>
+		
 
 
     </body>
