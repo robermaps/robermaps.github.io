@@ -97,40 +97,4 @@ div.par {
 	margin-right:20px;
 }
 
-/* ICONOS SOCIALES */
-
-div.social{
-	text-align:right;
-}
-
-.fa {
-  /*padding: 15px;*/
-  font-size: 30px;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  text-decoration: none;
-}
-
-
-.fa:hover {
-  opacity: 0.7;
-}
-
-.fa-twitter {
-  color: #55ACEE;
-}
-
-.fa-linkedin {
-  color: #007bb5;
-}
-
-.fa-envelope {
-  color: #000000;
-}
-
-.fa-mail {
-  color: #000000;
-}
-
 
