@@ -9,7 +9,7 @@
 		<meta charset="utf-8"/><meta http-equiv='content-language' content='es-es'>
 		<meta name="description" content="Participé en proyectos de fotointerpretación y cartografiado de esta red europea de espacios protegidos"/>
 		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 		<link rel="stylesheet" href="/styles/styles.css">
 		<link rel="stylesheet" href="/styles/leaflet.legend.css" />
 		<link rel="stylesheet" href="/styles/L.Control.SlideMenu.css">
@@ -30,8 +30,10 @@
         <!-- Recuadro del mapa -->
         <div id="mapa" style="width: 100%; height: 720px;"></div>
 
-        <!-- Biblioteca Leaflet y plugins -->
+        <!-- Biblioteca Leaflet -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>    
+		
+		<!-- Leaflet Plugins -->
 		<script src="/js/L.tileLayer.betterWms.js"></script>
 		<script src="/js/Bing.js"></script>
 		<script type="text/javascript" src="/js/leaflet.legend.js"></script>
@@ -125,7 +127,9 @@
 			}).addTo(mapa);
 
 			var contents = ''
-			contents += '<h1>Contribuciones a la Red Natura 2000</h1>'
+			contents += '<img alt="Roberer" src="https://raw.githubusercontent.com/roberer/roberer.github.io/main/img/img1.JPG" width=100px height=100px>'
+			contents += '<h1>Mis contribuciones a la Red Natura 2000</h1>'
+			contents += '<h2>Por Rober J</h2>'
 			contents += '<p>Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update.</p>'
 			contents += '<p>En Red Natura tuvimos que actualizar la cartografía de 2006 para detectar los cambios producidos con el 2012 para todos los espacios que conforman esta red.</p>'
 			contents += '<p>Riparian consistió en cartografiar los márgenes de (casi)todos los ríos de Europa.</p>'
