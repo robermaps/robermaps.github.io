@@ -127,7 +127,7 @@
 			}).addTo(mapa);
 
 			var contents = ''
-			contents += '<div class="mifoto"><img alt="Roberer" src="https://raw.githubusercontent.com/roberer/roberer.github.io/main/img/img1.JPG" ></div>'
+			contents += '<img alt="Roberer" src="https://raw.githubusercontent.com/roberer/roberer.github.io/main/img/img1.JPG" width=150px height=150px align=center>'
 			contents += '<h1>Mis contribuciones a la Red Natura 2000</h1>'
 			contents += '<h2>Por Rober J</h2>'
 			contents += '<p>Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update.</p>'
@@ -136,7 +136,7 @@
 			contents += '<p>Podéis echar un vistazo al resultado de estos proyectos en este mapa realizado con Leaflet. Haciendo click se puede ver la información asociada a cada polígono.</p>'
 			contents += '<p>Si queréis ver más productos cartográficos Copernicus los tenéis disponibles desde <a href="https://discomap.eea.europa.eu/Index/">DISCOMAP</a>.</p>'
 			contents += '<p>Puedes encontrarme <a href="https://roberer.github.io">en mi portfolio</a> y en las redes:</p>'
-			contents += '<a href="https://twitter.com/roberer_" class="fa fa-twitter"></a><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a><a href="https://github.com/roberer" class="fa fa-github"></a>'
+			contents += '<div class=social><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a><a href="https://github.com/roberer" class="fa fa-github"></a></div>'
 			
 			var slideMenu = L.control.slideMenu('', {position: 'topright', icon: 'fa-icon'}).addTo(mapa);
 			slideMenu.setContents(contents);
