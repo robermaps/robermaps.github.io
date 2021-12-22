@@ -70,21 +70,21 @@ L.Control.SlideMenu = L.Control.extend({
         if(this._isHorizontal){
             if(this._isLeftPosition){
                 closeButton.style.float = 'right';
-                L.DomUtil.addClass(closeButton, 'fa fa-info');
+                L.DomUtil.addClass(closeButton, 'fa fa-window-close');
             }
             else{
                 closeButton.style.float = 'left';
-                L.DomUtil.addClass(closeButton, 'fa fa-info');
+                L.DomUtil.addClass(closeButton, 'fa fa-window-close');
             }
         }
         else{
             if(this._isTopPosition){
                 closeButton.style.float = 'right';
-                L.DomUtil.addClass(closeButton, 'fa fa-info');
+                L.DomUtil.addClass(closeButton, 'fa fa-window-close');
             }
             else{
                 closeButton.style.float = 'right';
-                L.DomUtil.addClass(closeButton, 'fa fa-info');
+                L.DomUtil.addClass(closeButton, 'fa fa-window-close');
             }
         }
 
