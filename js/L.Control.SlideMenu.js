@@ -7,7 +7,7 @@ L.Control.SlideMenu = L.Control.extend({
         direction: 'horizontal', // vertical or horizontal
         changeperc: '10',
         delay: '10',
-        icon: 'fa fa-info',
+        icon: 'fa fa-question-circle',
         hidden: false
     },
 
