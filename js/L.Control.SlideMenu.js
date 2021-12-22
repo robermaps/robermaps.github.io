@@ -7,7 +7,7 @@ L.Control.SlideMenu = L.Control.extend({
         direction: 'horizontal', // vertical or horizontal
         changeperc: '10',
         delay: '10',
-        icon: 'fa fa-question',
+        icon: 'fa fa-info',
         hidden: false
     },
 
@@ -70,21 +70,21 @@ L.Control.SlideMenu = L.Control.extend({
         if(this._isHorizontal){
             if(this._isLeftPosition){
                 closeButton.style.float = 'right';
-                L.DomUtil.addClass(closeButton, 'fa fa-question');
+                L.DomUtil.addClass(closeButton, 'fa fa-info');
             }
             else{
                 closeButton.style.float = 'left';
-                L.DomUtil.addClass(closeButton, 'fa fa-question');
+                L.DomUtil.addClass(closeButton, 'fa fa-info');
             }
         }
         else{
             if(this._isTopPosition){
                 closeButton.style.float = 'right';
-                L.DomUtil.addClass(closeButton, 'fa fa-question');
+                L.DomUtil.addClass(closeButton, 'fa fa-info');
             }
             else{
                 closeButton.style.float = 'right';
-                L.DomUtil.addClass(closeButton, 'fa fa-question');
+                L.DomUtil.addClass(closeButton, 'fa fa-info');
             }
         }
 
