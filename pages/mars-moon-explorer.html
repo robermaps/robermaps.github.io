@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+        <title>Mars and The Moon simple explorer</title>
+		
+        <!-- Estilos CSS de Leaflet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.0/leaflet.css" />        
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/styles/maps.css">
+		<link rel="stylesheet" href="/styles/social.css">
+		<link rel="stylesheet" href="/styles/L.Control.SlideMenu.css">
+		
+    </head>
+    <body>
+        <!-- Recuadro del map -->
+        <div id="map" style="width: 100%; height: 720px;"> </div>
+
+        <!-- Biblioteca Leaflet -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+		<script src="/js/L.Control.SlideMenu.js"></script>		
+		<script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>		
+
+			
+        <!-- Script en el que se configura el recuadro del map y las capas que se cargaran -->
+        <script>
+					
+            var map = L.map('map',{
+				center: [0,0],
+				<!-- crs: crs, -->
+				continuousWorld: true,
+				worldCopyJump: false,
+				zoom: 0
+			
+			});     
+			
+			var attribution = '<a href="https://www.openplanetary.org/opm">© OpenPlanetaryMap</a>'
+
+			var mars1 = new L.tileLayer('https://cartocdn-gusc.global.ssl.fastly.net/opmbuilder/api/v1/map/named/opm-mars-basemap-v0-2/all/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 8,
+                minZoom: 2,
+				tms: false
+            });
+            
+            var mars2 = new L.tileLayer('http://s3-eu-west-1.amazonaws.com/whereonmars.cartodb.net/mola-color/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 6,
+                minZoom: 2,
+				tms: true
+            });
+
+            var mars3 = new L.tileLayer('http://s3-eu-west-1.amazonaws.com/whereonmars.cartodb.net/viking_mdim21_global/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 7,
+                minZoom: 2,
+				tms: true
+            });
+			
+			var mars4 = new L.tileLayer('http://s3-eu-west-1.amazonaws.com/whereonmars.cartodb.net/celestia_mars-shaded-16k_global/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 5,
+                minZoom: 2,
+				tms: true
+            });
+			
+			var mars5 = new L.tileLayer('http://s3-eu-west-1.amazonaws.com/whereonmars.cartodb.net/mola_color-noshade_global/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 6,
+                minZoom: 2,
+				tms: true
+            });
+			
+			var mars6 = new L.tileLayer('http://s3-eu-west-1.amazonaws.com/whereonmars.cartodb.net/mola-gray/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 6,
+                minZoom: 2,
+				tms: true
+            });
+			
+			var mars7 = new L.tileLayer('https://s3.us-east-2.amazonaws.com/opmmarstiles/hillshade-tiles/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 6,
+                minZoom: 2,
+				tms: true
+            });
+			
+			var moon1 = new L.tileLayer('https://cartocdn-gusc.global.ssl.fastly.net/opmbuilder/api/v1/map/named/opm-moon-basemap-v0-1/all/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 6,
+                minZoom: 2,
+				tms: false
+            }).addTo(map);
+			
+			var moon2 = new L.tileLayer('https://s3.amazonaws.com/opmbuilder/301_moon/tiles/w/hillshaded-albedo/{z}/{x}/{y}.png', {  //capa de tipo mosaico
+                attribution: attribution,
+                maxZoom: 6,
+                minZoom: 2,
+				tms: true
+            });
+			
+            var capasBase = {
+				'Moon Basemap': moon1,
+				'Moon Hillshade Albedo': moon2,
+				'Mars Basemap': mars1, 
+				'Mars Elevation': mars5,
+				'Mars Shaded Elevation': mars2, 
+				'Mars Elevation Grayscale': mars6,
+				'Mars Viking': mars3, 
+				'Mars Surface': mars4, 				
+				'Mars Hillshade': mars7
+				}
+
+            L.control.layers(capasBase).addTo(map);
+			
+			L.control.resetView({
+				position: "topleft",
+				title: "Reset view",
+				latlng: L.latLng([0,0]),
+				zoom: 0,
+			}).addTo(map);
+			
+			var contents = ''
+			contents += '<div align=center><h1>Explora imágenes de Marte y la Luna</h1></div>'			
+			contents += '<div align=center><p>Por Roberto Jiménez</p></div>'
+			contents += '<p>Puedes encontrarme <a href="https://roberer.github.io">en mi portfolio</a> y en las redes:</p>'
+			contents += '<div align=center ><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a><a href="https://github.com/roberer" class="fa fa-github"></a></div>'
+			
+			var slideMenu = L.control.slideMenu('', {position: 'bottomright'}).addTo(map);
+			slideMenu.setContents(contents);
+						
+        </script>
+
+    </body>
+</html>
