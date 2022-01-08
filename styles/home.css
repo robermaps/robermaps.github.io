@@ -58,6 +58,10 @@ img {
 	padding: 0px 0px 20px 0px;
 	
 }
+
+.contenedor img {
+    filter: brightness(0.8);
+}
  
 
 .centrado{
