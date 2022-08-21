@@ -1,0 +1,42 @@
+/* ICONOS SOCIALES */
+
+div.social{
+	text-align:right;
+}
+
+.fa {
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-twitter {
+  color: #55ACEE;
+  
+}
+
+.fa-linkedin {
+  color: #007bb5;
+  
+}
+
+.fa-github {
+  color: #000000;
+  
+}
+
+.fa-info {
+  color: #989696;
+  width: 30px;
+  height: 30px;
+}
+
+
+

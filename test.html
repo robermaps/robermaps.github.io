@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
 	<title>Portfolio - Rober J</title>	
 	
 	<meta charset="utf-8"><meta http-equiv="content-language" content="es-es">
@@ -9,67 +10,83 @@
 
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/styles/social.css">
-	<link rel="stylesheet" href="/styles/styles.css">
-	<link rel="stylesheet" href="/styles/home.css">
-	<link rel="stylesheet" href="styles/cartoteca.css">
+	<link rel="stylesheet" href="styles_v2/social.css">
+	<link rel="stylesheet" href="styles_v2/styles.css">
+	<link rel="stylesheet" href="styles_v2/home.css">
+	<link rel="stylesheet" href="styles_v2/cartoteca.css">
 	
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 		
-<style id="__web-inspector-hide-shortcut-style__">
-.__web-inspector-hide-shortcut__, .__web-inspector-hide-shortcut__ *, .__web-inspector-hidebefore-shortcut__::before, .__web-inspector-hideafter-shortcut__::after
-{
-visibility: hidden !important;
-}
-</style></head>
+
+</head>
 
 <body>
 
-<div class="social">
-<a href="https://twitter.com/roberer_" class="fa fa-twitter"></a>
-<a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
-<a href="https://github.com/roberer" class="fa fa-github"></a>
-</div>
+	
 												
 	<div class="cabecera">
+
+		<div class="navbar">
+			<ul>
+				<li><a class="active" href="#home">Proyectos</a></li>
+				<li><a href="#news">Apuntes y tutoriales</a></li>
+				<li><a href="#contact">Favoritos</a></li>
+				<li><a href="#contact">Contacto</a></li>
+				<li style="float:right"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></li>
+				<li style="float:right"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></li>
+				<li style="float:right"><a href="https://github.com/roberer" class="fa fa-github"></a></li>
+			</ul>
+		</div>
+
+		<div class="navbar2" onclick="myFunction(this)">
+			<div class="bar1"></div>
+			<div class="bar2"></div>
+			<div class="bar3"></div>
+		</div>
+
+		<script>
+			function myFunction(x) {
+			  x.classList.toggle("change");
+			}
+			</script>
 			
-			<div class="mifoto">
-				<img alt="Roberer" src="https://raw.githubusercontent.com/roberer/roberer.github.io/main/img/img1.JPG">
-			</div>
+		<div class="mifoto">
+			<img alt="Roberer" src="https://raw.githubusercontent.com/roberer/roberer.github.io/main/img/img1.JPG">
+		</div>
 
 		<h1><strong>Roberto Jiménez</strong></h1>
+
 		<h2 align="center">Geospatial &amp; GIS specialist</h2>
 		
 		<div class="about">
 			<p>
 				¡Hola! Bienvenido a mi portfolio, donde comparto mi trabajo y el material que me resulta interesante. 
-							</p>
+			</p>
 		</div>
-			
+
+		
 	</div>
-	
+
 	
 
 	<div class="cartoteca">
 	
 			<div class="row">
 			  
-			  
-			  
-			  <div class="column" style="background-color:#0;">
-			  
-				<a href="https://www.ventusky.com/">
-					<div class="polaroid">
-					  
-						<img alt="visor climático ventusky" src="https://i.imgur.com/714hjPI.jpg" class="img-responsive" width="100%">
-					  
-					  <div class="container">
-						<h2>España desde el cielo</h2>
-						<p>Bot de Twitter que postea una imagen de satélite aleatoria cada día</p>
-					  </div>
-					</div>
-				</a>
+				<div class="column" style="background-color:#0;">
 				
+					<a href="https://www.ventusky.com/">
+						<div class="polaroid">
+						
+							<img alt="visor climático ventusky" src="https://i.imgur.com/714hjPI.jpg" class="img-responsive" width="100%">
+						
+							<div class="container">
+								<h2>España desde el cielo</h2>
+								<p>Bot de Twitter que postea una imagen de satélite aleatoria cada día</p>
+							</div>
+						</div>
+					</a>
+					
 				</div>
 
 				<div class="column" style="background-color:#0;">

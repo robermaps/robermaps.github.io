@@ -1,0 +1,176 @@
+div.home {
+	max-width: 1240px;
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+	
+}
+
+
+div.mifoto {
+	text-align: center;
+}
+
+div.mifoto > img {
+	border-radius: 100px;
+	height: 200px;
+	width: 200px;
+}
+
+img {
+    border-radius: 5px;
+}
+
+
+
+/* COLUMNAS */
+
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+@media screen and (max-width: 600px) {
+  .column {
+	width: 100%;
+  }
+}
+
+/* BARRA NAVEGACION */
+
+div.navbar {
+  
+  max-width: 1240px;
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+  padding-bottom: 30px;
+  
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+  
+  
+}
+
+li {
+  float: left;
+  padding-right: 5px;
+}
+
+li a {
+  display: block;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 8px 8px;
+  text-decoration:none;
+  border-radius: 0px;
+}
+
+li a:hover:not(.active) {
+  background-color: rgb(222, 222, 222);
+  color:#000000;
+}
+
+.active {
+  background-color: #4f4f4f;
+  color:#ffffff;
+ 
+}
+
+
+@media only screen and (max-width: 600px) {
+  div.navbar {
+    display: none;
+  }
+
+}
+
+div.navbar2 {
+  
+  float: right;
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+  padding-bottom: 30px;
+
+}
+
+.container {
+  display: inline-block;
+  cursor: pointer;
+  
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+  
+}
+
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+@media only screen and (min-width: 600px) {
+  div.navbar2 {
+    display: none;
+  }
+
+}
+
+
+/* DESTACADO */
+
+.contenedor{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+	padding: 0px 0px 20px 0px;
+	
+}
+
+.contenedor img {
+    filter: brightness(0.8);
+}
+ 
+
+.centrado{
+    position: absolute;
+    top: 50%;
+    transform: translate(12.5%, -50%);
+    color: white;
+    text-shadow:5px 5px 5px #000000;
+    width: 280px;
+    height: 150px;
+}
+
