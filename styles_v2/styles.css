@@ -38,7 +38,7 @@ div.about {
 }
 
 div.cabecera {
-	max-width: 1240px;
+	max-width: 100%;
 	text-align: left;
 	margin-left:auto;
 	margin-right:auto;
