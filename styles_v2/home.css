@@ -82,7 +82,7 @@ li a {
   text-align: center;
   padding: 8px 8px;
   text-decoration:none;
-  border-radius: 0px;
+  border-radius: 5px;
 }
 
 li a:hover:not(.active) {
