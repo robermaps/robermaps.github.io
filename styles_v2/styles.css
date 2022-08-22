@@ -1,6 +1,5 @@
 /* ESTRUCTURA GENERAL */
 
-
 body { 
 	background-color: #ffffff;
 	font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -94,7 +93,7 @@ div.par {
 	margin-right:20px;
 }
 
-
+/* -------------  NAVEGACIÓN ------------- */
 /* MOBILE MENU    */
 
 .overlay {
@@ -147,4 +146,141 @@ div.par {
 	top: 15px;
 	right: 35px;
 	}
+  }
+
+
+  /* BARRA NAVEGACION PC */
+
+div.navbar {
+  
+	max-width: 100%;
+	  text-align: center;
+	  margin-left:auto;
+	  margin-right:auto;
+	padding-bottom: 10px;
+	
+  }
+  
+  ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #ffffff;
+	
+	
+  }
+  
+  li {
+	float: left;
+	padding-right: 5px;
+  }
+  
+  li a {
+	display: block;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	padding: 8px 8px;
+	text-decoration:none;
+	border-radius: 5px;
+  }
+  
+  li a:hover:not(.active) {
+	background-color: rgb(222, 222, 222);
+	color:#000000;
+	
+  }
+  
+  .active {
+	background-color: #4f4f4f;
+	color:#ffffff;
+	font-size: larger;
+  }
+  
+  
+  @media only screen and (max-width: 600px) {
+	div.navbar {
+	  display: none;
+	}
+  }
+  
+  
+  
+  div.spacer {
+	width: 100%;
+	height: 30px;
+  
+  }
+  
+  
+  
+  
+  div.navbar2 {
+  
+	  position:fixed;
+	top: 5px;
+	right: 5px;
+	z-index: 10;
+  }
+  
+  .container {
+	width: 100%;
+	display: block;
+	cursor: pointer;
+	
+  }
+  
+  .bar1, .bar2, .bar3 {
+	width: 35px;
+	height: 5px;
+	background-color: #333;
+	margin: 6px 0;
+	
+  }
+  
+  
+  @media only screen and (min-width: 600px) {
+	div.navbar2 {
+	  display: none;
+	}
+  
+	div.navbar3 {
+	  display: none;
+	  
+	}
+  
+	div.spacer {
+	  display: none;
+	  
+	}
+	
+  
+  }
+  
+  
+  /* BARRA NAVEGACIÓN MOVIL   */
+  
+  div.navbar3 {
+	
+	width: 100%;
+	  text-align: center;
+	  margin-left:auto;
+	  margin-right:auto;
+	padding: 0px;
+	position: fixed;
+	z-index: 9;
+	
+	
+	
+  }
+  
+  div.navbar3 > ul {
+	list-style-type: none;
+	
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: transparent;
+	
+	
   }
