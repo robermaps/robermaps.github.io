@@ -9,6 +9,7 @@ div.home {
 
 div.mifoto {
 	text-align: center;
+  padding-top: 30px;
 }
 
 div.mifoto > img {
