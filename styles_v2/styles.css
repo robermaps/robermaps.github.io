@@ -127,8 +127,8 @@ div.par {
 	transition: 0.3s;
   }
   
-  .overlay a:hover, .overlay a:focus {
-	color: #f1f1f1;
+  .overlay a:hover, .overlay a:focus, a.active2 {
+	color: #ffffff;
   }
   
   .overlay .closebtn {
@@ -138,10 +138,7 @@ div.par {
 	font-size: 60px;
   }
 
- .overlay .active2 {
-	color:#ffffff;
-   
-  }
+  
   
   @media screen and (max-height: 450px) {
 	.overlay a {font-size: 20px}

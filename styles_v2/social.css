@@ -40,3 +40,11 @@ div.social{
 
 
 
+/* SOCIAL MOBILE */
+
+div.social-mobile {
+  align-items:center;
+  justify-content:center;
+  display:flex;
+}
+
