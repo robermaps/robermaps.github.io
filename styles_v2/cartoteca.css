@@ -49,6 +49,12 @@ div.container {
 }
 
 
+@media screen and (max-width: 800px) {
+  .column {
+	width: 50%;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .column {
 	width: 100%;
