@@ -79,19 +79,9 @@ li a:hover:not(.active) {
 
 
 
-div.spacer {
 
-    width:100%;
-    height:30px;
 
-}
 
-div.seccion {
-
-  width:100%;
-  
-
-}
 
 
 div.navbar2 {
@@ -128,14 +118,8 @@ div.navbar2 {
     
   }
 
-  div.spacer {
-    display: none;
-  }
 
-  div.seccion {
-
-    display:none;
-  }
+  
 
 }
 
