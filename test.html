@@ -13,11 +13,10 @@
 	<link rel="stylesheet" href="styles_v2/social.css">
 	<link rel="stylesheet" href="styles_v2/styles.css">
 	<link rel="stylesheet" href="styles_v2/home.css">
-	<link rel="stylesheet" href="styles_v2/cartoteca.css">
 	
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
-		
 
+		
 </head>
 
 <body>
@@ -38,17 +37,45 @@
 			</ul>
 		</div>
 
-		<div class="navbar2" onclick="myFunction(this)">
+
+		<div id="myNav" class="overlay">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<div class="overlay-content">
+				<a class="active" href="https://roberer.github.io/">Proyectos</a>
+				<a href="https://roberer.github.io/tutoriales">Apuntes y tutoriales</a>
+				<a href="https://roberer.github.io/blog">Blog</a>
+				<a href="https://roberer.github.io/contacto">Contacto</a>
+				<br><br>
+				
+					<div style="align-items:center; justify-content:center; display:flex">
+						<a href="https://twitter.com/roberer_" class="fa fa-twitter"></a>
+						<a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a>
+						<a href="https://github.com/roberer" class="fa fa-github"></a>
+					</div>
+				
+
+
+			</div>
+		</div>
+
+		<span style="font-size:30px;cursor:pointer" onclick="openNav()">
+		<div class="navbar2">
 			<div class="bar1"></div>
 			<div class="bar2"></div>
 			<div class="bar3"></div>
-		</div>
+		</div></span>
 
 		<script>
-			function myFunction(x) {
-			  x.classList.toggle("change");
+
+			function openNav() {
+				document.getElementById("myNav").style.width = "100%";
+				}
+
+				function closeNav() {
+				document.getElementById("myNav").style.width = "0%";
 			}
-			</script>
+
+		</script>
 
 			<div class="spacer"></div>
 			
