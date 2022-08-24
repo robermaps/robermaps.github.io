@@ -1,17 +1,4 @@
-div.mifoto {
-	text-align: center;
-  
-}
 
-div.mifoto > img {
-	border-radius: 100px;
-	height: 200px;
-	width: 200px;
-}
-
-img {
-    border-radius: 5px;
-}
 
 
 /* CAJAS */
