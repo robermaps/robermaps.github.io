@@ -2,7 +2,7 @@ L.Control.SlideMenu = L.Control.extend({
     options: {
         position: 'topleft',
         menuposition: 'topleft', // topleft,topright,bottomleft,bottomright
-        width: '300px',
+        width: '50%',
         height: '100%',
         direction: 'horizontal', // vertical or horizontal
         changeperc: '10',
