@@ -4,9 +4,10 @@ body {
 }
 html, body, #map {
     height: 100%;
-    width: 100vw;
+    width: 100%;
+    font-size: medium;
 }
 
 div.leaflet-menu {
-    max-width: 400px;
+    max-width: 500px;
 }

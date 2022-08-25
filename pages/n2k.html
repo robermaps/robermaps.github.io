@@ -26,7 +26,7 @@
     <body>
         
         <!-- Recuadro del mapa -->
-        <div id="mapa" style="width: 100%; height: 100%;"></div>
+        <div id="map" style="width: 100%; height: 100%;"></div>
 
         <!-- Biblioteca Leaflet -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
@@ -43,7 +43,7 @@
         <script>
 
             // Objeto de tipo map de leaflet que referencia al div 
-            var mapa = L.map('mapa',{ center: [49.376651,12.029839], zoom: 5});  
+            var map = L.map('map',{ center: [49.376651,12.029839], zoom: 5});  
             
             // Capas
             var n2k2006 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
@@ -54,7 +54,7 @@
                                 transparent: true,
 								attribution: '© European Environment Agency',
 				zIndex: 2
-            }).addTo(mapa);
+            }).addTo(map);
 
 			var n2k2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
                 layers: '0,1',
@@ -93,7 +93,7 @@
                 attribution: '© OpenStreetMap contributors'  
             });  
 		
-			var bing = new L.BingLayer('AlTSEdbsoNlnn7NvH59EkaGnqZUguWGRjM52Sspfvvj3iT5wdduDNZ2yYJw_mD82').addTo(mapa);
+			var bing = new L.BingLayer('AlTSEdbsoNlnn7NvH59EkaGnqZUguWGRjM52Sspfvvj3iT5wdduDNZ2yYJw_mD82').addTo(map);
 
             // CONTROLES DEL MAPA //
             
@@ -103,8 +103,8 @@
             var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
 			
             // Control de capas, escala, menu y leyenda
-            L.control.layers(capasInfo,capasBase).addTo(mapa);
-            L.control.scale().addTo(mapa);
+            L.control.layers(capasInfo,capasBase).addTo(map);
+            L.control.scale().addTo(map);
 			L.control.legend({
 				position: "bottomright",
 				title: "Leyenda",
@@ -116,20 +116,20 @@
 					type: "image",
 					url: "https://lh3.googleusercontent.com/pw/AL9nZEWEm1afx6v21Lei-SMPuO6ajJiFZO19pHNKdG4VhRpAdnTKvObA-OPMMDJnitY3OqPlKft2xMCsX75-n1xS0WyZY6Wkd2W8boYAhn24cDmfV0A5kRM9EdT-YqK0aq8miQmVA6ij71T1oUCv1oMdzMuA=w785-h556-no?authuser=1",
 				}]
-			}).addTo(mapa);
+			}).addTo(map);
 			
 			L.control.resetView({
 				position: "topleft",
 				title: "Reset view",
 				latlng: L.latLng([49.376651,12.029839]),
 				zoom: 5,
-			}).addTo(mapa);
+			}).addTo(map);
 
 			var contents = ''
 			contents += '<div align=center><h1>Mis contribuciones a la Red Natura 2000</h1></div>'			
 			contents += '<div align=center><a href="https://roberer.github.io"><img alt="Roberer" src="https://lh3.googleusercontent.com/pw/AL9nZEX0IJkXR0qqhogLeoJpvKiYmUOfsKn88vDJKxwbwN5UdDey0MIcdYyjg90OLlx0qnixDGcMdWyBp10sNL97mR0PWONxi8Owcows8KqoSGHKmf-ZsITML5aHq-H_VvParSQGWjDzp8KntRSV5XWBLSNL=w289-h286-no?authuser=1" width=150px height=150px style="border-radius:100px;"></a></div>'
-			contents += '<div align=center><p>Roberto Jiménez</p></div>'
-			contents += '<div style="padding:5px"><p>Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update.</p>'
+			contents += '<div align=center><p><i>Roberto Jiménez</i></p></div>'
+			contents += '<div style="padding: 0px 10px"><p>Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update.</p>'
 			contents += '<p>En Red Natura tuvimos que actualizar la cartografía de 2006 para detectar los cambios producidos con el 2012 para todos los espacios que conforman esta red.</p>'
 			contents += '<p>Riparian consistió en cartografiar los márgenes de (casi)todos los ríos de Europa.</p>'
 			contents += '<p>Podéis echar un vistazo al resultado de estos proyectos en este mapa realizado con Leaflet. Haciendo click se puede ver la información asociada a cada polígono.</p>'
@@ -137,7 +137,7 @@
 			contents += '<p>Puedes encontrarme <a href="https://roberer.github.io">en mi portfolio</a> y en las redes:</p></div>'
 			contents += '<div align=center ><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a><a href="https://github.com/roberer" class="fa fa-github"></a></div>'
 			
-			var slideMenu = L.control.slideMenu('', {position: 'topright'}).addTo(mapa);
+			var slideMenu = L.control.slideMenu('', {position: 'topright'}).addTo(map);
 			slideMenu.setContents(contents);
             
 
