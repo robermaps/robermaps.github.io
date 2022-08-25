@@ -1,36 +1,121 @@
 <!DOCTYPE html>
-<html>
-	<head>
-	    <title>Crear herramientas QGIS</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/> 
-		<meta charset="utf-8"/><meta http-equiv='content-language' content='es-es'>
-		<meta name="description" content="Tutorial para crear herramientas de geoprocesamiento de QGIS con Python"/>
+<html lang="es">
+<head>
+	<title>Crear herramientas en QGIS</title>	
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<meta name="google-site-verification" content="V6vOM4WVx1y0lZIvHHFBtzEfy8fyn3lMLuCdLiQkPtQ">
+	
+	<meta name="description" content="Portfolio de Roberto Jiménez - Especialista en Sistemas de Información Geográfica y Geoespacial">
+	<meta name="keywords" content="Desarrollo, Herramientas, Procesamiento, QGIS, Python">
+	<meta name="author" content="Roberto Jiménez">
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/styles/social.css"> 
-		<link rel="stylesheet" href="/styles/styles.css">	
-		<script src="/js/jquery36min.js"></script> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../styles/social.css">
+	<link rel="stylesheet" href="../styles/styles.css">
+	
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+
 		
-		<script> 
-			$(function(){
-			  $("#includedContent").load("/pages/social.html"); 
-			});
-		</script>
-		
-	</head>
+</head>
 
 	<body>
             
-		<div id="includedContent"></div>
+		<div class="cabecera">
+
+			<div class="navbar">
+				<ul>
+					<li><a href="https://roberer.github.io/">Proyectos</a></li>
+					<li><a class="active" href="https://roberer.github.io/tutoriales">Apuntes y tutoriales</a></li>
+					<li><a href="https://roberer.github.io/blog">Blog</a></li>
+					<li><a href="https://roberer.github.io/contacto">Contacto</a></li>
+					<li style="float:right"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></li>
+					<li style="float:right"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></li>
+					<li style="float:right"><a href="https://github.com/roberer" class="fa fa-github"></a></li>
+				</ul>
+			</div>
+	
+	
+			<div id="myNav" class="overlay">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<div class="overlay-content">
+					<a href="https://roberer.github.io/">Proyectos</a>
+					<a class="active2" href="https://roberer.github.io/tutoriales">Tutoriales</a>
+					<a href="https://roberer.github.io/blog">Blog</a>
+					<a href="https://roberer.github.io/contacto">Contacto</a>
+					<br><br>
+					
+						<div class="social-mobile">
+							<div style="padding-right: 10px;"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></div>
+							<div style="padding-right: 10px;"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></div>
+							<div style="padding-right: 10px;"><a href="https://github.com/roberer" class="fa fa-github"></a></div>
+						</div>
+					
+	
+	
+				</div>
+			</div>
+	
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">
+			<div class="navbar2">
+				<div class="bar1"></div>
+				<div class="bar2"></div>
+				<div class="bar3"></div>
+			</div></span>
+	
+	
+			<div class="navbar3">
+				<ul>
+					<li style="color:rgb(0, 0, 0, 0,5); font-size:larger;" onclick="openNav()"><i>/tutoriales</i>🗺️</li>
+					<li style="float:right"><span style="font-size:30px;cursor:pointer" onclick="openNav()">
+						<div class="navbar2">
+							<div class="bar1"></div>
+							<div class="bar2"></div>
+							<div class="bar3"></div>
+						</div>
+					</span></li>
+					
+				</ul>
+			</div>
+	
+			<script>
+	
+				function openNav() {
+					document.getElementById("myNav").style.width = "100%";
+					}
+	
+					function closeNav() {
+					document.getElementById("myNav").style.width = "0%";
+				}
+	
+			</script>
+	
+				<div class="spacer"></div>
+
+				<h1>Crear herramientas en QGIS</h1>
+				
+			<div class="mifoto">
+				<img alt="Roberer" src="https://raw.githubusercontent.com/roberer/roberer.github.io/main/img/img1.JPG">
+			</div>
+	
+			
+	
+			<h2 align="center">Por Roberto Jiménez</h2>
+			<h3 align="center" style="color:rgb(171, 171, 171)"><i>Geospatial & GIS specialist</i></h3>
+		
+				
+		</div>
+            
+	
 
 			
 	
-		<div class=cabecera>
-			<h1>Crear herramientas de procesamiento de QGIS</h1>
-			
 		
-			
-			<br>
-			<h3><strong>Índice</strong></h3>
+
+	<div class="cuerpo">
+
+        <h4><strong>Índice</strong></h4>
 			<div class="indice">
 							
 					<ul>
@@ -48,9 +133,6 @@
 					</ul>
 						
 			</div>
-		</div>
-
-		<div class="cuerpo">
 		
 		<p><a id="inicio"></a></p>
 

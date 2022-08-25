@@ -150,6 +150,7 @@ div.par {
 	color: #818181;
 	display: block;
 	transition: 0.3s;
+	box-sizing: unset;
   }
   
   .overlay a:hover, .overlay a:focus, a.active2 {
@@ -211,6 +212,7 @@ div.navbar {
 	text-decoration:none;
 	border-radius: 5px;
 	color:#333;
+	box-sizing: unset;
   }
 
 
