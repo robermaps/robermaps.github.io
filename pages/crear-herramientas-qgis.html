@@ -151,7 +151,9 @@
 
 <p>Las herramientas en QGIS se encuentran agrupados en proveedores dentro de la caja de herramientas de Procesos:</p>
 
-			<div style="text-align: center;"><img src="" width="200" height="200" text-align: center></div>
+<br>
+<img src="https://lh3.googleusercontent.com/pw/AL9nZEWvuHfy4CaXeA2csC_PLrmma7dgmacLwGNe4AJs50EwML0J3_VxEo62jhBLgD3J--l8LM_8OUy0LuA--lNwm0U4wwjMmOMzwWQyeXlXcTg3pn2jJC-V-rfQVQOkcNLnWNVpi0vqfJjSmkk-ZTxP9rmL=w271-h446-no?authuser=1" alt="Caja geoprocesos QGIS">
+<br>
 
 <p>Cuando decimos aquí <em>herramientas </em><strong>no nos referimos a plugins</strong>, que son extensiones de QGIS que modifican el propio programa y pueden abarcar aspectos más profundos como la interfaz gráfica. Nos referimos a los <strong>algoritmos de procesamiento</strong> del módulo <em>Processing</em> que cuentan una interfaz sencilla similar a la mostrada arriba y que podremos crearlos y añadirlos a la caja de herramientas.</p>
 
@@ -162,9 +164,9 @@
 <p>El módulo <em>processing</em> es una característica fundamental de QGIS que proporciona un entorno de trabajo para trabajar con los distintos algoritmos de geoprocesamiento que pertenecen al propio <a rel="noreferrer noopener" href="https://www.qgis.org/es/site/" target="_blank">proyecto QGIS</a>, pero que además incorpora las herramientas que otros proveedores externos como <a rel="noreferrer noopener" href="https://gdal.org/" target="_blank">GDAL</a> o <a rel="noreferrer noopener" href="https://grass.osgeo.org/" target="_blank">GRASS</a> desarrollan para la plataforma. </p>
 
 
-
-<img src="https://programapa.files.wordpress.com/2021/04/processing.png?w=1024" alt="" class="wp-image-5808" srcset="https://programapa.files.wordpress.com/2021/04/processing.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/04/processing.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/processing.png?w=300 300w, https://programapa.files.wordpress.com/2021/04/processing.png?w=768 768w, https://programapa.files.wordpress.com/2021/04/processing.png 1198w" sizes="(max-width: 1024px) 100vw, 1024px" />
-
+<br>
+<img src="https://lh3.googleusercontent.com/pw/AL9nZEUsu0E9ypJ3a24s78xun5_oUDrU1CXFVNNbHYOW3OFQGCEClyIeAQHhbvFAhit0FMqBYIXgHCuROOrEiiCQAYQVpK17t_gXoEvd_-KedsKmj47XjyM-_IXk0rzn5J9b7HjTDMb9RJcUoNCVWcIWMsX9=w1198-h612-no?authuser=1" alt="Módulo Processing QGIS" />
+<br>
 
 
 <p>Incluso es posible añadir otras aplicaciones externas a través de los plugins de QGIS como <a rel="noreferrer noopener" href="http://lastools.org/" target="_blank">LASTools</a> o <a rel="noreferrer noopener" href="https://www.r-project.org/" target="_blank">R</a>. El caso es que este módulo se encuentra programado en Python, y como tal podremos <strong>acceder a él a través de la consola de Python de QGIS</strong> que podemos encontrar en la misma caja de procesos. </p>
@@ -189,9 +191,9 @@
 <p>La caja de herramientas de Procesos posee un icono de Python que desplega un menú con varias opciones. Una de ellas nos permite generar un sencillo script a modo de plantilla con comentarios sobre cada una de las partes que debe poseer el código para que la herramienta funcione correctamente. </p>
 
 
-
-<img src="https://programapa.files.wordpress.com/2021/04/image-5.png?w=321" alt="" class="wp-image-5955" srcset="https://programapa.files.wordpress.com/2021/04/image-5.png 321w, https://programapa.files.wordpress.com/2021/04/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/image-5.png?w=300 300w" sizes="(max-width: 321px) 100vw, 321px" />
-
+<br>
+<img src="https://lh3.googleusercontent.com/pw/AL9nZEV4zkiAE887fyI4kJJuFZvm6oin0Ih_sZgNdUgZ9fD4haklahKUHQPtzQgF1eTlMOjJ7883ZGk2VLpGYHthd1l4DQblbMz2aXXyVo0ohohxuq1XwWyM9mexIAG2QZSxPBY-XtK2l-OUewy8-bCt8CYm=w321-h225-no?authuser=1" alt="Crear scripts QGIS" />
+<br>
 
 
 <p>Pero también nos permite crear scripts de 0, abrir alguno existente que tengamos en nuestro PC o incorporarlo a la caja de herramientas para tenerlo a mano.</p>
@@ -230,13 +232,19 @@
 
 
 
-<ol><li>El nombre de la <strong><span class="has-inline-color has-luminous-vivid-orange-color">nueva clase</span></strong> y la clase de la que heredará los métodos y variables (<em>QgsProcessingAlgorithm</em>)</li><li>Los nombres de todos los <span class="has-inline-color has-vivid-green-cyan-color"><strong>parámetros</strong> </span>(atributos) que se van a usar en la herramienta</li><li>La <strong><span class="has-inline-color has-vivid-cyan-blue-color">información </span></strong>básica de la herramienta como su nombre, descripción, enlace de ayuda&#8230;</li><li>Las <strong><span class="has-inline-color has-vivid-green-cyan-color">propiedades </span></strong>de todos los parámetros de entrada y salida del algoritmo</li><li>Las funciones de <strong><span class="has-inline-color has-vivid-red-color">geoproceso </span></strong>que tomarán los parámetros definidos previamente</li></ol>
+<ol>
+    <li>El nombre de la <strong>nueva clase</strong> y la clase de la que heredará los métodos y variables <i>QgsProcessingAlgorithm</i></li>
+    <li>Los nombres de todos los <strong>parámetros</strong> (atributos) que se van a usar en la herramienta</li>
+    <li>La <strong>información</strong>básica de la herramienta como su nombre, descripción, enlace de ayuda&#8230;</li>
+    <li>Las <strong>propiedades </strong>de todos los parámetros de entrada y salida del algoritmo</li>
+    <li>Las funciones de <strong>geoproceso </strong>que tomarán los parámetros definidos previamente</li>
+</ol>
 
+<br>
 
+<img src="https://lh3.googleusercontent.com/pw/AL9nZEW3xZ3HICiXHxLHsxkxh4J7PFS9qE_uOzY35J4qYUAH6ZqY84wOP5SIgwbwEV2X15rEL2rNcrbkdMOGAvV19TgehSAcQMTk242nGycSck0vB4XuHrQiNIqGRY11liYZxH5eW3xJGTbbMnV-WK7d2GI1=w1038-h754-no?authuser=1" alt="Estructura herramienta geoproceso QGIS"  />
 
-<img src="https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=1024" alt="" class="wp-image-5990" srcset="https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=150 150w, https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=300 300w, https://programapa.files.wordpress.com/2021/04/image-8-1.png?w=768 768w, https://programapa.files.wordpress.com/2021/04/image-8-1.png 1038w" sizes="(max-width: 1024px) 100vw, 1024px" />
-
-
+<br>
 
 
 
