@@ -145,7 +145,7 @@
 
 
 
-
+<br>
 
 
 <p><a id="script"></a></p>
@@ -184,7 +184,7 @@
 
 
 
-
+<br>
 
 <p><a id="preparacion"></a></p>
 
@@ -223,9 +223,9 @@ if os.path.exists(carpeta):
 else:
     os.mkdir(carpeta)
     print('Carpeta creada')
-</pre><br>
+</pre>
 
-
+<br>
 
 
 
@@ -235,9 +235,9 @@ else:
 <h2>Generación del mosaico</h2>
 
 
-
-<img src="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024" alt="" class="wp-image-7282" srcset="https://programapa.files.wordpress.com/2021/07/image-2.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-2.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-2.png 1363w" sizes="(max-width: 1024px) 100vw, 1024px" />
-
+<br>
+<img src="https://lh3.googleusercontent.com/hOcHX-KWPp6fMmhzqD77-v14twVArRKd8kuKa_a09v0HprKzdfbMXaKWrXZadbDRU4GK0ktrY4lntKfechD8JUUwWySzfoV_1Z5d1oXe7N_g-teEvropAprECNc2kQTDUAMmByEYef9zm_rY_fsGRXkLWBnavwLfIMxkqQRVHYMv1xWH_TUOxF5UYA5IdwDET-xJrZfKF0wF-9GNikSbNL39pBuebUw2_fzvS46RFlzCNVJ0u-4nnr8qeYfIP8IxLBBbLCWLuL8CkFISly7E93teJakBo-DI8WlN2v2vLbADseWj-5qeeNulrBIKNEo2jJ_7TUFe423A4ZAqzxUltP6W3yrho6yKKNRMTXZWyGuCDkN3EI0EVRcKu6KGDKSfLSmm-SkjlfClBXE3JyQEZAbq7ySP3nYKMUnPUIPwYcDZAa7YycPyY5sOyxNJHEt2dOaWN3YJZn0YxSmPqzfHDHIKciu9_zmKunh3H2a0TpUXtveVSUdkUfH_80SDP0ZNb3hno7j78RLVwTlL8Up8Bb-C1xNZ4pzfHd0MAiefrGUREj8rl5LyXF2JCWTIQXzxTpl9mw2uxvkNvGcc8egBVxyuUlpVDZoXsV4ZWCRZBHY7JWEQjVGNwi3-cg0BIq4nz8-NRd-o34CcF9QAQslYHjTmFpTCOc8XeqLiQ9921e2wsBVracrb_QOKwhi6oCgUfsZ-MXP2qRoPUiosYR6dLFq5vn_9ZvEjVRztaIYb6T1EoSA99C-6ge31Y9Kr6FMikVfxn2-vEmTZHgWxzp5_4ZbCn2P1VzZUaeN0=w1145-h571-no?authuser=1" alt="Mosaico Ráster"  />
+<br>
 
 
 <p>El siguiente paso es generar un mosaico que una todos estos MDE en uno solo, del cual extraeremos las curvas de nivel. Para ello, crearemos un ráster virtual que nos permita trabajar más adelante con todas estas imágenes pero sin generar un nuevo y pesado archivo.</p>
@@ -264,7 +264,7 @@ print('Raster virtual generado')
 
 
 
-
+<br>
 
 <p><a id="curvas"></a></p>
 
@@ -290,17 +290,18 @@ print(f'Reproyectando las curvas de nivel a EPSG:{codigo}')
 os.system(f'ogr2ogr -t_srs EPSG:{codigo} cn{distancia}_rep.shp cn{distancia}.shp')
 
 print(f'Las curvas se han reproyectado a EPSG:{codigo}')
-</pre><br>
+</pre>
+<br>
 
 
 
 
 
 
-<img src="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024" alt="" class="wp-image-7283" srcset="https://programapa.files.wordpress.com/2021/07/image-3.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-3.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-3.png 1168w" sizes="(max-width: 1024px) 100vw, 1024px" />
+<img src="https://lh3.googleusercontent.com/S2kUz_hYNcS0edh7GO01TlWWKHTbZCUVmXNzpT82t1dKpqIHV305JbqiZKuQQliAv1vtqCiBsqcQhQdN6KAFUiCjQQKviFhshDXkQcHxrdLa7RxBnYCO-nXuHAMpccC0plG2-OTwRgz1pIJj9oy8QXUED9LCzpZD8OvOnB9ytrjsvUP0qFiE0Ft7k2la0pvCuXgAVb8FljraLA96uxpPsl9abIhl5DWcAxDkLWp0y7mIXDAZ00904bl32KVXWSbvYPhnZf4qd9yYxuDLqhd6JtweErmBkHG--2LgPtRHuNsNdUnE4EMgCnGqNvJHjleTgrF8tZ9VzQcDRwLE9SLKFSHbAyou8Hhl38OMO34TZdBh59jhI4mD3Y9mhanMQSYKQ4gJPhZkT6uny2GO-zpkMzNU4h0sjsiFNrvLPqmZT1JQFHHmiR5hCUxIQHJ_JAG19FiI4YQZbdzTzpBnQAKAk0SZIlsWBRV86TwzmQxzvLaihTFDoOXmwkHO9ClaxlpXbP8igvqRydbV-PZ5RKkBtrwBDUcOEwKIg_18b6tA39YgIasdf1zJ1qd2ZwrYTMO_Gaw6-1pWca4aOIQDVwhnO4D429gcFSoABkrGwOkeVGIbWMqKcnfCAU7pxF17KYW_wYQ_XPnr81rIEXS3wF4gzZjxTotX3bI1Gb5V-67lMPc-n6YXug_aMtD7AFsl9qhwZfJM7vdJuD25S-b_TLvO409anjjR7D5NTcYpsbp6_JgRJUxVZeSHFBkuZC85stGMpuUJB2ZhujjY3wLj6xqsrO9EF16feVqs5Dqg=w1168-h769-no?authuser=1" alt="Curvas de nivel España" />
 
 
-
+<br>
 
 
 
@@ -375,13 +376,13 @@ print('Terminado')
 
 <p>El resultado es satisfactorio salvo por errores de geometría en la provincia de Álava y en la isla de Mallorca, pero nada grave. El GeoPackage contiene las curvas de nivel separadas según la provincia:</p>
 
+<br>
 
+<img src="https://lh3.googleusercontent.com/_BeFQrz5V9OafidaHgR8HPrMI1WMdeOf19oG3jAAUIJtIM30CEPfzERviUq9_mtCa9RwhiQrtHu83l83VEVKdzsS3MnG2E-8j_hmNyTVmy7LivWGpMg6OAIpcCNiZQ8hEhG5ZgnHRQg22galw7kv-NL2_hrLeQi7L7vRdTBf0h2CXVJekNfhuC34TsvbbrYJyuu30_8NGHW8_SIhvMxfEabch7KYbFeddBGAJic4OWZ5giuEAINcu57055Pxvrf_sVmflN6ordxc8c-s4aFioArcl1s5zI7t8LQvyu7ySD4czmlg97qDyLcdWj3BPlhP8fpeLLePfAXWu9F4VPvcPiJPs70AKxO5B9yAlzvxbTAgp0CcuFq7f99XhZVEgFs1K1AMTs3K4ZWVO2JAMp9SR-l9QJUP2Rv8jVzywpKUvcUPgPtoiSwN76KBOh2_REfZIS3rAIjHdxQlnl1wjznaez0_uByhJ4l7agMK0ITvO7-6p-ymDSz0i_JX_nJOfHMc_2rqBIkTSquXGEDeaHJFrn8nqihDQT-LnDP9kQvTQ4tKy7yTjMTHujkxKXhaG3EfUj59N5C0Cph-hYLJ_VGxTKoT1ffcRWoe00Xkh9qhmDacweQhqaodnYCHIZD1wg1ch8GlOQGk0BQx-kq6NUgdLwvzfCmK8mVcoiXdkW6GI9eJcqaylYgZDj66hdnLaKtlkykOZTsntbSyxn8RneWrWwCknhTCYh3bRTDBpYisx0nz-DF1esDv6OuiVyX5PXD2KxsOEYwVb30UZ6MilRFiyHf2J8CRqSkXUVoX=w1516-h803-no?authuser=1" alt="Recorte curvas de nivel" />
 
-<img src="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024" alt="" class="wp-image-7287" srcset="https://programapa.files.wordpress.com/2021/07/image-5.png?w=1024 1024w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=150 150w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=300 300w, https://programapa.files.wordpress.com/2021/07/image-5.png?w=768 768w, https://programapa.files.wordpress.com/2021/07/image-5.png 1516w" sizes="(max-width: 1024px) 100vw, 1024px" />
+<br>
 
-
-
-<p>Tenéis el código completo <a href="https://github.com/roberer/GDAL-OGR/blob/main/mosaico_recorte_curvas.py" target="_blank" rel="noreferrer noopener"><span style="text-decoration:underline;">en mi GitHub</span></a></p>
+<p>Tenéis el código completo <a href="https://github.com/roberer/Python-Apuntes/blob/main/scripts/mosaico-recorte-curvas.py" target="_blank" rel="noreferrer noopener"><span style="text-decoration:underline;">en mi GitHub</span></a></p>
 		
 		</div>
 	
