@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Crear mapas online gratis</title>	
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<meta name="google-site-verification" content="V6vOM4WVx1y0lZIvHHFBtzEfy8fyn3lMLuCdLiQkPtQ">
+	
+	<meta name="description" content="Portfolio de Roberto Jiménez - Especialista en Sistemas de Información Geográfica y Geoespacial">
+	<meta name="keywords" content="crear, mapas, online, gratis">
+	<meta name="author" content="Roberto Jiménez">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../styles/social.css">
+	<link rel="stylesheet" href="../styles/styles.css">
+	
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+		
+</head>
+
+	<body>
+            
+		<div class="cabecera">
+
+			<div class="navbar">
+				<ul>
+					<li><a href="https://roberer.github.io/">Proyectos</a></li>
+					<li><a href="https://roberer.github.io/tutoriales">Apuntes y tutoriales</a></li>
+					<li><a class="active" href="https://roberer.github.io/blog">Blog</a></li>
+					<li><a href="https://roberer.github.io/contacto">Contacto</a></li>
+					<li style="float:right"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></li>
+					<li style="float:right"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></li>
+					<li style="float:right"><a href="https://github.com/roberer" class="fa fa-github"></a></li>
+				</ul>
+			</div>
+	
+	
+			<div id="myNav" class="overlay">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<div class="overlay-content">
+					<a href="https://roberer.github.io/">Proyectos</a>
+					<a href="https://roberer.github.io/tutoriales">Tutoriales</a>
+					<a class="active2" href="https://roberer.github.io/blog">Blog</a>
+					<a href="https://roberer.github.io/contacto">Contacto</a>
+					<br><br>
+					
+						<div class="social-mobile">
+							<div style="padding-right: 10px;"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></div>
+							<div style="padding-right: 10px;"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></div>
+							<div style="padding-right: 10px;"><a href="https://github.com/roberer" class="fa fa-github"></a></div>
+						</div>
+					
+	
+	
+				</div>
+			</div>
+	
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">
+			<div class="navbar2">
+				<div class="bar1"></div>
+				<div class="bar2"></div>
+				<div class="bar3"></div>
+			</div></span>
+	
+	
+			<div class="navbar3">
+				<ul>
+					<li style="color:rgb(0, 0, 0, 0,5); font-size:larger;" onclick="openNav()"><i>/blog</i>🗞️</li>
+					<li style="float:right"><span style="font-size:30px;cursor:pointer" onclick="openNav()">
+						<div class="navbar2">
+							<div class="bar1"></div>
+							<div class="bar2"></div>
+							<div class="bar3"></div>
+						</div>
+					</span></li>
+					
+				</ul>
+			</div>
+	
+			<script>
+	
+				function openNav() {
+					document.getElementById("myNav").style.width = "100%";
+					}
+	
+					function closeNav() {
+					document.getElementById("myNav").style.width = "0%";
+				}
+	
+			</script>
+	
+				<div class="spacer"></div>
+
+				<h1>Crear mapas online gratis</h1>
+				
+			<div class="mifoto">
+				<img alt="Roberer" src="https://lh3.googleusercontent.com/pw/AL9nZEX0IJkXR0qqhogLeoJpvKiYmUOfsKn88vDJKxwbwN5UdDey0MIcdYyjg90OLlx0qnixDGcMdWyBp10sNL97mR0PWONxi8Owcows8KqoSGHKmf-ZsITML5aHq-H_VvParSQGWjDzp8KntRSV5XWBLSNL=w289-h286-no?authuser=1">
+			</div>
+	
+			
+	
+			<h2 align="center">Por Roberto Jiménez</h2>
+			<h3 align="center" style="color:rgb(171, 171, 171)"><i>Geospatial & GIS specialist</i></h3>
+		
+				
+		</div>
+            
+
+		<div class="cuerpo">
+
+<p>Resumiendo, hay 4 formas de hacer mapas: a mano, con un sistema de información geográfica (GIS), programando... <b>y usando una de las siguientes soluciones no code en la nube con las que cualquiera puede generar un mapa en cuestión de minutos, sin tener que usar GIS ni programar:</b></p>
+<h4 id="-a-rel-noreferrer-noopener-href-https-www-mapchart-net-target-_blank-mapchart-a-"><a rel="noreferrer noopener" href="https://www.mapchart.net/" target="_blank">Mapchart</a></h4>
+<blockquote>
+<p>Crea sencillos mapas políticos coloreando y generando una leyenda por regiones a nivel de continente, país o provincia</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-pixelmap-amcharts-com-target-_blank-pixel-map-generator-a-"><a rel="noreferrer noopener" href="https://pixelmap.amcharts.com/" target="_blank">Pixel Map Generator</a></h4>
+<blockquote>
+<p>Esta aplicación, más próxima al diseño que a lo geográfico, permite generar mapas por continentes y paises dividiéndolos en una malla de píxeles que pueden ser coloreados a mano</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-mapmaker-nationalgeographic-org-target-_blank-national-geographic-mapmaker-a-"><a rel="noreferrer noopener" href="https://mapmaker.nationalgeographic.org/" target="_blank">National Geographic MapMaker</a></h4>
+<blockquote>
+<p>Genial aplicación para crear mapas sencillos y muy vistosos añadiendo geometrías gracias a las imágenes y las capas provistas por National Geographic</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-azgaar-github-io-fantasy-map-generator-target-_blank-azgaar-s-fantasy-map-generator-a-"><a rel="noreferrer noopener" href="https://azgaar.github.io/Fantasy-Map-Generator/" target="_blank">Azgaar&#39;s Fantasy Map Generator</a></h4>
+<blockquote>
+<p>Herramienta para crear mapas imaginarios de estilo medieval-fantástico</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-gmapgis-com-target-_blank-gmapgis-a-"><a rel="noreferrer noopener" href="https://gmapgis.com/" target="_blank">GmapGIS</a></h4>
+<blockquote>
+<p>Pinta geometrías y añade marcadores sobre Google Maps</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-pdfmapmaker-com-target-_blank-pdf-map-maker-a-"><a rel="noreferrer noopener" href="https://pdfmapmaker.com/" target="_blank">PDF Map Maker</a></h4>
+<blockquote>
+<p>Una sencilla pero fantástica aplicación con la que generar sencillos mapas en formato PDF a partir mapas base con opciones de inclinacoón, rotación, escala y tamaño de impresión</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-maphub-net-target-_blank-maphub-a-"><a rel="noreferrer noopener" href="https://maphub.net/" target="_blank">MapHub</a></h4>
+<blockquote>
+<p>Añade ítems tales como puntos, líneas, etiquetas o fotografías sobre distintos lienzos para generar mapas interactivos de forma rápida</p>
+</blockquote>
+<h4 id="-a-rel-noreferrer-noopener-href-https-www-geodevelopers-org-target-_blank-scribblemaps-a-"><a rel="noreferrer noopener" href="https://www.geodevelopers.org/" target="_blank">Scribblemaps</a></h4>
+<blockquote>
+<p>Aplicación similar a MapHub pero con más herramientas de edición y la posibilidad de incorporar tus propios archivos kml, shp o json</p>
+</blockquote>
+<h4 id="-a-href-https-www-visme-co-es-mapas-target-_blank-rel-noreferrer-noopener-visme-a-"><a href="https://www.visme.co/es/mapas/" target="_blank" rel="noreferrer noopener">Visme</a></h4>
+<blockquote>
+<p>Otra alternativa a la edición de mapas sobre un lienzo con la posibilidad de dibujar geometrías y añadir tus propios geodatos</p>
+</blockquote>
+<h4 id="-a-href-mapinseconds-com-target-_blank-rel-noreferrer-noopener-map-in-seconds-a-"><a href="mapinseconds.com" target="_blank" rel="noreferrer noopener">Map In Seconds</a></h4>
+<blockquote>
+<p>Permite generar mapas basados en los datos por países que tengamos en una hoja de cálculo</p>
+</blockquote>
+<h4 id="-a-href-https-ezmap-co-target-_blank-rel-noreferrer-noopener-ez-map-a-"><a href="https://ezmap.co/" target="_blank" rel="noreferrer noopener">EZ Map</a></h4>
+<blockquote>
+<p>Crea mapas personalizados basados en Google Maps y tiles de Snazzy Maps para incrustarlas en páginas web</p>
+</blockquote>
+<h4 id="-a-href-https-www-zeemaps-com-target-_blank-rel-noreferrer-noopener-zeemaps-a-"><a href="https://www.zeemaps.com/" target="_blank" rel="noreferrer noopener">ZeeMaps</a></h4>
+<blockquote>
+<p>Permite también dibujar sobre Google Maps y exportar el mapa a PDF, imagen o a través de un link</p>
+</blockquote>
+
+					
+		</div>
+	
+	</body>
+</html>
