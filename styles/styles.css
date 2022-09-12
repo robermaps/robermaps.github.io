@@ -15,6 +15,11 @@ a {
 		text-decoration:none;
 }
 
+summary:hover {
+	color: #081bcc;
+	cursor: pointer;
+}
+
 pre {
   display: block;
   font-family: Arial, Helvetica, sans-serif;
