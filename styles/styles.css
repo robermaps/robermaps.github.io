@@ -109,6 +109,17 @@ div.mifoto > img {
 	width: 200px;
 }
 
+div.logo {
+	text-align: center;
+  
+}
+
+div.logo > img {
+	border-radius: 100px;
+	
+}
+
+
 img {
     border-radius: 5px;
 }
