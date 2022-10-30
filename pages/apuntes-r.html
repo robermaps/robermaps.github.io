@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Apuntes R</title>	
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	
+	
+	<meta name="description" content="Portfolio de Roberto Jiménez - Especialista en Sistemas de Información Geográfica y Geoespacial">
+	<meta name="keywords" content="Programación, R, Apuntes">
+	<meta name="author" content="Roberto Jiménez">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../styles/social.css">
+	<link rel="stylesheet" href="../styles/styles.css">
+	
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+		
+</head>
+
+	<body>
+            
+		<div class="cabecera">
+
+			<div class="navbar">
+				<ul>
+					<li><a href="https://roberer.github.io/">Proyectos</a></li>
+					<li><a class="active" href="https://roberer.github.io/tutoriales">Apuntes y tutoriales 🗺️</a></li>
+					<li><a href="https://roberer.github.io/blog">Blog</a></li>
+					<li><a href="https://roberer.github.io/contacto">Contacto</a></li>
+					<li style="float:right"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></li>
+					<li style="float:right"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></li>
+					<li style="float:right"><a href="https://github.com/roberer" class="fa fa-github"></a></li>
+				</ul>
+			</div>
+	
+	
+			<div id="myNav" class="overlay">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<div class="overlay-content">
+					<a href="https://roberer.github.io/">Proyectos</a>
+					<a class="active2" href="https://roberer.github.io/tutoriales">Tutoriales</a>
+					<a href="https://roberer.github.io/blog">Blog</a>
+					<a href="https://roberer.github.io/contacto">Contacto</a>
+					<br><br>
+					
+						<div class="social-mobile">
+							<div style="padding-right: 10px;"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></div>
+							<div style="padding-right: 10px;"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></div>
+							<div style="padding-right: 10px;"><a href="https://github.com/roberer" class="fa fa-github"></a></div>
+						</div>
+					
+	
+	
+				</div>
+			</div>
+	
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">
+			<div class="navbar2">
+				<div class="bar1"></div>
+				<div class="bar2"></div>
+				<div class="bar3"></div>
+			</div></span>
+	
+	
+			<div class="navbar3">
+				<ul>
+					<li style="color:rgb(0, 0, 0, 0,5); font-size:larger;" onclick="openNav()"><i>/tutoriales</i>🗺️</li>
+					<li style="float:right"><span style="font-size:30px;cursor:pointer" onclick="openNav()">
+						<div class="navbar2">
+							<div class="bar1"></div>
+							<div class="bar2"></div>
+							<div class="bar3"></div>
+						</div>
+					</span></li>
+					
+				</ul>
+			</div>
+	
+			<script>
+	
+				function openNav() {
+					document.getElementById("myNav").style.width = "100%";
+					}
+	
+					function closeNav() {
+					document.getElementById("myNav").style.width = "0%";
+				}
+	
+			</script>
+	
+				<div class="spacer"></div>
+
+				<h1>Apuntes de R</h1>
+				
+			<div class="mifoto">
+				<img alt="Roberer" src="https://lh3.googleusercontent.com/pw/AL9nZEX0IJkXR0qqhogLeoJpvKiYmUOfsKn88vDJKxwbwN5UdDey0MIcdYyjg90OLlx0qnixDGcMdWyBp10sNL97mR0PWONxi8Owcows8KqoSGHKmf-ZsITML5aHq-H_VvParSQGWjDzp8KntRSV5XWBLSNL=w289-h286-no?authuser=1">
+			</div>
+	
+			
+	
+			<h2 align="center">Por Roberto Jiménez</h2>
+			<h3 align="center" style="color:rgb(171, 171, 171)"><i>Geospatial & GIS Analyst</i></h3>
+		
+				
+		</div>
+            
+	
+
+			
+	
+		
+
+	<div class="cuerpo">
+
+        <h3>🧰 Comandos básicos</h3>
+<details>
+  <summary><strong>Entorno de trabajo</strong></summary><br>
+
+  <p>Obtener información sobre una función:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+help(&#39;función&#39;)
+</pre></div>
+
+
+
+
+<p>Seleccionar directorio de trabajo:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+setwd(&#39;ruta&#39;)
+</pre></div>
+
+
+
+
+<p>Obtener directorio de trabajo:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+getwd()
+</pre></div>
+
+
+
+
+<p>Obtener ruta de instalación de R:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+.libPaths()
+</pre></div>
+
+
+
+
+<p>Mostrar lista de archivos del directorio de trabajo:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+list.files()
+</pre></div>
+
+ <br></details>
+
+ <details>
+  <summary><strong>Funciones estadísticas</strong></summary><br>
+
+  <p class="has-text-align-left">R permite hacer toda clase de operaciones estadísticas con la información que hayamos guardado como objeto mediante el uso de funciones. A continuación tenéis resumidas algunas de las más básicas con las que trabajar:</p>
+
+
+
+<p><strong>Sumar </strong>todos los valores que contenga un objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+sum(objeto)
+</pre></div>
+
+
+
+
+<p>Obtener el <strong>valor máximo</strong> del objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+max(objeto)
+</pre></div>
+
+
+
+
+<p>Obtener el <strong>valor mínimo</strong> del objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+min(objeto)
+</pre></div>
+
+
+
+
+<p><strong>Calcular la media</strong> de los valores del objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+mean(objeto)
+</pre></div>
+
+
+
+
+<p><strong>Calcular la mediana</strong> de los valores del objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+median(objeto)
+</pre></div>
+
+
+
+
+<p><strong>Calcular la desviación típica</strong> de los valores del objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+sd(objeto)
+
+</pre></div>
+
+
+
+
+<p>Generar un<strong> resumen estadístico</strong> del objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+summary(objeto)
+
+</pre></div>
+
+
+
+
+<p><strong>Redondear </strong>el valor o valores de un objeto. Por defecto redondea al entero superior a partir del 0.51 :</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+round(objeto)
+
+</pre></div>
+
+ <br></details>
+
+ <details>
+  <summary><strong>Gestión de objetos</strong></summary><br>
+
+  <p class="has-text-align-left">Las siguientes instrucciones sirven para operar a nivel básico con los objetos en R: cómo crearlos, borrarlos u obtener información de ellos.</p>
+
+
+
+<p><strong>Crear un objeto</strong> guardando bajo un nombre todo lo que vaya después del signo &#8216;=&#8217; , desde una función a una tabla, un procedimiento, un resultado, shapefiles, etc. :</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+nombre_objeto = 
+</pre></div>
+
+
+
+
+<p>Obtener un <strong>listado</strong> de los objetos creados:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+ls()
+</pre></div>
+
+
+
+
+<p><strong>Borrar </strong>un objeto:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+rm(objeto)
+</pre></div>
+
+
+
+
+<p><strong>Borrar </strong>todos los objetos de la sesión:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+rm(list=ls())
+</pre></div>
+
+
+
+
+<p><strong>Liberar memoria</strong> del garbage collector:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+gc()
+</pre></div>
+
+
+
+
+<p><strong>Crear un rango</strong>, devolviendo en este caso una lista con todos los valores entre el 1 y el 10. Admite números negativos y el intervalo es siempre 1:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+1:10
+</pre></div>
+
+
+
+
+<p><strong>Crear un vector</strong>. Los vectores son colecciones de datos del mismo tipo, en este caso números enteros:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+c(5, 7, 8)
+</pre></div>
+
+
+
+
+<p><strong>Mostrar el tipo de valor</strong> del objeto. Puede ser entero (integer) o decimal (float):</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+str(objeto)
+</pre></div>
+
+
+ <br></details>
+
+ <details>
+  <summary><strong>Manejo de tablas</strong></summary><br>
+
+  <p class="has-text-align-left">Funciones y argumentos básicos para abrir archivos que contengan tablas, visualizarlas, editarlas y combinarlas.</p>
+
+
+
+<p><strong>Abrir tabla</strong> dentro del directorio de trabajo en <strong>archivo .txt</strong> cuyos valores se separan por puntos y mostrando la cabecera:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+read.table(&#39;nombre.txt&#39;, header = TRUE, sep =&#39;.&#39;)
+</pre></div>
+
+
+
+
+<p><strong>Abrir tabla</strong> dentro del directorio de trabajo en <strong>archivo .csv</strong> cuyos valores se separan por espacios y sin mostrar la cabecera:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+read.csv(&#39;nombre.csv&#39;, header = FALSE, sep = &#39;,&#39;)
+</pre></div>
+
+
+
+
+<p><strong>Argumento</strong> de las funciones read. y write. que indica el <strong>símbolo</strong> con el que se separan los valores en la tabla que vamos a abrir o guardar:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+sep = &#39;&#39;
+sep = &#39;.&#39;
+sep = &#39;,&#39;
+sep = &#39;/&#39;
+</pre></div>
+
+
+
+
+<p><strong>Argumento</strong> de las funciones read. y write. para indicar el <strong>caracter</strong> usado en los decimales de la tabla que vamos a abrir o guardar:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+dec = &#39;,&#39;
+dec = &#39;.&#39;
+</pre></div>
+
+
+
+
+<p><strong>Guardar</strong> la tabla abierta en un objeto llamado tabla1:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+tabla1 = read.csv(.....
+</pre></div>
+
+
+
+
+<p><strong>Visualizar</strong> la tabla guardada en el objeto tabla1:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+tabla1
+</pre></div>
+
+
+
+
+<p><strong>Obtener</strong> solo las 5 <strong>primeras filas</strong> de tabla1:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+head(tabla1, 5)
+</pre></div>
+
+
+
+
+<p><strong>Obtener</strong> solo las 24 <strong>últimas filas</strong> de tabla1:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+tail(tabla1, 24)
+</pre></div>
+
+
+
+
+<p><strong>Crear o sobrescribir una tabla .txt</strong> en el directorio de trabajo con los valores del objeto tabla1, separándolos con espacios y mostrando nombres de filas:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+write.table(tabla1, &#39;nombre.txt&#39;, row.names = TRUE, sep = &#39;&#39;)
+</pre></div>
+
+
+
+
+<p><strong>Crear o sobrescribir una tabla .csv</strong> en el directorio de trabajo con los valores del objeto tabla1 separándolos con comas:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+write.csv(tabla1, &#39;nombre.csv&#39;, sep = &#39;,&#39;)
+</pre></div>
+
+
+
+
+<p><strong>Seleccionar</strong> <strong>columnas </strong>por su nombre:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+subset(tabla1, select = c(columna1,columna2))
+</pre></div>
+
+
+
+
+<p><strong>Seleccionar</strong> <strong>filas</strong> que contengan un valor específico en una columna:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+subset(tabla1, columna1 == &#39;Albacete&#39;)
+</pre></div>
+
+
+
+
+<p><strong>Seleccionar un valor indicando su posición</strong> en la tabla. Dejar vacío para seleccionar filas o columnas enteras. Pueden usarse rangos para seleccionar trozos específicos:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+tabla1&#91;nºfila,nºcolumna]
+</pre></div>
+
+
+
+
+<p><strong>Seleccionar</strong> <strong>una columna</strong> de tabla1 indicando su nombre:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+tabla1$nombrecolumna
+</pre></div>
+
+
+
+
+<p><strong>Guardar columnas</strong> en objetos:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+col1 = tabla1$nombrecolumna1
+col2 = tabla1$nombrecolumna2
+</pre></div>
+
+
+
+
+<p><strong>Combinar</strong> columnas guardadas en objetos en una nueva tabla:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+cbind(col1,col2) 
+</pre></div>
+
+
+
+
+<p><strong>Combinar</strong> <strong>tablas</strong> completas. Deben compartir nombres de columna para que encajen:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+rbind(tabla1,tabla2)
+</pre></div>
+
+
+
+
+<p><strong>Renombrar la columna</strong> de la posición señalada:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+colnames(tabla1)&#91;nºcolumna] = c(‘nombre’)
+</pre></div>
+
+
+
+
+<p><strong>Obtener una lista</strong> con los valores de la columna indicada <strong>ordenados</strong> de menor a mayor (por defecto):</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+sort(tabla1$nombrecolumna)
+</pre></div>
+
+
+
+
+<p><strong>Aplicar una función</strong> a todas las filas (sustituir margin por 1) o a todas las columnas (sustituir margin por 2):</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+apply(tabla1, margin, función)
+</pre></div>
+
+
+
+ <br></details>
+
+<h3>📊 Crear gráficos</h3>
+<details>
+  <summary><strong>Puntos</strong></summary><br>
+
+  <p>La función plot() sirve para <strong>generar un gráfico de puntos</strong> indicando valores a partir de columnas para una única variable:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+plot(tabla$nombrecolumna)
+</pre></div>
+
+
+
+
+<p>A esta función se le puede añadir los siguientes <strong>argumentos</strong> para modificar su apariencia.</p>
+
+
+
+<p>Argumento de la función plot() para <strong>cambiar el símbolo</strong> usado para mostrar los puntos. Sustituir n por algún número:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+pch = n
+</pre></div>
+
+
+
+
+<p>Argumento de la función plot() en la que n indica el <strong>tamaño de los puntos</strong>:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+cex = n 
+</pre></div>
+
+
+
+
+<p>Argumento de plot() que funciona igual que col, solo que <strong>cambia el fondo</strong> de algunos símbolos:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+bg = &#39;blue&#39;
+</pre></div>
+
+
+ <br></details>
+
+ <details>
+  <summary><strong>Líneas</strong></summary><br>
+
+  <p>Función para <strong>generar un gráfico de líneas</strong> especificando el argumento type como »l»:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+plot(tabla$nombrecolumna, type = &#39;&#39;l&#39;&#39;)
+</pre></div>
+
+
+
+
+<p>A la función plot() se le puede añadir los siguientes <strong>argumentos</strong> para modificar su apariencia.</p>
+
+
+
+<p>Argumento para <strong>cambiar el tipo de línea:</strong></p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+lty = n
+</pre></div>
+
+
+
+
+<p>Argumento para <strong>cambiar el grosor de la línea:</strong></p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+lwd = n
+</pre></div>
+
+
+ <br></details>
+
+ <details>
+  <summary><strong>Barras</strong></summary><br>
+
+  <p>Función para <strong>generar un histograma</strong> o gráfico de barras para una columna de una tabla:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+hist(tabla$columna)
+</pre></div>
+
+
+
+
+<p><strong>Número de cortes</strong> o barras que tendrá el histograma:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+breaks = n
+</pre></div>
+
+
+
+
+<p>Argumento de la función hist() para<strong> establecer el color del borde de las barras</strong>. Funciona con nombres (en inglés), números o <a rel="noreferrer noopener" href="https://color.adobe.com/es/create/color-wheel" target="_blank">códigos RGB</a>:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+border = &#39;red&#39;
+border = n
+border = #DBD361
+</pre></div>
+
+
+ <br></details>
+
+ <details>
+  <summary><strong>Dispersión</strong></summary><br>
+
+  <p>Función para <strong>generar un gráfico de dispersión</strong> a partir de dos variables distintas:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+plot(tabla$nombrecolumnaX, tabla$nombrecolumnaY)
+</pre></div>
+
+
+
+
+<p><strong>Crear la recta de regresión</strong> del gráfico de dispersión:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+abline(lm(tabla$columna~tabla$columna))
+</pre></div>
+
+
+ <br></details>
+
+  <details>
+  <summary><strong>Dar formato</strong></summary><br>
+
+  <p>En este apartado dejo una recopilación de argumentos que podéis usar para cambiar el aspecto de los gráficos anteriores.</p>
+
+
+
+<p>Argumentos de la función plot() para <strong>establecer límites en los ejes</strong> <strong>del gráfico</strong>. n y z serían sustituidos por los valores límite.</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+xlim = c(n, z)
+ylim = c(n, z)
+</pre></div>
+
+
+
+
+<p>Argumento de la función plot() para <strong>establecer el color de los puntos, las líneas o las barras</strong>. Funciona con nombres (en inglés), números o <a rel="noreferrer noopener" href="https://color.adobe.com/es/create/color-wheel" target="_blank">códigos RGB</a></p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+col = &#39;red&#39;
+col = n
+col = #DBD361
+</pre></div>
+
+
+
+
+<p>Argumentos de plot() para <strong>añadir título al gráfico y nombres a los ejes</strong>:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+main = &#39;título&#39;
+xlab = &#39;texto&#39;
+ylab = &#39;texto&#39;
+</pre></div>
+
+
+
+
+<p>Función para <strong>añadir series de datos adicionales</strong> a un gráfico creado con plot() . Puede cambiarse su apariencia usando sus mismos argumentos (según sea línea, punto o barra):</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+points(tabla$nombrecolumna)
+lines(tabla$nombrecolumna)
+</pre></div>
+
+
+
+
+<p>Función para <strong>agregar leyenda al gráfico</strong>. La posición se indica con términos ingleses como »topleft» (arriba a a izquierda) y se usa un vector para indicar las series de datos que aparecerán representadas:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+legend( &quot;posición&quot; , legend = c(&quot;Serie 1&quot;, &#39;&#39;Serie 2&#39;&#39;))
+</pre></div>
+
+
+
+
+<p>Argumentos de la función legend() para <strong>cambiar el color del texto y de los puntos</strong> de la leyenda:</p>
+
+
+<div><pre class="brush: r; title: ; notranslate">
+text.col =
+pt.bg =
+</pre></div>
+
+ <br></details>
+
+<h3>🌐 Librerías geoespaciales</h3>
+<details>
+  <summary><strong>Importar librerías</strong></summary><br>
+
+  <p>Cargar la <strong>librería spatial</strong>:</p>
+
+
+
+<pre><code>library(sp)</code></pre>
+
+
+
+
+
+<p>Cargar la <strong>librería maptools</strong>:</p>
+
+
+
+<pre><code>library(maptools)</code></pre>
+
+
+
+
+
+<p>Cargar la <strong>librería raster</strong> para obtener funciones de tratamiento ráster:</p>
+
+
+
+<pre><code>library(raster)</code></pre>
+
+
+
+
+
+<p>Cargar la<strong> librería RColorBrewer</strong>:</p>
+
+
+
+<pre><code>library(RColorBrewer)</code></pre>
+
+
+
+
+
+<p>Cargar la <strong>librería gridExtra</strong>:</p>
+
+
+
+<pre><code>library(gridExtra)</code></pre>
+
+
+
+
+
+<p>Cargar la <strong>librería ggplot2</strong> para diseñar layouts cartográficos de forma avanzada:</p>
+
+
+
+<pre><code>library(ggplot2)</code></pre>
+
+
+
+
+
+<p>Cargar la <strong>librería gstat </strong>que permite hacer análisis como kriging:</p>
+
+
+
+<pre><code>library(gstat)</code></pre>
+
+
+
+
+
+<p>Cargar la <strong>librería rgdal</strong> o data abstraction library:</p>
+
+
+
+<pre><code>library(rgdal)</code></pre>
+
+
+ <br></details>
+
+  <div style="padding:20px"></div>
+
+		
+		</div>
+	
+	</body>
+</html>
