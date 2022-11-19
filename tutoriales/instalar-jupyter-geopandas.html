@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Instalar GeoPandas y Jupyter</title>	
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	
+	
+	<meta name="description" content="Portfolio de Roberto Jiménez - Geospatial & GIS Analyst">
+	<meta name="keywords" content="Instalar, GeoPandas, VSCode, Jupyter, IDE">
+	<meta name="author" content="Roberto Jiménez">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../styles/social.css">
+	<link rel="stylesheet" href="../styles/styles.css">
+	
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+		
+</head>
+
+	<body>
+            
+		<div class="cabecera">
+
+			<div class="navbar">
+				<ul>
+					<li><a href="https://roberer.github.io/">Proyectos</a></li>
+					<li><a class="active" href="https://roberer.github.io/tutoriales">Apuntes y tutoriales 🗺️</a></li>
+					<li><a href="https://roberer.github.io/blog">Blog</a></li>
+					<li><a href="https://roberer.github.io/contacto">Contacto</a></li>
+					<li style="float:right"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></li>
+					<li style="float:right"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></li>
+					<li style="float:right"><a href="https://github.com/roberer" class="fa fa-github"></a></li>
+				</ul>
+			</div>
+	
+	
+			<div id="myNav" class="overlay">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<div class="overlay-content">
+					<a href="https://roberer.github.io/">Proyectos</a>
+					<a class="active2" href="https://roberer.github.io/tutoriales">Tutoriales</a>
+					<a href="https://roberer.github.io/blog">Blog</a>
+					<a href="https://roberer.github.io/contacto">Contacto</a>
+					<br><br>
+					
+						<div class="social-mobile">
+							<div style="padding-right: 10px;"><a href="https://twitter.com/roberer_" class="fa fa-twitter"></a></div>
+							<div style="padding-right: 10px;"><a href="https://www.linkedin.com/in/robertojl" class="fa fa-linkedin"></a></div>
+							<div style="padding-right: 10px;"><a href="https://github.com/roberer" class="fa fa-github"></a></div>
+						</div>
+					
+	
+	
+				</div>
+			</div>
+	
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">
+			<div class="navbar2">
+				<div class="bar1"></div>
+				<div class="bar2"></div>
+				<div class="bar3"></div>
+			</div></span>
+	
+	
+			<div class="navbar3">
+				<ul>
+					<li style="color:rgb(0, 0, 0, 0,5); font-size:larger;" onclick="openNav()"><i>/tutoriales</i>🗺️</li>
+					<li style="float:right"><span style="font-size:30px;cursor:pointer" onclick="openNav()">
+						<div class="navbar2">
+							<div class="bar1"></div>
+							<div class="bar2"></div>
+							<div class="bar3"></div>
+						</div>
+					</span></li>
+					
+				</ul>
+			</div>
+	
+			<script>
+	
+				function openNav() {
+					document.getElementById("myNav").style.width = "100%";
+					}
+	
+					function closeNav() {
+					document.getElementById("myNav").style.width = "0%";
+				}
+	
+			</script>
+	
+				<div class="spacer"></div>
+
+				<h1>Instalar GeoPandas y Jupyter mediante Conda <br> y usarlos en un IDE</h1>
+				
+			<div class="mifoto">
+				<img alt="Roberer" src="https://lh3.googleusercontent.com/pw/AL9nZEX0IJkXR0qqhogLeoJpvKiYmUOfsKn88vDJKxwbwN5UdDey0MIcdYyjg90OLlx0qnixDGcMdWyBp10sNL97mR0PWONxi8Owcows8KqoSGHKmf-ZsITML5aHq-H_VvParSQGWjDzp8KntRSV5XWBLSNL=w289-h286-no?authuser=1">
+			</div>
+	
+			
+	
+			<h2 align="center">Por Roberto Jiménez</h2>
+			<h3 align="center" style="color:rgb(171, 171, 171)"><i>Geospatial & GIS Analyst</i></h3>
+		
+				
+		</div>
+            
+
+		<div class="cuerpo">
+
+			
+
+				<h3 id="1-instalar-conda">1º Instalar Conda</h3>
+
+					<p>Conda es un gestor de paquetes de lenguajes como Python, R y JavasCript, es decir, nos permite descargar librerías como GeoPandas y gestionarlas en distintos entornos virtuales (como explico más abajo).</p>
+					
+					
+					
+					
+					<p>Se puede llegar a confundir Conda con Anaconda. Anaconda es una distribución que, además de Conda, incluye una gran cantidad de paquetes de Python para Data Science, incluido Jupyter, además de una interfaz gráfica para gestionarlo todo.</p>
+					
+
+
+					<p>Otra opción para usar Conda es a través de Miniconda, que incluye Conda junto a lo mínimo para que funcione. <b>Es la opción que yo utilizo aquí</b>, ya que prefiero no descargar más que lo mínimo necesario e ir añadiendo cosas posteriormente.  Se puede descargar desde aquí: <a href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a> </p>
+					<br>
+
+				<h3 id="2-crear-un-virtual-environment">2º Crear un virtual environment</h3>
+
+					<p>Siempre se trabaja sobre un entorno virtual. Un virtual environment es una carpeta en la que se instalarán los paquetes, lenguajes y otras configuraciones para trabajar bajo unas condiciones concretas. </p>
+					<p>El entorno por defecto se llama <i>base</i>, pero por lo visto trabajar sobre él puede dar problemas, así que tanto JupyterLab como GeoPandas se instalarán en uno nuevo que creemos. </p>
+					<p>Por tanto, una vez instalado Conda habrá que abrir una de las consolas incluidas (Anaconda Prompt o Anaconda Powershell Prompt, da los mismo) y crear un nuevo entorno virtual. </p>
+					
+					<pre><code>conda create -<span>n</span> nombre_entorno</code></pre>
+					
+					<p>Una vez creado se debe activar para que el resto de cosas que hagamos se ejecuten en dicho entorno.</p>
+
+					<pre><code>conda <span>activate</span> nombre_entorno</code></pre><br>
+				
+				<h3 id="3-instalar-geopandas-python3-y-jupyterlab-en-el-entorno-virtual">3º Instalar GeoPandas, Python3 y Jupyter en el entorno virtual</h3>
+					
+					<p>El siguiente comando es el que nos instalará los paquetes en nuestro virtual environment. Jupyter necesita Python3 instalado en el mismo virtual environment para poder funcionar correctamente.</p>
+					
+					<pre><code>conda <span>install</span> python=<span>3</span> geopandas jupyter
+					</code></pre>
+
+					<p>Si quisiéramos añadir otros paquetes en el futuro solo tendríamos que usar el mismo comando <i>conda install</i> junto con el nombre del paquete sobre nuestro entorno virtual.</p>
+					
+					<p>Los paquetes que se necesiten instalar en el futuro también pueden instalarse desde los notebooks en vez de usando la consola ejecutando el siguiente script de Python:</p>
+					
+					<pre><code><span>import</span> sys <br>!conda install --yes --<span>prefix</span> {sys.<span>prefix</span>} nombre_paquete
+					</code></pre>
+
+					<blockquote>
+						<p><i>También puede confundirse Jupyter con JupyterLab. JupyterLab es una interfaz para correr notebooks de Jupyter desde el navegador. Aquí nos ceñimos a la instalación de Jupyer para usar los notebooks en un IDE como VSCode, y no desde el navegador con JupyterLab.</i></p>
+						</blockquote><br>
+				
+				<h3 id="4-iniciar-jupyter-y-comenzar-a-trabajar">4º Iniciar Jupyter en nuestro IDE</h3>
+
+				
+					<p>El último paso es abrir un IDE compatible con Jupyter (como VSCode), seleccionar el modo de edición Jupyter Notebook o abrir un archivo con la extensión <i>.ipynb</i>  y asegurarse de que esté conectado al entorno virtual en el que hemos instalado previamente tanto Python como Jupyter y Geopandas.</p>
+					
+
+					
+		</div>
+	
+	</body>
+</html>
