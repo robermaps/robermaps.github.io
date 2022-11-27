@@ -6,16 +6,11 @@ body {
 	line-height: 1.25;
 }
 
-h1 { 
+h1, h2, h3 { 
      text-align: center;
      font-weight: 500;
 }
 
-h2 {
-	text-align: center; 
-	font-weight: 500;
-        color: #245421;
-}
 
 a {
         color: #081bcc;
