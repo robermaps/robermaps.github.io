@@ -39,6 +39,11 @@ div.container {
   
 }
 
+div.container h2 {
+  font-size: 1.45em;
+  margin: 0.2em;
+}
+
 * {
   box-sizing: border-box;
   
