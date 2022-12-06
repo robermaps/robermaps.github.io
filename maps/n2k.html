@@ -43,7 +43,7 @@
         <script>
 
             // Objeto de tipo map de leaflet que referencia al div 
-            var map = L.map('map',{ center: [49.376651,12.029839], zoom: 5});  
+            var map = L.map('map',{ center: [43.053049,11.715819], zoom: 4});  
             
             // Capas
             var n2k2006 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
@@ -121,8 +121,8 @@
 			L.control.resetView({
 				position: "topleft",
 				title: "Reset view",
-				latlng: L.latLng([49.376651,12.029839]),
-				zoom: 5,
+				latlng: L.latLng([43.053049,11.715819]),
+				zoom: 4,
 			}).addTo(map);
 
 			var contents = ''
