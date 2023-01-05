@@ -58,6 +58,8 @@ div.cabecera {
 	text-align: left;
 	margin-left:auto;
 	margin-right:auto;
+	padding-bottom: 5px;
+	background-color: #f1f1f1;
 	
 	
 }
@@ -106,6 +108,7 @@ th, td {
 
 div.mifoto {
 	text-align: center;
+	padding-top: 10px;
   
 }
 
@@ -223,8 +226,6 @@ div.navbar {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background-color: #ffffff;
-	
 	
   }
   
@@ -240,7 +241,7 @@ div.navbar {
 	padding: 8px 8px;
 	text-decoration:none;
 	border-radius: 5px;
-	color:#333;
+	color:rgb(0, 0, 0);
 	box-sizing: unset;
   }
 
@@ -277,9 +278,9 @@ div.navbar {
   
   div.navbar2 {
   
-	  position:fixed;
+	position:fixed;
 	top: 5px;
-	right: 5px;
+	right: 10px;
 	z-index: 10;
   }
   
@@ -293,7 +294,7 @@ div.navbar {
   .bar1, .bar2, .bar3 {
 	width: 35px;
 	height: 5px;
-	background-color: #333;
+	background-color: rgb(0, 0, 0);
 	margin: 6px 0;
 	
   }
@@ -323,9 +324,10 @@ div.navbar {
   div.navbar3 {
 	
 	width: 100%;
-	  text-align: left;
-	  margin-left:auto;
-	  margin-right:auto;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
+	font-size: large;
 	padding: 0px;
 	position: fixed;
 	z-index: 9;
@@ -336,7 +338,6 @@ div.navbar {
   
   div.navbar3 > ul {
 	list-style-type: none;
-	
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
@@ -344,3 +345,12 @@ div.navbar {
 	
 	
   }
+
+  div.navbar3 > li {
+	color:rgb(0, 0, 0);
+	font-size: larger;
+	
+	
+  }
+
+
