@@ -4,6 +4,7 @@ body {
 	background-color: #ffffff;
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	line-height: 1.25;
+	margin: 0;
 }
 
 h1, h2 { 
@@ -217,6 +218,7 @@ div.navbar {
 	  margin-left:auto;
 	  margin-right:auto;
 	padding-bottom: 10px;
+	padding-top: 5px;
 	
 	
   }
@@ -328,7 +330,7 @@ div.navbar {
 	margin-left:auto;
 	margin-right:auto;
 	font-size: large;
-	padding: 0px;
+	padding: 5px;
 	position: fixed;
 	z-index: 9;
 	
