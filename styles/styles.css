@@ -55,14 +55,18 @@ div.about {
 
 
 div.cabecera {
-	max-width: 100%;
-	text-align: left;
-	margin-left:auto;
-	margin-right:auto;
-	padding-bottom: 5px;
-	background-color: #f1f1f1;
-	
-	
+    max-width: 100%;
+    text-align: left;
+    color: rgb(0 0 0 / 90%);
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url("https://lh3.googleusercontent.com/pw/AMWts8AAQNxi5oUXLOKgMP7ilPyyzkT2_S8zJI6zqqgwGA7ZxA-Gzkaysw5s7ZIHilwj5SHLZL6zWCD-ykJfZIhjPQPcHOLH45liP9ha1gG1UV6h6XEOjhgUG3u4Ff1A3ULQNV5FFp3JbETy4emUyM5h8SnG=w931-h839-no?authuser=1");
+    background-position: center;
+    background-size: cover;
+    background-clip: content-box;
+    background-color: white;
+    background-repeat: no-repeat;
+    padding-bottom: 5px;
 }
 
 
@@ -211,17 +215,14 @@ div.par {
 
   /* BARRA NAVEGACION PC */
 
-div.navbar {
-  
-	max-width: 100%;
-	  text-align: center;
-	  margin-left:5px;
-	  margin-right:auto;
-	padding-bottom: 10px;
-	padding-top: 5px;
-	
-	
-  }
+  div.navbar {
+    max-width: 100%;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: auto;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
   
   .navbar ul {
 	list-style-type: none;
@@ -250,15 +251,15 @@ div.navbar {
 
   
   li a:hover:not(.active) {
-	background-color: rgb(222, 222, 222);
+	background-color: rgb(32, 32, 32);
 	
   }
   
   .active {
-	background-color: #4f4f4f;
-	color:#ffffff !important;
-	font-size: larger;
-  }
+    background-color: #ffffff;
+    color: #000000 !important;
+    font-size: larger;
+}
   
   
   @media only screen and (max-width: 600px) {
@@ -277,14 +278,12 @@ div.navbar {
   
   
   
-  
   div.navbar2 {
-  
-	position:fixed;
-	top: 5px;
-	right: 10px;
-	z-index: 10;
-  }
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    z-index: 10;
+}
   
   .container {
 	width: 100%;
@@ -294,11 +293,10 @@ div.navbar {
   }
   
   .bar1, .bar2, .bar3 {
-	width: 35px;
-	height: 5px;
-	background-color: rgb(0, 0, 0);
-	margin: 6px 0;
-	
+	width: 30px;
+    height: 4px;
+    background-color: rgb(255 255 255);
+    margin: 4px 0;
   }
   
   
@@ -324,19 +322,17 @@ div.navbar {
   /* BARRA NAVEGACIÓN MOVIL   */
   
   div.navbar3 {
-	
-	width: 100%;
-	text-align: left;
-	margin-left:auto;
-	margin-right:auto;
-	font-size: larger;
-	padding: 5px;
-	position: fixed;
-	z-index: 9;
-	
-	
-	
-  }
+    width: 100%;
+    color: white;
+    background-color: #000000ba;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: larger;
+    padding: 7px;
+    position: fixed;
+    z-index: 9;
+}
   
   div.navbar3 > ul {
 	list-style-type: none;
