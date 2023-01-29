@@ -22,6 +22,10 @@ a {
 		text-decoration:none;
 }
 
+hr {
+    border: 1px solid #939393;
+}
+
 summary:hover {
 	color: #081bcc;
 	cursor: pointer;
