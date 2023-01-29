@@ -66,7 +66,6 @@ div.cabecera {
     background-clip: content-box;
     background-color: white;
     background-repeat: no-repeat;
-    padding-bottom: 5px;
 }
 
 div.cabecera2 {
@@ -283,7 +282,7 @@ div.par {
   
   
   div.navbar2 {
-    position: fixed;
+    position: absolute;
     top: 5px;
     right: 10px;
     z-index: 10;
@@ -299,7 +298,7 @@ div.par {
   .bar1, .bar2, .bar3 {
 	width: 35px;
     height: 4px;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
     margin: 5px 0;
   }
   
