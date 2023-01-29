@@ -15,7 +15,8 @@ h1, h2 {
 h1.article {
 	text-align: center;
     font-weight: 500;
-	color:#ffffff
+	color:#ffffff;
+	text-shadow: 7px 7px 4px black;
 }
 
 h3 { 
