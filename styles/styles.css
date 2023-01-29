@@ -29,9 +29,7 @@ a {
 		text-decoration:none;
 }
 
-hr {
-    border: 1px solid #939393;
-}
+
 
 summary:hover {
 	color: #081bcc;
@@ -60,7 +58,7 @@ div.about {
 	text-align: center;
 	margin-left:auto;
 	margin-right:auto;
-    padding: 0% 5% 10px 5%;
+    padding: 0% 5% 15px 5%;
 }
 
 
