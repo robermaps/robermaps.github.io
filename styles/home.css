@@ -20,7 +20,7 @@ div.polaroid {
   height: 330px;
   background-color: white;
   box-shadow: 1px 2px 4px 2px rgb(0 0 0 / 20%), 0 5px 5px 0 rgb(0 0 0 / 19%);
-  border-radius: 10px;
+  border-radius: 5px;
   margin-bottom: 25px;  
   -webkit-transform: perspective(1px) translateZ(0);
   transform: perspective(1px) translateZ(0);
@@ -29,7 +29,7 @@ div.polaroid {
 
 
 div.polaroid > img{
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
 }
 
 div.container {
