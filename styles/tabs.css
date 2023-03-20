@@ -43,4 +43,7 @@
   }
   
   .topright:hover {color: red;}
-  </style>
+
+  li {
+    padding: 5px;
+}
