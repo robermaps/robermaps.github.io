@@ -5,13 +5,18 @@
 
 
 
-div.cartoteca {
+/* div.cartoteca {
 	max-width: 1240px;
 	text-align: center;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 0px 5%;		
   
+} */
+
+
+div.cartoteca {
+  overflow-y: auto;
 }
 
 

@@ -62,8 +62,24 @@ div.about {
 }
 
 
-
 div.cabecera {
+    max-width: 35%;
+    height: 100vh;
+    text-align: left;
+    color: rgb(0 0 0 / 90%);
+    background-position: center;
+    background-size: cover;
+    background-clip: content-box;
+    background-color: white;
+    background-repeat: no-repeat;
+    float: left;
+    position: sticky;
+    z-index: 100;
+    top: 0;
+}
+
+
+/* div.cabecera {
     max-width: 100%;
     text-align: left;
     color: rgb(0 0 0 / 90%);
@@ -75,7 +91,7 @@ div.cabecera {
     background-clip: content-box;
     background-color: white;
     background-repeat: no-repeat;
-}
+} */
 
 div.cabecera2 {
 	background-image: linear-gradient(0deg, white 15%, #0000008f 80%);
