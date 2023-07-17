@@ -58,12 +58,12 @@ div.about {
 	text-align: center;
 	margin-left:auto;
 	margin-right:auto;
-    padding: 0% 5% 25px 5%;
+    padding: 0% 5% 5px 5%;
 }
 
 
 div.cabecera {
-    max-width: 35%;
+    max-width: 30%;
     height: 100vh;
     text-align: left;
     color: rgb(0 0 0 / 90%);
