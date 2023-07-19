@@ -250,6 +250,9 @@ div.par {
     margin-right: auto;
     padding-bottom: 10px;
     padding-top: 5px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
   
   .navbar ul {
@@ -279,13 +282,14 @@ div.par {
 
   
   li a:hover:not(.active) {
+	color: white;
 	background-color: rgb(32, 32, 32);
 	
   }
   
   .active {
-    background-color: #ffffff;
-    color: #000000 !important;
+    background-color: #117701;
+    color: #ffffff !important;
     font-size: larger;
 }
   
