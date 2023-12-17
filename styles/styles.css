@@ -75,7 +75,7 @@ div.cabecera {
     z-index: 100;
     top: 0;
 	padding-top: 3%;
-	padding-bottom: 3%;
+	padding-bottom: 1%;
 }
 
 
@@ -103,7 +103,7 @@ div.cuerpo {
 	text-align: left;
 	margin-left:auto;
 	margin-right:auto;
-	padding: 15px 2% 2% 2%;
+	padding: 0px 2% 2% 2%;
 }
 
 div.cuerpo > img{
