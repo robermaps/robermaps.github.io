@@ -15,8 +15,8 @@ h1, h2 {
 h1.article {
 	text-align: center;
     font-weight: 500;
-	color:#ffffff;
-	text-shadow: 7px 7px 4px black;
+	color:#000000;
+	
 }
 
 h3 { 
@@ -63,8 +63,7 @@ div.about {
 
 
 div.cabecera {
-    max-width: 30%;
-    height: 100vh;
+    width: 100%;
     text-align: left;
     color: rgb(0 0 0 / 90%);
     background-position: center;
@@ -72,8 +71,7 @@ div.cabecera {
     background-clip: content-box;
     background-color: white;
     background-repeat: no-repeat;
-    float: left;
-    position: sticky;
+    
     z-index: 100;
     top: 0;
 	padding-top: 3%;
