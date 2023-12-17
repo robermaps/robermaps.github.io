@@ -294,7 +294,7 @@ div.par {
 }
   
   
-  @media only screen and (max-width: 600px) {
+  /*@media only screen and (max-width: 600px) {
 	div.navbar {
 	  display: none;
 	}
@@ -349,10 +349,10 @@ div.par {
 	
   
   }
-  
+  */
   
   /* BARRA NAVEGACIÓN MOVIL   */
-  
+  /*
   div.navbar3 {
     width: 100%;
     color: white;
@@ -381,4 +381,4 @@ div.par {
 	
   }
 
-
+*/
