@@ -1,20 +1,4 @@
 
-
-
-/* CAJAS */
-
-
-
-/* div.cartoteca {
-	max-width: 1240px;
-	text-align: center;
-	margin-left:auto;
-	margin-right:auto;
-	padding: 0px 5%;		
-  
-} */
-
-
 div.cartoteca {
   overflow-y: auto;
   padding: 2%;
@@ -33,7 +17,6 @@ div.polaroid {
   -webkit-transform: perspective(1px) translateZ(0);
   transform: perspective(1px) translateZ(0);
 }
-
 
 
 div.polaroid > img{
