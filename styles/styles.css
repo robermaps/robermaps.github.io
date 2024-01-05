@@ -82,7 +82,7 @@ div.cabecera {
 
 div.cuerpo {
 	max-width: 900px;
-	text-align: left;
+	text-align: justify;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 0px 2% 2% 2%;
