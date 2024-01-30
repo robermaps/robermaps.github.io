@@ -3,7 +3,7 @@
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
-    background-color: #dbdbdb
+    background-color: #dbdbdb;
     justify-content: space-between;
     align-content: stretch;
   }
