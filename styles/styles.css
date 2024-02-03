@@ -85,7 +85,6 @@ div.cuerpo {
 	text-align: justify;
 	margin-left:auto;
 	margin-right:auto;
-	padding: 0px 2% 2% 2%;
 }
 
 div.cuerpo > img{
@@ -94,6 +93,13 @@ div.cuerpo > img{
 	height: auto;
  	margin-left: auto;
  	margin-right: auto;	
+}
+
+div.cuerpo > p {
+	
+	margin-inline-end: 2%;
+	margin-inline-start: 2%;
+
 }
 
 
