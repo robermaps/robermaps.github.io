@@ -1,3 +1,81 @@
+/* OK */
+
+.top-bar {
+	width: 100%;
+	background-color: #333;
+	color: #fff;
+	overflow: hidden;
+	position:absolute;
+	z-index: 100;
+}
+
+.top-bar .left {
+	float: left;
+	padding: 15px;
+}
+
+.top-bar .left h1 {
+	margin: 0;
+}
+
+.top-bar .right {
+	float: right;
+	padding: 15px;
+}
+
+.top-bar .right a {
+	color: #fff;
+	text-decoration: none;
+	margin-left: 15px;
+}
+
+.top-bar .right img {
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+}
+
+
+
+#map {
+  width: 100%;
+  height: 100%;
+  position:fixed;
+  top: 0;
+  left:0;
+
+}
+
+
+.grayscale {
+  filter: grayscale(100%) blur(1px) brightness(50%) ;
+  
+}
+
+
+
+.page1 {
+	width: 100%;
+	
+	color: #fff;
+	overflow: hidden;
+	position:absolute;
+	z-index: 90;
+	padding-top: 25vh;
+	padding-bottom: 25vh;
+	background-color: #00d0ff52;
+	text-align: center
+}
+
+.page1 h2 {
+	font-size: 45px;
+	text-align: center;
+	text-shadow: 4px 4px 4px black;
+	font-weight: 500;
+}
+
+
+
 /* ESTRUCTURA GENERAL */
 
 body { 
@@ -7,7 +85,7 @@ body {
 	margin: 0;
 }
 
-h1, h2 { 
+h1 { 
      text-align: center;
      font-weight: 500;
 }
@@ -25,8 +103,8 @@ h3 {
 
 
 a {
-        color: #081bcc;
-		text-decoration:none;
+        color: #ffffff;
+		text-decoration:underline;
 }
 
 
@@ -63,8 +141,12 @@ div.about {
 
 
 div.cabecera {
-    width: 100%;
+    width: 25%;
     text-align: left;
+	height: 100%;
+	float: left;
+	position: fixed;
+
     color: rgb(0 0 0 / 90%);
     background-position: center;
     background-size: cover;
@@ -74,8 +156,8 @@ div.cabecera {
     
     z-index: 100;
     top: 0;
-	padding-top: 3%;
-	padding-bottom: 1%;
+	padding-top: 25vh;
+	
 }
 
 
