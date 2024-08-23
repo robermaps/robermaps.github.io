@@ -178,7 +178,7 @@ h1 {
 	position:absolute;
 	z-index: 90;
 	display:flex;
-	background: radial-gradient(ellipse, #3e5d00d9, rgb(47 157 82 / 85%), #53fd7a48);
+	background: radial-gradient(ellipse, #054107d9, rgb(0 117 37 / 85%), #53fd7a48);
 	text-align: center;
 	align-content: center;
     flex-wrap: wrap;
