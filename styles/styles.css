@@ -18,7 +18,7 @@ h1 {
 	background-color: #333;
 	color: #fff;
 	overflow: hidden;
-	position:fixed;
+	position:absolute;
 	z-index: 100;
 }
 
