@@ -55,7 +55,7 @@
   @media screen and (max-width: 800px) {
     .tab {
     overflow: hidden;
-    padding-top: 10px;
+    
     float: left;
     display: flex;
     flex-wrap: wrap;
