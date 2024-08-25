@@ -1,12 +1,18 @@
 /* Style the tab */
 .tab {
-    overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #dbdbdb;
-    justify-content: space-between;
-    align-content: stretch;
-  }
+  overflow: hidden;
+  padding-top: 80px;
+  float: left;
+  width: 300px;
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #dbdbdb;
+  justify-content: center;
+  align-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+}
   
   /* Style the buttons inside the tab */
   .tab button {
@@ -34,12 +40,56 @@
   
   /* Style the tab content */
   .tabcontent {
-    display: none;
-    padding: 6px 12px;
     
+    float: left;
     border-top: none;
+    margin-left: 50px;
+    margin-top: 120px;
+    margin-bottom: 50px;
+  }
+
+  .tabcontent a {
+    color:#000000
   }
   
+  @media screen and (max-width: 800px) {
+    .tab {
+    overflow: hidden;
+    padding-top: 10px;
+    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #dbdbdb;
+    justify-content: center;
+    flex-direction: row;
+    align-items: flex-start;
+    position: sticky;
+    align-content: center;
+    height: auto;
+    width: 100%;
+      
+    }
+
+    .tabcontent {
+      float: left;
+        border-top: none;
+        margin-left: 25px;
+        margin-top: 25px;
+        margin-bottom: 50px;
+    }
+
+  
+  }
+
+
+
+
+
+
+
+
+
+
   /* Style the close button */
   .topright {
     float: right;
@@ -52,3 +102,5 @@
   li {
     padding: 5px;
 }
+
+
