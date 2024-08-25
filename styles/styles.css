@@ -164,7 +164,7 @@ h1 {
 	position:absolute;
 	z-index: 90;
 	display:flex;
-	background: linear-gradient(#00000048, rgb(47 157 153 / 95%), rgb(47 157 153 / 95%), #537dfd48);
+	background: linear-gradient(rgb(30 103 100 / 95%), rgb(47 157 153 / 70%), rgb(47 157 153 / 30%));
 	text-align: center;
 	align-content: center;
     flex-wrap: nowrap;
