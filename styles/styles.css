@@ -293,7 +293,9 @@ h1 {
 }
 
 
-
+.button:hover {
+	background-color: #4c4d52;
+}
 
 
 @media screen and (max-width: 500px) {
