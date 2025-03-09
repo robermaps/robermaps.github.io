@@ -140,7 +140,7 @@ div.general {
 .page1 {
 	width: 100%;
     color: #333;
-    background-image: linear-gradient(181deg, #ffffff, #fffffff2);
+    background-color: white;
     overflow: hidden;
     z-index: 90;
     display: flex;
