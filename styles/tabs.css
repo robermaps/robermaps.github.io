@@ -1,17 +1,17 @@
 /* Style the tab */
 .tab {
   overflow: hidden;
-  padding-top: 80px;
+  padding-top: 7vh;
   float: left;
-  width: 300px;
+  width: 35vh;
   display: flex;
   flex-wrap: nowrap;
   background-color: #dbdbdb;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: flex-start;
   flex-direction: column;
   align-items: flex-start;
-  position: sticky;
+  position: fixed;
 }
   
   /* Style the buttons inside the tab */
@@ -43,9 +43,9 @@
     
     float: left;
     border-top: none;
-    margin-left: 50px;
-    margin-top: 120px;
-    margin-bottom: 50px;
+    margin-left: 40vh;
+    margin-top: 10vh;
+    margin-bottom: 7vhx;
   }
 
   .tabcontent a {
