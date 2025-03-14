@@ -1,7 +1,6 @@
 /* Style the tab */
 .tab {
   overflow: hidden;
-  padding-top: 7vh;
   float: left;
   width: 35vh;
   display: flex;
@@ -45,9 +44,8 @@
     border-top: none;
     margin-left: 40vh;
     margin-top: 10vh;
-    margin-bottom: 7vhx;
+    margin-bottom: 7vh;
   }
-
   .tabcontent a {
     color:#000000
   }
@@ -60,7 +58,7 @@
     display: flex;
     flex-wrap: wrap;
     background-color: #dbdbdb;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: row;
     align-items: flex-start;
     position: sticky;
