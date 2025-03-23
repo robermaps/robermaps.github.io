@@ -215,7 +215,7 @@ div.general {
 
 
 .page2-box {
-	background-color: #000000a8;
+	background-color: #000000c7;
     border-radius: 5px;
     color: rgb(255, 255, 255);
     display: flex;
@@ -235,7 +235,6 @@ div.general {
 .page2 h2 {
 	font-size: 3vh;
 	text-align: center;
-	text-shadow: 4px 4px 4px black;
 	font-weight: 500;
 }
 
