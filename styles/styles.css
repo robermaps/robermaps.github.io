@@ -96,15 +96,20 @@ div.emojis {
 
 .button {
 	margin: 1vh;
-	padding: 1.5vh;
-    text-align: center;
-    background-color: #7d7d7d;
-    border-radius: 25px;
-	box-shadow: 0px 2px 4px 1px black;
-	width: 25vh;
+padding: 1.5vh;
+text-align: center;
+background-color: #126087;
+border-radius: 5px;
+width: 25vh;
+border-color: #afafaf;
+border-width: 2px;
 	
 	
 }
+
+
+
+
 
 
 
@@ -174,7 +179,7 @@ div.general {
     align-items: center;
     justify-content: center;
     padding: 3.5vh;	
-	box-shadow: 0px 20px 20px 9px #ffffff;
+	box-shadow: 0px 4px 3px 1px #949494;
 }
 
 .page1 h2 {
@@ -215,9 +220,9 @@ div.general {
 
 
 .page2-box {
-	background-color: #000000c7;
+	background-color: #ffffff;
     border-radius: 5px;
-    color: rgb(255, 255, 255);
+    color: rgb(0 0 0);
     display: flex;
     flex-direction: column;
     width: 50vh;
@@ -225,7 +230,10 @@ div.general {
     padding: 2vh;
     justify-content: space-around;
     align-items: center;
-	overflow: hidden;
+    overflow: hidden;
+    border-style: solid;
+    border-color: #818181;
+    border-width: 2px;
 }
 
 .page2 a {
