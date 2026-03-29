@@ -226,7 +226,7 @@ div.general {
     display: flex;
     flex-direction: column;
     width: 50vh;
-    height: 50vh;
+    
     padding: 2vh;
     justify-content: space-around;
     align-items: center;
