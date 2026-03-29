@@ -1,3 +1,6 @@
+* {
+	box-sizing: border-box;
+}
 
 body { 
 	background-color: #ffffff;
@@ -143,9 +146,10 @@ div.mifoto-text {
 
 
 div.mifoto > img {
-	border-radius: 5px;
-	height: 250px;
-	width: 250px;
+	border-radius: 50%;
+	width: clamp(180px, 55%, 320px);
+	aspect-ratio: 1;
+	object-fit: cover;
 	margin: 30px;
 }
 
@@ -225,6 +229,7 @@ div.general {
     color: rgb(0 0 0);
     display: flex;
     flex-direction: column;
+    width: 100%;
     max-width: 60vh;
     padding: 2vh;
     justify-content: space-around;
