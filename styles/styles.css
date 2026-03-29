@@ -2,23 +2,34 @@
 	box-sizing: border-box;
 }
 
-body { 
+body {
 	background-color: #ffffff;
 	font-family: apple-system, "system-ui", Segoe UI, roboto, helvetica, arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 	line-height: 1.25;
 	margin: 0;
 }
 
-h1 { 
-    text-align: center;
-    font-weight: 500;
-	
+h1, h2, h3, h4, h5, h6 {
+	text-align: center;
+	font-weight: 500;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
-h2 { 
-    text-align: center;
-    font-weight: 500;
-	
+h1 {
+	font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+h2 {
+	font-size: clamp(1.8rem, 6vw, 2.6rem);
+}
+
+h3 {
+	font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+h4 {
+	font-size: clamp(1.4rem, 4.5vw, 1.8rem);
 }
 
 .top-bar {
@@ -26,12 +37,13 @@ h2 {
 	background-color: #333;
 	color: #fff;
 	overflow: hidden;
-	position:fixed;
+	position: fixed;
 	z-index: 100;
-	height: 7vh;
+	height: clamp(55px, 7vh, 80px);
 	display: flex;
-  	justify-content: space-between; /* Espaciado entre elementos */
-  	align-items: center;
+	justify-content: space-between;
+	/* Espaciado entre elementos */
+	align-items: center;
 }
 
 .top-bar .left {
@@ -40,13 +52,12 @@ h2 {
 
 .top-bar .left h1 {
 	margin: 0;
-	font-size: 3vh;
 }
 
 .top-bar .right {
 	display: flex;
-    align-items: center;
-    padding: 15px;
+	align-items: center;
+	padding: 15px;
 }
 
 .top-bar .right a {
@@ -56,7 +67,7 @@ h2 {
 }
 
 .top-bar .right img {
-	height: 3vh;
+	height: clamp(20px, 3vh, 35px);
 }
 
 .centre2 {
@@ -64,12 +75,12 @@ h2 {
 }
 
 .centre2 h2 {
-	margin: 1vh;
+	margin: 10px;
 }
 
 @media screen and (max-width: 800px) {
 	.top-bar .centre1 {
-	  display: none;
+		display: none;
 	}
 
 	.centre2 {
@@ -79,35 +90,34 @@ h2 {
 		justify-content: center;
 		width: 100%;
 	}
-  } 
+}
 
 
 #map {
-  width: 100%;
-  height: 100%;
-  position:fixed;
-  top: 0;
-  left:0;
-  filter: blur(2px);
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	filter: blur(2px);
 }
 
 div.emojis {
-	font-size: 4vh;
+	font-size: clamp(2.5rem, 5vw, 3.5rem);
 }
 
 
 
 .button {
-	margin: 1vh;
-padding: 1.5vh;
-text-align: center;
-background-color: #126087;
-border-radius: 5px;
-width: 25vh;
-border-color: #afafaf;
-border-width: 2px;
-	
-	
+	margin: 10px;
+	padding: 15px;
+	text-align: center;
+	background-color: #126087;
+	border-radius: 5px;
+	width: 220px;
+	max-width: 100%;
+	border-color: #afafaf;
+	border-width: 2px;
 }
 
 
@@ -131,11 +141,11 @@ border-width: 2px;
 div.mifoto {
 	text-align: center;
 	display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    justify-content: center; 
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
 }
 
 div.mifoto-text {
@@ -145,7 +155,7 @@ div.mifoto-text {
 }
 
 
-div.mifoto > img {
+div.mifoto>img {
 	border-radius: 50%;
 	width: clamp(180px, 55%, 320px);
 	aspect-ratio: 1;
@@ -163,95 +173,79 @@ div.mifoto > img {
 
 div.general {
 	display: flex;
-    flex-direction: column;
-	top: 7vh;
+	flex-direction: column;
+	top: clamp(55px, 7vh, 80px);
 	position: absolute;
-    width: 100%;
+	width: 100%;
 }
 
 .page1 {
 	width: 100%;
-    color: #333;
-    background-color: white;
-    overflow: hidden;
-    z-index: 90;
-    display: flex;
-    text-align: center;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3.5vh;	
+	color: #333;
+	background-color: white;
+	overflow: hidden;
+	z-index: 90;
+	display: flex;
+	text-align: center;
+	align-content: center;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 30px;
 	box-shadow: 0px 2px 0px 0px #818181;
 }
 
 .page1 h2 {
-	font-size: 40px;
-	text-align: center;
 	margin: 5px;
-	font-weight: 500;
 }
 
 
 @media screen and (max-width: 600px) {
-	.page1 h2 {
-		font-size: 35px;
-	}
 	.page1 {
 		width: 100%;
 	}
-  }
+}
 
 .page2 {
 	width: 100%;
-    height: 100%;
-    color: #ffffff;
-    /* background-image: linear-gradient(181deg, #ffffff, transparent, transparent); */
-    overflow: hidden;
-    z-index: 90;
-    display: flex;
-    text-align: center;
-    align-content: flex-start;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    align-items: center;
-    gap: 5vh;
-    padding: 3.5vh 3.5vh 10vh 3.5vh;
-    justify-content: center;
+	height: 100%;
+	color: #ffffff;
+	/* background-image: linear-gradient(181deg, #ffffff, transparent, transparent); */
+	overflow: hidden;
+	z-index: 90;
+	display: flex;
+	text-align: center;
+	align-content: flex-start;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	padding: 30px 20px 80px 20px;
+	justify-content: center;
 }
 
 
 
 .page2-box {
 	background-color: #ffffff;
-    border-radius: 5px;
-    color: rgb(0 0 0);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 60vh;
-    padding: 2vh;
-    justify-content: space-around;
-    align-items: center;
-    overflow: hidden;
-    border-style: solid;
-    border-color: #818181;
-    border-width: 2px;
+	border-radius: 5px;
+	color: rgb(0 0 0);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 600px;
+	padding: 20px;
+	justify-content: space-around;
+	align-items: center;
+	overflow: hidden;
+	border-style: solid;
+	border-color: #818181;
+	border-width: 2px;
 }
 
 .page2 a {
 	text-decoration: none;
-}
-
-.page2 h2 {
-	font-size: 3vh;
-	text-align: center;
-	font-weight: 500;
-}
-
-.page2 h4 {
-	font-size: 3vh;
 }
 
 .page2 a {
@@ -260,85 +254,82 @@ div.general {
 
 .page3 {
 	width: 100%;
-	height:100vh;
+	height: 100vh;
 	top: 200%;
 	color: #fff;
 	overflow: hidden;
-	position:absolute;
+	position: absolute;
 	z-index: 90;
-	display:flex;
+	display: flex;
 	background: linear-gradient(rgb(127 0 0 / 81%), rgb(255 249 0 / 63%), rgb(127 0 0 / 81%));
 	text-align: center;
 	align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	padding-left: 10%;
-    padding-right: 10%;
+	padding-right: 10%;
 	text-shadow: 0px 1px 5px black;
 }
 
 .page3 h2 {
-	font-size: 40px;
-	text-align: center;
 	text-shadow: 4px 4px 4px black;
-	font-weight: 500;
 }
 
 .page4 {
 	width: 100%;
-	height:100vh;
+	height: 100vh;
 	top: 300%;
 	color: #fff;
 	overflow: hidden;
-	position:absolute;
+	position: absolute;
 	z-index: 90;
-	display:flex;
+	display: flex;
 	text-align: center;
 	align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	padding-left: 10%;
-    padding-right: 10%;
+	padding-right: 10%;
 	text-shadow: 0px 1px 5px black;
 }
 
 .page4-box {
 	background-color: #ffffffed;
-    border-radius: 5px;
-    padding: 10px;
-    color: black;
-    text-shadow: none;
-    box-shadow: 0px 1px 3px 3px #ababab;
+	border-radius: 5px;
+	padding: 10px;
+	color: black;
+	text-shadow: none;
+	box-shadow: 0px 1px 3px 3px #ababab;
 }
 
 .page5 {
 	width: 100%;
-	height:100vh;
+	height: 100vh;
 	top: 400%;
 	color: #fff;
 	overflow: hidden;
-	position:absolute;
+	position: absolute;
 	z-index: 90;
-	display:flex;
+	display: flex;
 	/*background: radial-gradient(ellipse, #054107d9, rgb(0 117 37 / 85%), #53fd7a48);*/
 	text-align: center;
 	align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	padding-left: 10%;
-    padding-right: 10%;
+	padding-right: 10%;
 	text-shadow: 0px 1px 5px black;
 
 	background-size: cover;
- 	background-position: center center;
-  	background-repeat: repeat;
-  	
+	background-position: center center;
+	background-repeat: repeat;
+
 }
 
 
@@ -348,10 +339,7 @@ div.general {
 
 
 .page5 h2 {
-	font-size: 40px;
-	text-align: center;
 	text-shadow: 4px 4px 4px black;
-	font-weight: 500;
 }
 
 
@@ -372,23 +360,13 @@ div.general {
 
 
 h1.article {
-	text-align: center;
-    font-weight: 500;
-	color:#000000;
-	
+	color: #000000;
 }
-
-h3 { 
-     font-weight: 500;
-}
-
 
 a {
-        color: #0500bf;
-		text-decoration:underline;
+	color: #0500bf;
+	text-decoration: underline;
 }
-
-
 
 summary:hover {
 	color: #081bcc;
@@ -396,49 +374,49 @@ summary:hover {
 }
 
 pre {
-  display: block;
-  font-family: Arial, Helvetica, sans-serif;
-  white-space: pre;
-  margin: 1%;
-  background-color: #ECEACA;
-  padding: 1%;
-  overflow-x:scroll;
-} 
+	display: block;
+	font-family: Arial, Helvetica, sans-serif;
+	white-space: pre;
+	margin: 1%;
+	background-color: #ECEACA;
+	padding: 1%;
+	overflow-x: scroll;
+}
 
 blockquote {
-    border-left: 5px solid #818183;
-    padding: 5px 0 5px 15px;
-    background-color: #f5f5f5;
-    margin-inline-start: 10px;
+	border-left: 5px solid #818183;
+	padding: 5px 0 5px 15px;
+	background-color: #f5f5f5;
+	margin-inline-start: 10px;
 }
 
 div.about {
 	max-width: 750px;
 	text-align: center;
-	margin-left:auto;
-	margin-right:auto;
-    padding: 0% 5% 5px 5%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0% 5% 5px 5%;
 }
 
 
 div.cabecera {
-    width: 25%;
-    text-align: left;
+	width: 25%;
+	text-align: left;
 	height: 100%;
 	float: left;
 	position: fixed;
 
-    color: rgb(0 0 0 / 90%);
-    background-position: center;
-    background-size: cover;
-    background-clip: content-box;
-    background-color: white;
-    background-repeat: no-repeat;
-    
-    z-index: 100;
-    top: 0;
+	color: rgb(0 0 0 / 90%);
+	background-position: center;
+	background-size: cover;
+	background-clip: content-box;
+	background-color: white;
+	background-repeat: no-repeat;
+
+	z-index: 100;
+	top: 0;
 	padding-top: 25vh;
-	
+
 }
 
 
@@ -446,20 +424,20 @@ div.cabecera {
 div.cuerpo {
 	max-width: 1200px;
 	text-align: justify;
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-div.cuerpo > img{
+div.cuerpo>img {
 	display: block;
- 	max-width: 100%;
+	max-width: 100%;
 	height: auto;
- 	margin-left: auto;
- 	margin-right: auto;	
+	margin-left: auto;
+	margin-right: auto;
 }
 
-div.cuerpo > p {
-	
+div.cuerpo>p {
+
 	margin-inline-end: 2%;
 	margin-inline-start: 2%;
 
@@ -468,7 +446,7 @@ div.cuerpo > p {
 
 
 div.centro {
-        text-align: center;
+	text-align: center;
 }
 
 
@@ -477,14 +455,16 @@ div.centro {
 /* TABLAS */
 
 table {
-    width:100%; 
+	width: 100%;
 	border: 2px solid black;
-   	border-collapse:collapse;
+	border-collapse: collapse;
 }
-th, td {
+
+th,
+td {
 	border: 1px solid black;
-  	width: 50%;
-	text-align:left;
+	width: 50%;
+	text-align: left;
 	vertical-align: top;
 	padding: 1%;
 }
@@ -496,12 +476,12 @@ th, td {
 
 div.logo {
 	text-align: center;
-  
+
 }
 
-div.logo > img {
+div.logo>img {
 	border-radius: 100px;
-	
+
 }
 
 
@@ -511,7 +491,7 @@ div.indice {
 	box-align: center;
 	text-align: left;
 	line-height: 25px;
-    margin-left:-10px;	
+	margin-left: -10px;
 }
 
 
@@ -519,59 +499,59 @@ div.indice {
 div.par {
 	text-align: center;
 	padding: 1%;
-	margin-left:20px;
-	margin-right:20px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 
 /* Navbar */
 
 div.navbar {
-    max-width: 100%;
-    text-align: center;
-    margin-left: 5px;
-    margin-right: auto;
-    padding-bottom: 10px;
-    padding-top: 5px;
+	max-width: 100%;
+	text-align: center;
+	margin-left: 5px;
+	margin-right: auto;
+	padding-bottom: 10px;
+	padding-top: 5px;
 	display: flex;
-    justify-content: center;
-    align-items: center;
+	justify-content: center;
+	align-items: center;
 }
-  
-  .navbar ul {
+
+.navbar ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	
-  }
-  
-  .navbar li {
+
+}
+
+.navbar li {
 	float: left;
 	padding-right: 5px;
-	
-  }
-  
-  .navbar a {
+
+}
+
+.navbar a {
 	display: block;
 	text-align: center;
 	padding: 8px 8px;
-	text-decoration:none;
+	text-decoration: none;
 	border-radius: 5px;
-	color:rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
 	box-sizing: unset;
-  }
+}
 
 
-  
-  li a:hover:not(.active) {
+
+li a:hover:not(.active) {
 	color: white;
 	background-color: rgb(32, 32, 32);
-	
-  }
-  
-  .active {
-    background-color: #117701;
-    color: #ffffff !important;
-    font-size: larger;
+
+}
+
+.active {
+	background-color: #117701;
+	color: #ffffff !important;
+	font-size: larger;
 }
