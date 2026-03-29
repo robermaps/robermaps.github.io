@@ -209,8 +209,8 @@ div.general {
     display: flex;
     text-align: center;
     align-content: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-direction: column;
     align-items: center;
     gap: 5vh;
     padding: 10vh 3.5vh 10vh 3.5vh;
