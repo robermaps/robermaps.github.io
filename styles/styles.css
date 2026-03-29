@@ -244,11 +244,8 @@ div.general {
 	border-width: 2px;
 }
 
-.page2 a {
+.page2-box > a {
 	text-decoration: none;
-}
-
-.page2 a {
 	color: white;
 }
 
