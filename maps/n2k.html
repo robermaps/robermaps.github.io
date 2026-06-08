@@ -1,152 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <title>Red Natura 2000</title>
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1"/> 
-		
-		<meta name="description" content="Visor de la Red Natura 2000"/>
+<head>
+	<title>Red Natura 2000</title>
 
-		<meta name="keywords" content="Mapa, Visor, Red Natura 2000, Leaflet">
-		<meta name="author" content="Roberto Jiménez">  
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<link rel="stylesheet" href="../styles/social.css">
-		<link rel="stylesheet" href="../styles/maps.css">
-		<link rel="stylesheet" href="../styles/leaflet.legend.css" />
-		<link rel="stylesheet" href="../styles/L.Control.SlideMenu.css">
+	<meta name="description" content="Visor de la Red Natura 2000" />
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.css" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.css">
-		
-		<link rel="icon" type="image/x-icon" href="../favicon.ico">
+	<meta name="keywords" content="Mapa, Visor, Red Natura 2000, Leaflet">
+	<meta name="author" content="Roberto Jiménez">
 
-    </head>
-    <body>
-        
-        <!-- Recuadro del mapa -->
-        <div id="map" style="width: 100%; height: 100%;"></div>
+	<link rel="stylesheet" href="../styles/social.css">
+	<link rel="stylesheet" href="../styles/maps.css">
+	<link rel="stylesheet" href="../styles/leaflet.legend.css" />
+	<link rel="stylesheet" href="../styles/L.Control.SlideMenu.css">
 
-        <!-- Biblioteca Leaflet -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
-		<script src="../js/jquery.js"></script>    
-		
-		<!-- Leaflet Plugins -->
-		<script src="../js/L.tileLayer.betterWms.js"></script>
-		<script src="../js/Bing.js"></script>
-		<script type="text/javascript" src="../js/leaflet.legend.js"></script>
-		<script src="../js/L.Control.SlideMenu.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.css" />
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.css">
 
-        <!-- Script en el que se configura el recuadro del mapa y las capas que se cargaran -->
-        <script>
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
 
-            // Objeto de tipo map de leaflet que referencia al div 
-            var map = L.map('map',{ center: [50.271583,12.401365], zoom: 4});  
-            
-            // Capas
-            var n2k2006 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
-                layers: '0,1',
-                maxZoom: 17,
-                minZoom: 0,
-				format: 'image/png',
-                                transparent: true,
-								attribution: '© European Environment Agency',
-				zIndex: 2
-            }).addTo(map);
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2214153988053620"
+		crossorigin="anonymous"></script>
 
-			var n2k2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
-                layers: '0,1',
-                maxZoom: 17,
-                minZoom: 0,
-				format: 'image/png',
-                                transparent: true,
-								attribution: '© European Environment Agency',
-				zIndex: 2
-            });
+</head>
 
-			var n2k2006_2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_Change_2006_2012/MapServer/WMSServer', {
-                layers: '0,1',
-                maxZoom: 17,
-                minZoom: 0,
-				format: 'image/png',
-                                transparent: true,
-								attribution: '© European Environment Agency',
-				zIndex: 2
-            });
-			
-			var riparian2012 = new L.tileLayer.betterWms('https://copernicus.discomap.eea.europa.eu/arcgis/services/RiparianZones/LCLU/MapServer/WMSServer', {
-                layers: 'LCLU_MAES121840,LCLU_MAES450461',
-                maxZoom: 17,
-                minZoom: 0,
-				format: 'image/png',
-                                transparent: true,
-								attribution: '© European Environment Agency',
-				zIndex: 2
-            });
-			
+<body>
 
-            var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{  
-                maxZoom: 17,  
-                minZoom: 0,  
-                attribution: '© OpenStreetMap contributors'  
-            });  
-		
-			var bing = new L.BingLayer('AlTSEdbsoNlnn7NvH59EkaGnqZUguWGRjM52Sspfvvj3iT5wdduDNZ2yYJw_mD82').addTo(map);
+	<!-- Recuadro del mapa -->
+	<div id="map" style="width: 100%; height: 100%;"></div>
 
-            // CONTROLES DEL MAPA //
-            
-            // Grupos de capas
-            
-            var capasInfo = {'Bing Maps': bing, 'OpenStreetMap': osm}
-            var capasBase = {'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012}
-			
-            // Control de capas, escala, menu y leyenda
-            L.control.layers(capasInfo,capasBase).addTo(map);
-            L.control.scale().addTo(map);
-			L.control.legend({
-				position: "bottomright",
-				title: "Leyenda",
-				collapsed: true,
-				symbolWidth: 785,
-				symbolHeight: 556,
-				legends: [{
-					label: "",
-					type: "image",
-					url: "..img/n2k-legend.png",
-				}]
-			}).addTo(map);
-			
-			L.control.resetView({
-				position: "topleft",
-				title: "Reset view",
-				latlng: L.latLng([50.271583,12.401365]),
-				zoom: 4,
-			}).addTo(map);
+	<!-- Biblioteca Leaflet -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
+	<script src="../js/jquery.js"></script>
 
-			var contents = ''
-			contents += '<div align=center><h1>Mis contribuciones a la Red Natura 2000</h1></div>'			
-			contents += '<div align=center><a href="https://robermaps.github.io"><img alt="Rober JL" src="img/robermaps.jpg" width=150px height=150px style="border-radius:100px;"></a></div>'
-			contents += '<div align=center><p><i>Roberto Jiménez</i></p></div>'
-			contents += '<div style="padding: 0px 10px"><p>Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update.</p>'
-			contents += '<p>En Red Natura tuvimos que actualizar la cartografía de 2006 para detectar los cambios producidos con el 2012 para todos los espacios que conforman esta red.</p>'
-			contents += '<p>Riparian consistió en cartografiar los márgenes de (casi)todos los ríos de Europa.</p>'
-			contents += '<p>Podéis echar un vistazo al resultado de estos proyectos en este mapa realizado con Leaflet. Haciendo click se puede ver la información asociada a cada polígono.</p>'
-			contents += '<p>Si queréis ver más productos cartográficos Copernicus los tenéis disponibles desde <a href="https://discomap.eea.europa.eu/Index/">DISCOMAP</a>.</p>'
-			contents += '<p>Puedes encontrarme <a href="https://robermaps.github.io">en mi portfolio</a> y en las redes:</p></div>'
-			contents += '<div align=center ><a href="https://twitter.com/exorober_" class="fa fa-twitter"></a><a href="https://www.linkedin.com/in/robermaps" class="fa fa-linkedin"></a><a href="https://github.com/robermaps" class="fa fa-github"></a></div>'
-			
-			var slideMenu = L.control.slideMenu('', {position: 'topright'}).addTo(map);
-			slideMenu.setContents(contents);
-            
+	<!-- Leaflet Plugins -->
+	<script src="../js/L.tileLayer.betterWms.js"></script>
+	<script src="../js/Bing.js"></script>
+	<script type="text/javascript" src="../js/leaflet.legend.js"></script>
+	<script src="../js/L.Control.SlideMenu.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
+
+	<!-- Script en el que se configura el recuadro del mapa y las capas que se cargaran -->
+	<script>
+
+		// Objeto de tipo map de leaflet que referencia al div 
+		var map = L.map('map', { center: [50.271583, 12.401365], zoom: 4 });
+
+		// Capas
+		var n2k2006 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2006/MapServer/WMSServer', {
+			layers: '0,1',
+			maxZoom: 17,
+			minZoom: 0,
+			format: 'image/png',
+			transparent: true,
+			attribution: '© European Environment Agency',
+			zIndex: 2
+		}).addTo(map);
+
+		var n2k2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_2012/MapServer/WMSServer', {
+			layers: '0,1',
+			maxZoom: 17,
+			minZoom: 0,
+			format: 'image/png',
+			transparent: true,
+			attribution: '© European Environment Agency',
+			zIndex: 2
+		});
+
+		var n2k2006_2012 = new L.tileLayer.betterWms('https://image.discomap.eea.europa.eu/arcgis/services/Natura2000/N2K_Change_2006_2012/MapServer/WMSServer', {
+			layers: '0,1',
+			maxZoom: 17,
+			minZoom: 0,
+			format: 'image/png',
+			transparent: true,
+			attribution: '© European Environment Agency',
+			zIndex: 2
+		});
+
+		var riparian2012 = new L.tileLayer.betterWms('https://copernicus.discomap.eea.europa.eu/arcgis/services/RiparianZones/LCLU/MapServer/WMSServer', {
+			layers: 'LCLU_MAES121840,LCLU_MAES450461',
+			maxZoom: 17,
+			minZoom: 0,
+			format: 'image/png',
+			transparent: true,
+			attribution: '© European Environment Agency',
+			zIndex: 2
+		});
 
 
+		var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 17,
+			minZoom: 0,
+			attribution: '© OpenStreetMap contributors'
+		});
 
-        </script>
-		
-		
+		var bing = new L.BingLayer('AlTSEdbsoNlnn7NvH59EkaGnqZUguWGRjM52Sspfvvj3iT5wdduDNZ2yYJw_mD82').addTo(map);
+
+		// CONTROLES DEL MAPA //
+
+		// Grupos de capas
+
+		var capasInfo = { 'Bing Maps': bing, 'OpenStreetMap': osm }
+		var capasBase = { 'Red Natura 2006': n2k2006, 'Red Natura 2012': n2k2012, 'Cambios Natura 2006-2012': n2k2006_2012, 'Riparian 2012': riparian2012 }
+
+		// Control de capas, escala, menu y leyenda
+		L.control.layers(capasInfo, capasBase).addTo(map);
+		L.control.scale().addTo(map);
+		L.control.legend({
+			position: "bottomright",
+			title: "Leyenda",
+			collapsed: true,
+			symbolWidth: 785,
+			symbolHeight: 556,
+			legends: [{
+				label: "",
+				type: "image",
+				url: "..img/n2k-legend.png",
+			}]
+		}).addTo(map);
+
+		L.control.resetView({
+			position: "topleft",
+			title: "Reset view",
+			latlng: L.latLng([50.271583, 12.401365]),
+			zoom: 4,
+		}).addTo(map);
+
+		var contents = ''
+		contents += '<div align=center><h1>Mis contribuciones a la Red Natura 2000</h1></div>'
+		contents += '<div align=center><a href="https://robermaps.github.io"><img alt="Rober JL" src="img/robermaps.jpg" width=150px height=150px style="border-radius:100px;"></a></div>'
+		contents += '<div align=center><p><i>Roberto Jiménez</i></p></div>'
+		contents += '<div style="padding: 0px 10px"><p>Durante el tiempo que trabajé en Telespazio Ibérica fotointerpreté y digitalicé para los proyectos de cartografía ambiental Copernicus - Red Natura 2006-2012 y Riparian Update.</p>'
+		contents += '<p>En Red Natura tuvimos que actualizar la cartografía de 2006 para detectar los cambios producidos con el 2012 para todos los espacios que conforman esta red.</p>'
+		contents += '<p>Riparian consistió en cartografiar los márgenes de (casi)todos los ríos de Europa.</p>'
+		contents += '<p>Podéis echar un vistazo al resultado de estos proyectos en este mapa realizado con Leaflet. Haciendo click se puede ver la información asociada a cada polígono.</p>'
+		contents += '<p>Si queréis ver más productos cartográficos Copernicus los tenéis disponibles desde <a href="https://discomap.eea.europa.eu/Index/">DISCOMAP</a>.</p>'
+		contents += '<p>Puedes encontrarme <a href="https://robermaps.github.io">en mi portfolio</a> y en las redes:</p></div>'
+		contents += '<div align=center ><a href="https://twitter.com/exorober_" class="fa fa-twitter"></a><a href="https://www.linkedin.com/in/robermaps" class="fa fa-linkedin"></a><a href="https://github.com/robermaps" class="fa fa-github"></a></div>'
+
+		var slideMenu = L.control.slideMenu('', { position: 'topright' }).addTo(map);
+		slideMenu.setContents(contents);
 
 
-    </body>
+
+
+	</script>
+
+
+
+
+</body>
+
 </html>
