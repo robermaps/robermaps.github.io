@@ -135,7 +135,7 @@ div.mifoto-text {
 
 
 div.mifoto>img {
-	border-radius: 50% 50% 50% 0%;
+	border-radius: 5% 5% 5% 5%;
 	width: clamp(180px, 55%, 320px);
 	aspect-ratio: 1;
 	object-fit: cover;
