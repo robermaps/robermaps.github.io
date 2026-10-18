@@ -106,7 +106,7 @@ for (const s of selected) {
     fs.writeFileSync(wavPath, Buffer.from(r.wav, 'base64'));
     if (flags.has('--spec')) {
       execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wavPath, '-lavfi',
-        'showspectrumpic=s=900x360:legend=1:scale=log:fscale=lin:stop=8000:drange=75', path.join(outDir, `${s.cat}-${s.id}.png`)]);
+        'showspectrumpic=s=900x360:legend=1:scale=log:fscale=lin:drange=75', path.join(outDir, `${s.cat}-${s.id}.png`)]);
     }
   }
   const warn = [];

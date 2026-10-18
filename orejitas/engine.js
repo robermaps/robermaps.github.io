@@ -322,8 +322,9 @@ export class Voice {
   }
 
   // ---- envolventes --------------------------------------------------------
-  // points: [[dt, valor, curva?], ...] relativos a t. curva: 'lin' (defecto),
-  // 'exp', 'set' o un número (constante de tiempo para setTargetAtTime).
+  // points: [[dt, valor, curva?], ...] relativos a t. curva: 'lin' (defecto,
+  // rampa que TERMINA en dt), 'exp', 'set' o un número: setTargetAtTime que
+  // EMPIEZA en dt con esa constante de tiempo (se acerca al valor sin llegar).
   env(param, points, t = this.t0) {
     let end = t;
     points.forEach(([dt, value, curve], i) => {
