@@ -107,7 +107,7 @@ function renderTabs() {
 function renderGrid() {
   const c = category();
   document.body.dataset.cat = c.id;
-  els.theme.content = NIGHT.has(c.id) ? THEME.night : THEME.day;
+  if (els.theme) els.theme.content = NIGHT.has(c.id) ? THEME.night : THEME.day;
   els.title.textContent = label(c.name);
   els.grid.innerHTML = '';
   c.sounds.forEach((s, i) => {
