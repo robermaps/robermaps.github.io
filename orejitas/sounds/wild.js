@@ -24,6 +24,7 @@ export default {
       // Rugido: grave, áspero (subarmónico + saturación + gruñido a ~28 Hz)
       id: 'lion', emoji: '🦁', name: { es: 'León', en: 'Lion' }, say: { es: 'El león', en: 'The lion' }, kind: 'shot',
       play(v) {
+        const G = 0.24; // nivel interno (≈ ganancia de normalización 1)
         const f = v.vary(110, 0.1);
         let t = v.t0;
         if (v.chance(0.5)) {
@@ -32,7 +33,7 @@ export default {
             pitch: [[0, f * 0.7], [0.35, f * 0.6]],
             amp: [[0, 0], [0.05, 0.5], [0.3, 0.3], [0.35, 0]],
             vowels: [[0, 'u'], [0.35, 'o']], scale: 0.6, sub: 0.5, drive: 3,
-            breath: 0.5, breathColor: 'pink', breathHp: 200, tremolo: { rate: 25, depth: 0.6 }, gain: 0.5,
+            breath: 0.5, breathColor: 'pink', breathHp: 200, tremolo: { rate: 25, depth: 0.6 }, gain: (0.5) * G,
           }) + 0.15;
         }
         const dur = v.rand(1.6, 2.2);
@@ -42,7 +43,7 @@ export default {
           amp: [[0, 0], [0.3, 0.7], [0.7, 1], [dur - 0.5, 0.75], [dur, 0]],
           vowels: [[0, 'u'], [0.3, 'o'], [0.6, 'a'], [dur * 0.75, 'o'], [dur, 'u']],
           scale: 0.6, sub: 0.5, detune: 25, drive: 3.5, breath: 0.6, breathColor: 'pink', breathHp: 200,
-          tremolo: { rate: v.rand(24, 32), depth: 0.5 }, jitter: 50, gain: 0.7, reverb: 0.25,
+          tremolo: { rate: v.rand(24, 32), depth: 0.5 }, jitter: 50, gain: (0.7) * G, reverb: 0.25,
         });
       },
     },
@@ -50,6 +51,7 @@ export default {
       // Barritar: trompetazo metálico que sube de tono y tiembla
       id: 'elephant', emoji: '🐘', name: { es: 'Elefante', en: 'Elephant' }, say: { es: 'El elefante', en: 'The elephant' }, kind: 'shot',
       play(v) {
+        const G = 0.18; // nivel interno (≈ ganancia de normalización 1)
         const dur = v.rand(1.0, 1.5);
         const f = v.vary(420, 0.1);
         return vocal(v, {
@@ -58,7 +60,7 @@ export default {
           amp: [[0, 0], [0.1, 0.8], [0.3, 1], [dur - 0.25, 0.9], [dur, 0]],
           vowels: [[0, 'o'], [0.15, 'a'], [dur - 0.2, 'a'], [dur, 'o']], bright: 1.3, peaks: [10, 12, 12],
           vibrato: { rate: 7, depth: 60, delay: 0.2 }, jitter: 60, drive: 3.5, detune: 22, breath: 0.25,
-          tremolo: { rate: 42, depth: 0.25 }, gain: 0.6, reverb: 0.3,
+          tremolo: { rate: 42, depth: 0.25 }, gain: (0.6) * G, reverb: 0.3,
         });
       },
     },
@@ -66,6 +68,7 @@ export default {
       // "Uh uh uh... ¡ah ah!": ululatos que se aceleran y suben hasta gritos
       id: 'monkey', emoji: '🐵', name: { es: 'Mono', en: 'Monkey' }, say: { es: 'El mono', en: 'The monkey' }, kind: 'shot',
       play(v) {
+        const G = 0.13; // nivel interno (≈ ganancia de normalización 1)
         let t = v.t0, end = t;
         const f = v.vary(300, 0.1);
         const nh = v.irand(4, 6);
@@ -77,7 +80,7 @@ export default {
             pitch: [[0, f * k * 0.9], [d * 0.5, f * k * 1.1], [d, f * k]],
             amp: [[0, 0], [0.02, 1], [d * 0.6, 0.7], [d, 0]],
             vowels: [[0, i % 2 ? 'o' : 'u'], [d, 'u']], scale: 1.15,
-            breath: i % 2 ? 0.4 : 0.15, jitter: 30, gain: 0.5,
+            breath: i % 2 ? 0.4 : 0.15, jitter: 30, gain: (0.5) * G,
           });
           t = end + Math.max(0.06, 0.2 - i * 0.025);
         }
@@ -90,7 +93,7 @@ export default {
             pitch: [[0, fa * 0.9], [d * 0.3, fa * 1.08], [d, fa * 0.8]],
             amp: [[0, 0], [0.015, 1], [d * 0.7, 0.8], [d, 0]],
             vowels: [[0, 'e'], [0.04, 'a'], [d, 'a']], scale: 1.2,
-            drive: 2.2, breath: 0.3, jitter: 40, tremolo: { rate: 40, depth: 0.3 }, gain: 0.6, reverb: 0.15,
+            drive: 2.2, breath: 0.3, jitter: 40, tremolo: { rate: 40, depth: 0.3 }, gain: (0.6) * G, reverb: 0.15,
           });
           t = end + v.rand(0.06, 0.12);
         }
@@ -101,12 +104,13 @@ export default {
       // Aullido: tono casi puro que sube, se sostiene y cae; a veces un segundo lobo
       id: 'wolf', emoji: '🐺', name: { es: 'Lobo', en: 'Wolf' }, say: { es: 'El lobo', en: 'The wolf' }, kind: 'shot',
       play(v) {
+        const G = 0.08; // nivel interno (≈ ganancia de normalización 1)
         const howl = (t, f, dur, gain, pan) => vocal(v, {
           t, dur,
           pitch: [[0, f * 0.8], [0.45, f * 1.3], [0.8, f * 1.4], [dur - 0.9, f * 1.35], [dur, f * 0.95]],
           amp: [[0, 0], [0.3, 0.8], [0.7, 1], [dur - 0.7, 0.85], [dur, 0]],
           vowels: [[0, 'u'], [0.5, 'o'], [dur - 0.6, 'o'], [dur, 'u']],
-          vibrato: { rate: 5, depth: 18, delay: 0.6 }, jitter: 10, breath: 0.06, gain, pan, reverb: 0.55,
+          vibrato: { rate: 5, depth: 18, delay: 0.6 }, jitter: 10, breath: 0.06, gain: gain * G, pan, reverb: 0.55,
         });
         const dur = v.rand(2.4, 3.3);
         const f = v.vary(380, 0.1);
@@ -121,6 +125,7 @@ export default {
       // "Uuh... uh-uh-uuuh": ululatos suaves con reverberación nocturna
       id: 'owl', emoji: '🦉', name: { es: 'Búho', en: 'Owl' }, say: { es: 'El búho', en: 'The owl' }, kind: 'shot',
       play(v) {
+        const G = 0.56; // nivel interno (≈ ganancia de normalización 1)
         const f = v.vary(370, 0.08);
         // [duración, tono relativo]; 0 = silencio
         const pattern = v.pick([
@@ -130,7 +135,7 @@ export default {
         ]);
         let t = v.t0, end = t;
         for (const [d, k] of pattern) {
-          if (k) end = hoot(v, t, f * k, d, 0.4);
+          if (k) end = hoot(v, t, f * k, d, 0.4 * G);
           t += d;
         }
         return end;
@@ -140,6 +145,7 @@ export default {
       // "Croac": pares "rib-bit" con tren de pulsos y resonancia del saco vocal
       id: 'frog', emoji: '🐸', name: { es: 'Rana', en: 'Frog' }, say: { es: 'La rana', en: 'The frog' }, kind: 'shot',
       play(v) {
+        const G = 0.76; // nivel interno (≈ ganancia de normalización 1)
         const n = v.pick([2, 2, 3]);
         let t = v.t0, end = t;
         const f = v.vary(95, 0.1);
@@ -152,13 +158,13 @@ export default {
             ...common, t, dur: d1,
             pitch: [[0, f], [d1, f * 1.1]],
             amp: [[0, 0], [0.01, 1], [d1 * 0.7, 0.8], [d1, 0]],
-            vowels: [[0, FROG_SAC], [d1, FROG_SAC2]], gain: 0.55,
+            vowels: [[0, FROG_SAC], [d1, FROG_SAC2]], gain: (0.55) * G,
           });
           end = vocal(v, {
             ...common, t: end + 0.05, dur: d2,
             pitch: [[0, f * 1.05], [d2, f * 0.9]],
             amp: [[0, 0], [0.01, 1], [d2 * 0.6, 0.8], [d2, 0]],
-            vowels: [[0, FROG_SAC2], [d2, FROG_SAC]], gain: 0.6, reverb: 0.1,
+            vowels: [[0, FROG_SAC2], [d2, FROG_SAC]], gain: (0.6) * G, reverb: 0.1,
           });
           t = end + v.rand(0.35, 0.6);
         }
@@ -169,6 +175,7 @@ export default {
       // "Bzzz": zumbido de sierra (~220 Hz) que pasa de un lado a otro (Doppler)
       id: 'bee', emoji: '🐝', name: { es: 'Abeja', en: 'Bee' }, say: { es: 'La abeja', en: 'The bee' }, kind: 'shot',
       play(v) {
+        const G = 0.27; // nivel interno (≈ ganancia de normalización 1)
         const dur = v.rand(2.4, 3.4);
         const t = v.t0;
         const end = t + dur;
@@ -178,7 +185,7 @@ export default {
         const mod = v.gain(1);
         v.lfo(v.rand(22, 28), 15, mod, { t, stop: end + 0.05 });
         v.wobble(mod, 20, 5, { t, stop: end + 0.05 });
-        const sum = v.gain(0.5);
+        const sum = v.gain(0.5 * G);
         [1, 1.006].forEach((k) => {
           const o = v.osc('sawtooth', f * k, t, end + 0.05);
           points(o.frequency, fpts, t, k);
@@ -197,6 +204,7 @@ export default {
       // Cri-cri: grupos de 3-4 pulsos de un tono puro (~4,5 kHz)
       id: 'cricket', emoji: '🦗', name: { es: 'Grillo', en: 'Cricket' }, say: { es: 'El grillo', en: 'The cricket' }, kind: 'shot',
       play(v) {
+        const G = 1.68; // nivel interno (≈ ganancia de normalización 1)
         const f = v.vary(4400, 0.06);
         const chirps = v.irand(5, 8);
         const period = v.rand(0.42, 0.55);
@@ -216,7 +224,7 @@ export default {
           }
         }
         const pan = v.pan(v.rand(-0.3, 0.3));
-        v.chain(o, env, v.gain(0.22), pan, v.out);
+        v.chain(o, env, v.gain(0.22 * G), pan, v.out);
         v.send(pan, 0.15);
         return t + dur;
       },
@@ -225,13 +233,15 @@ export default {
       // Canto generativo: píos, trinos (FM) y silbidos; distinto cada vez
       id: 'bird', emoji: '🐦', name: { es: 'Pájaro', en: 'Bird' }, say: { es: 'El pájaro', en: 'The bird' }, kind: 'shot',
       play(v) {
-        return birdSong(v, { base: v.rand(2800, 3600), pan: v.rand(-0.3, 0.3), gain: 0.25, motifs: v.irand(2, 4) });
+        const G = 0.67; // nivel interno (≈ ganancia de normalización 1)
+        return birdSong(v, { base: v.rand(2800, 3600), pan: v.rand(-0.3, 0.3), gain: (0.25) * G, motifs: v.irand(3, 5) });
       },
     },
     {
       // Canto de ballena: gemidos largos con glisandos, mucha reverb y fondo submarino
       id: 'whale', emoji: '🐳', name: { es: 'Ballena', en: 'Whale' }, say: { es: 'La ballena', en: 'The whale' }, kind: 'shot',
       play(v) {
+        const G = 0.11; // nivel interno (≈ ganancia de normalización 1)
         const shapes = [
           (f, d) => [[0, f], [d * 0.6, f * 2.2], [d, f * 1.8]],
           (f, d) => [[0, f * 2], [d, f * 0.8]],
@@ -248,14 +258,14 @@ export default {
             amp: [[0, 0], [d * 0.3, 1], [d * 0.75, 0.8], [d, 0]],
             vowels: [[0, 'u'], [d * 0.5, 'o'], [d, 'u']], scale: 0.85,
             vibrato: { rate: 4, depth: 20 }, jitter: 8, breath: 0.03,
-            gain: 0.5, reverb: 0.8, pan: v.rand(-0.3, 0.3),
+            gain: (0.5) * G, reverb: 0.8, pan: v.rand(-0.3, 0.3),
           });
           t = end + v.rand(0.2, 0.6);
         }
         const tail = end + 0.6;
         noiseEnv(v, {
           t: v.t0, env: [[0, 0], [0.6, 1], [tail - v.t0 - 0.8, 1], [tail - v.t0, 0]],
-          color: 'brown', filters: [v.lp(350)], gain: 0.25,
+          color: 'brown', filters: [v.lp(350)], gain: (0.25) * G,
         });
         return tail;
       },
@@ -264,6 +274,7 @@ export default {
       // Delfín: trenes de clics que se aceleran, silbidos (3,5-5 kHz) y parloteo
       id: 'dolphin', emoji: '🐬', name: { es: 'Delfín', en: 'Dolphin' }, say: { es: 'El delfín', en: 'The dolphin' }, kind: 'shot',
       play(v) {
+        const G = 0.54; // nivel interno (≈ ganancia de normalización 1)
         let t = v.t0, end = t;
         const pan = v.rand(-0.3, 0.3);
         const parts = v.pick([
@@ -277,8 +288,8 @@ export default {
             let ct = t;
             let rate = v.rand(15, 25);
             while (ct < t + d) {
-              hit(v, { t: ct, dur: 0.004, type: 'bandpass', freq: 3500, Q: 0.8, gain: 0.5, pan });
-              rate *= 1.12;
+              hit(v, { t: ct, dur: 0.004, type: 'bandpass', freq: 3500, Q: 0.8, gain: (0.5) * G, pan });
+              rate = Math.min(rate * 1.12, 160); // con tope: si no, la serie converge y no termina
               ct += 1 / rate;
             }
             end = t + d;
@@ -290,14 +301,14 @@ export default {
               [[0, f * 0.8], [d, f * 1.5]],
               [[0, f * 1.3], [d * 0.3, f], [d * 0.7, f * 1.4], [d, f * 1.1]],
             ]);
-            end = fmNote(v, { t, dur: d, freq: shape, fmRate: v.rand(5, 9), fmDepth: f * 0.03, gain: 0.25, a: 0.02, harm: 0.12, pan, reverb: 0.2 });
+            end = fmNote(v, { t, dur: d, freq: shape, fmRate: v.rand(5, 9), fmDepth: f * 0.03, gain: (0.25) * G, a: 0.02, harm: 0.12, pan, reverb: 0.2 });
           } else {
             const k = v.irand(5, 8);
             let ct = t;
             for (let i = 0; i < k; i++) {
               const d = v.rand(0.04, 0.07);
               const f = v.rand(2500, 4500);
-              end = fmNote(v, { t: ct, dur: d, freq: [[0, f * 0.85], [d * 0.5, f * 1.15], [d, f]], gain: 0.22, harm: 0.15, pan });
+              end = fmNote(v, { t: ct, dur: d, freq: [[0, f * 0.85], [d * 0.5, f * 1.15], [d, f]], gain: (0.22) * G, harm: 0.15, pan });
               ct = end + v.rand(0.02, 0.05);
             }
           }
@@ -310,6 +321,7 @@ export default {
       // "Iii iii": chillidos agudos y cortos con vibrato rápido
       id: 'mouse', emoji: '🐭', name: { es: 'Ratón', en: 'Mouse' }, say: { es: 'El ratón', en: 'The mouse' }, kind: 'shot',
       play(v) {
+        const G = 1.13; // nivel interno (≈ ganancia de normalización 1)
         const n = v.irand(3, 5);
         let t = v.t0, end = t;
         const base = v.vary(3000, 0.1);
@@ -318,7 +330,7 @@ export default {
           const f = base * v.rand(0.88, 1.12);
           end = fmNote(v, {
             t, dur: d, freq: [[0, f * 0.9], [d * 0.4, f * 1.1], [d, f]],
-            fmRate: v.rand(30, 40), fmDepth: f * 0.04, gain: 0.2, harm: 0.1, a: 0.008, pan: v.rand(-0.2, 0.2),
+            fmRate: v.rand(30, 40), fmDepth: f * 0.04, gain: (0.2) * G, harm: 0.1, a: 0.008, pan: v.rand(-0.2, 0.2),
           });
           t = end + v.rand(0.06, 0.18);
         }
@@ -329,6 +341,7 @@ export default {
       // "Sssss": siseo de ruido agudo que crece y se apaga
       id: 'snake', emoji: '🐍', name: { es: 'Serpiente', en: 'Snake' }, say: { es: 'La serpiente', en: 'The snake' }, kind: 'shot',
       play(v) {
+        const G = 0.8; // nivel interno (≈ ganancia de normalización 1)
         const n = v.pick([1, 2]);
         let t = v.t0, end = t;
         for (let i = 0; i < n; i++) {
@@ -336,7 +349,7 @@ export default {
           end = noiseEnv(v, {
             t, env: [[0, 0], [0.15, 0.7], [d * 0.6, 1], [d, 0]], color: 'white',
             filters: [v.hp(2500), v.filter('peaking', v.rand(4500, 5500), 1.5, 6), v.lp(8000)],
-            gain: 0.5, pan: v.rand(-0.2, 0.2),
+            gain: (0.5) * G, pan: v.rand(-0.2, 0.2),
           });
           t = end + v.rand(0.25, 0.4);
         }

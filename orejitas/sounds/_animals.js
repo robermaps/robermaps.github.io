@@ -86,7 +86,7 @@ export function birdSong(v, { t = v.t0, base = 3200, pan = 0, gain = 0.25, motif
         }
       }
     }
-    at += v.rand(0.1, 0.25);
+    at += v.rand(0.06, 0.18);
   }
   return end;
 }

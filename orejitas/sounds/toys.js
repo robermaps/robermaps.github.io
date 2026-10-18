@@ -14,7 +14,7 @@ function rattle(v) {
   const env = v.gain(0);
   const shell = v.filter('peaking', v.rand(1100, 1500), 2, 6);
   const p = v.pan(v.rand(-0.2, 0.2));
-  v.chain(src, v.hp(1800), v.bp(v.rand(2800, 3600), 0.9), shell, env, p, v.out);
+  v.chain(src, v.hp(1800), v.bp(v.rand(2800, 3600), 0.9), shell, env, v.gain(5), v.shaper(2.5), v.gain(0.5), p, v.out);
   v.send(p, 0.08);
   for (let i = 0; i < n; i++) {
     const ts = t0 + i * gap + v.rand(-0.015, 0.015);
@@ -179,8 +179,8 @@ function spinningTop(v) {
 function windUp(v) {
   let t = v.t0;
   const click = (at, g, f = v.rand(3000, 3600)) => {
-    hit(v, { t: at, dur: 0.025, freq: f, Q: 6, gain: g });
-    hit(v, { t: at, dur: 0.02, type: 'lowpass', freq: 1200, gain: g * 0.3 });
+    hit(v, { t: at, dur: 0.025, freq: f, Q: 6, gain: g * 3 });
+    hit(v, { t: at, dur: 0.02, type: 'lowpass', freq: 1200, gain: g * 0.6 });
   };
   for (let turn = 0; turn < 3; turn++) {
     for (let i = 0; i < 7; i++) { click(t, 0.5 * v.rand(0.8, 1)); t += 0.07; }
@@ -193,7 +193,7 @@ function windUp(v) {
   let i = 0;
   while (t < runStart + runDur) {
     const x = (t - runStart) / runDur;
-    hit(v, { t, dur: 0.015, freq: i % 2 ? 4200 : 3700, Q: 8, gain: 0.28 * (1 - x * 0.5) });
+    hit(v, { t, dur: 0.015, freq: i % 2 ? 4200 : 3700, Q: 8, gain: 0.9 * (1 - x * 0.5) });
     rate = 28 - 22 * x * x;
     t += 1 / rate;
     i++;
@@ -202,7 +202,7 @@ function windUp(v) {
   buzz.frequency.exponentialRampToValueAtTime(45, runStart + runDur);
   const bg = v.gain(0);
   bg.gain.setValueAtTime(0, runStart);
-  bg.gain.linearRampToValueAtTime(0.12, runStart + 0.05);
+  bg.gain.linearRampToValueAtTime(0.2, runStart + 0.05);
   bg.gain.linearRampToValueAtTime(0, runStart + runDur);
   v.chain(buzz, v.bp(420, 2), bg, v.out);
   return runStart + runDur;

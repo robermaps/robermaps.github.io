@@ -1,25 +1,26 @@
 // Orejitas · categoría: Nanas / Lullabies
 // Melodías de dominio público en bucle (una pasada, pausa, y otra vez con
 // otro timbre) y tres piezas generativas que nunca se repiten.
-import { melody, parseScore, piano, bell, freq } from '../instruments.js';
-import { celesta, softBox, softHarp, softBass, songLoop } from './_musical.js';
+import { melody, parseScore, freq } from '../instruments.js';
+import { celesta, softBox, softHarp, softPiano, softBass, songLoop, outBus, partialsNote } from './_musical.js';
 
 // ---- timbres de las pasadas (f llega en la octava escrita en la partitura)
+// (dest = bus compartido que crea songLoop)
 const BOX = {
-  lead: (v, f, t) => softBox(v, { t, freq: f * 2, gain: 0.2, pan: v.rand(-0.1, 0.1) }),
-  bass: (v, f, t, d) => softBox(v, { t, freq: f * 2, dur: Math.max(1.5, d), gain: 0.11 }),
+  lead: (v, f, t, d, dest) => softBox(v, { t, freq: f * 2, gain: 0.2, dest }),
+  bass: (v, f, t, d, dest) => softBox(v, { t, freq: f * 2, dur: Math.max(1.5, d), gain: 0.11, dest }),
 };
 const CELESTA = {
-  lead: (v, f, t) => celesta(v, { t, freq: f * 2, gain: 0.18, pan: 0.1 }),
-  bass: (v, f, t, d) => softBass(v, { t, freq: f, dur: d, gain: 0.14 }),
+  lead: (v, f, t, d, dest) => celesta(v, { t, freq: f * 2, gain: 0.18, dest }),
+  bass: (v, f, t, d, dest) => softBass(v, { t, freq: f, dur: d, gain: 0.14, dest }),
 };
 const HARP = {
-  lead: (v, f, t) => softHarp(v, { t, freq: f, gain: 0.24, pan: -0.1 }),
-  bass: (v, f, t, d) => softHarp(v, { t, freq: f, dur: Math.max(2, d * 1.5), gain: 0.15, pan: -0.25 }),
+  lead: (v, f, t, d, dest) => softHarp(v, { t, freq: f, gain: 0.24, dest }),
+  bass: (v, f, t, d, dest) => softHarp(v, { t, freq: f, dur: Math.max(2, d * 1.5), gain: 0.15, dest }),
 };
 const PIANO = {
-  lead: (v, f, t) => piano(v, { t, freq: f, dur: 1.8, gain: 0.22, reverb: 0.3 }),
-  bass: (v, f, t) => piano(v, { t, freq: f, dur: 1.4, gain: 0.13, reverb: 0.3 }),
+  lead: (v, f, t, d, dest) => softPiano(v, { t, freq: f, dur: 1.6, gain: 0.22, dest }),
+  bass: (v, f, t, d, dest) => softPiano(v, { t, freq: f, dur: 1.3, gain: 0.13, dest }),
 };
 
 // ---- partituras (nota/duración en pulsos; r = silencio) -----------------
@@ -79,6 +80,8 @@ const PENT = ['G4', 'A4', 'C5', 'D5', 'E5', 'G5', 'A5', 'C6', 'D6', 'E6'].map(fr
 const BOX_CHORDS = [['C4', 'G4'], ['A3', 'E4'], ['F3', 'C4'], ['G3', 'D4']].map((c) => c.map(freq));
 
 function musicBoxLoop(v) {
+  const lead = outBus(v, { pan: -0.05, reverb: 0.4 });
+  const low = outBus(v, { pan: 0.1, reverb: 0.3 });
   let idx = 4;
   let k = v.irand(0, 3);
   v.loop((t) => {
@@ -86,8 +89,8 @@ function musicBoxLoop(v) {
     const len = v.pick([6, 8, 8, 10]);
     const chord = BOX_CHORDS[k % BOX_CHORDS.length];
     k += v.pick([1, 1, 1, 2]);
-    softBox(v, { t, freq: chord[0], dur: 2.5, gain: 0.1 });
-    softBox(v, { t: t + (len / 2) * beat, freq: chord[1], dur: 2.5, gain: 0.08 });
+    softBox(v, { t, freq: chord[0], dur: 2.5, gain: 0.1, dest: low });
+    softBox(v, { t: t + (len / 2) * beat, freq: chord[1], dur: 2.5, gain: 0.08, dest: low });
     let at = t;
     for (let i = 0; i < len; i++) {
       let step = v.pick([-2, -1, -1, 0, 1, 1, 2]);
@@ -95,7 +98,7 @@ function musicBoxLoop(v) {
       if (idx < 2) step = Math.abs(step);
       idx = Math.max(0, Math.min(PENT.length - 1, idx + step));
       const d = i === len - 1 ? beat * 2 : (v.chance(0.15) ? beat * 0.5 : beat);
-      softBox(v, { t: at + v.rand(-0.01, 0.01), freq: PENT[idx], gain: v.rand(0.16, 0.21), pan: v.rand(-0.2, 0.2) });
+      softBox(v, { t: at + v.rand(-0.01, 0.01), freq: PENT[idx], gain: v.rand(0.16, 0.21), dest: lead });
       at += d;
     }
     return at + beat * v.rand(1, 2.5);
@@ -103,13 +106,15 @@ function musicBoxLoop(v) {
 }
 
 const MOBILE = ['C5', 'D5', 'E5', 'G5', 'A5', 'C6'].map(freq);
+const CHIME = [[1, 1, 1], [2.32, 0.45, 0.6], [4.25, 0.2, 0.4], [6.63, 0.08, 0.25]];
 function mobileLoop(v) {
+  const sides = [-0.6, -0.2, 0.2, 0.6].map((pan) => outBus(v, { pan, reverb: 0.5 }));
   v.loop((t) => {
     const i = v.irand(0, MOBILE.length - 1);
-    bell(v, { t, freq: MOBILE[i], dur: v.rand(3, 5), gain: v.rand(0.08, 0.14), partials: 'chime', pan: v.rand(-0.7, 0.7), reverb: 0.5 });
+    partialsNote(v, { t, freq: MOBILE[i], dur: v.rand(3, 5), gain: v.rand(0.08, 0.14), partials: CHIME, dest: v.pick(sides) });
     if (v.chance(0.3)) {
       const j = Math.min(MOBILE.length - 1, i + v.pick([1, 2]));
-      bell(v, { t: t + v.rand(0.15, 0.35), freq: MOBILE[j], dur: v.rand(3, 4.5), gain: v.rand(0.06, 0.1), partials: 'chime', pan: v.rand(-0.7, 0.7), reverb: 0.5 });
+      partialsNote(v, { t: t + v.rand(0.15, 0.35), freq: MOBILE[j], dur: v.rand(3, 4.5), gain: v.rand(0.06, 0.1), partials: CHIME, dest: v.pick(sides) });
     }
     return t + v.rand(0.7, 2.2);
   });
@@ -123,6 +128,8 @@ const HARP_PROGS = [
 ].map((prog) => prog.map((ch) => ch.map(freq)));
 
 function harpLoop(v) {
+  const lanes = [-0.4, 0, 0.4].map((pan) => outBus(v, { pan, reverb: 0.4 }));
+  const low = outBus(v, { pan: 0, reverb: 0.25 });
   let prog = v.pick(HARP_PROGS);
   let k = 0;
   v.loop((t) => {
@@ -130,28 +137,29 @@ function harpLoop(v) {
     const ch = prog[k % 4];
     k++;
     const s = v.rand(0.2, 0.25);
-    softBass(v, { t, freq: ch[0] < 100 ? ch[0] * 2 : ch[0], dur: 7 * s + 0.6, gain: 0.08 });
+    softBass(v, { t, freq: ch[0] < 100 ? ch[0] * 2 : ch[0], dur: 7 * s + 0.6, gain: 0.08, dest: low });
     let at = t;
     ch.forEach((f, i) => {
-      softHarp(v, { t: at, freq: f, dur: 3.2, gain: 0.22 * (1 - i * 0.05), pan: -0.4 + (i / 6) * 0.8 });
+      softHarp(v, { t: at, freq: f, dur: 2.8, gain: 0.22 * (1 - i * 0.05), dest: lanes[Math.min(2, Math.floor(i / 2.5))] });
       at += s * v.rand(0.92, 1.08);
     });
     if (v.chance(0.4)) { // a veces, un adorno descendente
-      softHarp(v, { t: at, freq: ch[5], dur: 3, gain: 0.14, pan: 0.2 });
+      softHarp(v, { t: at, freq: ch[5], dur: 2.6, gain: 0.14, dest: lanes[2] });
       at += s;
-      softHarp(v, { t: at, freq: ch[4], dur: 3, gain: 0.12, pan: 0.1 });
+      softHarp(v, { t: at, freq: ch[4], dur: 2.6, gain: 0.12, dest: lanes[1] });
     }
     return at + v.rand(0.35, 0.7);
   });
 }
 
 // Martinillo: en las pasadas impares, canon a dos voces
-function frereRound(v, voice, t, tempo, pass) {
+const FRERE_NOTES = parseScore(FRERE);
+function frereRound(v, voice, t, tempo, pass, buses) {
   if (pass % 2 === 0) return 0;
   const beat = 60 / tempo;
-  return melody(v, parseScore(FRERE), {
+  return melody(v, FRERE_NOTES, {
     t: t + 8 * beat, bpm: tempo, swing: 0.006,
-    play: (f, at) => celesta(v, { t: at, freq: f, gain: 0.13, pan: -0.3 }),
+    play: (f, at) => celesta(v, { t: at, freq: f, gain: 0.13, dest: buses.bass }),
   });
 }
 
@@ -185,8 +193,8 @@ export default {
       say: { es: 'Para Elisa', en: 'Für Elise' }, kind: 'loop',
       play(v) {
         const box = {
-          lead: (vv, f, t) => softBox(vv, { t, freq: f * 2, gain: 0.18 }),
-          bass: (vv, f, t) => softBox(vv, { t, freq: f * 2, dur: 1.6, gain: 0.12 }),
+          lead: (vv, f, t, d, dest) => softBox(vv, { t, freq: f * 2, gain: 0.18, dest }),
+          bass: (vv, f, t, d, dest) => softBox(vv, { t, freq: f * 2, dur: 1.6, gain: 0.12, dest }),
         };
         songLoop(v, { score: ELISE, bass: ELISE_LH, bpm: 132, voices: [PIANO, box] });
       },

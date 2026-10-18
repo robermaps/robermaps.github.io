@@ -141,13 +141,13 @@ function triangleHit(v, t, g, dur = 2.5) {
 }
 
 function shake(v, t, g, pan = 0, d = 0.09) {
-  hit(v, { t, dur: d, type: 'highpass', freq: 4500, a: 0.012, gain: g * 0.6, pan });
-  const s = v.dust(2500, { stop: t + d + 0.02 });
+  hit(v, { t, dur: d, type: 'highpass', freq: 4500, a: 0.012, gain: g * 1.2, pan });
+  const s = v.dust(2500, { grain: 0.0005, stop: t + d + 0.02 });
   const env = v.gain(0);
   env.gain.setValueAtTime(0, t);
-  env.gain.linearRampToValueAtTime(g, t + 0.012);
+  env.gain.linearRampToValueAtTime(g * 1.5, t + 0.012);
   env.gain.exponentialRampToValueAtTime(0.001, t + d);
-  v.chain(s, v.hp(5000), env, v.pan(pan), v.out);
+  v.chain(s, v.hp(4000), v.lp(10000), env, v.pan(pan), v.out);
   return t + d;
 }
 
@@ -333,16 +333,20 @@ function churchBellsPlay(v) {
   const gap = v.rand(0.3, 0.36);
   const rounds = [bells, bells];
   if (v.chance(0.5)) rounds[1] = [bells[1], bells[0], bells[3], bells[2], bells[5], bells[4]];
+  // todas las campanas pasan por un fundido final para no cortar en seco
+  const fade = v.gain(1);
+  fade.connect(v.out);
   let at = t;
-  let end = t;
   rounds.forEach((row) => {
     row.forEach((f, i) => {
-      end = Math.max(end, bell(v, { t: at, freq: f, dur: 4.2, gain: 0.17, partials: 'church', reverb: 0.35, detune: 3, pan: -0.5 + i * 0.2 }));
+      bell(v, { t: at, freq: f, dur: 4, gain: 0.17, partials: 'church', reverb: 0.35, detune: 3, pan: -0.5 + i * 0.2, dest: fade });
       at += gap;
     });
     at += gap; // pausa de "handstroke"
   });
-  return Math.min(end, at + 2.5);
+  fade.gain.setValueAtTime(1, at + 0.8);
+  fade.gain.linearRampToValueAtTime(0, at + 3);
+  return at + 3;
 }
 
 function trianglePlay(v) {

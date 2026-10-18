@@ -190,14 +190,27 @@ export class Voice {
     this.stopped = false;
     this.onended = null;
 
-    this._fader = ctx.createGain();
+    // Dos caminos (directo y reverb) con la misma ganancia de normalización y
+    // un único control de fundido (_level) que gobierna ambos.
     this.out = ctx.createGain(); // destino por defecto de las recetas
     this.out.gain.value = gain;
-    this.out.connect(this._fader);
-    this._fader.connect(bus.input);
+    this._wet = ctx.createGain(); // entrada de los envíos a reverb (v.send)
+    this._wet.gain.value = gain;
+    this._fader = ctx.createGain();
+    this._wetFader = ctx.createGain();
+    this._fader.gain.value = 0;
+    this._wetFader.gain.value = 0;
+    this._ctl = ctx.createConstantSource();
+    this._ctl.offset.value = 1;
+    this._ctl.connect(this._fader.gain);
+    this._ctl.connect(this._wetFader.gain);
+    this._ctl.start(offline ? 0 : ctx.currentTime);
+    this._level = this._ctl.offset;
+    this.out.connect(this._fader).connect(bus.input);
+    this._wet.connect(this._wetFader).connect(bus.reverbIn);
     if (fadeIn > 0) {
-      this._fader.gain.setValueAtTime(0, this.t0);
-      this._fader.gain.linearRampToValueAtTime(1, this.t0 + fadeIn);
+      this._level.setValueAtTime(0, this.t0);
+      this._level.linearRampToValueAtTime(1, this.t0 + fadeIn);
     }
     this._sources = new Set();
     this._timers = new Set();
@@ -317,7 +330,7 @@ export class Voice {
   send(node, amount = 0.3) {
     const g = this.gain(amount);
     node.connect(g);
-    g.connect(this.bus.reverbIn);
+    g.connect(this._wet);
     return g;
   }
 
@@ -433,7 +446,7 @@ export class Voice {
   scheduleEnd(at, fade = 10) {
     if (this.offline || this.stopped) return;
     this.clearScheduledEnd();
-    const g = this._fader.gain;
+    const g = this._level;
     const now = this.ctx.currentTime;
     const start = Math.max(now + 0.05, at - fade);
     g.setValueAtTime(1, start);
@@ -445,7 +458,7 @@ export class Voice {
     if (!this._endTimer) return;
     clearTimeout(this._endTimer);
     this._endTimer = null;
-    const g = this._fader.gain;
+    const g = this._level;
     const now = this.ctx.currentTime;
     if (g.cancelAndHoldAtTime) g.cancelAndHoldAtTime(now);
     else { const v = g.value; g.cancelScheduledValues(now); g.setValueAtTime(v, now); }
@@ -458,7 +471,7 @@ export class Voice {
     this.cancelled = true; // parada manual (no terminó por sí solo)
     this._clearTimers();
     const now = this.ctx.currentTime;
-    const g = this._fader.gain;
+    const g = this._level;
     if (g.cancelAndHoldAtTime) g.cancelAndHoldAtTime(now);
     else { const v = g.value; g.cancelScheduledValues(now); g.setValueAtTime(v, now); }
     g.linearRampToValueAtTime(0, now + fade);
@@ -482,7 +495,8 @@ export class Voice {
     this._clearTimers();
     for (const s of this._sources) { try { s.stop(); } catch (e) { /* ya parada */ } }
     this._sources.clear();
-    try { this._fader.disconnect(); } catch (e) { /* nada */ }
+    try { this._ctl.stop(); } catch (e) { /* nada */ }
+    try { this._fader.disconnect(); this._wetFader.disconnect(); } catch (e) { /* nada */ }
     if (this.onended) { const cb = this.onended; this.onended = null; cb(); }
   }
 }

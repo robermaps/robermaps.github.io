@@ -80,9 +80,12 @@
       data.setUint32(24, sr, true); data.setUint32(28, sr * ch * 2, true); data.setUint16(32, ch * 2, true);
       data.setUint16(34, 16, true); w(36, 'data'); data.setUint32(40, n * ch * 2, true);
       const chans = [...Array(ch)].map((_, c) => buffer.getChannelData(c));
+      // solo para el WAV de revisión: si hay picos > 0 dBFS, escalar en vez de recortar
+      let peak = 1;
+      for (const d of chans) for (let i = 0; i < n; i++) { const a = Math.abs(d[i]); if (a > peak) peak = a; }
       let o = 44;
       for (let i = 0; i < n; i++) for (let c = 0; c < ch; c++) {
-        const s = Math.max(-1, Math.min(1, chans[c][i] || 0));
+        const s = Math.max(-1, Math.min(1, (chans[c][i] || 0) / peak));
         data.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); o += 2;
       }
       const bytes = new Uint8Array(data.buffer);
