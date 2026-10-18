@@ -29,7 +29,7 @@ export default {
         mod(v, gust, wbp.frequency, 500);
         // truenos lejanos de vez en cuando
         v.loop((t) => {
-          const end = thunderAt(v, t + v.rand(2, 6), { dist: v.rand(0.55, 1), level: v.rand(0.6, 1) });
+          const end = thunderAt(v, t + v.rand(2, 6), { dist: v.rand(0.55, 1), level: v.rand(0.9, 1.4) });
           return end + v.rand(4, 12);
         });
       },
@@ -42,7 +42,7 @@ export default {
         const surfG = v.gain(0.22);
         v.chain(bed(v, 'brown'), v.lp(350), surfG, v.out);
         drift(v, surfG.gain, { min: 0.15, max: 0.3, every: [3, 9] });
-        v.chain(bed(v, 'pink'), v.bp(800, 0.5), v.gain(0.05), v.out);
+        v.chain(bed(v, 'pink'), v.bp(800, 0.5), v.gain(0.02), v.out);
         // cada ola: se forma, rompe y la espuma se retira
         v.loop((t) => {
           const P = v.rand(6.5, 10.5);
@@ -55,7 +55,7 @@ export default {
           // cuerpo de la ola
           const lp = v.lp(250, 0.5);
           lp.frequency.setValueAtTime(250, t);
-          lp.frequency.exponentialRampToValueAtTime(v.rand(1800, 3000), crest);
+          lp.frequency.exponentialRampToValueAtTime(v.rand(2500, 4000), crest);
           lp.frequency.exponentialRampToValueAtTime(450, end);
           const g = v.gain(0);
           g.gain.setValueAtTime(0, t);
@@ -159,11 +159,11 @@ export default {
         drift(v, gH.gain, { min: 0.03, max: 0.07, every: [0.5, 2] });
         // crepitar en rachas
         const gC = v.gain(2);
-        v.chain(v.dust(40, { stereo: true, grain: 0.0012 }), v.hp(1200), gC, v.out);
-        drift(v, gC.gain, { min: 0.6, max: 5, every: [0.15, 1.2], smooth: 0.3 });
+        v.chain(v.dust(40, { stereo: true, grain: 0.0012 }), v.hp(1200), v.lp(6000), gC, v.out);
+        drift(v, gC.gain, { min: 0.4, max: 2.2, every: [0.15, 1.2], smooth: 0.3 });
         // chasquidos y estallidos de la madera
-        v.chain(v.dust(5, { stereo: true, grain: 0.004 }), v.bp(2200, 0.8), v.gain(8), v.out);
-        v.chain(v.dust(1.5, { grain: 0.01 }), v.bp(700, 1.5), v.gain(14), v.pan(-0.2), v.out);
+        v.chain(v.dust(5, { stereo: true, grain: 0.004 }), v.bp(2200, 0.8), v.gain(4), v.out);
+        v.chain(v.dust(1.5, { grain: 0.01 }), v.bp(700, 1.5), v.gain(7), v.pan(-0.2), v.out);
       },
     },
     {
@@ -198,16 +198,16 @@ export default {
       kind: 'loop', fadeIn: 2,
       play(v) {
         // aire nocturno
-        v.chain(bed(v, 'pink'), v.lp(700), v.gain(0.07), v.out);
-        v.chain(bed(v, 'brown'), v.lp(200), v.gain(0.08), v.out);
+        v.chain(bed(v, 'pink'), v.lp(700), v.gain(0.035), v.out);
+        v.chain(bed(v, 'brown'), v.lp(200), v.gain(0.05), v.out);
         // grillos a distintas distancias
-        cricket(v, v.out, { freq: v.rand(4300, 4600), pan: -0.45, rate: v.rand(1.5, 1.9), pulses: 3, level: 0.06 });
-        cricket(v, v.out, { freq: v.rand(3900, 4200), pan: 0.5, rate: v.rand(2, 2.4), pulses: 4, level: 0.045 });
-        cricket(v, v.out, { freq: v.rand(4700, 5000), pan: 0.05, rate: v.rand(1.2, 1.5), pulses: 3, level: 0.025 });
+        cricket(v, v.out, { freq: v.rand(4300, 4600), pan: -0.45, rate: v.rand(1.5, 1.9), pulses: 3, level: 0.15 });
+        cricket(v, v.out, { freq: v.rand(3900, 4200), pan: 0.5, rate: v.rand(2, 2.4), pulses: 4, level: 0.11 });
+        cricket(v, v.out, { freq: v.rand(4700, 5000), pan: 0.05, rate: v.rand(1.2, 1.5), pulses: 3, level: 0.06 });
         // ranas
         v.loop((t) => frogAt(v, t, { pan: v.rand(-0.7, 0.7), level: v.rand(0.25, 0.4) }) + v.rand(3, 10), v.t0 + v.rand(1, 4));
         // búho de vez en cuando
-        v.loop((t) => owlAt(v, t, { pan: v.rand(-0.8, 0.8), level: 0.2 }) + v.rand(14, 30), v.t0 + v.rand(5, 12));
+        v.loop((t) => owlAt(v, t, { pan: v.rand(-0.8, 0.8), level: 0.12 }) + v.rand(14, 30), v.t0 + v.rand(5, 12));
       },
     },
     {

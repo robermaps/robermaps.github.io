@@ -71,6 +71,7 @@ function boing(v) {
   const l = v.osc('sine', 16, t, t + d + 0.05);
   l.frequency.linearRampToValueAtTime(11, t + d);
   const depth = v.gain(base * 0.6);
+  depth.gain.setValueAtTime(base * 0.6, t);
   depth.gain.exponentialRampToValueAtTime(base * 0.03, t + d);
   l.connect(depth).connect(o.frequency);
   const env = v.gain(0);

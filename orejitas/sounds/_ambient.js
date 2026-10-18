@@ -67,7 +67,7 @@ export function rain(v, { intensity = 1, dest = v.out } = {}) {
   v.chain(v.dust(50 * intensity, { stereo: true, grain: 0.003 }), v.bp(1600, 0.9), v.lp(5000), v.gain(3), out);
   // "plic" resonantes sobre charcos y hojas, a varias alturas
   [[1700, -0.6], [2450, 0.15], [3500, 0.6], [2050, -0.25]].forEach(([f, p]) => {
-    v.chain(v.dust(3.5 * intensity), v.bp(f * v.rand(0.92, 1.08), 25), v.gain(22), v.pan(p), out);
+    v.chain(v.dust(3.5 * intensity), v.bp(f * v.rand(0.92, 1.08), 25), v.gain(15), v.pan(p), out);
   });
   return out;
 }
@@ -200,7 +200,8 @@ export function cuckoo(v, t, { dest = v.out, pan = 0, level = 0.5 } = {}) {
       o.frequency.linearRampToValueAtTime(fr, at + d);
       g.gain.setValueAtTime(0, at);
       g.gain.linearRampToValueAtTime(level, at + 0.04);
-      g.gain.setTargetAtTime(0, at + d - 0.08, 0.04);
+      g.gain.setValueAtTime(level, at + d - 0.08);
+      g.gain.linearRampToValueAtTime(0, at + d);
       at += d + 0.12;
     });
     at += v.rand(0.35, 0.6);
@@ -265,7 +266,7 @@ export function frogAt(v, t, { dest = v.out, pan = 0, level = 0.5 } = {}) {
   const o = v.osc('sawtooth', rate, t);
   const g = v.gain(0);
   const p = v.pan(pan);
-  v.chain(o, v.bp(fc, 5), v.lp(2500), g, p, dest);
+  v.chain(o, v.bp(fc, 5), v.gain(2), v.lp(2500), g, p, dest);
   v.send(p, 0.3);
   for (let i = 0; i < syll; i++) {
     const d = v.rand(0.1, 0.16);

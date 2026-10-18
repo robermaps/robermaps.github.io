@@ -17,7 +17,7 @@ function heart(v, dest, { level = 1, lp = 320, thud = 0.5 } = {}) {
     o.frequency.exponentialRampToValueAtTime(f1, t + d);
     g.gain.setValueAtTime(0, t);
     g.gain.linearRampToValueAtTime(amp, t + 0.014);
-    g.gain.setTargetAtTime(0, t + 0.02, d / 3);
+    g.gain.setTargetAtTime(0, t + 0.02, d / 4);
     ng.gain.setValueAtTime(0, t);
     ng.gain.linearRampToValueAtTime(amp * thud * 3, t + 0.01);
     ng.gain.setTargetAtTime(0, t + 0.015, d / 4);

@@ -364,7 +364,9 @@ export class Voice {
     return { osc: o, gain: g };
   }
 
-  // Bamboleo aleatorio suave (RMS ≈ depth) para dar naturalidad
+  // Bamboleo aleatorio suave (RMS ≈ depth) para dar naturalidad.
+  // Úsalo con rate ≥ 0.5 Hz: por debajo se nota el bucle de 10 s del ruido.
+  // Para derivas muy lentas, programa pasos con setTargetAtTime en v.loop.
   wobble(param, depth, rate = 6, { t = this.t0, stop } = {}) {
     const n = this.noise('white', { t, stop });
     const f = this.lp(rate, 0.5);
