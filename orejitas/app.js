@@ -132,7 +132,7 @@ function selectCategory(id, { focus = false } = {}) {
   if (id === state.cat) return;
   state.cat = id;
   store.set('cat', id);
-  history.replaceState(null, '', `#${id}`);
+  try { history.replaceState(null, '', `#${id}`); } catch { /* entorno aislado */ }
   els.cats.querySelectorAll('.cat').forEach((b) => {
     const on = b.dataset.cat === id;
     b.setAttribute('aria-selected', String(on));
@@ -387,5 +387,7 @@ requestAnimationFrame(() => {
 });
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  window.addEventListener('load', () => {
+    try { navigator.serviceWorker.register('sw.js').catch(() => {}); } catch { /* sin service worker */ }
+  });
 }

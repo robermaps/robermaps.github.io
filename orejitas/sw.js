@@ -2,7 +2,7 @@
 // Estrategia: primero red (siempre la última versión si hay conexión) y,
 // si falla, la copia guardada. La lista se regenera con tools/precache.mjs.
 
-const VERSION = '28488a2764';
+const VERSION = '4b96adb90a';
 const CACHE = `orejitas-${VERSION}`;
 const ASSETS = [
   './',
