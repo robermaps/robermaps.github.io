@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Orejitas · QC</title>
+  <style>
+    body { font: 14px/1.4 system-ui, sans-serif; margin: 16px; background: #fafafa; color: #222; }
+    table { border-collapse: collapse; width: 100%; max-width: 900px; }
+    td, th { padding: 4px 8px; border-bottom: 1px solid #ddd; text-align: left; }
+    th { background: #eee; position: sticky; top: 0; }
+    button { font: inherit; padding: 2px 10px; }
+    .warn { color: #b00; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Orejitas · control de calidad</h1>
+  <p>Página de desarrollo: escucha cada receta y mide su sonoridad. La usa también <code>tools/render.mjs</code>.</p>
+  <p><button id="stop">■ Parar</button></p>
+  <table>
+    <thead><tr><th>Categoría</th><th>Sonido</th><th>Tipo</th><th></th><th>Medida</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script type="module">
+    import { createBus, Voice, Engine } from '../engine.js';
+    import { CATEGORIES } from '../catalog.js';
+
+    const all = [];
+    for (const c of CATEGORIES) for (const s of c.sounds) all.push({ cat: c.id, sound: s });
+
+    // ---- sonoridad BS.1770 (K-weighting) a 48 kHz ----
+    function biquad(x, b, a) {
+      const y = new Float32Array(x.length);
+      let x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+      for (let i = 0; i < x.length; i++) {
+        const v = b[0] * x[i] + b[1] * x1 + b[2] * x2 - a[1] * y1 - a[2] * y2;
+        x2 = x1; x1 = x[i]; y2 = y1; y1 = v; y[i] = v;
+      }
+      return y;
+    }
+    const K1 = { b: [1.53512485958697, -2.69169618940638, 1.19839281085285], a: [1, -1.69065929318241, 0.73248077421585] };
+    const K2 = { b: [1, -2, 1], a: [1, -1.99004745483398, 0.99007225036621] };
+
+    function loudness(buffer) {
+      const sr = buffer.sampleRate;
+      const chans = [];
+      for (let c = 0; c < buffer.numberOfChannels; c++) {
+        chans.push(biquad(biquad(buffer.getChannelData(c), K1.b, K1.a), K2.b, K2.a));
+      }
+      const win = Math.floor(0.4 * sr), hop = Math.floor(0.1 * sr);
+      const blocks = [];
+      for (let s = 0; s + win <= buffer.length; s += hop) {
+        let z = 0;
+        for (const ch of chans) { let acc = 0; for (let i = s; i < s + win; i++) acc += ch[i] * ch[i]; z += acc / win; }
+        blocks.push(z);
+      }
+      const L = (z) => -0.691 + 10 * Math.log10(z || 1e-12);
+      const maxM = blocks.length ? Math.max(...blocks.map(L)) : -70;
+      let gated = blocks.filter((z) => L(z) > -70);
+      const mean = (arr) => arr.reduce((p, q) => p + q, 0) / (arr.length || 1);
+      const rel = L(mean(gated)) - 10;
+      gated = gated.filter((z) => L(z) > rel);
+      const integrated = gated.length ? L(mean(gated)) : -70;
+      let peak = 0, nan = 0;
+      for (let c = 0; c < buffer.numberOfChannels; c++) {
+        const d = buffer.getChannelData(c);
+        for (let i = 0; i < d.length; i++) { const a = Math.abs(d[i]); if (a !== a) nan++; else if (a > peak) peak = a; }
+      }
+      return { integrated, maxM, peakDb: 20 * Math.log10(peak || 1e-9), nan };
+    }
+
+    function wavBase64(buffer) {
+      const ch = buffer.numberOfChannels, n = buffer.length, sr = buffer.sampleRate;
+      const data = new DataView(new ArrayBuffer(44 + n * ch * 2));
+      const w = (o, s) => { for (let i = 0; i < s.length; i++) data.setUint8(o + i, s.charCodeAt(i)); };
+      w(0, 'RIFF'); data.setUint32(4, 36 + n * ch * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
+      data.setUint32(16, 16, true); data.setUint16(20, 1, true); data.setUint16(22, ch, true);
+      data.setUint32(24, sr, true); data.setUint32(28, sr * ch * 2, true); data.setUint16(32, ch * 2, true);
+      data.setUint16(34, 16, true); w(36, 'data'); data.setUint32(40, n * ch * 2, true);
+      const chans = [...Array(ch)].map((_, c) => buffer.getChannelData(c));
+      let o = 44;
+      for (let i = 0; i < n; i++) for (let c = 0; c < ch; c++) {
+        const s = Math.max(-1, Math.min(1, chans[c][i] || 0));
+        data.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); o += 2;
+      }
+      const bytes = new Uint8Array(data.buffer);
+      let bin = '';
+      for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+      return btoa(bin);
+    }
+
+    // Renderiza un sonido sin limitador. Bucles: `seconds`; cortos: hasta 15 s.
+    async function render(id, { seconds = 20, wav = false } = {}) {
+      const item = all.find((x) => x.sound.id === id);
+      if (!item) throw new Error(`No existe ${id}`);
+      const s = item.sound;
+      const loop = s.kind === 'loop';
+      const sr = 48000;
+      const len = loop ? seconds : 15;
+      const ctx = new OfflineAudioContext(2, sr * len, sr);
+      const bus = createBus(ctx, { limiter: false });
+      const v = new Voice(ctx, bus, { offline: true, renderEnd: len, gain: s.gain ?? 1 });
+      const t0 = performance.now();
+      const end = s.play(v); // cortos: instante final absoluto
+      const dur = loop ? null : end - v.t0;
+      if (!loop && !(end > v.t0)) throw new Error(`${id}: play() debe devolver el instante final`);
+      let buf = await ctx.startRendering();
+      const ms = performance.now() - t0;
+      if (!loop) {
+        const keep = Math.min(buf.length, Math.ceil((end + 1.2) * sr));
+        const out = new AudioBuffer({ length: keep, numberOfChannels: 2, sampleRate: sr });
+        for (let c = 0; c < 2; c++) out.copyToChannel(buf.getChannelData(c).subarray(0, keep), c);
+        buf = out;
+      }
+      const m = loudness(buf);
+      return { id, cat: item.cat, kind: s.kind, dur: loop ? null : dur, ms: Math.round(ms), ...m, wav: wav ? wavBase64(buf) : null };
+    }
+
+    window.qc = { list: () => all.map((x) => ({ id: x.sound.id, cat: x.cat, kind: x.sound.kind })), render };
+
+    // ---- interfaz manual ----
+    const engine = new Engine();
+    const rows = document.getElementById('rows');
+    for (const { cat, sound } of all) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${cat}</td><td>${sound.emoji} ${sound.name.es}</td><td>${sound.kind}</td>
+        <td><button data-play>▶</button> <button data-measure>medir</button></td><td data-out></td>`;
+      tr.querySelector('[data-play]').onclick = () => engine.play(sound);
+      tr.querySelector('[data-measure]').onclick = async () => {
+        const r = await render(sound.id);
+        const cell = tr.querySelector('[data-out]');
+        cell.textContent = `I ${r.integrated.toFixed(1)} · M ${r.maxM.toFixed(1)} · pico ${r.peakDb.toFixed(1)} dB · ${r.dur ? r.dur.toFixed(2) + ' s' : 'bucle'}`;
+        if (r.nan || r.peakDb > 0) cell.className = 'warn';
+      };
+      rows.appendChild(tr);
+    }
+    document.getElementById('stop').onclick = () => engine.stopCurrent();
+    window.qcReady = true;
+  </script>
+</body>
+</html>
