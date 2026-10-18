@@ -17,3 +17,7 @@ export const CATEGORIES = [farm, wild, nature, sleep, transport, home, toys, mus
 
 export const SOUNDS = new Map();
 for (const c of CATEGORIES) for (const s of c.sounds) SOUNDS.set(s.id, s);
+
+// Emojis más fieles de Emoji 15 (2022). Solo se usan si el dispositivo los
+// dibuja; si no, se queda el emoji de la receta.
+export const EMOJI_15 = { donkey: '🫏', horse: '🐴', maracas: '🪇', flute: '🪈' };

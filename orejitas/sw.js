@@ -2,7 +2,7 @@
 // Estrategia: primero red (siempre la última versión si hay conexión) y,
 // si falla, la copia guardada. La lista se regenera con tools/precache.mjs.
 
-const VERSION = '5095479d52';
+const VERSION = '28488a2764';
 const CACHE = `orejitas-${VERSION}`;
 const ASSETS = [
   './',
@@ -22,6 +22,7 @@ const ASSETS = [
   'sounds/_ambient.js',
   'sounds/_animals.js',
   'sounds/_machines.js',
+  'sounds/_musical.js',
   'sounds/farm.js',
   'sounds/home.js',
   'sounds/lullabies.js',

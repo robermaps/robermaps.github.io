@@ -1,6 +1,6 @@
 // Orejitas · interfaz
 import { Engine } from './engine.js';
-import { CATEGORIES } from './catalog.js';
+import { CATEGORIES, EMOJI_15 } from './catalog.js';
 import levels from './levels.js';
 import { STRINGS, initialLang } from './i18n.js';
 
@@ -46,6 +46,26 @@ function pickCategory() {
   const saved = store.get('cat');
   if (CATEGORIES.some((c) => c.id === saved)) return saved;
   return CATEGORIES[0].id;
+}
+
+// ¿El sistema dibuja emojis de Emoji 15? (un emoji no soportado sale sin color)
+function supportsEmoji(ch) {
+  try {
+    const c = document.createElement('canvas');
+    c.width = c.height = 24;
+    const g = c.getContext('2d', { willReadFrequently: true });
+    g.textBaseline = 'top';
+    g.font = '20px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    g.fillText(ch, 0, 0);
+    const d = g.getImageData(0, 0, 24, 24).data;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] > 0 && (Math.abs(d[i] - d[i + 1]) > 20 || Math.abs(d[i + 1] - d[i + 2]) > 20)) return true;
+    }
+  } catch { /* sin canvas */ }
+  return false;
+}
+if (supportsEmoji('🫏')) {
+  for (const c of CATEGORIES) for (const s of c.sounds) if (EMOJI_15[s.id]) s.emoji = EMOJI_15[s.id];
 }
 
 const t = (key) => STRINGS[state.lang][key] ?? key;

@@ -436,7 +436,10 @@ export class Voice {
   // Para sonidos cortos: el motor llama a endAt con la duración de la receta.
   endAt(t) {
     if (this.offline) return;
-    const ms = Math.max(0, (t - this.ctx.currentTime) * 1000) + 120;
+    // pequeño fundido de seguridad para no cortar en seco ninguna cola
+    this._level.setValueAtTime(1, t);
+    this._level.linearRampToValueAtTime(0, t + 0.08);
+    const ms = Math.max(0, (t - this.ctx.currentTime) * 1000) + 160;
     const id = setTimeout(() => this._dispose(), ms);
     this._timers.add(id);
   }

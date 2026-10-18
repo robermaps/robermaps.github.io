@@ -19,6 +19,22 @@ transportes, cosas de casa, juguetes, instrumentos y nanas. Interfaz en español
   disponible sin conexión.
 - Sin anuncios, sin cookies, sin analítica y sin peticiones a terceros (la fuente está autoalojada).
 
+## Catálogo (106 sonidos)
+
+| Categoría | Sonidos |
+| --- | --- |
+| 🐮 Granja (13) | vaca, cerdo, oveja, cabra, caballo, burro, gallina, gallo, pollito, pato, pavo, perro, gato |
+| 🦁 Animales salvajes (13) | león, elefante, mono, lobo, búho, rana, abeja, grillo, pájaro, ballena, delfín, ratón, serpiente |
+| 🌳 Naturaleza (10) | lluvia, tormenta, olas, río, viento, chimenea, bosque, noche, trueno, gotas |
+| 🌙 Ruido blanco (12) | blanco, rosa, marrón, shhh, latido, vientre materno, ventilador, secador, aspiradora, lavadora, coche, cabina de avión |
+| 🚗 Transportes (13) | claxon, coche, moto, policía, ambulancia, bomberos, tren de vapor, avión, helicóptero, barco, bici, tractor, cohete |
+| 🏠 En casa (12) | timbre, teléfono, reloj, despertador, toc toc, grifo, tetera, cucú, microondas, llaves, aplausos, beso |
+| 🧸 Juguetes (12) | sonajero, patito de goma, muelle, silbato de émbolo, bocina, peonza, juguete de cuerda, robot, varita mágica, silbato, globo, platillo volante |
+| 🥁 Música (12) | piano, xilófono, tambor, guitarra, trompeta, flauta, violín, arpa, campanas, triángulo, maracas, pandereta |
+| 🎶 Nanas (9) | Brahms, Estrellita, Martinillo, Himno de la alegría, Para Elisa, Corderito, caja de música, móvil de cuna, arpa de sueños (las tres últimas son generativas: nunca se repiten) |
+
+Todas las melodías son de dominio público.
+
 ## Estructura
 
 | Archivo | Qué hace |
