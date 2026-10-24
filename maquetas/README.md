@@ -7,6 +7,8 @@ Dos propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin 
 | [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (mapa en movimiento de fondo, tarjetas encima, barra superior con @robermaps) y corrige o mejora todo lo demás. Trae marcas naranjas numeradas que explican cada cambio; se ocultan con «Ocultar notas». |
 | [`b-hoja-559/`](b-hoja-559/) | **Maqueta B · Hoja 559.** Propuesta nueva: la web es una hoja del Mapa Topográfico (hoja 559, Madrid) con collar graduado, relieve generado en el navegador, leyenda como menú, mapa índice de proyectos y tablas de atributos. |
 
+**Decisión: maqueta A.** Ya está ajustada con la estructura elegida: geoproyectos (con su archivo), otros proyectos y sin notas técnicas. La B se queda en la rama solo como referencia.
+
 Ambas llevan `<meta name="robots" content="noindex">` para que no se indexen mientras sean maquetas (la acción del sitemap también las excluye por eso).
 
 **Cómo verlas en local** (en el Mac):
@@ -39,7 +41,7 @@ Hace falta servirlas por HTTP: la maqueta A carga `world.json` con `fetch()` y e
 - **No hay forma de pausar el movimiento** ni se respeta «reducir movimiento» del sistema. WCAG 2.2.2 pide un control de pausa para cualquier animación automática de más de 5 segundos.
 - **Iconos sobredimensionados**: `X_logo.png` mide 3000 × 2808 px (127 KB) y se muestra a unos 30 px. LinkedIn (486 px) y GitHub (512 px) igual. Tres SVG en línea ocupan menos de 2 KB en total.
 - **AdSense en el portfolio**: añade varios cientos de KB de JavaScript y cookies de terceros. En el Espacio Económico Europeo, Google exige desde 2024 una plataforma de consentimiento (CMP) certificada; sin ella no sirve anuncios personalizados y, por RGPD y LSSI, necesitarías el banner de cookies igualmente. Con el tráfico de un portfolio el ingreso es testimonial y resta imagen profesional. Si quieres monetizar, mejor en el blog o en el visor que en la portada.
-- **Ficheros sin uso en el repo**: `img/robermaps.jpg`, `img/mars-moon.jpg`, `js/jquery.js`, `js/Bing.js`, `js/L.tileLayer.betterWms.js`, `styles/tabs.css`, `styles/leaflet.css` y, dentro de `leaflet/` (2,9 MB), todo salvo `leaflet.js`, `leaflet.css` y `images/`: los `.map` y las versiones `-src`. `.DS_Store` está versionado aunque figure en `.gitignore` (`git rm --cached .DS_Store`).
+- **Ficheros sin uso en el repo**: `img/robermaps.jpg`, `js/jquery.js`, `js/Bing.js`, `js/L.tileLayer.betterWms.js`, `styles/tabs.css`, `styles/leaflet.css` y, dentro de `leaflet/` (2,9 MB), todo salvo `leaflet.js`, `leaflet.css` y `images/`: los `.map` y las versiones `-src`. `.DS_Store` está versionado aunque figure en `.gitignore` (`git rm --cached .DS_Store`). Ojo: `img/mars-moon.jpg` no se usa en la web, pero sí en el README del plugin `opmtileloader`, así que no hay que borrarla.
 - **El workflow del sitemap** usa `actions/checkout@v2` y `peter-evans/create-pull-request@v3`, con runtimes de Node ya retirados por GitHub. Conviene subirlos a sus versiones actuales antes de que fallen.
 
 ### SEO y enlaces compartidos
@@ -71,10 +73,11 @@ Hace falta servirlas por HTTP: la maqueta A carga `world.json` con `fetch()` y e
 Respeta lo que ya funciona (mapa de fondo, columna de tarjetas, el azul `#126087`, el «@robermaps» como marca) y cambia lo siguiente:
 
 - **Presentación**: nombre como `h1`, rol («Geógrafo · Analista SIG · Desarrollador web»), ubicación con coordenadas, tu texto alineado a la izquierda y botones «Escríbeme» y «Ver proyectos».
-- **Proyectos**: rejilla con miniaturas en SVG (sin emojis), etiquetas de tecnología y dos enlaces en el plugin (repositorio y ficha en QGIS Plugins).
-- **Del archivo**: Red Natura 2000, @esmapbot (marcado como inactivo) y la Cartoteca, recuperados del historial.
+- **Geoproyectos**: rejilla con miniaturas en SVG (sin emojis), etiquetas de tecnología y enlaces. Abre la sección OpenPlanetaryMap Tile Loader para QGIS 4.x (activo; ficha en QGIS Plugins y repositorio `robermaps/opmtileloader`), seguido del visor de la Luna y Marte.
+- **Del archivo** (dentro de geoproyectos): OpenPlanetary Tile Loader para QGIS 3.x, marcado como «Ya no lo mantengo», y @esmapbot, marcado como inactivo.
+- **Otros proyectos**: sección separada para lo que no es geoespacial, de momento con un aviso de «Muy pronto».
 - **Trayectoria y herramientas**: experiencia, formación y stack, con datos sacados solo de tus páginas antiguas.
-- **Notas técnicas**: los seis tutoriales como lista indexable.
+- Sin sección de notas técnicas.
 - **Contacto**: email grande con botón de copiar y redes con su usuario visible.
 - **Mapa de fondo vectorial**: Natural Earth 1:50M dibujado en `<canvas>` en Web Mercator. Se pinta un lienzo algo mayor que la ventana y se desplaza con `transform`, así que en cada fotograma solo cambia una propiedad CSS; solo se redibuja al agotar el margen (cada 20-30 s). Se pausa con el botón de la barra, al ocultar la pestaña y con «reducir movimiento». Mantiene tus cuatro rutas aleatorias con los comentarios corregidos y Madrid en su sitio. El pie muestra las coordenadas del centro de la vista.
 - **Modo oscuro**, foco visible con teclado, contraste AA, Open Graph y JSON-LD `Person`. Sin AdSense.
@@ -97,18 +100,9 @@ La idea es que la web sea un mapa topográfico y no una página que habla de map
 
 No usa librerías: el relieve son unas 200 líneas de JavaScript y la página entera pesa 54 KB más el avatar.
 
-## 4. Pendiente en las dos maquetas
+## 4. Pendiente en la maqueta A
 
-- **Los enlaces de las notas técnicas** apuntan a `#notas`. Para restaurar los tutoriales desde el historial:
-  ```bash
-  mkdir -p tutoriales
-  for f in analisis-ubicacion-vertedero apuntes-r automatizar-python-gdal crear-herramientas-qgis crear-plugin-qgis instalar-jupyter-geopandas; do
-    git show 7eabebf^:tutoriales/$f.html > tutoriales/$f.html
-  done
-  git show 7eabebf^:blog/cartoteca-digital.html > blog/cartoteca-digital.html
-  ```
-  Tendrán que adaptarse al nuevo estilo, porque usaban hojas de estilo que ya no existen.
-- **El visor de Red Natura 2000** se recupera con `git show d055725^:maps/n2k.html`, más `img/n2k-legend.png`, `js/leaflet.legend.js` y `styles/leaflet.legend.css` del mismo commit.
+- **Otros proyectos**: sustituir el aviso de «Muy pronto» por las tarjetas cuando haya contenido (la rejilla `.projects` ya sirve).
 - **Datos que no conozco** y conviene completar: fechas, empresa o proyecto concreto de Copernicus, universidad, y si quieres añadir la parte de diseño web con algún trabajo.
 - **Imagen Open Graph** de 1200 × 630 px (`og:image`) para que los enlaces compartidos lleven imagen.
 - **Al pasar a producción**: quitar `noindex`, añadir `<link rel="canonical" href="https://robermaps.github.io/">` y mover el contenido a `index.html`.
@@ -116,6 +110,5 @@ No usa librerías: el relieve son unas 200 líneas de JavaScript y la página en
 ## 5. Siguientes pasos que recomiendo
 
 1. Arreglar el visor de la Luna y Marte ya, con independencia de la maqueta que elijas: quitar las tres referencias rotas, usar el Leaflet local 1.9.4, pasar las capas a `https://` y actualizar el panel con el SlideMenu restaurado o un panel propio.
-2. Elegir dirección (A, B o una mezcla; por ejemplo, la estructura de A con la portada de relieve de B).
-3. Restaurar las notas técnicas: es el cambio con más impacto en visitas.
-4. Limpiar el repo (ficheros sin uso, `.DS_Store`, acciones del workflow).
+2. Pasar la maqueta A a `index.html` (quitando las notas de maqueta, la franja superior y el `noindex`).
+3. Limpiar el repo (ficheros sin uso, `.DS_Store`, acciones del workflow).

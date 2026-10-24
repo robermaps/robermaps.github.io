@@ -406,7 +406,9 @@
     .links a { font-weight: 600; text-decoration: none; }
     .links a:hover { text-decoration: underline; }
     .status { font: 500 0.75rem/1.2 var(--font-mono); color: var(--ink-2); }
-    .status.off::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-2); margin-right: 6px; vertical-align: 0.05em; }
+    .status::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-2); margin-right: 6px; vertical-align: 0.05em; }
+    .status.on { color: var(--brand); }
+    .status.on::before { background: var(--brand); }
 
     /* Trayectoria */
     .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 32px; }
@@ -421,21 +423,28 @@
     .stack dd { margin: 0; }
     .col-title { font: 700 1.0625rem/1.2 var(--font-display); margin: 0 0 16px; }
 
-    /* Notas técnicas */
-    .notes-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); column-gap: 32px; }
-    .notes-list a {
+    /* Otros proyectos */
+    .soon {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-      color: var(--ink);
-      text-decoration: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 18px;
+      padding: 28px 24px;
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
     }
-    .notes-list a:hover .t { color: var(--brand); text-decoration: underline; }
-    .notes-list .t { font-weight: 600; min-width: 0; }
-    .notes-list .k { font: 500 0.75rem/1.6 var(--font-mono); color: var(--ink-2); white-space: nowrap; }
+    .soon p { margin: 0; color: var(--ink-2); max-width: 60ch; }
+    .soon-pill {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--chip-ink);
+      font: 500 0.8125rem/1 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
 
     /* Contacto */
     .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
@@ -481,7 +490,7 @@
     .f-mars1 { fill: var(--mars-1); } .f-mars2 { fill: var(--mars-2); } .f-mars3 { fill: var(--mars-3); }
     .f-veg1 { fill: var(--veg-1); } .f-veg2 { fill: var(--veg-2); }
     .f-surface { fill: var(--surface); } .f-chip { fill: var(--chip); } .f-line { fill: var(--line); }
-    .s-ink2 { stroke: var(--ink-2); fill: none; } .s-brand { stroke: var(--brand); fill: none; } .s-line { stroke: var(--line); fill: none; }
+    .s-ink2 { stroke: var(--ink-2); fill: none; } .s-surface { stroke: var(--surface); fill: none; } .s-brand { stroke: var(--brand); fill: none; } .s-line { stroke: var(--line); fill: none; }
     .t-mono { font: 500 12px var(--font-mono); fill: var(--ink-2); }
   </style>
 </head>
@@ -502,9 +511,9 @@
     <div class="topbar-inner gutter">
       <a class="brand" href="#inicio"><span>@</span>robermaps</a>
       <nav class="nav" aria-label="Secciones">
-        <a href="#proyectos">Proyectos</a>
+        <a href="#geoproyectos">Geoproyectos</a>
+        <a href="#otros">Otros proyectos</a>
         <a href="#trayectoria">Trayectoria</a>
-        <a href="#notas">Notas</a>
         <a href="#contacto">Contacto</a>
       </nav>
       <div class="tools-bar">
@@ -541,36 +550,39 @@
         </div>
         <div class="actions">
           <a class="btn btn-primary" href="mailto:robermaps@outlook.es">Escríbeme</a>
-          <a class="btn btn-ghost" href="#proyectos">Ver proyectos</a>
+          <a class="btn btn-ghost" href="#geoproyectos">Ver proyectos</a>
         </div>
       </div>
     </section>
 
-    <!-- Proyectos -->
-    <section class="card" id="proyectos" aria-labelledby="t-proyectos">
+    <!-- Geoproyectos -->
+    <section class="card" id="geoproyectos" aria-labelledby="t-geo">
       <div class="sec-head">
-        <h2 id="t-proyectos">Proyectos<a class="note" href="#c2" aria-label="Nota 2">2</a></h2>
-        <p>Herramientas para explorar la Luna, Marte y la Tierra.</p>
+        <h2 id="t-geo">Geoproyectos<a class="note" href="#c2" aria-label="Nota 2">2</a></h2>
+        <p>Herramientas para explorar la Luna, Marte y otros mundos.</p>
       </div>
 
       <div class="projects">
         <article class="project">
           <div class="thumb">
-            <svg viewBox="0 0 320 160" role="img" aria-label="Rejilla de teselas de la Luna y Marte">
-              <g transform="translate(46 30)">
+            <svg viewBox="0 0 320 160" role="img" aria-label="Teselas de la Luna y Marte con una capa vectorial encima">
+              <g transform="translate(46 26)">
                 <rect class="f-moon1" x="0" y="0" width="36" height="36" rx="3"/><rect class="f-moon2" x="40" y="0" width="36" height="36" rx="3"/><rect class="f-moon1" x="80" y="0" width="36" height="36" rx="3"/><rect class="f-moon3" x="120" y="0" width="36" height="36" rx="3"/><rect class="f-moon2" x="160" y="0" width="36" height="36" rx="3"/><rect class="f-moon1" x="200" y="0" width="36" height="36" rx="3"/>
                 <rect class="f-mars2" x="0" y="40" width="36" height="36" rx="3"/><rect class="f-mars1" x="40" y="40" width="36" height="36" rx="3"/><rect class="f-mars3" x="80" y="40" width="36" height="36" rx="3"/><rect class="f-mars1" x="120" y="40" width="36" height="36" rx="3"/><rect class="f-mars2" x="160" y="40" width="36" height="36" rx="3"/><rect class="f-mars1" x="200" y="40" width="36" height="36" rx="3"/>
-                <text class="t-mono" x="0" y="102">{z}/{x}/{y}.png → QGIS</text>
+                <path class="s-surface" stroke-width="2" stroke-linecap="round" d="M6 64 C40 40 70 70 104 46 S170 18 230 30"/>
+                <circle class="f-surface" cx="58" cy="18" r="4"/><circle class="f-surface" cx="142" cy="58" r="4"/><circle class="f-surface" cx="188" cy="12" r="4"/>
+                <text class="t-mono" x="0" y="106">teselas + GeoJSON → QGIS 4</text>
               </g>
             </svg>
           </div>
           <div class="project-body">
-            <h3>OpenPlanetary Tile Loader para QGIS</h3>
-            <p>Plugin que añade a tu proyecto de QGIS capas de teselas de la Luna y Marte publicadas por OpenPlanetary, sin configurar servicios a mano.</p>
-            <ul class="tags"><li>QGIS</li><li>Python</li><li>PyQGIS</li></ul>
+            <h3>OpenPlanetaryMap Tile Loader para QGIS 4.x</h3>
+            <p class="status on">Activo · requiere QGIS 4.0 o superior</p>
+            <p>Carga en QGIS los mapas base de Marte, Mercurio y la Luna de OpenPlanetaryMap y, en otra pestaña, sus datos vectoriales: nomenclatura, curvas de nivel, albedo y emplazamientos de las misiones Luna y Apolo.</p>
+            <ul class="tags"><li>QGIS 4</li><li>Python</li><li>PyQGIS</li><li>Qt6</li></ul>
             <div class="links">
-              <a href="https://github.com/robermaps/optileloader">Repositorio</a>
-              <a href="https://plugins.qgis.org/plugins/optileloader/">Ficha en QGIS Plugins</a>
+              <a href="https://plugins.qgis.org/plugins/opmtileloader/#plugin-details">Ficha en QGIS Plugins</a>
+              <a href="https://github.com/robermaps/opmtileloader">Repositorio</a>
             </div>
           </div>
         </article>
@@ -599,18 +611,23 @@
       <div class="archive">
         <article class="project">
           <div class="thumb">
-            <svg viewBox="0 0 320 120" role="img" aria-label="Polígonos de usos del suelo">
-              <path class="f-veg2" d="M20 96 L58 30 L118 22 L140 70 L96 104 Z"/>
-              <path class="f-veg1" d="M118 22 L196 18 L210 62 L140 70 Z"/>
-              <path class="f-chip" d="M140 70 L210 62 L250 100 L170 108 L96 104 Z"/>
-              <path class="f-veg2" d="M196 18 L290 26 L300 84 L250 100 L210 62 Z"/>
-              <path class="s-ink2" stroke-width="1" d="M20 96 L58 30 L118 22 L196 18 L290 26 L300 84 L250 100 L170 108 L96 104 Z M118 22 L140 70 L96 104 M140 70 L210 62 L196 18 M210 62 L250 100"/>
+            <svg viewBox="0 0 320 120" role="img" aria-label="Rejilla de teselas en gris">
+              <g transform="translate(86 22)">
+                <rect class="f-moon1" x="0" y="0" width="32" height="32" rx="3"/><rect class="f-moon2" x="36" y="0" width="32" height="32" rx="3"/><rect class="f-moon1" x="72" y="0" width="32" height="32" rx="3"/><rect class="f-moon3" x="108" y="0" width="32" height="32" rx="3"/>
+                <rect class="f-moon2" x="0" y="36" width="32" height="32" rx="3"/><rect class="f-moon3" x="36" y="36" width="32" height="32" rx="3"/><rect class="f-moon1" x="72" y="36" width="32" height="32" rx="3"/><rect class="f-moon2" x="108" y="36" width="32" height="32" rx="3"/>
+                <text class="t-mono" x="0" y="88">QGIS 3.x</text>
+              </g>
             </svg>
           </div>
           <div class="project-body">
-            <h3>Visor de la Red Natura 2000</h3>
-            <p>Mis contribuciones a la cartografía de usos del suelo de la Red Natura 2000, tras año y medio fotointerpretando imágenes de satélite para Copernicus.</p>
-            <ul class="tags"><li>Copernicus</li><li>Fotointerpretación</li></ul>
+            <h3>OpenPlanetary Tile Loader para QGIS 3.x</h3>
+            <p class="status off">Ya no lo mantengo. Para QGIS 4, usa la versión nueva.</p>
+            <p>Primera versión del plugin: añade a tu proyecto de QGIS 3 capas de teselas de la Luna y Marte publicadas por OpenPlanetary.</p>
+            <ul class="tags"><li>QGIS 3</li><li>Python</li><li>PyQGIS</li></ul>
+            <div class="links">
+              <a href="https://github.com/robermaps/optileloader">Repositorio</a>
+              <a href="https://plugins.qgis.org/plugins/optileloader/">Ficha en QGIS Plugins</a>
+            </div>
           </div>
         </article>
 
@@ -625,35 +642,30 @@
           </div>
           <div class="project-body">
             <h3>España desde el cielo · @esmapbot</h3>
+            <p class="status off">Inactivo desde los cambios en las API de Mapbox y Twitter</p>
             <p>Bot que publicaba cada día en Twitter una imagen de satélite aleatoria de España con las API de Mapbox y Twitter.</p>
             <ul class="tags"><li>Mapbox API</li><li>Twitter API</li></ul>
-            <p class="status off">Inactivo desde los cambios en esas API</p>
           </div>
         </article>
+      </div>
+    </section>
 
-        <article class="project">
-          <div class="thumb">
-            <svg viewBox="0 0 320 120" role="img" aria-label="Hojas de mapa apiladas">
-              <rect class="f-line" x="116" y="30" width="110" height="74" rx="3"/>
-              <rect class="f-chip" x="104" y="22" width="110" height="74" rx="3"/>
-              <rect class="f-surface" x="92" y="14" width="110" height="74" rx="3"/>
-              <path class="s-ink2" stroke-width="1" d="M92 14 h110 v74 h-110 z M128.7 14 v74 M165.3 14 v74"/>
-              <path class="s-brand" stroke-width="1.8" d="M100 70 C118 52 136 66 150 50 S180 40 194 30"/>
-            </svg>
-          </div>
-          <div class="project-body">
-            <h3>Cartoteca digital</h3>
-            <p>Recopilación de visores, fuentes de datos espaciales y recursos para trabajar con información geográfica.</p>
-            <ul class="tags"><li>Datos abiertos</li><li>Recursos</li></ul>
-          </div>
-        </article>
+    <!-- Otros proyectos -->
+    <section class="card" id="otros" aria-labelledby="t-otros">
+      <div class="sec-head">
+        <h2 id="t-otros">Otros proyectos<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
+        <p>Lo que no cabe en un mapa.</p>
+      </div>
+      <div class="soon">
+        <span class="soon-pill">Muy pronto</span>
+        <p>Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
       </div>
     </section>
 
     <!-- Trayectoria -->
     <section class="card" id="trayectoria" aria-labelledby="t-tray">
       <div class="sec-head">
-        <h2 id="t-tray">Trayectoria y herramientas<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
+        <h2 id="t-tray">Trayectoria y herramientas<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
       </div>
       <div class="two">
         <div>
@@ -685,22 +697,6 @@
       </div>
     </section>
 
-    <!-- Notas técnicas -->
-    <section class="card" id="notas" aria-labelledby="t-notas">
-      <div class="sec-head">
-        <h2 id="t-notas">Notas técnicas<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
-        <p>Tutoriales y apuntes sobre SIG y programación.</p>
-      </div>
-      <ul class="notes-list">
-        <li><a href="#notas"><span class="t">Guía para desarrollar plugins de QGIS</span><span class="k">QGIS · Python</span></a></li>
-        <li><a href="#notas"><span class="t">Crear herramientas de procesamiento en QGIS</span><span class="k">PyQGIS</span></a></li>
-        <li><a href="#notas"><span class="t">Automatizar geoprocesos con Python y GDAL/OGR</span><span class="k">GDAL · Python</span></a></li>
-        <li><a href="#notas"><span class="t">Instalar GeoPandas y Jupyter con Conda y usarlos en un IDE</span><span class="k">Python</span></a></li>
-        <li><a href="#notas"><span class="t">Análisis de la ubicación de un vertedero con ModelBuilder</span><span class="k">ArcGIS</span></a></li>
-        <li><a href="#notas"><span class="t">Apuntes de R</span><span class="k">R</span></a></li>
-      </ul>
-    </section>
-
     <!-- Contacto -->
     <section class="card contact" id="contacto" aria-labelledby="t-contacto">
       <div>
@@ -726,10 +722,10 @@
       </div>
       <ol>
         <li id="c1"><span class="num">1</span><div><strong>Presentación con jerarquía</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con rol y ubicación visibles. El texto va alineado a la izquierda en lugar de justificado y hay un botón para escribirte.</p></div></li>
-        <li id="c2"><span class="num">2</span><div><strong>Proyectos en rejilla</strong><p>Miniaturas en lugar de emojis, etiquetas de tecnología y dos enlaces por proyecto. Los títulos bajan de tamaño para no competir con tu nombre.</p></div></li>
-        <li id="c3"><span class="num">3</span><div><strong>Archivo recuperado</strong><p>Red Natura 2000, @esmapbot y la Cartoteca salieron de la portada en los commits de 2026. Son la prueba de experiencia profesional y conviene volver a enseñarlos.</p></div></li>
-        <li id="c4"><span class="num">4</span><div><strong>Trayectoria y herramientas</strong><p>La web no decía qué sabes hacer. Aquí van la experiencia en Copernicus, la formación y el stack, con datos sacados de tus páginas antiguas.</p></div></li>
-        <li id="c5"><span class="num">5</span><div><strong>Notas técnicas</strong><p>Los seis tutoriales eliminados en junio de 2026 (plugins de QGIS, GDAL, GeoPandas…) son el contenido que más búsquedas puede atraer. Están en el historial de git.</p></div></li>
+        <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis, etiquetas de tecnología y enlaces a la ficha y al repositorio. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
+        <li id="c3"><span class="num">3</span><div><strong>Del archivo</strong><p>Proyectos que siguen a la vista aunque ya no los mantienes: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
+        <li id="c4"><span class="num">4</span><div><strong>Otros proyectos</strong><p>Sección propia para lo que no es geoespacial, con un aviso de «Muy pronto» mientras no haya contenido.</p></div></li>
+        <li id="c5"><span class="num">5</span><div><strong>Trayectoria y herramientas</strong><p>La web no decía qué sabes hacer. Aquí van la experiencia en Copernicus, la formación y el stack, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c6"><span class="num">6</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Mapa de fondo vectorial</strong><p>Natural Earth dibujado en canvas en lugar de teselas de openstreetmap.fr pedidas cada 100 ms. Sin desenfoque, con botón de pausa, se detiene si activas «reducir movimiento» y arranca en Madrid de verdad (3,70° O; antes 3,69° E, en el mar).</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
