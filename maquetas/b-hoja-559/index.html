@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Roberto Jiménez López · Hoja 559 · Madrid</title>
+  <!-- Maqueta: fuera del índice de buscadores hasta que pase a producción -->
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Geógrafo, analista SIG y desarrollador web en Madrid. Plugins de QGIS, visores de la Luna y Marte, teledetección y notas técnicas sobre SIG.">
+  <meta name="author" content="Roberto Jiménez López">
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Roberto Jiménez López · Hoja 559 · Madrid">
+  <meta property="og:description" content="Mapas, datos espaciales y las webs donde se exploran.">
+  <meta property="og:url" content="https://robermaps.github.io/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@robermaps">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800;1,62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Roberto Jiménez López",
+    "alternateName": "robermaps",
+    "url": "https://robermaps.github.io/",
+    "jobTitle": "Geógrafo y analista SIG",
+    "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
+    "sameAs": ["https://x.com/robermaps", "https://www.linkedin.com/in/robermaps", "https://github.com/robermaps"]
+  }
+  </script>
+  <style>
+    /* Layout: la página es una hoja de mapa topográfico. Collar graduado alrededor, cabecera de hoja, relieve generado como portada, leyenda fija como navegación, mapa índice 2×2 de proyectos y marginalia al pie. */
+    :root {
+      --paper: #f7f8f4;
+      --paper-2: #e9ece5;
+      --ink: #1b1e1a;
+      --ink-2: #545c54;
+      --rule: #c8cec5;
+      --contour: #a8693a;
+      --contour-strong: #8b5128;
+      --hydro: #1a62a3;
+      --veg: #557a3a;
+      --veg-soft: #d6e4c8;
+      --moon: #80848c;
+      --moon-strong: #5c6068;
+      --moon-soft: #dcdfe3;
+      --mars: #b5532b;
+      --mars-strong: #8d3b1a;
+      --mars-soft: #efc8b2;
+
+      --font-display: "Archivo", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+      --font-body: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #111612;
+        --paper-2: #0a0d0b;
+        --ink: #e3e7df;
+        --ink-2: #a3aba1;
+        --rule: #303b32;
+        --contour: #a87a4c;
+        --contour-strong: #d79c63;
+        --hydro: #79b7ee;
+        --veg: #8fba6e;
+        --veg-soft: #223322;
+        --moon: #8d929b;
+        --moon-strong: #c6cad2;
+        --moon-soft: #33363b;
+        --mars: #c06a42;
+        --mars-strong: #ee966a;
+        --mars-soft: #4d2818;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #111612;
+      --paper-2: #0a0d0b;
+      --ink: #e3e7df;
+      --ink-2: #a3aba1;
+      --rule: #303b32;
+      --contour: #a87a4c;
+      --contour-strong: #d79c63;
+      --hydro: #79b7ee;
+      --veg: #8fba6e;
+      --veg-soft: #223322;
+      --moon: #8d929b;
+      --moon-strong: #c6cad2;
+      --moon-soft: #33363b;
+      --mars: #c06a42;
+      --mars-strong: #ee966a;
+      --mars-soft: #4d2818;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-padding-top: 64px; }
+    body {
+      margin: 0;
+      background: var(--paper-2);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 30;
+      background: var(--paper);
+    }
+    img { max-width: 100%; }
+    a { color: var(--hydro); }
+    :focus-visible { outline: 2px solid var(--hydro); outline-offset: 3px; }
+    .gutter {
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+    }
+    .halo { text-shadow: 0 0 2px var(--paper), 0 0 5px var(--paper), 0 0 10px var(--paper); }
+
+    .mockbar {
+      font: 500 0.75rem/1.3 var(--font-mono);
+      color: var(--ink-2);
+      padding-block: 10px;
+      text-align: center;
+    }
+    .mockbar b { color: var(--ink); font-weight: 600; }
+
+    /* Hoja y collar graduado */
+    .page { padding-block: 0 40px; }
+    .ticks {
+      max-width: 1240px;
+      margin-inline: auto;
+      height: 20px;
+      padding-inline: 48px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      padding-bottom: 4px;
+      font: 500 0.6875rem/1 var(--font-mono);
+      color: var(--ink-2);
+      font-variant-numeric: tabular-nums;
+    }
+    .ticks.bottom { align-items: start; padding-top: 4px; padding-bottom: 0; }
+    @media (max-width: 700px) { .ticks { display: none; } }
+    .sheet {
+      max-width: 1240px;
+      margin-inline: auto;
+      border: 1px solid var(--ink);
+      padding: 8px;
+      background-color: var(--paper);
+      background-image:
+        repeating-linear-gradient(90deg, var(--ink) 0 56px, transparent 56px 112px),
+        repeating-linear-gradient(90deg, var(--ink) 0 56px, transparent 56px 112px),
+        repeating-linear-gradient(180deg, var(--ink) 0 56px, transparent 56px 112px),
+        repeating-linear-gradient(180deg, var(--ink) 0 56px, transparent 56px 112px);
+      background-size: 100% 5px, 100% 5px, 5px 100%, 5px 100%;
+      background-position: left top, left bottom, left top, right top;
+      background-repeat: no-repeat;
+    }
+    .sheet-inner { border: 1px solid var(--ink); background: var(--paper); min-width: 0; }
+    @media (max-width: 700px) {
+      .sheet { padding: 6px; background-size: 100% 4px, 100% 4px, 4px 100%, 4px 100%; }
+    }
+
+    .sheet-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px 24px;
+      padding: 10px clamp(16px, 3vw, 24px);
+      border-bottom: 1px solid var(--ink);
+      font: 500 0.75rem/1.2 var(--font-mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    .sheet-head p { margin: 0; }
+    .sheet-id { color: var(--ink); }
+    .sheet-id b { font: 800 1.125rem/1 var(--font-display); font-stretch: 125%; letter-spacing: 0.02em; }
+
+    /* Portada con relieve */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: clamp(500px, 50vw, 640px);
+      padding: clamp(24px, 4.5vw, 56px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      border-bottom: 1px solid var(--ink);
+      touch-action: pan-y;
+    }
+    #relieve { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(90deg,
+        color-mix(in srgb, var(--paper) 94%, transparent) 0%,
+        color-mix(in srgb, var(--paper) 78%, transparent) 36%,
+        color-mix(in srgb, var(--paper) 0%, transparent) 60%);
+    }
+    .hero-text, .instrument, .hero-window { position: relative; z-index: 2; }
+    .hero-text { max-width: 640px; }
+    .eyebrow {
+      margin: 0 0 18px;
+      font: 600 0.8125rem/1.3 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+    h1 {
+      font-weight: 800;
+      font-stretch: 125%;
+      font-size: clamp(2.3rem, 6.6vw, 5.6rem);
+      line-height: 0.92;
+      letter-spacing: 0.005em;
+      text-transform: uppercase;
+    }
+    .lede { margin: 24px 0 0; max-width: 36ch; font-size: clamp(1.1rem, 1.7vw, 1.375rem); line-height: 1.45; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 10px 18px;
+      border: 1.5px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      font: 700 0.875rem/1 var(--font-display);
+      font-stretch: 112%;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-shadow: none;
+      cursor: pointer;
+    }
+    .btn.ghost { background: var(--paper); color: var(--ink); }
+    .btn:hover { background: var(--hydro); border-color: var(--hydro); color: var(--paper); }
+
+    .spot {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      transform: translate(-7px, -11px);
+      font: 700 0.875rem/1 var(--font-display);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .spot i {
+      align-self: center;
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 12px solid var(--ink);
+    }
+    .spot span { font: 500 0.75rem/1 var(--font-mono); }
+    .river-label {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      transform-origin: 0 50%;
+      font: italic 500 0.875rem/1 var(--font-display);
+      letter-spacing: 0.14em;
+      color: var(--hydro);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .cross {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      margin: -11px 0 0 -11px;
+      pointer-events: none;
+      background:
+        linear-gradient(var(--ink), var(--ink)) center / 1px 100% no-repeat,
+        linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat;
+    }
+
+    .instrument {
+      align-self: flex-end;
+      width: min(100%, 360px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 14px 14px;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      font: 500 0.75rem/1.3 var(--font-mono);
+    }
+    .bodies { display: flex; border: 1px solid var(--ink); }
+    .bodies button {
+      flex: 1;
+      min-height: 38px;
+      padding: 8px;
+      border: 0;
+      border-right: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      font: 600 0.75rem/1 var(--font-mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .bodies button:last-child { border-right: 0; }
+    .bodies button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+    .read { margin: 0; display: grid; gap: 6px; }
+    .read div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; }
+    .read dt { color: var(--ink-2); white-space: nowrap; }
+    .read dd { margin: 0; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .scalebar { display: flex; align-items: center; gap: 10px; color: var(--ink-2); }
+    .bar {
+      height: 6px;
+      border: 1px solid var(--ink);
+      background: linear-gradient(90deg, var(--ink) 0 25%, transparent 25% 50%, var(--ink) 50% 75%, transparent 75%);
+    }
+    .hero-window { display: none; }
+    @media (max-width: 700px) {
+      .hero { min-height: 0; justify-content: flex-start; gap: 0; }
+      .hero::before {
+        background: linear-gradient(180deg,
+          color-mix(in srgb, var(--paper) 90%, transparent) 0%,
+          color-mix(in srgb, var(--paper) 82%, transparent) 52%,
+          color-mix(in srgb, var(--paper) 0%, transparent) 70%);
+      }
+      .hero-window { display: block; height: 230px; }
+      .instrument { width: 100%; }
+    }
+
+    /* Leyenda = navegación */
+    .legend {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px 28px;
+      padding: 10px clamp(16px, 3vw, 24px);
+      background: var(--paper);
+      border-bottom: 1px solid var(--ink);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .legend-title {
+      margin: 0;
+      font: 600 0.6875rem/1 var(--font-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      white-space: nowrap;
+    }
+    .legend ul { display: flex; gap: 4px 22px; margin: 0; padding: 0; list-style: none; }
+    .legend a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 0;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      font: 600 0.9375rem/1 var(--font-display);
+    }
+    .legend a:hover { color: var(--hydro); }
+    @media (max-width: 700px) { .legend-title { display: none; } }
+    .sym { width: 22px; height: 14px; flex: none; overflow: visible; }
+
+    /* Bloques */
+    .block { padding: clamp(32px, 5.5vw, 64px) clamp(18px, 4.5vw, 56px); border-bottom: 1px solid var(--ink); min-width: 0; }
+    .block-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 6px 14px; margin-bottom: 30px; }
+    .block-head .sym { width: 28px; height: 18px; }
+    h2 {
+      font-weight: 800;
+      font-stretch: 125%;
+      font-size: clamp(1.4rem, 2.9vw, 2.2rem);
+      line-height: 1.05;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .block-head p { grid-column: 2; margin: 0; color: var(--ink-2); max-width: 62ch; }
+
+    /* Mapa índice */
+    .index-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+    .cell {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+      padding: 20px 22px 24px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+    .cell-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.06em; color: var(--ink-2); }
+    .cell-top b { color: var(--ink); font-weight: 600; }
+    .cell-art { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 5 / 2; margin-block: 2px 6px; }
+    h3 { font-weight: 700; font-size: 1.3rem; line-height: 1.2; }
+    .cell p { margin: 0; color: var(--ink-2); }
+    .cell .meta { font: 500 0.75rem/1.5 var(--font-mono); color: var(--ink-2); }
+    .cell-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: auto; padding-top: 6px; }
+    .cell-links a { font-weight: 600; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .state { font: 500 0.6875rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--ink-2); color: var(--ink-2); padding: 3px 6px; }
+    @media (max-width: 760px) { .index-grid { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Tablas de atributos */
+    .tables { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 470px), 1fr)); gap: 24px; }
+    .attr { border: 1px solid var(--ink); min-width: 0; }
+    .attr-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px 12px;
+      padding: 9px 12px;
+      background: var(--paper-2);
+      border-bottom: 1px solid var(--ink);
+      font: 500 0.75rem/1.3 var(--font-mono);
+      color: var(--ink-2);
+    }
+    .attr-head b { color: var(--ink); font-weight: 600; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; min-width: 440px; border-collapse: collapse; font-size: 0.9375rem; }
+    th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+    th { font: 600 0.75rem/1.2 var(--font-mono); color: var(--ink-2); border-bottom-color: var(--ink); }
+    td.fid { width: 52px; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    td.k { font-family: var(--font-mono); font-size: 0.8125rem; white-space: nowrap; }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    /* Memoria (notas técnicas) */
+    .memo { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); column-gap: 44px; }
+    .memo a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 15px 0;
+      border-bottom: 1px dashed var(--ink-2);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .memo a:hover .memo-t { color: var(--hydro); }
+    .memo-t { font-weight: 600; min-width: 0; }
+    .memo-k { font: 500 0.75rem/1.6 var(--font-mono); color: var(--ink-2); white-space: nowrap; }
+
+    /* Contacto */
+    .contact-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+    .label { margin: 0 0 10px; font: 600 0.75rem/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+    .mail { margin: 0 0 20px; font-family: var(--font-display); font-weight: 800; font-stretch: 100%; font-size: clamp(1.35rem, 3.4vw, 2.5rem); line-height: 1.1; overflow-wrap: anywhere; }
+    .mail a { color: var(--ink); text-decoration: none; border-bottom: 3px solid var(--hydro); }
+    .author { display: flex; align-items: center; gap: 14px; margin-top: 28px; color: var(--ink-2); font-size: 0.9375rem; }
+    .author img { width: 60px; height: 60px; border-radius: 50%; border: 1px solid var(--ink); object-fit: cover; display: block; }
+    .contact-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+    .contact-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--rule); }
+    .contact-list span { font: 500 0.75rem/1.6 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+    .contact-list a, .contact-list em { font-weight: 600; font-style: normal; text-align: right; }
+    @media (max-width: 760px) { .contact-grid { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Marginalia */
+    .marginalia {
+      display: grid;
+      grid-template-columns: auto repeat(3, minmax(0, 1fr));
+      gap: 20px 32px;
+      align-items: start;
+      padding: 22px clamp(18px, 4.5vw, 56px) 26px;
+      font: 400 0.75rem/1.55 var(--font-mono);
+      color: var(--ink-2);
+    }
+    .marginalia p { margin: 0; }
+    .marginalia b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .north { width: 34px; height: 58px; }
+    @media (max-width: 900px) { .marginalia { grid-template-columns: auto minmax(0, 1fr); } .north { grid-row: span 3; } }
+
+    /* Simbología e ilustraciones */
+    .s-ink { stroke: var(--ink); } .s-ink2 { stroke: var(--ink-2); } .s-veg { stroke: var(--veg); } .s-hydro { stroke: var(--hydro); } .s-mars { stroke: var(--mars); } .s-moon { stroke: var(--moon); }
+    .f-paper { fill: var(--paper); } .f-paper2 { fill: var(--paper-2); } .f-ink { fill: var(--ink); } .f-hydro { fill: var(--hydro); }
+    .f-moon { fill: var(--moon-soft); } .f-mars { fill: var(--mars-soft); } .f-veg { fill: var(--veg-soft); }
+    .p-ink { stroke: var(--ink); stroke-width: 1; } .p-veg { stroke: var(--veg); stroke-width: 1.2; } .p-hydro { stroke: var(--hydro); stroke-width: 1; } .pf-veg { fill: var(--veg); }
+    .t-mono { font: 500 11px var(--font-mono); fill: var(--ink-2); }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" class="p-ink"/></pattern>
+      <pattern id="hatch-veg" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="6" class="p-veg"/></pattern>
+      <pattern id="hatch-hydro" width="4" height="4" patternUnits="userSpaceOnUse"><line x1="0" y1="2" x2="4" y2="2" class="p-hydro"/></pattern>
+      <pattern id="dots-veg" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.2" class="pf-veg"/></pattern>
+    </defs>
+  </svg>
+
+  <p class="mockbar gutter"><b>Maqueta B</b> · Propuesta nueva: la web como hoja de mapa topográfico</p>
+
+  <div class="page gutter">
+    <div class="ticks" aria-hidden="true"><span>3°48′ O</span><span>3°45′</span><span>3°42′</span><span>3°39′</span><span>3°36′ O</span></div>
+    <div class="sheet">
+      <div class="sheet-inner">
+
+        <header class="sheet-head">
+          <p>Mapa de trabajo · Serie robermaps</p>
+          <p class="sheet-id">Hoja <b>559</b> · Madrid · Edición 2026</p>
+        </header>
+
+        <section class="hero" id="inicio" aria-labelledby="nombre">
+          <canvas id="relieve" aria-hidden="true"></canvas>
+          <div class="hero-text halo">
+            <p class="eyebrow">Geógrafo · Analista SIG · Desarrollador web</p>
+            <h1 id="nombre">Roberto<br>Jiménez López</h1>
+            <p class="lede">Hago mapas, analizo datos espaciales y construyo las webs donde se exploran. Desde Madrid, para la Tierra… y más allá.</p>
+            <div class="cta">
+              <a class="btn" href="#contacto">Escríbeme</a>
+              <a class="btn ghost" href="#proyectos">Ver el mapa índice</a>
+            </div>
+          </div>
+          <div class="hero-window" id="hero-window" aria-hidden="true"></div>
+          <span class="spot halo" id="spot" aria-hidden="true"><i></i><b id="spot-label">Madrid</b><span id="spot-h">667</span></span>
+          <span class="river-label halo" id="river-label" aria-hidden="true">Río Manzanares</span>
+          <span class="cross" id="cross" aria-hidden="true" hidden></span>
+          <div class="instrument">
+            <div class="bodies" role="group" aria-label="Relieve de la portada">
+              <button type="button" data-body="tierra" aria-pressed="true">Tierra</button>
+              <button type="button" data-body="luna" aria-pressed="false">Luna</button>
+              <button type="button" data-body="marte" aria-pressed="false">Marte</button>
+            </div>
+            <dl class="read" aria-hidden="true">
+              <div><dt id="r-sys">ETRS89 · UTM 30N</dt><dd id="r-xy">X 440 291 · Y 4 474 255</dd></div>
+              <div><dt id="r-zl">Cota</dt><dd id="r-z">667 m</dd></div>
+            </dl>
+            <div class="scalebar" aria-hidden="true"><span class="bar" id="bar" style="width:120px"></span><span id="bar-label">2 km</span></div>
+          </div>
+        </section>
+
+        <nav class="legend" aria-label="Secciones">
+          <p class="legend-title">Signos convencionales</p>
+          <ul>
+            <li><a href="#proyectos"><svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><rect x="1" y="1" width="20" height="12" fill="url(#hatch)" class="s-ink" stroke-width="1.2"/></svg>Proyectos</a></li>
+            <li><a href="#trayectoria"><svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><path d="M11 1 L20 13 H2 Z" class="f-paper s-ink" stroke-width="1.4" stroke-linejoin="round"/><circle cx="11" cy="9" r="1.7" class="f-ink"/></svg>Trayectoria</a></li>
+            <li><a href="#notas"><svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><path d="M1 7 H21" fill="none" class="s-ink" stroke-width="1.8" stroke-dasharray="4 2.5"/></svg>Notas</a></li>
+            <li><a href="#contacto"><svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><circle cx="11" cy="7" r="5.5" class="f-hydro"/></svg>Contacto</a></li>
+          </ul>
+        </nav>
+
+        <!-- Proyectos -->
+        <section class="block" id="proyectos" aria-labelledby="t-proy">
+          <header class="block-head">
+            <svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><rect x="1" y="1" width="20" height="12" fill="url(#hatch)" class="s-ink" stroke-width="1.2"/></svg>
+            <h2 id="t-proy">Mapa índice</h2>
+            <p>Cuatro proyectos, uno por cuadrante de la hoja 559, como las hojas del MTN25 dentro de cada hoja del MTN50.</p>
+          </header>
+          <div class="index-grid">
+            <article class="cell">
+              <div class="cell-top"><b>559-I</b><span>Plugin · QGIS</span></div>
+              <svg class="cell-art" viewBox="0 0 300 120" role="img" aria-label="Pirámide de teselas en los niveles de zoom 0, 1 y 2">
+                <rect x="22" y="28" width="60" height="60" class="f-moon"/>
+                <rect x="120" y="28" width="30" height="30" class="f-moon"/><rect x="150" y="58" width="30" height="30" class="f-mars"/>
+                <rect x="218" y="28" width="15" height="15" class="f-mars"/><rect x="248" y="43" width="15" height="15" class="f-moon"/><rect x="233" y="73" width="15" height="15" class="f-mars"/><rect x="263" y="58" width="15" height="15" class="f-moon"/>
+                <g fill="none" class="s-ink" stroke-width="1.1">
+                  <rect x="22" y="28" width="60" height="60"/>
+                  <rect x="120" y="28" width="60" height="60"/><path d="M150 28 V88 M120 58 H180"/>
+                  <rect x="218" y="28" width="60" height="60"/><path d="M233 28 V88 M248 28 V88 M263 28 V88 M218 43 H278 M218 58 H278 M218 73 H278"/>
+                </g>
+                <text x="22" y="106" class="t-mono">z0</text><text x="120" y="106" class="t-mono">z1</text><text x="218" y="106" class="t-mono">z2</text>
+                <text x="22" y="18" class="t-mono">{z}/{x}/{y}.png</text>
+              </svg>
+              <h3>OpenPlanetary Tile Loader</h3>
+              <p>Plugin para QGIS que añade a tu proyecto capas de teselas de la Luna y Marte publicadas por OpenPlanetary.</p>
+              <p class="meta">QGIS · Python · PyQGIS</p>
+              <p class="cell-links"><a href="https://github.com/robermaps/optileloader">Repositorio</a><a href="https://plugins.qgis.org/plugins/optileloader/">Ficha en QGIS Plugins</a></p>
+            </article>
+
+            <article class="cell">
+              <div class="cell-top"><b>559-II</b><span>Visor web</span></div>
+              <svg class="cell-art" viewBox="0 0 300 120" role="img" aria-label="La Luna y Marte">
+                <circle cx="104" cy="60" r="44" class="f-moon s-ink" stroke-width="1.1"/>
+                <circle cx="88" cy="46" r="9" fill="none" class="s-moon" stroke-width="1.2"/><circle cx="118" cy="78" r="12" fill="none" class="s-moon" stroke-width="1.2"/><circle cx="118" cy="38" r="4" fill="none" class="s-moon" stroke-width="1.2"/><circle cx="80" cy="80" r="5" fill="none" class="s-moon" stroke-width="1.2"/>
+                <circle cx="214" cy="60" r="36" class="f-mars s-ink" stroke-width="1.1"/>
+                <path d="M188 56 q10 -7 22 -1 t26 1" fill="none" class="s-mars" stroke-width="1.6" stroke-linecap="round"/>
+                <circle cx="226" cy="78" r="6" fill="none" class="s-mars" stroke-width="1.2"/><circle cx="200" cy="40" r="3" fill="none" class="s-mars" stroke-width="1.2"/>
+              </svg>
+              <h3>Visor de la Luna y Marte</h3>
+              <p>Nueve capas de la superficie lunar y marciana en el navegador: mapas base, altimetría MOLA, mosaicos Viking y relieve sombreado.</p>
+              <p class="meta">Leaflet · JavaScript · OpenPlanetaryMap</p>
+              <p class="cell-links"><a href="https://robermaps.github.io/maps/mars-moon-explorer">Abrir el visor</a></p>
+            </article>
+
+            <article class="cell">
+              <div class="cell-top"><b>559-III</b><span>Teledetección</span></div>
+              <svg class="cell-art" viewBox="0 0 300 120" role="img" aria-label="Recintos de usos del suelo dentro del límite de un espacio protegido">
+                <path d="M24 100 L54 28 L120 20 L146 64 L98 102 Z" fill="url(#hatch-veg)" class="s-veg" stroke-width="1"/>
+                <path d="M120 20 L198 16 L212 60 L146 64 Z" fill="url(#dots-veg)" class="s-veg" stroke-width="1"/>
+                <path d="M146 64 L212 60 L250 98 L172 106 L98 102 Z" class="f-veg s-veg" stroke-width="1"/>
+                <path d="M198 16 L282 24 L288 84 L250 98 L212 60 Z" fill="url(#hatch-hydro)" class="s-hydro" stroke-width="1"/>
+                <path d="M14 110 L44 16 L208 6 L294 14 L296 94 L250 114 Z" fill="none" class="s-ink" stroke-width="1.3" stroke-dasharray="7 3 1.5 3"/>
+              </svg>
+              <h3>Red Natura 2000 · Copernicus</h3>
+              <p>Año y medio fotointerpretando imágenes de satélite para la cartografía de usos del suelo de la Red Natura 2000, con un visor de mis contribuciones.</p>
+              <p class="meta">Copernicus · Fotointerpretación · Leaflet</p>
+            </article>
+
+            <article class="cell">
+              <div class="cell-top"><b>559-IV</b><span class="state">Inactivo</span></div>
+              <svg class="cell-art" viewBox="0 0 300 120" role="img" aria-label="Escena de satélite encuadrada">
+                <g transform="rotate(-10 150 60)">
+                  <rect x="98" y="16" width="104" height="88" fill="url(#hatch)" class="s-ink" stroke-width="1"/>
+                </g>
+                <path d="M84 20 V8 H96 M204 8 H216 V20 M216 100 V112 H204 M96 112 H84 V100" fill="none" class="s-hydro" stroke-width="2"/>
+                <path d="M150 48 V72 M138 60 H162" fill="none" class="s-hydro" stroke-width="1.5"/>
+                <text x="226" y="112" class="t-mono">@esmapbot</text>
+              </svg>
+              <h3>España desde el cielo</h3>
+              <p>Bot que publicaba cada día en Twitter una imagen de satélite aleatoria de España con las API de Mapbox y Twitter, hasta que los cambios en esas API lo dejaron fuera de servicio.</p>
+              <p class="meta">Mapbox API · Twitter API · Bot</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Trayectoria -->
+        <section class="block" id="trayectoria" aria-labelledby="t-tray">
+          <header class="block-head">
+            <svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><path d="M11 1 L20 13 H2 Z" class="f-paper s-ink" stroke-width="1.4" stroke-linejoin="round"/><circle cx="11" cy="9" r="1.7" class="f-ink"/></svg>
+            <h2 id="t-tray">Trayectoria</h2>
+            <p>En formato de tabla de atributos, como cualquier capa de QGIS.</p>
+          </header>
+          <div class="tables">
+            <div class="attr">
+              <div class="attr-head"><span>Capa <b>trayectoria</b></span><span>3 entidades</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>fid</th><th>tipo</th><th>descripción</th></tr></thead>
+                  <tbody>
+                    <tr><td class="fid">1</td><td class="k">formación</td><td>Grado en Geografía. Trabajo de fin de grado sobre el Ensanche de Vallecas (Madrid).</td></tr>
+                    <tr><td class="fid">2</td><td class="k">experiencia</td><td>Fotointerpretación de imágenes de satélite para Copernicus, en la cartografía de usos del suelo de la Red Natura 2000. Año y medio.</td></tr>
+                    <tr><td class="fid">3</td><td class="k">desarrollo</td><td>Plugins de QGIS, visores web con Leaflet y bots que consumen API de cartografía.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="attr">
+              <div class="attr-head"><span>Capa <b>herramientas</b></span><span>4 entidades</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>fid</th><th>ámbito</th><th>herramientas</th></tr></thead>
+                  <tbody>
+                    <tr><td class="fid">1</td><td class="k">sig</td><td>QGIS, PyQGIS, ArcGIS (ModelBuilder)</td></tr>
+                    <tr><td class="fid">2</td><td class="k">datos</td><td>Python, GDAL/OGR, GeoPandas, Jupyter, R</td></tr>
+                    <tr><td class="fid">3</td><td class="k">web</td><td>HTML, CSS, JavaScript, Leaflet</td></tr>
+                    <tr><td class="fid">4</td><td class="k">teledetección</td><td>Fotointerpretación, Copernicus</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Notas técnicas -->
+        <section class="block" id="notas" aria-labelledby="t-notas">
+          <header class="block-head">
+            <svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><path d="M1 7 H21" fill="none" class="s-ink" stroke-width="1.8" stroke-dasharray="4 2.5"/></svg>
+            <h2 id="t-notas">Memoria de la hoja</h2>
+            <p>Notas técnicas y tutoriales sobre SIG, automatización y análisis espacial.</p>
+          </header>
+          <ul class="memo">
+            <li><a href="#notas"><span class="memo-t">Guía para desarrollar plugins de QGIS</span><span class="memo-k">QGIS · Python</span></a></li>
+            <li><a href="#notas"><span class="memo-t">Crear herramientas de procesamiento en QGIS</span><span class="memo-k">PyQGIS</span></a></li>
+            <li><a href="#notas"><span class="memo-t">Automatizar geoprocesos con Python y GDAL/OGR</span><span class="memo-k">GDAL · Python</span></a></li>
+            <li><a href="#notas"><span class="memo-t">Instalar GeoPandas y Jupyter con Conda</span><span class="memo-k">Python</span></a></li>
+            <li><a href="#notas"><span class="memo-t">Ubicación óptima de un vertedero con ModelBuilder</span><span class="memo-k">ArcGIS</span></a></li>
+            <li><a href="#notas"><span class="memo-t">Recursos: la Cartoteca digital</span><span class="memo-k">Datos abiertos</span></a></li>
+          </ul>
+        </section>
+
+        <!-- Contacto -->
+        <section class="block" id="contacto" aria-labelledby="t-contacto">
+          <header class="block-head">
+            <svg class="sym" viewBox="0 0 22 14" aria-hidden="true"><circle cx="11" cy="7" r="5.5" class="f-hydro"/></svg>
+            <h2 id="t-contacto">Coordenadas de contacto</h2>
+            <p>Proyectos SIG, visores web, colaboraciones o dudas sobre mis herramientas.</p>
+          </header>
+          <div class="contact-grid">
+            <div>
+              <p class="label">Correo</p>
+              <p class="mail"><a id="mail" href="mailto:robermaps@outlook.es">robermaps@outlook.es</a></p>
+              <button class="btn ghost" type="button" id="copy-mail" data-copy="robermaps@outlook.es">Copiar correo</button>
+              <div class="author">
+                <img src="avatar.jpg" width="60" height="60" alt="Avatar de Rober: un muñeco de Playmobil en un columpio">
+                <span>Autor de la hoja: Rober, geógrafo en Madrid.</span>
+              </div>
+            </div>
+            <ul class="contact-list">
+              <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/robermaps">/in/robermaps</a></li>
+              <li><span>GitHub</span><a href="https://github.com/robermaps">robermaps</a></li>
+              <li><span>X</span><a href="https://x.com/robermaps">@robermaps</a></li>
+              <li><span>Base</span><em>Madrid · 40°25′ N 3°42′ O</em></li>
+            </ul>
+          </div>
+        </section>
+
+        <footer class="marginalia">
+          <svg class="north" viewBox="0 0 34 58" role="img" aria-label="Norte">
+            <text x="17" y="12" text-anchor="middle" class="t-mono" style="font-weight:600">N</text>
+            <path d="M17 18 L26 50 L17 43 Z" class="f-ink"/>
+            <path d="M17 18 L8 50 L17 43 Z" class="f-paper s-ink" stroke-width="1"/>
+          </svg>
+          <p><b>Sistema de referencia</b>ETRS89 · Proyección UTM, huso 30 norte. En la Luna, coordenadas selenográficas; en Marte, planetocéntricas.</p>
+          <p><b>Relieve</b>Simulado en tu navegador con ruido fractal y marching squares. Equidistancia 10 m en la Tierra y 50 m en la Luna y Marte, con curvas maestras cada cinco.</p>
+          <p><b>Edición</b>© 2026 Roberto Jiménez López · Hoja 559 · Madrid. Hecha a mano con HTML, CSS y JavaScript.</p>
+        </footer>
+      </div>
+    </div>
+    <div class="ticks bottom" aria-hidden="true"><span>3°48′ O</span><span>3°45′</span><span>3°42′</span><span>3°39′</span><span>3°36′ O</span></div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+
+      /* Copiar correo */
+      var copyBtn = document.getElementById('copy-mail');
+      copyBtn.addEventListener('click', function () {
+        var done = function (msg) { copyBtn.textContent = msg; setTimeout(function () { copyBtn.textContent = 'Copiar correo'; }, 2200); };
+        var fallback = function () {
+          var sel = window.getSelection(), r = document.createRange();
+          r.selectNodeContents(document.getElementById('mail'));
+          sel.removeAllRanges(); sel.addRange(r);
+          done('Seleccionado');
+        };
+        try { navigator.clipboard.writeText(copyBtn.dataset.copy).then(function () { done('Copiado'); }, fallback); }
+        catch (e) { fallback(); }
+      });
+
+      /* ------------------------------------------------------------------
+         Relieve de portada: campo de alturas con ruido fractal y curvas de
+         nivel por marching squares. La extensión horizontal son 17 km.
+         ------------------------------------------------------------------ */
+      var EXT_KM = 17;
+      var BODIES = {
+        tierra: { seed: 559, sys: 'ETRS89 · UTM 30N', zl: 'Cota', eq: 10, colors: ['--contour', '--contour-strong'], label: 'Madrid', spotH: '667', utm: [440291, 4474255] },
+        luna:   { seed: 1969, sys: 'Selenográficas', zl: 'Altura rel.', eq: 50, colors: ['--moon', '--moon-strong'], label: 'Apolo 11', ll: [0.67409, 23.47297], kmPerDeg: 30.32 },
+        marte:  { seed: 2021, sys: 'Planetocéntricas', zl: 'Altura rel.', eq: 50, colors: ['--mars', '--mars-strong'], label: 'Jezero', ll: [18.4447, 77.4508], kmPerDeg: 59.16 }
+      };
+      var hero = document.getElementById('inicio');
+      var cv = document.getElementById('relieve');
+      var ctx = cv.getContext('2d');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var dark = window.matchMedia('(prefers-color-scheme: dark)');
+      var $ = function (id) { return document.getElementById(id); };
+      var state = { body: 'tierra', w: 0, h: 0, dpr: 1, grid: null, levels: [], spot: [0, 0], river: null, anim: 0 };
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0; a = a + 0x6D2B79F5 | 0;
+          var t = Math.imul(a ^ a >>> 15, 1 | a);
+          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+      function makeNoise(seed) {
+        var rnd = mulberry32(seed), p = [], i, j, tmp;
+        for (i = 0; i < 256; i++) p[i] = i;
+        for (i = 255; i > 0; i--) { j = Math.floor(rnd() * (i + 1)); tmp = p[i]; p[i] = p[j]; p[j] = tmp; }
+        var perm = new Uint8Array(512), val = new Float32Array(256);
+        for (i = 0; i < 512; i++) perm[i] = p[i & 255];
+        for (i = 0; i < 256; i++) val[i] = rnd();
+        var fade = function (t) { return t * t * t * (t * (t * 6 - 15) + 10); };
+        var h = function (x, y) { return val[perm[(perm[x & 255] + y) & 255]]; };
+        var n = function (x, y) {
+          var xi = Math.floor(x), yi = Math.floor(y), u = fade(x - xi), v = fade(y - yi);
+          var a = h(xi, yi), b = h(xi + 1, yi), c = h(xi, yi + 1), d = h(xi + 1, yi + 1);
+          return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+        };
+        return {
+          rnd: rnd,
+          fbm: function (x, y, oct) {
+            var s = 0, amp = 0.5, f = 1, norm = 0;
+            for (var k = 0; k < (oct || 5); k++) { s += amp * n(x * f + k * 17.3, y * f - k * 9.1); norm += amp; amp *= 0.5; f *= 2.03; }
+            return s / norm;
+          }
+        };
+      }
+
+      function layoutSpot(w, h) {
+        if (w < 700) {
+          var win = $('hero-window');
+          return [w * 0.68, win.offsetTop + win.offsetHeight * 0.45];
+        }
+        return [w * 0.71, h * 0.46];
+      }
+
+      function generate() {
+        var w = state.w, h = state.h, B = BODIES[state.body];
+        var cell = w < 700 ? 4 : 5;
+        var nx = Math.ceil(w / cell) + 1, ny = Math.ceil(h / cell) + 1;
+        var z = new Float32Array(nx * ny);
+        var N = makeNoise(B.seed);
+        var km = EXT_KM / w;                       // km por píxel
+        var spot = layoutSpot(w, h);
+        var riverX = null, craters = [], i, j, k;
+
+        if (state.body === 'tierra') {
+          riverX = function (y) { return spot[0] - w * 0.1 + w * 0.035 * Math.sin(y / h * 3.2 + 0.4) + w * 0.016 * Math.sin(y / h * 8.1 + 1.3); };
+        } else {
+          var count = state.body === 'luna' ? 26 : 16;
+          for (k = 0; k < count; k++) {
+            var r = 0.25 + Math.pow(N.rnd(), 2.4) * 2.6;           // radio en km
+            craters.push({ x: N.rnd() * EXT_KM, y: N.rnd() * (h * km), r: r, d: r * 170 });
+          }
+          if (state.body === 'marte') craters.push({ x: spot[0] * km - 0.6, y: spot[1] * km, r: h * km * 0.36, d: 520 });
+        }
+
+        for (j = 0; j < ny; j++) {
+          for (i = 0; i < nx; i++) {
+            var px = i * cell, py = j * cell, xk = px * km, yk = py * km, v;
+            if (state.body === 'tierra') {
+              v = 600 + 150 * N.fbm(xk / 3.4, yk / 3.4) + 60 * (1 - py / h) + 22 * N.fbm(xk / 0.8, yk / 0.8, 3);
+              var dx = (px - riverX(py)) / (w * 0.065);
+              v -= 75 * Math.exp(-dx * dx);
+            } else {
+              var amp = state.body === 'luna' ? 420 : 760;
+              v = (state.body === 'luna' ? -1800 : -2500) + amp * (N.fbm(xk / 4, yk / 4) - 0.5);
+              for (k = 0; k < craters.length; k++) {
+                var c = craters[k], ddx = xk - c.x, ddy = yk - c.y, d = Math.sqrt(ddx * ddx + ddy * ddy) / c.r;
+                if (d < 1) v -= c.d * (1 - d * d);
+                var rim = (d - 1) / 0.2;
+                if (rim > -3 && rim < 3) v += c.d * 0.38 * Math.exp(-rim * rim);
+              }
+            }
+            z[j * nx + i] = v;
+          }
+        }
+
+        // En la Tierra, la cota del vértice coincide con Madrid (Retiro, 667 m)
+        state.grid = { nx: nx, ny: ny, cell: cell, z: z };
+        if (state.body === 'tierra') {
+          var off = 667 - sample(spot[0], spot[1]);
+          for (k = 0; k < z.length; k++) z[k] += off;
+        }
+        state.spot = spot;
+        state.river = riverX;
+        buildLevels(B.eq);
+      }
+
+      function sample(px, py) {
+        var g = state.grid, x = Math.max(0, Math.min(g.nx - 1.001, px / g.cell)), y = Math.max(0, Math.min(g.ny - 1.001, py / g.cell));
+        var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j, z = g.z, n = g.nx;
+        var a = z[j * n + i], b = z[j * n + i + 1], c = z[(j + 1) * n + i], d = z[(j + 1) * n + i + 1];
+        return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+      }
+
+      function buildLevels(eq) {
+        var g = state.grid, z = g.z, nx = g.nx, ny = g.ny, s = g.cell;
+        var min = Infinity, max = -Infinity, k;
+        for (k = 0; k < z.length; k++) { if (z[k] < min) min = z[k]; if (z[k] > max) max = z[k]; }
+        var levels = [];
+        for (var L = Math.ceil(min / eq) * eq; L <= max; L += eq) {
+          var idx = Math.round(L / eq) % 5 === 0;
+          var p2 = new Path2D(), segs = idx ? [] : null;
+          for (var j = 0; j < ny - 1; j++) {
+            for (var i = 0; i < nx - 1; i++) {
+              var a = z[j * nx + i], b = z[j * nx + i + 1], c = z[(j + 1) * nx + i + 1], d = z[(j + 1) * nx + i];
+              var code = (a > L ? 8 : 0) | (b > L ? 4 : 0) | (c > L ? 2 : 0) | (d > L ? 1 : 0);
+              if (code === 0 || code === 15) continue;
+              var x0 = i * s, y0 = j * s;
+              var T = [x0 + s * (L - a) / (b - a), y0], R = [x0 + s, y0 + s * (L - b) / (c - b)];
+              var Bt = [x0 + s * (L - d) / (c - d), y0 + s], Lf = [x0, y0 + s * (L - a) / (d - a)];
+              var pairs;
+              switch (code) {
+                case 1: case 14: pairs = [[Lf, Bt]]; break;
+                case 2: case 13: pairs = [[Bt, R]]; break;
+                case 3: case 12: pairs = [[Lf, R]]; break;
+                case 4: case 11: pairs = [[T, R]]; break;
+                case 6: case 9: pairs = [[T, Bt]]; break;
+                case 7: case 8: pairs = [[Lf, T]]; break;
+                case 5: pairs = (a + b + c + d) / 4 > L ? [[Lf, T], [Bt, R]] : [[T, R], [Lf, Bt]]; break;
+                case 10: pairs = (a + b + c + d) / 4 > L ? [[T, R], [Lf, Bt]] : [[Lf, T], [Bt, R]]; break;
+              }
+              for (var q = 0; q < pairs.length; q++) {
+                var P = pairs[q][0], Q = pairs[q][1];
+                p2.moveTo(P[0], P[1]); p2.lineTo(Q[0], Q[1]);
+                if (segs) segs.push(P[0], P[1], Q[0], Q[1]);
+              }
+            }
+          }
+          levels.push({ v: L, index: idx, path: p2, segs: segs });
+        }
+        state.levels = levels;
+      }
+
+      function exclusions() {
+        var hr = hero.getBoundingClientRect(), out = [];
+        ['.hero-text', '.instrument', '#spot', '#river-label'].forEach(function (sel) {
+          var el = hero.querySelector(sel);
+          if (!el || el.hidden) return;
+          var r = el.getBoundingClientRect();
+          out.push([r.left - hr.left - 14, r.top - hr.top - 14, r.right - hr.left + 14, r.bottom - hr.top + 14]);
+        });
+        return out;
+      }
+
+      function draw(progress) {
+        var css = getComputedStyle(root), B = BODIES[state.body];
+        var c1 = css.getPropertyValue(B.colors[0]).trim(), c2 = css.getPropertyValue(B.colors[1]).trim();
+        var paper = css.getPropertyValue('--paper').trim(), hydro = css.getPropertyValue('--hydro').trim();
+        ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+        ctx.clearRect(0, 0, state.w, state.h);
+        ctx.lineCap = 'round';
+        var n = Math.ceil(state.levels.length * progress);
+        for (var k = 0; k < n; k++) {
+          var L = state.levels[k];
+          ctx.strokeStyle = L.index ? c2 : c1;
+          ctx.globalAlpha = L.index ? 0.85 : 0.5;
+          ctx.lineWidth = L.index ? 1.25 : 0.7;
+          ctx.stroke(L.path);
+        }
+        ctx.globalAlpha = 1;
+        if (progress < 1) return;
+
+        if (state.river) {
+          ctx.beginPath();
+          for (var y = -4; y <= state.h + 4; y += 6) { var x = state.river(y); y < 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+          ctx.strokeStyle = hydro; ctx.lineWidth = 2.2; ctx.stroke();
+        }
+
+        // Rótulos de cota en curvas maestras
+        var ex = exclusions(), placed = [];
+        ctx.font = '500 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        state.levels.forEach(function (L, li) {
+          if (!L.index || !L.segs.length) return;
+          var tx = state.w * (0.5 + 0.45 * ((li * 0.618) % 1)), ty = state.h * (0.12 + 0.76 * ((li * 0.381) % 1));
+          var best = -1, bestD = Infinity, s = L.segs;
+          for (var q = 0; q < s.length; q += 4) {
+            var mx = (s[q] + s[q + 2]) / 2, my = (s[q + 1] + s[q + 3]) / 2;
+            if (mx < 20 || my < 14 || mx > state.w - 20 || my > state.h - 14) continue;
+            var bad = false;
+            for (var e = 0; e < ex.length && !bad; e++) if (mx > ex[e][0] && mx < ex[e][2] && my > ex[e][1] && my < ex[e][3]) bad = true;
+            for (var p = 0; p < placed.length && !bad; p++) if (Math.abs(mx - placed[p][0]) < 60 && Math.abs(my - placed[p][1]) < 26) bad = true;
+            if (bad) continue;
+            var dd = (mx - tx) * (mx - tx) + (my - ty) * (my - ty);
+            if (dd < bestD) { bestD = dd; best = q; }
+          }
+          if (best < 0) return;
+          var ax = (s[best] + s[best + 2]) / 2, ay = (s[best + 1] + s[best + 3]) / 2;
+          var ang = Math.atan2(s[best + 3] - s[best + 1], s[best + 2] - s[best]);
+          if (ang > Math.PI / 2) ang -= Math.PI; if (ang < -Math.PI / 2) ang += Math.PI;
+          var txt = String(Math.round(L.v)).replace('-', '−');
+          ctx.save(); ctx.translate(ax, ay); ctx.rotate(ang);
+          ctx.lineWidth = 4; ctx.strokeStyle = paper; ctx.strokeText(txt, 0, 0);
+          ctx.fillStyle = c2; ctx.fillText(txt, 0, 0);
+          ctx.restore();
+          placed.push([ax, ay]);
+        });
+      }
+
+      function animate() {
+        cancelAnimationFrame(state.anim);
+        if (reduce.matches) { draw(1); return; }
+        var t0 = 0;
+        state.animating = true;
+        var step = function (t) {
+          if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / 1100);
+          draw(p);
+          if (p < 1) state.anim = requestAnimationFrame(step);
+          else state.animating = false;
+        };
+        state.anim = requestAnimationFrame(step);
+      }
+
+      /* Lecturas del instrumento */
+      function group(v) { return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+      function deg(v, pos, neg) { return Math.abs(v).toFixed(3).replace('.', ',') + '° ' + (v >= 0 ? pos : neg); }
+      function coordText(px, py) {
+        var B = BODIES[state.body], km = EXT_KM / state.w;
+        var dx = (px - state.spot[0]) * km, dy = (py - state.spot[1]) * km;
+        if (B.utm) return 'X ' + group(B.utm[0] + dx * 1000) + ' · Y ' + group(B.utm[1] - dy * 1000);
+        var lat = B.ll[0] - dy / B.kmPerDeg;
+        var lon = B.ll[1] + dx / (B.kmPerDeg * Math.cos(lat * Math.PI / 180));
+        return deg(lat, 'N', 'S') + ' · ' + deg(lon, 'E', 'O');
+      }
+      function readAt(px, py) {
+        $('r-xy').textContent = coordText(px, py);
+        $('r-z').textContent = String(Math.round(sample(px, py))).replace('-', '−') + ' m';
+      }
+      function placeLabels() {
+        var B = BODIES[state.body], s = state.spot;
+        var spot = $('spot');
+        spot.style.left = s[0] + 'px'; spot.style.top = s[1] + 'px';
+        $('spot-label').textContent = B.label;
+        $('spot-h').textContent = B.spotH || '';
+        $('spot-h').hidden = !B.spotH;
+        var rl = $('river-label');
+        rl.hidden = !state.river;
+        if (state.river) {
+          var y = Math.min(state.h - 30, s[1] + (state.w < 700 ? 100 : state.h * 0.32));
+          var x = state.river(y), slope = (state.river(y - 10) - state.river(y + 10)) / 20;
+          var ang = Math.atan2(-1, slope) * 180 / Math.PI;
+          rl.style.left = (x + 9) + 'px'; rl.style.top = y + 'px';
+          rl.style.transform = 'rotate(' + ang.toFixed(1) + 'deg)';
+        }
+        $('r-sys').textContent = B.sys;
+        $('r-zl').textContent = B.zl;
+        var pxKm = state.w / EXT_KM, opts = [0.5, 1, 2, 5], L = opts[opts.length - 1];
+        for (var i = 0; i < opts.length; i++) { if (opts[i] * pxKm >= 70) { L = opts[i]; break; } }
+        $('bar').style.width = Math.round(L * pxKm) + 'px';
+        $('bar-label').textContent = String(L).replace('.', ',') + ' km';
+        readAt(s[0], s[1]);
+      }
+
+      function setup(anim) {
+        var r = hero.getBoundingClientRect();
+        state.w = Math.max(1, Math.round(r.width)); state.h = Math.max(1, Math.round(r.height));
+        state.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cv.width = Math.round(state.w * state.dpr); cv.height = Math.round(state.h * state.dpr);
+        generate();
+        placeLabels();
+        anim ? animate() : draw(1);
+      }
+
+      /* Interacción */
+      var cross = $('cross');
+      hero.addEventListener('pointermove', function (e) {
+        if (e.target.closest('.instrument')) { cross.hidden = true; return; }
+        var r = hero.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        cross.hidden = false;
+        cross.style.left = x + 'px'; cross.style.top = y + 'px';
+        readAt(x, y);
+      });
+      hero.addEventListener('pointerleave', function () { cross.hidden = true; readAt(state.spot[0], state.spot[1]); });
+
+      document.querySelectorAll('.bodies button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (state.body === b.dataset.body) return;
+          state.body = b.dataset.body;
+          document.querySelectorAll('.bodies button').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+          generate(); placeLabels(); animate();
+        });
+      });
+
+      var rt = 0;
+      var redraw = function () { if (!state.animating) draw(1); };
+      new ResizeObserver(function () {
+        var r = hero.getBoundingClientRect();
+        if (Math.round(r.width) === state.w && Math.round(r.height) === state.h) return;
+        clearTimeout(rt); rt = setTimeout(function () { cancelAnimationFrame(state.anim); state.animating = false; setup(false); }, 120);
+      }).observe(hero);
+      dark.addEventListener('change', redraw);
+      new MutationObserver(redraw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeLabels(); redraw(); });
+
+      setup(true);
+    })();
+  </script>
+</body>
+</html>

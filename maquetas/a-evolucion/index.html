@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Roberto Jiménez López · Geógrafo, analista SIG y desarrollador web</title>
+  <!-- Maqueta: fuera del índice de buscadores hasta que pase a producción -->
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Geógrafo especializado en SIG, análisis y visualización de datos espaciales y desarrollo web. Plugins de QGIS, geoprocesos con Python y visores web desde Madrid.">
+  <meta name="author" content="Roberto Jiménez López">
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Roberto Jiménez López · @robermaps">
+  <meta property="og:description" content="Geógrafo, analista SIG y desarrollador web en Madrid.">
+  <meta property="og:url" content="https://robermaps.github.io/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@robermaps">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121d24" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Schibsted+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Roberto Jiménez López",
+    "alternateName": "robermaps",
+    "url": "https://robermaps.github.io/",
+    "image": "https://avatars.githubusercontent.com/u/81579458?v=4",
+    "jobTitle": "Geógrafo y analista SIG",
+    "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
+    "knowsAbout": ["Sistemas de Información Geográfica", "QGIS", "Python", "GDAL", "Cartografía", "Teledetección", "Desarrollo web"],
+    "sameAs": ["https://x.com/robermaps", "https://www.linkedin.com/in/robermaps", "https://github.com/robermaps"]
+  }
+  </script>
+  <style>
+    /* Layout: mapa vectorial fijo a pantalla completa como fondo; una columna central de tarjetas (máx. 1100 px) que se abre en rejilla en escritorio. */
+    :root {
+      --map-water: #e4ecf0;
+      --map-land: #f7f9f8;
+      --map-coast: #a7bac5;
+      --map-border: #bccbd3;
+      --map-grat: rgba(18, 96, 135, 0.09);
+      --map-mark: #126087;
+
+      --surface: #ffffff;
+      --surface-2: #f1f5f7;
+      --ink: #13202a;
+      --ink-2: #4b5b67;
+      --line: #d8e1e6;
+      --bar-bg: rgba(255, 255, 255, 0.84);
+      --bar-solid: #ffffff;
+      --shadow: 0 1px 2px rgba(19, 32, 42, 0.06), 0 10px 28px rgba(19, 32, 42, 0.08);
+
+      --brand: #126087;
+      --brand-ink: #ffffff;
+      --brand-hover: #0c4865;
+      --chip: #e6f0f5;
+      --chip-ink: #0f4f70;
+      --focus: #d99a00;
+
+      --note: #b45309;
+      --note-ink: #ffffff;
+      --note-bg: #fff6e5;
+      --note-line: #f1d7a8;
+
+      --moon-1: #d3d7dc;
+      --moon-2: #b3b9c0;
+      --moon-3: #8f969e;
+      --mars-1: #e09a73;
+      --mars-2: #c96d45;
+      --mars-3: #9f4f2c;
+      --veg-1: #5f8f45;
+      --veg-2: #a9c792;
+
+      --font-display: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-body: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --map-water: #0b151c;
+        --map-land: #14222b;
+        --map-coast: #2e4757;
+        --map-border: #27404d;
+        --map-grat: rgba(130, 195, 228, 0.07);
+        --map-mark: #6dbbe0;
+        --surface: #121d24;
+        --surface-2: #19262f;
+        --ink: #e6edf1;
+        --ink-2: #a2b3be;
+        --line: #26363f;
+        --bar-bg: rgba(18, 29, 36, 0.84);
+        --bar-solid: #121d24;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+        --brand: #6dbbe0;
+        --brand-ink: #06202d;
+        --brand-hover: #95d0ec;
+        --chip: #183241;
+        --chip-ink: #a9d8ef;
+        --focus: #f2b632;
+        --note: #f0a64a;
+        --note-ink: #2a1803;
+        --note-bg: #261d10;
+        --note-line: #4a3819;
+        --moon-1: #8d939b;
+        --moon-2: #6f767e;
+        --moon-3: #575d65;
+        --mars-1: #c9805b;
+        --mars-2: #a85a37;
+        --mars-3: #7f4024;
+        --veg-1: #6f9f55;
+        --veg-2: #3f5f33;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --map-water: #0b151c;
+      --map-land: #14222b;
+      --map-coast: #2e4757;
+      --map-border: #27404d;
+      --map-grat: rgba(130, 195, 228, 0.07);
+      --map-mark: #6dbbe0;
+      --surface: #121d24;
+      --surface-2: #19262f;
+      --ink: #e6edf1;
+      --ink-2: #a2b3be;
+      --line: #26363f;
+      --bar-bg: rgba(18, 29, 36, 0.84);
+      --bar-solid: #121d24;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+      --brand: #6dbbe0;
+      --brand-ink: #06202d;
+      --brand-hover: #95d0ec;
+      --chip: #183241;
+      --chip-ink: #a9d8ef;
+      --focus: #f2b632;
+      --note: #f0a64a;
+      --note-ink: #2a1803;
+      --note-bg: #261d10;
+      --note-line: #4a3819;
+      --moon-1: #8d939b;
+      --moon-2: #6f767e;
+      --moon-3: #575d65;
+      --mars-1: #c9805b;
+      --mars-2: #a85a37;
+      --mars-3: #7f4024;
+      --veg-1: #6f9f55;
+      --veg-2: #3f5f33;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    body {
+      margin: 0;
+      background: var(--map-water);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 30;
+      background: var(--bar-solid);
+    }
+    img { max-width: 100%; }
+    a { color: var(--brand); }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+    .gutter {
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+    }
+
+    /* Fondo cartográfico */
+    .map-layer { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+    #mapa { position: absolute; will-change: transform; }
+
+    /* Franja de maqueta */
+    .mockbar {
+      position: relative;
+      z-index: 2;
+      background: var(--note-bg);
+      border-bottom: 1px solid var(--note-line);
+      font: 500 0.8125rem/1.3 var(--font-mono);
+    }
+    .mockbar-inner {
+      max-width: 1100px;
+      margin-inline: auto;
+      padding-block: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 16px;
+    }
+    .mockbar strong { font-weight: 500; color: var(--note); }
+    .mockbar .push { margin-left: auto; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .mockbar a { color: var(--ink); }
+    .linkbtn {
+      font: inherit;
+      color: var(--ink);
+      background: none;
+      border: 1px solid var(--note-line);
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    /* Barra superior */
+    .topbar {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 20;
+      background: var(--bar-bg);
+      -webkit-backdrop-filter: saturate(1.3) blur(10px);
+      backdrop-filter: saturate(1.3) blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      max-width: 1100px;
+      margin-inline: auto;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand {
+      font: 700 1.25rem/1 var(--font-display);
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand span { color: var(--brand); }
+    .nav { display: flex; gap: 2px; margin-left: auto; }
+    .nav a {
+      padding: 9px 12px;
+      border-radius: 8px;
+      color: var(--ink-2);
+      text-decoration: none;
+      font: 600 0.9375rem/1 var(--font-display);
+      white-space: nowrap;
+    }
+    .nav a:hover { background: var(--surface-2); color: var(--ink); }
+    .tools-bar { display: flex; gap: 2px; align-items: center; }
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      color: var(--ink);
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .icon-btn:hover { background: var(--surface-2); }
+    .icon-btn svg { width: 19px; height: 19px; fill: currentColor; }
+    .sep { width: 1px; height: 22px; background: var(--line); margin-inline: 4px; }
+    @media (max-width: 780px) {
+      .topbar-inner { flex-wrap: wrap; row-gap: 0; }
+      .tools-bar { margin-left: auto; }
+      .nav {
+        order: 3;
+        width: 100%;
+        margin: 0 -4px;
+        padding-bottom: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+    }
+
+    /* Contenido */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin-inline: auto;
+      padding-block: 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: clamp(20px, 4vw, 40px);
+      min-width: 0;
+    }
+    h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+    h2 { font-weight: 700; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.15; letter-spacing: -0.015em; }
+    h3 { font-weight: 700; font-size: 1.1875rem; line-height: 1.25; }
+    .note {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--note);
+      color: var(--note-ink);
+      font: 500 0.75rem/1 var(--font-mono);
+      vertical-align: 0.2em;
+      margin-left: 8px;
+      text-decoration: none;
+      flex: none;
+    }
+    .hide-notes .note { display: none; }
+
+    /* Presentación */
+    .hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: start; }
+    .avatar {
+      width: clamp(112px, 16vw, 184px);
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      background: var(--surface-2);
+    }
+    .hero h1 { font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.04; letter-spacing: -0.025em; }
+    .role { margin: 10px 0 0; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.3 var(--font-display); color: var(--brand); }
+    .loc {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--ink-2);
+      font: 400 0.8125rem/1.2 var(--font-mono);
+    }
+    .loc svg { width: 14px; height: 14px; fill: var(--brand); flex: none; }
+    .bio { max-width: 64ch; margin-top: 20px; }
+    .bio p { margin: 0 0 0.8em; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font: 600 1rem/1 var(--font-display);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--brand); color: var(--brand-ink); }
+    .btn-primary:hover { background: var(--brand-hover); }
+    .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+    .btn-ghost:hover { background: var(--surface-2); }
+    @media (max-width: 620px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .avatar { width: 104px; }
+    }
+
+    /* Secciones */
+    .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 22px; }
+    .sec-head p { margin: 0; color: var(--ink-2); max-width: 60ch; }
+    .subhead {
+      margin: 34px 0 14px;
+      font: 500 0.8125rem/1 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      display: flex;
+      align-items: center;
+    }
+
+    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
+    .archive { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+    .project {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .thumb { display: block; aspect-ratio: 2 / 1; max-width: 100%; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+    .archive .thumb { aspect-ratio: 8 / 3; }
+    .thumb svg { display: block; width: 100%; height: 100%; }
+    .project-body { display: flex; flex-direction: column; gap: 10px; padding: 18px; flex: 1; }
+    .project-body p { margin: 0; color: var(--ink-2); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+    .tags li {
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: var(--chip);
+      color: var(--chip-ink);
+      font: 500 0.75rem/1 var(--font-mono);
+    }
+    .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: auto; padding-top: 6px; }
+    .links a { font-weight: 600; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .status { font: 500 0.75rem/1.2 var(--font-mono); color: var(--ink-2); }
+    .status.off::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-2); margin-right: 6px; vertical-align: 0.05em; }
+
+    /* Trayectoria */
+    .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 32px; }
+    .xp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+    .xp li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; }
+    .xp .ico { width: 36px; height: 36px; border-radius: 10px; background: var(--chip); display: grid; place-items: center; }
+    .xp .ico svg { width: 18px; height: 18px; fill: none; stroke: var(--chip-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .xp strong { display: block; font: 700 1.0625rem/1.3 var(--font-display); }
+    .xp span { color: var(--ink-2); }
+    .stack { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+    .stack dt { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 8px; }
+    .stack dd { margin: 0; }
+    .col-title { font: 700 1.0625rem/1.2 var(--font-display); margin: 0 0 16px; }
+
+    /* Notas técnicas */
+    .notes-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); column-gap: 32px; }
+    .notes-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .notes-list a:hover .t { color: var(--brand); text-decoration: underline; }
+    .notes-list .t { font-weight: 600; min-width: 0; }
+    .notes-list .k { font: 500 0.75rem/1.6 var(--font-mono); color: var(--ink-2); white-space: nowrap; }
+
+    /* Contacto */
+    .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+    .contact p { margin: 8px 0 0; color: var(--ink-2); }
+    .mail-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 18px; }
+    .mail { font: 700 clamp(1.3rem, 3.4vw, 2.1rem)/1.15 var(--font-display); letter-spacing: -0.01em; color: var(--ink); overflow-wrap: anywhere; user-select: all; }
+    .social-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .social-list a { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 600; }
+    .social-list a:hover { color: var(--brand); }
+    .social-list svg { width: 18px; height: 18px; fill: currentColor; }
+    .social-list small { font: 400 0.8125rem/1 var(--font-mono); color: var(--ink-2); }
+    @media (max-width: 700px) { .contact { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Cambios */
+    .changes { background: var(--note-bg); border-color: var(--note-line); }
+    .changes ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px 32px; }
+    .changes li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
+    .changes .num {
+      display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--note); color: var(--note-ink); font: 500 0.75rem/1 var(--font-mono);
+    }
+    .changes .num.g { background: transparent; color: var(--note); border: 1.5px solid var(--note); }
+    .changes strong { font-family: var(--font-display); }
+    .changes p { margin: 2px 0 0; color: var(--ink-2); }
+
+    footer { position: relative; z-index: 1; max-width: 1100px; margin-inline: auto; padding-block: 0 40px; }
+    .foot {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px 20px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: var(--ink-2);
+      font: 400 0.8125rem/1.4 var(--font-mono);
+    }
+    .tnum { font-variant-numeric: tabular-nums; }
+
+    /* Ilustraciones */
+    .f-moon1 { fill: var(--moon-1); } .f-moon2 { fill: var(--moon-2); } .f-moon3 { fill: var(--moon-3); }
+    .f-mars1 { fill: var(--mars-1); } .f-mars2 { fill: var(--mars-2); } .f-mars3 { fill: var(--mars-3); }
+    .f-veg1 { fill: var(--veg-1); } .f-veg2 { fill: var(--veg-2); }
+    .f-surface { fill: var(--surface); } .f-chip { fill: var(--chip); } .f-line { fill: var(--line); }
+    .s-ink2 { stroke: var(--ink-2); fill: none; } .s-brand { stroke: var(--brand); fill: none; } .s-line { stroke: var(--line); fill: none; }
+    .t-mono { font: 500 12px var(--font-mono); fill: var(--ink-2); }
+  </style>
+</head>
+<body>
+  <div class="map-layer" aria-hidden="true"><canvas id="mapa"></canvas></div>
+
+  <div class="mockbar">
+    <div class="mockbar-inner gutter">
+      <span><strong>Maqueta A</strong> · Evolución de la web actual</span>
+      <span class="push">
+        <button class="linkbtn" id="toggle-notes" type="button" aria-pressed="true">Ocultar notas</button>
+        <a href="#cambios">Qué ha cambiado</a>
+      </span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner gutter">
+      <a class="brand" href="#inicio"><span>@</span>robermaps</a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#proyectos">Proyectos</a>
+        <a href="#trayectoria">Trayectoria</a>
+        <a href="#notas">Notas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="tools-bar">
+        <a class="icon-btn" href="https://x.com/robermaps" aria-label="X (antes Twitter)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/robermaps" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://github.com/robermaps" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <span class="sep" aria-hidden="true"></span>
+        <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el mapa de fondo" title="Pausar el mapa de fondo">
+          <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-play" hidden><path d="M8 5.5v13l10.5-6.5z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio" class="gutter">
+
+    <!-- Presentación -->
+    <section class="card hero" aria-labelledby="nombre">
+      <img class="avatar" src="avatar.jpg" width="184" height="184" alt="Avatar de Rober: un muñeco de Playmobil columpiándose en un neumático">
+      <div>
+        <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
+        <p class="role">Geógrafo · Analista SIG · Desarrollador web</p>
+        <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
+        <div class="bio">
+          <p>¡Hola! Soy Rober, geógrafo de formación y apasionado por la tecnología. Me dedico a unir ambos mundos para expandir el conocimiento y la experiencia de las personas sobre nuestro planeta… ¡y más allá!</p>
+          <p>Trabajo con SIG de escritorio como QGIS y ArcGIS, automatizo geoprocesos con Python y GDAL, y diseño y programo visores web para que cualquiera pueda explorar datos espaciales desde el navegador.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:robermaps@outlook.es">Escríbeme</a>
+          <a class="btn btn-ghost" href="#proyectos">Ver proyectos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proyectos -->
+    <section class="card" id="proyectos" aria-labelledby="t-proyectos">
+      <div class="sec-head">
+        <h2 id="t-proyectos">Proyectos<a class="note" href="#c2" aria-label="Nota 2">2</a></h2>
+        <p>Herramientas para explorar la Luna, Marte y la Tierra.</p>
+      </div>
+
+      <div class="projects">
+        <article class="project">
+          <div class="thumb">
+            <svg viewBox="0 0 320 160" role="img" aria-label="Rejilla de teselas de la Luna y Marte">
+              <g transform="translate(46 30)">
+                <rect class="f-moon1" x="0" y="0" width="36" height="36" rx="3"/><rect class="f-moon2" x="40" y="0" width="36" height="36" rx="3"/><rect class="f-moon1" x="80" y="0" width="36" height="36" rx="3"/><rect class="f-moon3" x="120" y="0" width="36" height="36" rx="3"/><rect class="f-moon2" x="160" y="0" width="36" height="36" rx="3"/><rect class="f-moon1" x="200" y="0" width="36" height="36" rx="3"/>
+                <rect class="f-mars2" x="0" y="40" width="36" height="36" rx="3"/><rect class="f-mars1" x="40" y="40" width="36" height="36" rx="3"/><rect class="f-mars3" x="80" y="40" width="36" height="36" rx="3"/><rect class="f-mars1" x="120" y="40" width="36" height="36" rx="3"/><rect class="f-mars2" x="160" y="40" width="36" height="36" rx="3"/><rect class="f-mars1" x="200" y="40" width="36" height="36" rx="3"/>
+                <text class="t-mono" x="0" y="102">{z}/{x}/{y}.png → QGIS</text>
+              </g>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>OpenPlanetary Tile Loader para QGIS</h3>
+            <p>Plugin que añade a tu proyecto de QGIS capas de teselas de la Luna y Marte publicadas por OpenPlanetary, sin configurar servicios a mano.</p>
+            <ul class="tags"><li>QGIS</li><li>Python</li><li>PyQGIS</li></ul>
+            <div class="links">
+              <a href="https://github.com/robermaps/optileloader">Repositorio</a>
+              <a href="https://plugins.qgis.org/plugins/optileloader/">Ficha en QGIS Plugins</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="thumb">
+            <svg viewBox="0 0 320 160" role="img" aria-label="La Luna y Marte">
+              <circle class="f-moon1" cx="118" cy="80" r="48"/>
+              <circle class="f-moon2" cx="100" cy="64" r="10"/><circle class="f-moon2" cx="134" cy="96" r="14"/><circle class="f-moon3" cx="140" cy="58" r="5"/><circle class="f-moon3" cx="96" cy="102" r="6"/>
+              <circle class="f-mars2" cx="222" cy="80" r="38"/>
+              <ellipse class="f-mars3" cx="212" cy="70" rx="16" ry="8"/><ellipse class="f-mars1" cx="234" cy="94" rx="12" ry="6"/><circle class="f-mars3" cx="240" cy="66" r="4"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Visor de la Luna y Marte</h3>
+            <p>Visor web con 9 capas de la superficie lunar y marciana: mapas base, altimetría MOLA, mosaicos Viking y relieve sombreado.</p>
+            <ul class="tags"><li>Leaflet</li><li>JavaScript</li><li>OpenPlanetaryMap</li></ul>
+            <div class="links">
+              <a href="https://robermaps.github.io/maps/mars-moon-explorer">Abrir el visor</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="subhead">Del archivo<a class="note" href="#c3" aria-label="Nota 3">3</a></p>
+      <div class="archive">
+        <article class="project">
+          <div class="thumb">
+            <svg viewBox="0 0 320 120" role="img" aria-label="Polígonos de usos del suelo">
+              <path class="f-veg2" d="M20 96 L58 30 L118 22 L140 70 L96 104 Z"/>
+              <path class="f-veg1" d="M118 22 L196 18 L210 62 L140 70 Z"/>
+              <path class="f-chip" d="M140 70 L210 62 L250 100 L170 108 L96 104 Z"/>
+              <path class="f-veg2" d="M196 18 L290 26 L300 84 L250 100 L210 62 Z"/>
+              <path class="s-ink2" stroke-width="1" d="M20 96 L58 30 L118 22 L196 18 L290 26 L300 84 L250 100 L170 108 L96 104 Z M118 22 L140 70 L96 104 M140 70 L210 62 L196 18 M210 62 L250 100"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Visor de la Red Natura 2000</h3>
+            <p>Mis contribuciones a la cartografía de usos del suelo de la Red Natura 2000, tras año y medio fotointerpretando imágenes de satélite para Copernicus.</p>
+            <ul class="tags"><li>Copernicus</li><li>Fotointerpretación</li></ul>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="thumb">
+            <svg viewBox="0 0 320 120" role="img" aria-label="Escena de satélite con marco de encuadre">
+              <rect class="f-chip" x="104" y="14" width="112" height="92" rx="2"/>
+              <path class="s-line" stroke-width="10" d="M104 40 L216 30 M104 68 L216 58 M104 96 L216 86"/>
+              <path class="s-brand" stroke-width="2.5" d="M96 26 V6 H116 M204 6 H224 V26 M224 94 V114 H204 M116 114 H96 V94"/>
+              <path class="s-brand" stroke-width="1.5" d="M160 48 V72 M148 60 H172"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>España desde el cielo · @esmapbot</h3>
+            <p>Bot que publicaba cada día en Twitter una imagen de satélite aleatoria de España con las API de Mapbox y Twitter.</p>
+            <ul class="tags"><li>Mapbox API</li><li>Twitter API</li></ul>
+            <p class="status off">Inactivo desde los cambios en esas API</p>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="thumb">
+            <svg viewBox="0 0 320 120" role="img" aria-label="Hojas de mapa apiladas">
+              <rect class="f-line" x="116" y="30" width="110" height="74" rx="3"/>
+              <rect class="f-chip" x="104" y="22" width="110" height="74" rx="3"/>
+              <rect class="f-surface" x="92" y="14" width="110" height="74" rx="3"/>
+              <path class="s-ink2" stroke-width="1" d="M92 14 h110 v74 h-110 z M128.7 14 v74 M165.3 14 v74"/>
+              <path class="s-brand" stroke-width="1.8" d="M100 70 C118 52 136 66 150 50 S180 40 194 30"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Cartoteca digital</h3>
+            <p>Recopilación de visores, fuentes de datos espaciales y recursos para trabajar con información geográfica.</p>
+            <ul class="tags"><li>Datos abiertos</li><li>Recursos</li></ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Trayectoria -->
+    <section class="card" id="trayectoria" aria-labelledby="t-tray">
+      <div class="sec-head">
+        <h2 id="t-tray">Trayectoria y herramientas<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
+      </div>
+      <div class="two">
+        <div>
+          <h3 class="col-title">Experiencia y formación</h3>
+          <ul class="xp">
+            <li>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 14l5-5 4 4 3-3 4 4"/></svg></span>
+              <div><strong>Fotointerpretación de imágenes de satélite</strong><span>Programa Copernicus · cartografía de usos del suelo en espacios Red Natura 2000 · año y medio</span></div>
+            </li>
+            <li>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M7 10.5V16c2.8 2 7.2 2 10 0v-5.5"/></svg></span>
+              <div><strong>Grado en Geografía</strong><span>Trabajo de fin de grado sobre el Ensanche de Vallecas (Madrid)</span></div>
+            </li>
+            <li>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span>
+              <div><strong>Desarrollo propio</strong><span>Plugins de QGIS, visores web con Leaflet y bots que consumen API de cartografía</span></div>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="col-title">Herramientas</h3>
+          <dl class="stack">
+            <div><dt>SIG</dt><dd><ul class="tags"><li>QGIS</li><li>PyQGIS</li><li>ArcGIS · ModelBuilder</li></ul></dd></div>
+            <div><dt>Datos y análisis</dt><dd><ul class="tags"><li>Python</li><li>GDAL/OGR</li><li>GeoPandas</li><li>Jupyter</li><li>R</li></ul></dd></div>
+            <div><dt>Web</dt><dd><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Leaflet</li></ul></dd></div>
+            <div><dt>Teledetección</dt><dd><ul class="tags"><li>Fotointerpretación</li><li>Copernicus</li></ul></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notas técnicas -->
+    <section class="card" id="notas" aria-labelledby="t-notas">
+      <div class="sec-head">
+        <h2 id="t-notas">Notas técnicas<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
+        <p>Tutoriales y apuntes sobre SIG y programación.</p>
+      </div>
+      <ul class="notes-list">
+        <li><a href="#notas"><span class="t">Guía para desarrollar plugins de QGIS</span><span class="k">QGIS · Python</span></a></li>
+        <li><a href="#notas"><span class="t">Crear herramientas de procesamiento en QGIS</span><span class="k">PyQGIS</span></a></li>
+        <li><a href="#notas"><span class="t">Automatizar geoprocesos con Python y GDAL/OGR</span><span class="k">GDAL · Python</span></a></li>
+        <li><a href="#notas"><span class="t">Instalar GeoPandas y Jupyter con Conda y usarlos en un IDE</span><span class="k">Python</span></a></li>
+        <li><a href="#notas"><span class="t">Análisis de la ubicación de un vertedero con ModelBuilder</span><span class="k">ArcGIS</span></a></li>
+        <li><a href="#notas"><span class="t">Apuntes de R</span><span class="k">R</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Contacto -->
+    <section class="card contact" id="contacto" aria-labelledby="t-contacto">
+      <div>
+        <h2 id="t-contacto">¿Hablamos?<a class="note" href="#c6" aria-label="Nota 6">6</a></h2>
+        <p>Para proyectos, colaboraciones o dudas sobre mis herramientas, escríbeme.</p>
+        <div class="mail-row">
+          <a class="mail" id="mail" href="mailto:robermaps@outlook.es">robermaps@outlook.es</a>
+          <button class="btn btn-ghost" type="button" id="copy-mail" data-copy="robermaps@outlook.es">Copiar</button>
+        </div>
+      </div>
+      <ul class="social-list">
+        <li><a href="https://www.linkedin.com/in/robermaps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn <small>/in/robermaps</small></a></li>
+        <li><a href="https://github.com/robermaps"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub <small>robermaps</small></a></li>
+        <li><a href="https://x.com/robermaps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X <small>@robermaps</small></a></li>
+      </ul>
+    </section>
+
+    <!-- Qué ha cambiado (solo maqueta) -->
+    <section class="card changes" id="cambios" aria-labelledby="t-cambios">
+      <div class="sec-head">
+        <h2 id="t-cambios">Qué cambia respecto a la web actual</h2>
+        <p>Los números corresponden a las marcas naranjas de la página.</p>
+      </div>
+      <ol>
+        <li id="c1"><span class="num">1</span><div><strong>Presentación con jerarquía</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con rol y ubicación visibles. El texto va alineado a la izquierda en lugar de justificado y hay un botón para escribirte.</p></div></li>
+        <li id="c2"><span class="num">2</span><div><strong>Proyectos en rejilla</strong><p>Miniaturas en lugar de emojis, etiquetas de tecnología y dos enlaces por proyecto. Los títulos bajan de tamaño para no competir con tu nombre.</p></div></li>
+        <li id="c3"><span class="num">3</span><div><strong>Archivo recuperado</strong><p>Red Natura 2000, @esmapbot y la Cartoteca salieron de la portada en los commits de 2026. Son la prueba de experiencia profesional y conviene volver a enseñarlos.</p></div></li>
+        <li id="c4"><span class="num">4</span><div><strong>Trayectoria y herramientas</strong><p>La web no decía qué sabes hacer. Aquí van la experiencia en Copernicus, la formación y el stack, con datos sacados de tus páginas antiguas.</p></div></li>
+        <li id="c5"><span class="num">5</span><div><strong>Notas técnicas</strong><p>Los seis tutoriales eliminados en junio de 2026 (plugins de QGIS, GDAL, GeoPandas…) son el contenido que más búsquedas puede atraer. Están en el historial de git.</p></div></li>
+        <li id="c6"><span class="num">6</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Mapa de fondo vectorial</strong><p>Natural Earth dibujado en canvas en lugar de teselas de openstreetmap.fr pedidas cada 100 ms. Sin desenfoque, con botón de pausa, se detiene si activas «reducir movimiento» y arranca en Madrid de verdad (3,70° O; antes 3,69° E, en el mar).</p></div></li>
+        <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Paleta para tema claro y oscuro, foco visible con teclado y contraste AA en todos los textos.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="gutter">
+    <div class="foot">
+      <span>© 2026 Roberto Jiménez López</span>
+      <span class="tnum">Fondo: Natural Earth 1:50M · centro <span id="coords">40,42° N 3,70° O</span></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+
+      /* Notas de la maqueta */
+      var tgl = document.getElementById('toggle-notes');
+      tgl.addEventListener('click', function () {
+        var on = tgl.getAttribute('aria-pressed') !== 'true';
+        tgl.setAttribute('aria-pressed', String(on));
+        root.classList.toggle('hide-notes', !on);
+        tgl.textContent = on ? 'Ocultar notas' : 'Mostrar notas';
+      });
+
+      /* Copiar email */
+      var copyBtn = document.getElementById('copy-mail');
+      copyBtn.addEventListener('click', function () {
+        var done = function (msg) { copyBtn.textContent = msg; setTimeout(function () { copyBtn.textContent = 'Copiar'; }, 2200); };
+        var fallback = function () {
+          var sel = window.getSelection(), r = document.createRange();
+          r.selectNodeContents(document.getElementById('mail'));
+          sel.removeAllRanges(); sel.addRange(r);
+          done('Seleccionado');
+        };
+        try {
+          navigator.clipboard.writeText(copyBtn.dataset.copy).then(function () { done('Copiado'); }, fallback);
+        } catch (e) { fallback(); }
+      });
+
+      /* ------------------------------------------------------------------
+         Mapa de fondo: Natural Earth en Web Mercator dibujado en canvas.
+         Se pinta un lienzo algo mayor que la ventana y se desplaza con
+         transform; solo se vuelve a dibujar al agotar el margen.
+         ------------------------------------------------------------------ */
+      var PATHS = [
+        { lat: 40.4168, lng: -3.7038, dLat: 0, dLng: 0.2, zoom: 6 },      // Madrid, hacia el este
+        { lat: 39.3, lng: -100, dLat: 0.1, dLng: 0.1, zoom: 5 },          // Grandes Llanuras, hacia el noreste
+        { lat: 36.3211, lng: 131.725, dLat: 0, dLng: -0.2, zoom: 6 },     // Rocas de Liancourt, hacia el oeste
+        { lat: 9.9635, lng: 40.745, dLat: 0.1, dLng: 0.1, zoom: 5 }       // Rift etíope, hacia el noreste
+      ];                                                                  // dLat/dLng en grados por segundo
+      var path = PATHS[Math.floor(Math.random() * PATHS.length)];
+      var W = 256 * Math.pow(2, path.zoom);
+      var cv = document.getElementById('mapa');
+      var ctx = cv.getContext('2d');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var dark = window.matchMedia('(prefers-color-scheme: dark)');
+      var geo = null, vw = 0, vh = 0, pad = 0, dpr = 1, cx, cy, sx = 0, sy = 0;
+      var running = !reduce.matches, raf = 0, last = 0, lastReadout = 0;
+
+      function mx(lon) { return (lon + 180) / 360 * W; }
+      function my(lat) {
+        lat = Math.max(-85, Math.min(85, lat));
+        var s = Math.sin(lat * Math.PI / 180);
+        return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W;
+      }
+      function invLat(y) { return Math.atan(Math.sinh(Math.PI * (1 - 2 * y / W))) * 180 / Math.PI; }
+
+      cx = mx(path.lng); cy = my(path.lat);
+      var vx = path.dLng / 360 * W;
+      var vy = -path.dLat / 360 * W / Math.cos(path.lat * Math.PI / 180);
+
+      function decode(list, p) {
+        return list.map(function (a) {
+          var pts = new Float64Array(a.length), x = 0, y = 0;
+          var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+          for (var i = 0; i < a.length; i += 2) {
+            x += a[i]; y += a[i + 1];
+            var px = mx(x / p), py = my(y / p);
+            pts[i] = px; pts[i + 1] = py;
+            if (px < x0) x0 = px; if (px > x1) x1 = px;
+            if (py < y0) y0 = py; if (py > y1) y1 = py;
+          }
+          return { pts: pts, b: [x0, y0, x1, y1] };
+        });
+      }
+
+      function size() {
+        vw = window.innerWidth; vh = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        pad = Math.round(Math.min(320, Math.max(160, Math.max(vw, vh) * 0.22)));
+        var cw = vw + 2 * pad, ch = vh + 2 * pad;
+        cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+        cv.style.width = cw + 'px'; cv.style.height = ch + 'px';
+        cv.style.left = -pad + 'px'; cv.style.top = -pad + 'px';
+      }
+
+      function render() {
+        var css = getComputedStyle(root);
+        var col = function (k) { return css.getPropertyValue(k).trim(); };
+        var cw = vw + 2 * pad, ch = vh + 2 * pad;
+        var ox = cx - cw / 2, oy = cy - ch / 2;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = col('--map-water');
+        ctx.fillRect(0, 0, cw, ch);
+        ctx.translate(-ox, -oy);
+
+        var vis = function (r) { return r.b[2] >= ox && r.b[0] <= ox + cw && r.b[3] >= oy && r.b[1] <= oy + ch; };
+        var add = function (p2d, pts, close) {
+          p2d.moveTo(pts[0], pts[1]);
+          for (var i = 2; i < pts.length; i += 2) p2d.lineTo(pts[i], pts[i + 1]);
+          if (close) p2d.closePath();
+        };
+
+        if (geo) {
+          var land = new Path2D();
+          geo.land.forEach(function (r) { if (vis(r)) add(land, r.pts, true); });
+          ctx.fillStyle = col('--map-land');
+          ctx.fill(land, 'evenodd');
+          ctx.lineJoin = 'round';
+          ctx.strokeStyle = col('--map-coast');
+          ctx.lineWidth = 1;
+          ctx.stroke(land);
+
+          var bd = new Path2D();
+          geo.borders.forEach(function (r) { if (vis(r)) add(bd, r.pts, false); });
+          ctx.strokeStyle = col('--map-border');
+          ctx.lineWidth = 0.9;
+          ctx.setLineDash([5, 4]);
+          ctx.stroke(bd);
+          ctx.setLineDash([]);
+        }
+
+        // Retícula cada 2°
+        var lon0 = (ox / W) * 360 - 180, lon1 = ((ox + cw) / W) * 360 - 180;
+        var lat0 = invLat(oy + ch), lat1 = invLat(oy);
+        var g = new Path2D();
+        for (var lo = Math.ceil(lon0 / 2) * 2; lo <= lon1; lo += 2) { g.moveTo(mx(lo), oy); g.lineTo(mx(lo), oy + ch); }
+        for (var la = Math.ceil(lat0 / 2) * 2; la <= lat1; la += 2) { g.moveTo(ox, my(la)); g.lineTo(ox + cw, my(la)); }
+        ctx.strokeStyle = col('--map-grat');
+        ctx.lineWidth = 1;
+        ctx.stroke(g);
+
+        // Madrid
+        var mdx = mx(-3.7038), mdy = my(40.4168);
+        if (mdx > ox && mdx < ox + cw && mdy > oy && mdy < oy + ch) {
+          ctx.fillStyle = col('--map-mark');
+          ctx.beginPath(); ctx.arc(mdx, mdy, 3.5, 0, Math.PI * 2); ctx.fill();
+          ctx.font = '500 12px "DM Mono", ui-monospace, monospace';
+          ctx.fillText('Madrid', mdx + 8, mdy + 4);
+        }
+
+        sx = 0; sy = 0;
+        cv.style.transform = 'translate3d(0,0,0)';
+        readout();
+      }
+
+      function fmt(v, pos, neg) { return Math.abs(v).toFixed(2).replace('.', ',') + '° ' + (v >= 0 ? pos : neg); }
+      function readout() {
+        var lon = cx / W * 360 - 180, lat = invLat(cy);
+        document.getElementById('coords').textContent = fmt(lat, 'N', 'S') + ' ' + fmt(lon, 'E', 'O');
+      }
+
+      function tick(t) {
+        if (!last) last = t;
+        var dt = Math.min(0.1, (t - last) / 1000);
+        last = t;
+        cx += vx * dt; cy += vy * dt;
+        sx -= vx * dt; sy -= vy * dt;
+        if (Math.abs(sx) > pad * 0.9 || Math.abs(sy) > pad * 0.9) render();
+        else cv.style.transform = 'translate3d(' + sx.toFixed(2) + 'px,' + sy.toFixed(2) + 'px,0)';
+        if (t - lastReadout > 500) { readout(); lastReadout = t; }
+        raf = requestAnimationFrame(tick);
+      }
+      function play() { if (!raf && running && !document.hidden) { last = 0; raf = requestAnimationFrame(tick); } }
+      function stop() { cancelAnimationFrame(raf); raf = 0; }
+
+      var btn = document.getElementById('map-toggle');
+      function syncBtn() {
+        btn.setAttribute('aria-pressed', String(!running));
+        var label = running ? 'Pausar el mapa de fondo' : 'Reanudar el mapa de fondo';
+        btn.setAttribute('aria-label', label); btn.title = label;
+        document.getElementById('ico-pause').hidden = !running;
+        document.getElementById('ico-play').hidden = running;
+      }
+      btn.addEventListener('click', function () { running = !running; syncBtn(); running ? play() : stop(); });
+      reduce.addEventListener('change', function () { running = !reduce.matches; syncBtn(); running ? play() : stop(); });
+      document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
+
+      var rt = 0;
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); render(); }, 150); });
+      dark.addEventListener('change', render);
+      new MutationObserver(render).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+      size(); render(); syncBtn(); play();
+      fetch('world.json').then(function (r) { return r.json(); }).then(function (d) {
+        geo = { land: decode(d.land, d.p), borders: decode(d.borders, d.p) };
+        render();
+      }).catch(function () { /* sin datos: queda el mar y la retícula */ });
+    })();
+  </script>
+</body>
+</html>
