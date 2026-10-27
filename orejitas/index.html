@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orejitas · Sonidos para bebés y peques</title>
+<meta name="description" content="Orejitas, app para Android con más de cien sonidos para bebés y peques: animales, naturaleza, transportes, música, ruido blanco y nanas. Funciona sin conexión. · Little Ears: sounds for babies and little ones.">
+<meta name="theme-color" content="#e6f6d2">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://robermaps.github.io/orejitas/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://robermaps.github.io/orejitas/">
+<meta property="og:title" content="Orejitas · Sonidos para bebés y peques">
+<meta property="og:description" content="Más de cien sonidos para bebés y peques, en tu Android y sin conexión. · Sounds for babies and little ones.">
+<meta property="og:image" content="https://robermaps.github.io/orejitas/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  @font-face {
+    font-family: 'Fredoka';
+    src: url('fredoka-latin.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+  }
+  :root {
+    color-scheme: light;
+    --bg1: #e6f6d2; --bg2: #fff6d8;
+    --card: #fffdf8; --ink: #2c3a22; --soft: #5d6b52;
+    --accent: #2f7324; --on-accent: #ffffff; --line: rgba(60, 120, 40, .16);
+    --shadow: 0 3px 0 rgba(60, 120, 40, .16);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg1: #18210f; --bg2: #232615;
+      --card: #252e1d; --ink: #eef5e6; --soft: #b8c6ad;
+      --accent: #84d872; --on-accent: #13240e; --line: rgba(160, 220, 140, .16);
+      --shadow: 0 3px 0 rgba(0, 0, 0, .35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; min-height: 100%; background: var(--bg1) linear-gradient(160deg, var(--bg1), var(--bg2)); }
+  body {
+    margin: 0; color: var(--ink);
+    font: 17px/1.55 'Fredoka', ui-rounded, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right)) 40px max(16px, env(safe-area-inset-left)); }
+  .lang { display: flex; justify-content: flex-end; gap: 4px; }
+  .lang button {
+    font: inherit; font-weight: 600; font-size: .9rem; color: var(--soft);
+    background: none; border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: var(--shadow); }
+  .lang button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .hero { display: grid; gap: 28px; align-items: center; margin-top: 12px; }
+  .intro { text-align: center; }
+  .icon { width: 112px; height: 112px; border-radius: 28px; box-shadow: var(--shadow); }
+  h1 { font-size: 2.6rem; line-height: 1.1; margin: 16px 0 4px; font-weight: 700; }
+  .tagline { font-size: 1.25rem; font-weight: 600; color: var(--soft); margin: 0 0 14px; }
+  .lead { margin: 0 auto 22px; max-width: 34em; text-wrap: pretty; }
+  .play {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: var(--on-accent); text-decoration: none;
+    font-weight: 600; font-size: 1.05rem; padding: 14px 24px; border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .play svg { width: 18px; height: 18px; fill: currentColor; }
+  .req { font-size: .85rem; color: var(--soft); margin: 10px 0 0; }
+  .shot { margin: 0; display: flex; justify-content: center; }
+  .shot img {
+    width: min(300px, 78vw); height: auto; display: block;
+    border-radius: 28px; border: 6px solid var(--card); box-shadow: 0 10px 30px rgba(40, 70, 20, .18);
+  }
+
+  .features { list-style: none; padding: 0; margin: 40px 0 0; display: grid; gap: 14px; }
+  .features li { background: var(--card); border-radius: 22px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .features .emoji { font-size: 1.8rem; line-height: 1; }
+  .features h2 { font-size: 1.15rem; margin: 8px 0 4px; }
+  .features p { margin: 0; color: var(--soft); }
+
+  footer { margin-top: 36px; padding-top: 18px; border-top: 2px dashed var(--line); text-align: center; color: var(--soft); font-size: .95rem; }
+  footer p { margin: 6px 0; }
+  footer a { color: var(--accent); font-weight: 600; }
+
+  @media (min-width: 760px) {
+    .hero { grid-template-columns: 1.2fr 1fr; gap: 40px; margin-top: 24px; }
+    .intro { text-align: left; }
+    .lead { margin-left: 0; }
+    h1 { font-size: 3.1rem; }
+    .features { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="lang" aria-label="Idioma · Language">
+    <button type="button" data-lang="es" aria-pressed="true" lang="es">ES</button>
+    <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="intro">
+        <img class="icon" src="icon.png" width="112" height="112" alt="">
+        <h1 data-en="Little Ears">Orejitas</h1>
+        <p class="tagline" data-en="Sounds for babies and little ones">Sonidos para bebés y peques</p>
+        <p class="lead" data-en="Over a hundred sounds to discover the world through play: farm and wild animals, rain and the sea, cars and trains, home, toys and music. And at bedtime, white noise and lullabies.">Más de cien sonidos para descubrir el mundo jugando: animales de la granja y salvajes, la lluvia y el mar, coches y trenes, la casa, los juguetes y la música. Y, a la hora de dormir, ruido blanco y nanas.</p>
+        <a class="play" href="https://play.google.com/store/apps/details?id=io.github.robermaps.orejitas">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
+          <span data-en="Get it on Google Play">Disponible en Google Play</span>
+        </a>
+        <p class="req" data-en="For Android 11 or later">Para Android 11 o posterior</p>
+      </div>
+      <figure class="shot">
+        <img src="screenshot-es.webp" data-src-en="screenshot-en.webp" width="405" height="720"
+             alt="La app abierta en la categoría Granja: vaca, cerdo, oveja, cabra, caballo y más animales."
+             data-alt-en="The app open on the Farm category: cow, pig, sheep, goat, horse and more animals.">
+      </figure>
+    </section>
+
+    <ul class="features">
+      <li>
+        <span class="emoji" aria-hidden="true">🐮</span>
+        <h2 data-en="108 sounds">108 sonidos</h2>
+        <p data-en="Animals with real recordings, nature, vehicles, home, toys and music. One tap and it plays; if you like, a voice says its name.">Animales con grabaciones reales, naturaleza, transportes, la casa, juguetes y música. Un toque y suena; si quieres, una voz dice su nombre.</p>
+      </li>
+      <li>
+        <span class="emoji" aria-hidden="true">🌙</span>
+        <h2 data-en="At bedtime">A la hora de dormir</h2>
+        <p data-en="White noise and lullabies that loop, with a timer, and keep playing with the screen off.">Ruido blanco y nanas que suenan en bucle, con temporizador, y siguen sonando con la pantalla apagada.</p>
+      </li>
+      <li>
+        <span class="emoji" aria-hidden="true">✈️</span>
+        <h2 data-en="Works offline">Sin conexión</h2>
+        <p data-en="Every sound is inside the app: it works in the car, on a plane or wherever there's no signal.">Todos los sonidos van dentro de la app: funciona en el coche, en el avión o donde no haya cobertura.</p>
+      </li>
+      <li>
+        <span class="emoji" aria-hidden="true">🔒</span>
+        <h2 data-en="No personal data">Sin datos personales</h2>
+        <p data-en="No accounts or analytics. Ads are set up for children and can be removed with a one-time purchase.">Sin cuentas ni analítica. Los anuncios están configurados para público infantil y se quitan con un único pago.</p>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    <p><a href="privacy.html" data-href-en="privacy.html#english" data-en="Privacy policy">Política de privacidad</a> · <a href="mailto:orejitasapp@outlook.es">orejitasapp@outlook.es</a></p>
+    <p><span data-en="Made with love by">Hecho con cariño por</span> <a href="https://robermaps.github.io/">@robermaps</a></p>
+  </footer>
+</div>
+
+<script>
+  // Idioma: ?lang=es|en o el del navegador. Sin guardar nada.
+  (() => {
+    const TITLE = { es: 'Orejitas · Sonidos para bebés y peques', en: 'Little Ears · Sounds for babies and little ones' };
+    const texts = [...document.querySelectorAll('[data-en]')];
+    texts.forEach((e) => { e.dataset.es = e.innerHTML; });
+    const swap = (sel, attr, lang) => document.querySelectorAll(sel).forEach((e) => {
+      const key = attr === 'src' ? 'srcEn' : attr === 'alt' ? 'altEn' : 'hrefEn';
+      const keep = key.replace('En', 'Es');
+      if (!(keep in e.dataset)) e.dataset[keep] = e.getAttribute(attr);
+      e.setAttribute(attr, lang === 'en' ? e.dataset[key] : e.dataset[keep]);
+    });
+    const set = (lang) => {
+      document.documentElement.lang = lang;
+      document.title = TITLE[lang];
+      texts.forEach((e) => { e.innerHTML = e.dataset[lang]; });
+      swap('[data-src-en]', 'src', lang);
+      swap('[data-alt-en]', 'alt', lang);
+      swap('[data-href-en]', 'href', lang);
+      document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    };
+    const q = new URLSearchParams(location.search).get('lang');
+    const nav = (navigator.language || 'es').toLowerCase();
+    set(q === 'es' || q === 'en' ? q : nav.startsWith('es') ? 'es' : 'en');
+    document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('click', () => set(b.dataset.lang)));
+  })();
+</script>
+</body>
+</html>
