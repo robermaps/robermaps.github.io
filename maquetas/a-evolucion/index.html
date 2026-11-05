@@ -6,7 +6,7 @@
   <title>Roberto Jiménez López · Geógrafo, analista SIG y desarrollador web</title>
   <!-- Maqueta: fuera del índice de buscadores hasta que pase a producción -->
   <meta name="robots" content="noindex">
-  <meta name="description" content="Geógrafo especializado en SIG, análisis y visualización de datos espaciales y desarrollo web. Plugins de QGIS, geoprocesos con Python y visores web desde Madrid.">
+  <meta name="description" content="Geógrafo especializado en SIG y cartografía, desarrollador y diseñador web en Madrid. Plugins de QGIS, visores de la Luna y Marte y webs.">
   <meta name="author" content="Roberto Jiménez López">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="es_ES">
@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Schibsted+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap">
+  <script>try{var t=localStorage.getItem("robermaps-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -418,9 +419,8 @@
     .xp .ico svg { width: 18px; height: 18px; fill: none; stroke: var(--chip-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .xp strong { display: block; font: 700 1.0625rem/1.3 var(--font-display); }
     .xp span { color: var(--ink-2); }
-    .stack { margin: 0; display: flex; flex-direction: column; gap: 16px; }
-    .stack dt { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 8px; }
-    .stack dd { margin: 0; }
+    .about p { margin: 0 0 0.9em; max-width: 62ch; }
+    .about p:last-child { margin-bottom: 0; }
     .col-title { font: 700 1.0625rem/1.2 var(--font-display); margin: 0 0 16px; }
 
     /* Otros proyectos */
@@ -527,6 +527,10 @@
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
         </a>
         <span class="sep" aria-hidden="true"></span>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Cambiar a tema oscuro" title="Cambiar a tema oscuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-moon"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-sun" hidden><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM3.5 4.9l1.4-1.4 2.2 2.1-1.5 1.5zm13.4 13.4 1.5-1.5 2.1 2.2-1.4 1.4zM16.9 5.6l2.2-2.1 1.4 1.4-2.1 2.2zM3.5 19.1l2.1-2.2 1.5 1.5-2.2 2.1z"/></svg>
+        </button>
         <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el mapa de fondo" title="Pausar el mapa de fondo">
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-play" hidden><path d="M8 5.5v13l10.5-6.5z"/></svg>
@@ -542,15 +546,14 @@
       <img class="avatar" src="avatar.jpg" width="184" height="184" alt="Avatar de Rober: un muñeco de Playmobil columpiándose en un neumático">
       <div>
         <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
-        <p class="role">Geógrafo · Analista SIG · Desarrollador web</p>
+        <p class="role">Geógrafo · SIG y cartografía · Desarrollo y diseño web</p>
         <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
         <div class="bio">
-          <p>¡Hola! Soy Rober, geógrafo de formación y apasionado por la tecnología. Me dedico a unir ambos mundos para expandir el conocimiento y la experiencia de las personas sobre nuestro planeta… ¡y más allá!</p>
-          <p>Trabajo con SIG de escritorio como QGIS y ArcGIS, automatizo geoprocesos con Python y GDAL, y diseño y programo visores web para que cualquiera pueda explorar datos espaciales desde el navegador.</p>
+          <p>¡Hola! Soy Rober, geógrafo de formación y apasionado por la tecnología. Me dedico a convertir datos en cosas que se entienden y se usan: mapas, análisis espaciales, plugins, visores y webs.</p>
+          <p>Trabajo con SIG y cartografía, programo herramientas con Python y JavaScript, diseño y desarrollo sitios web, y aplico el mismo análisis a otros terrenos, como la economía y la inversión. Todo con una idea en mente: expandir el conocimiento sobre nuestro planeta… ¡y más allá!</p>
         </div>
         <div class="actions">
           <a class="btn btn-primary" href="mailto:robermaps@outlook.es">Escríbeme</a>
-          <a class="btn btn-ghost" href="#geoproyectos">Ver proyectos</a>
         </div>
       </div>
     </section>
@@ -606,8 +609,20 @@
           </div>
         </article>
       </div>
+    </section>
 
-      <p class="subhead">Del archivo<a class="note" href="#c3" aria-label="Nota 3">3</a></p>
+    <!-- Otros proyectos -->
+    <section class="card" id="otros" aria-labelledby="t-otros">
+      <div class="sec-head">
+        <h2 id="t-otros">Otros proyectos<a class="note" href="#c3" aria-label="Nota 3">3</a></h2>
+        <p>Lo que está por llegar fuera de los mapas y lo que guardo en el archivo.</p>
+      </div>
+      <div class="soon">
+        <span class="soon-pill">Muy pronto</span>
+        <p>Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
+      </div>
+
+      <p class="subhead">Del archivo</p>
       <div class="archive">
         <article class="project">
           <div class="thumb">
@@ -650,24 +665,19 @@
       </div>
     </section>
 
-    <!-- Otros proyectos -->
-    <section class="card" id="otros" aria-labelledby="t-otros">
-      <div class="sec-head">
-        <h2 id="t-otros">Otros proyectos<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
-        <p>Lo que no cabe en un mapa.</p>
-      </div>
-      <div class="soon">
-        <span class="soon-pill">Muy pronto</span>
-        <p>Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
-      </div>
-    </section>
-
     <!-- Trayectoria -->
     <section class="card" id="trayectoria" aria-labelledby="t-tray">
       <div class="sec-head">
-        <h2 id="t-tray">Trayectoria y herramientas<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
+        <h2 id="t-tray">Trayectoria<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
       </div>
       <div class="two">
+        <div class="about">
+          <h3 class="col-title">Sobre mí</h3>
+          <p>Estudié Geografía en la universidad y desde entonces combino el análisis del territorio con la tecnología. Me interesan especialmente la cartografía, la teledetección y la movilidad, y todo lo que ayude a explicar el espacio con claridad.</p>
+          <p>Durante año y medio fotointerpreté imágenes de satélite para Copernicus, el programa europeo de observación de la Tierra. Allí aprendí a leer el territorio a partir de imágenes y a cartografiarlo con criterios comunes a toda Europa.</p>
+          <p>Con el tiempo pasé de usar herramientas a construirlas: plugins para QGIS, visores cartográficos y bots que publican imágenes de satélite. Hoy también diseño y desarrollo webs completas, de la interfaz al código.</p>
+          <p>Fuera de los mapas sigo de cerca la economía y los mercados, e invierto en renta variable con el mismo enfoque: datos, contexto y paciencia.</p>
+        </div>
         <div>
           <h3 class="col-title">Experiencia y formación</h3>
           <ul class="xp">
@@ -676,23 +686,18 @@
               <div><strong>Fotointerpretación de imágenes de satélite</strong><span>Programa Copernicus · cartografía de usos del suelo en espacios Red Natura 2000 · año y medio</span></div>
             </li>
             <li>
-              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M7 10.5V16c2.8 2 7.2 2 10 0v-5.5"/></svg></span>
-              <div><strong>Grado en Geografía</strong><span>Trabajo de fin de grado sobre el Ensanche de Vallecas (Madrid)</span></div>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l8 4-8 4-8-4 8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></svg></span>
+              <div><strong>Plugins para QGIS</strong><span>Dos plugins en el repositorio oficial: OpenPlanetary Tile Loader (QGIS 3) y su sucesor, OpenPlanetaryMap Tile Loader (QGIS 4 y Qt6)</span></div>
             </li>
             <li>
               <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span>
-              <div><strong>Desarrollo propio</strong><span>Plugins de QGIS, visores web con Leaflet y bots que consumen API de cartografía</span></div>
+              <div><strong>Desarrollo y diseño web</strong><span>Visores cartográficos con Leaflet, bots que consumen API de cartografía y webs como este portfolio</span></div>
+            </li>
+            <li>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M7 10.5V16c2.8 2 7.2 2 10 0v-5.5"/></svg></span>
+              <div><strong>Grado en Geografía</strong><span>Trabajo de fin de grado sobre el Ensanche de Vallecas (Madrid)</span></div>
             </li>
           </ul>
-        </div>
-        <div>
-          <h3 class="col-title">Herramientas</h3>
-          <dl class="stack">
-            <div><dt>SIG</dt><dd><ul class="tags"><li>QGIS</li><li>PyQGIS</li><li>ArcGIS · ModelBuilder</li></ul></dd></div>
-            <div><dt>Datos y análisis</dt><dd><ul class="tags"><li>Python</li><li>GDAL/OGR</li><li>GeoPandas</li><li>Jupyter</li><li>R</li></ul></dd></div>
-            <div><dt>Web</dt><dd><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Leaflet</li></ul></dd></div>
-            <div><dt>Teledetección</dt><dd><ul class="tags"><li>Fotointerpretación</li><li>Copernicus</li></ul></dd></div>
-          </dl>
         </div>
       </div>
     </section>
@@ -700,7 +705,7 @@
     <!-- Contacto -->
     <section class="card contact" id="contacto" aria-labelledby="t-contacto">
       <div>
-        <h2 id="t-contacto">¿Hablamos?<a class="note" href="#c6" aria-label="Nota 6">6</a></h2>
+        <h2 id="t-contacto">¿Hablamos?<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
         <p>Para proyectos, colaboraciones o dudas sobre mis herramientas, escríbeme.</p>
         <div class="mail-row">
           <a class="mail" id="mail" href="mailto:robermaps@outlook.es">robermaps@outlook.es</a>
@@ -721,15 +726,14 @@
         <p>Los números corresponden a las marcas naranjas de la página.</p>
       </div>
       <ol>
-        <li id="c1"><span class="num">1</span><div><strong>Presentación con jerarquía</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con rol y ubicación visibles. El texto va alineado a la izquierda en lugar de justificado y hay un botón para escribirte.</p></div></li>
+        <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un perfil que reúne SIG, desarrollo y diseño web y análisis. Texto alineado a la izquierda y un único botón para escribirte.</p></div></li>
         <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis, etiquetas de tecnología y enlaces a la ficha y al repositorio. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
-        <li id="c3"><span class="num">3</span><div><strong>Del archivo</strong><p>Proyectos que siguen a la vista aunque ya no los mantienes: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
-        <li id="c4"><span class="num">4</span><div><strong>Otros proyectos</strong><p>Sección propia para lo que no es geoespacial, con un aviso de «Muy pronto» mientras no haya contenido.</p></div></li>
-        <li id="c5"><span class="num">5</span><div><strong>Trayectoria y herramientas</strong><p>La web no decía qué sabes hacer. Aquí van la experiencia en Copernicus, la formación y el stack, con datos sacados de tus páginas antiguas.</p></div></li>
-        <li id="c6"><span class="num">6</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
+        <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
+        <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay un texto sobre ti y una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
+        <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Mapa de fondo vectorial</strong><p>Natural Earth dibujado en canvas en lugar de teselas de openstreetmap.fr pedidas cada 100 ms. Sin desenfoque, con botón de pausa, se detiene si activas «reducir movimiento» y arranca en Madrid de verdad (3,70° O; antes 3,69° E, en el mar).</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Paleta para tema claro y oscuro, foco visible con teclado y contraste AA en todos los textos.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
       </ol>
     </section>
@@ -745,6 +749,30 @@
   <script>
     (function () {
       var root = document.documentElement;
+
+      /* Tema claro / oscuro: automático según el sistema, o el que elija el visitante */
+      var themeBtn = document.getElementById('theme-toggle');
+      var sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+      function currentTheme() { return root.getAttribute('data-theme') || (sysDark.matches ? 'dark' : 'light'); }
+      function syncTheme() {
+        var isDark = currentTheme() === 'dark';
+        var label = isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro';
+        themeBtn.setAttribute('aria-label', label); themeBtn.title = label;
+        document.getElementById('ico-sun').toggleAttribute('hidden', !isDark);
+        document.getElementById('ico-moon').toggleAttribute('hidden', isDark);
+      }
+      try {
+        var saved = localStorage.getItem('robermaps-theme');
+        if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+      } catch (e) { /* sin almacenamiento: queda el tema del sistema */ }
+      themeBtn.addEventListener('click', function () {
+        var next = currentTheme() === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('robermaps-theme', next); } catch (e) {}
+      });
+      sysDark.addEventListener('change', syncTheme);
+      new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      syncTheme();
 
       /* Notas de la maqueta */
       var tgl = document.getElementById('toggle-notes');
@@ -912,8 +940,8 @@
         btn.setAttribute('aria-pressed', String(!running));
         var label = running ? 'Pausar el mapa de fondo' : 'Reanudar el mapa de fondo';
         btn.setAttribute('aria-label', label); btn.title = label;
-        document.getElementById('ico-pause').hidden = !running;
-        document.getElementById('ico-play').hidden = running;
+        document.getElementById('ico-pause').toggleAttribute('hidden', !running);
+        document.getElementById('ico-play').toggleAttribute('hidden', running);
       }
       btn.addEventListener('click', function () { running = !running; syncBtn(); running ? play() : stop(); });
       reduce.addEventListener('change', function () { running = !reduce.matches; syncBtn(); running ? play() : stop(); });

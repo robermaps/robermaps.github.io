@@ -7,7 +7,7 @@ Dos propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin 
 | [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (mapa en movimiento de fondo, tarjetas encima, barra superior con @robermaps) y corrige o mejora todo lo demás. Trae marcas naranjas numeradas que explican cada cambio; se ocultan con «Ocultar notas». |
 | [`b-hoja-559/`](b-hoja-559/) | **Maqueta B · Hoja 559.** Propuesta nueva: la web es una hoja del Mapa Topográfico (hoja 559, Madrid) con collar graduado, relieve generado en el navegador, leyenda como menú, mapa índice de proyectos y tablas de atributos. |
 
-**Decisión: maqueta A.** Ya está ajustada con la estructura elegida: geoproyectos (con su archivo), otros proyectos y sin notas técnicas. La B se queda en la rama solo como referencia.
+**Decisión: maqueta A.** Ya está ajustada con la estructura elegida: presentación transversal, geoproyectos, otros proyectos (con el archivo), trayectoria y contacto, sin notas técnicas y con botón de tema claro/oscuro. La B se queda en la rama solo como referencia.
 
 Ambas llevan `<meta name="robots" content="noindex">` para que no se indexen mientras sean maquetas (la acción del sitemap también las excluye por eso).
 
@@ -72,15 +72,14 @@ Hace falta servirlas por HTTP: la maqueta A carga `world.json` con `fetch()` y e
 
 Respeta lo que ya funciona (mapa de fondo, columna de tarjetas, el azul `#126087`, el «@robermaps» como marca) y cambia lo siguiente:
 
-- **Presentación**: nombre como `h1`, rol («Geógrafo · Analista SIG · Desarrollador web»), ubicación con coordenadas, tu texto alineado a la izquierda y botones «Escríbeme» y «Ver proyectos».
+- **Presentación**: nombre como `h1`, rol («Geógrafo · SIG y cartografía · Desarrollo y diseño web»), ubicación con coordenadas, un texto que reúne SIG, desarrollo y diseño web y análisis (incluida la inversión), alineado a la izquierda, y un único botón «Escríbeme».
 - **Geoproyectos**: rejilla con miniaturas en SVG (sin emojis), etiquetas de tecnología y enlaces. Abre la sección OpenPlanetaryMap Tile Loader para QGIS 4.x (activo; ficha en QGIS Plugins y repositorio `robermaps/opmtileloader`), seguido del visor de la Luna y Marte.
-- **Del archivo** (dentro de geoproyectos): OpenPlanetary Tile Loader para QGIS 3.x, marcado como «Ya no lo mantengo», y @esmapbot, marcado como inactivo.
-- **Otros proyectos**: sección separada para lo que no es geoespacial, de momento con un aviso de «Muy pronto».
-- **Trayectoria y herramientas**: experiencia, formación y stack, con datos sacados solo de tus páginas antiguas.
+- **Otros proyectos**: sección separada para lo que no es geoespacial, de momento con un aviso de «Muy pronto», y debajo **Del archivo**: OpenPlanetary Tile Loader para QGIS 3.x («Ya no lo mantengo») y @esmapbot (inactivo).
+- **Trayectoria**: un texto «Sobre mí» (formación, Copernicus, paso a construir herramientas, desarrollo web e inversión) y una lista de experiencia y formación. Sin bloque de herramientas.
 - Sin sección de notas técnicas.
 - **Contacto**: email grande con botón de copiar y redes con su usuario visible.
 - **Mapa de fondo vectorial**: Natural Earth 1:50M dibujado en `<canvas>` en Web Mercator. Se pinta un lienzo algo mayor que la ventana y se desplaza con `transform`, así que en cada fotograma solo cambia una propiedad CSS; solo se redibuja al agotar el margen (cada 20-30 s). Se pausa con el botón de la barra, al ocultar la pestaña y con «reducir movimiento». Mantiene tus cuatro rutas aleatorias con los comentarios corregidos y Madrid en su sitio. El pie muestra las coordenadas del centro de la vista.
-- **Modo oscuro**, foco visible con teclado, contraste AA, Open Graph y JSON-LD `Person`. Sin AdSense.
+- **Modo oscuro** automático según el dispositivo, con botón sol/luna para cambiarlo a mano (se guarda en `localStorage` y se aplica antes de pintar para evitar el parpadeo), foco visible con teclado, contraste AA, Open Graph y JSON-LD `Person`. Sin AdSense.
 
 `world.json` sale de `world-atlas@2.0.2` (Natural Earth 1:50M), con la tierra fusionada, las fronteras interiores y coordenadas cuantizadas a 0,02° y codificadas en deltas: 335 KB, unos 105 KB comprimido con gzip, que es como lo sirve GitHub Pages. Sustituye a Leaflet (148 KB) y a las teselas.
 
