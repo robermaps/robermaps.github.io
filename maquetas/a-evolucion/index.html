@@ -412,16 +412,12 @@
     .status.on::before { background: var(--brand); }
 
     /* Trayectoria */
-    .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 32px; }
-    .xp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+    .xp { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 24px 40px; }
     .xp li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; }
     .xp .ico { width: 36px; height: 36px; border-radius: 10px; background: var(--chip); display: grid; place-items: center; }
     .xp .ico svg { width: 18px; height: 18px; fill: none; stroke: var(--chip-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .xp strong { display: block; font: 700 1.0625rem/1.3 var(--font-display); }
     .xp span { color: var(--ink-2); }
-    .about p { margin: 0 0 0.9em; max-width: 62ch; }
-    .about p:last-child { margin-bottom: 0; }
-    .col-title { font: 700 1.0625rem/1.2 var(--font-display); margin: 0 0 16px; }
 
     /* Otros proyectos */
     .soon {
@@ -669,36 +665,24 @@
       <div class="sec-head">
         <h2 id="t-tray">Trayectoria<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
       </div>
-      <div class="two">
-        <div class="about">
-          <h3 class="col-title">Sobre mí</h3>
-          <p>Estudié Geografía en la universidad y desde entonces combino el análisis del territorio con la tecnología. Me interesan especialmente la cartografía, la teledetección y la movilidad, y todo lo que ayude a explicar el espacio con claridad.</p>
-          <p>Durante año y medio fotointerpreté imágenes de satélite para Copernicus, el programa europeo de observación de la Tierra. Allí aprendí a leer el territorio a partir de imágenes y a cartografiarlo con criterios comunes a toda Europa.</p>
-          <p>Con el tiempo pasé de usar herramientas a construirlas: plugins para QGIS, visores cartográficos y bots que publican imágenes de satélite. Hoy también diseño y desarrollo webs completas, de la interfaz al código.</p>
-          <p>Fuera de los mapas sigo de cerca la economía y los mercados, e invierto en renta variable con el mismo enfoque: datos, contexto y paciencia.</p>
-        </div>
-        <div>
-          <h3 class="col-title">Experiencia y formación</h3>
-          <ul class="xp">
-            <li>
-              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 14l5-5 4 4 3-3 4 4"/></svg></span>
-              <div><strong>Fotointerpretación de imágenes de satélite</strong><span>Programa Copernicus · cartografía de usos del suelo en espacios Red Natura 2000 · año y medio</span></div>
-            </li>
-            <li>
-              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l8 4-8 4-8-4 8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></svg></span>
-              <div><strong>Plugins para QGIS</strong><span>Dos plugins en el repositorio oficial: OpenPlanetary Tile Loader (QGIS 3) y su sucesor, OpenPlanetaryMap Tile Loader (QGIS 4 y Qt6)</span></div>
-            </li>
-            <li>
-              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span>
-              <div><strong>Desarrollo y diseño web</strong><span>Visores cartográficos con Leaflet, bots que consumen API de cartografía y webs como este portfolio</span></div>
-            </li>
-            <li>
-              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M7 10.5V16c2.8 2 7.2 2 10 0v-5.5"/></svg></span>
-              <div><strong>Grado en Geografía</strong><span>Trabajo de fin de grado sobre el Ensanche de Vallecas (Madrid)</span></div>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <ul class="xp">
+        <li>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 14l5-5 4 4 3-3 4 4"/></svg></span>
+          <div><strong>Fotointerpretación de imágenes de satélite</strong><span>Programa Copernicus · cartografía de usos del suelo en espacios Red Natura 2000 · año y medio</span></div>
+        </li>
+        <li>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l8 4-8 4-8-4 8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></svg></span>
+          <div><strong>Plugins para QGIS</strong><span>Dos plugins en el repositorio oficial: OpenPlanetary Tile Loader (QGIS 3) y su sucesor, OpenPlanetaryMap Tile Loader (QGIS 4 y Qt6)</span></div>
+        </li>
+        <li>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span>
+          <div><strong>Desarrollo y diseño web</strong><span>Visores cartográficos con Leaflet, bots que consumen API de cartografía y webs como este portfolio</span></div>
+        </li>
+        <li>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M7 10.5V16c2.8 2 7.2 2 10 0v-5.5"/></svg></span>
+          <div><strong>Grado en Geografía</strong><span>Trabajo de fin de grado sobre el Ensanche de Vallecas (Madrid)</span></div>
+        </li>
+      </ul>
     </section>
 
     <!-- Contacto -->
@@ -728,7 +712,7 @@
         <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda y un único botón para escribirte.</p></div></li>
         <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis, etiquetas de tecnología y enlaces a la ficha y al repositorio. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
-        <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay un texto sobre ti y una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
+        <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Mapa de fondo vectorial</strong><p>Natural Earth dibujado en canvas en lugar de teselas de openstreetmap.fr pedidas cada 100 ms. Sin desenfoque, con botón de pausa, se detiene si activas «reducir movimiento» y arranca en Madrid de verdad (3,70° O; antes 3,69° E, en el mar).</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
