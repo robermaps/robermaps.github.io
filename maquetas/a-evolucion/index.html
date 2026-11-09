@@ -48,6 +48,7 @@
       --globe-shade: rgba(19, 40, 54, 0.2);
       --globe-glow: rgba(18, 96, 135, 0.16);
       --globe-mark: #126087;
+      --orbit-rgb: 18, 96, 135;
 
       --surface: #ffffff;
       --surface-2: #f1f5f7;
@@ -94,6 +95,7 @@
         --globe-shade: rgba(0, 0, 0, 0.5);
         --globe-glow: rgba(109, 187, 224, 0.22);
         --globe-mark: #6dbbe0;
+        --orbit-rgb: 140, 205, 238;
         --surface: #121d24;
         --surface-2: #19262f;
         --ink: #e6edf1;
@@ -133,6 +135,7 @@
       --globe-shade: rgba(0, 0, 0, 0.5);
       --globe-glow: rgba(109, 187, 224, 0.22);
       --globe-mark: #6dbbe0;
+      --orbit-rgb: 140, 205, 238;
       --surface: #121d24;
       --surface-2: #19262f;
       --ink: #e6edf1;
@@ -551,10 +554,11 @@
       <img class="avatar" src="avatar.jpg" width="184" height="184" alt="Avatar de Rober: un muñeco de Playmobil columpiándose en un neumático">
       <div>
         <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
-        <p class="role">Geógrafo cuantitativo · Diseñador · Desarrollador</p>
+        <p class="role">Geógrafo cuantitativo · Desarrollador · Diseñador</p>
         <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
         <div class="bio">
-          <p>¡Hola! Soy Rober, geógrafo de formación y apasionado por el diseño y la tecnología. Me dedico a convertir la información en cosas que se entienden y se usan: mapas, aplicaciones, páginas web y cualquier otro “juguete” que pueda aportar algo de valor.</p>
+          <p>¡Hola! Soy Rober, geógrafo de formación y apasionado por el diseño y la tecnología.</p>
+          <p>Me dedico a convertir la información en cosas que se entienden y se usan: mapas, aplicaciones, páginas web y cualquier otro “juguete” que aporte valor.</p>
         </div>
         <div class="actions">
           <a class="btn btn-primary" href="mailto:robermaps@outlook.es">Escríbeme</a>
@@ -723,7 +727,7 @@
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -796,7 +800,9 @@
          Fondo: globo terráqueo en proyección ortográfica (d3-geo) que gira
          sobre su eje inclinado. El centro del globo coincide con el borde
          derecho de la ventana y el globo se apoya en su parte inferior,
-         así que solo se ve su mitad izquierda.
+         así que solo se ve su mitad izquierda. Alrededor orbitan estelas:
+         círculos en 3D proyectados como elipses que pasan por delante del
+         globo, se ocultan tras él o salen por los bordes de la pantalla.
          ------------------------------------------------------------------ */
       var cv = document.getElementById('mapa');
       var ctx = cv.getContext('2d');
@@ -811,10 +817,11 @@
       var running = !reduce.matches, raf = 0, last = 0, lastDraw = 0, lastReadout = 0;
       var vw = 0, vh = 0, R = 0, cx = 0, cy = 0, dpr = 1, colors = {};
       var land = null, borders = null, polys = [], grat = null, proj = null, path = null;
+      var trails = [], BANDS = 10;
 
       function readColors() {
         var css = getComputedStyle(root), c = {};
-        ['--space', '--globe-water', '--globe-land', '--globe-coast', '--globe-border', '--globe-grat', '--globe-shade', '--globe-glow', '--globe-mark'].forEach(function (k) {
+        ['--space', '--globe-water', '--globe-land', '--globe-coast', '--globe-border', '--globe-grat', '--globe-shade', '--globe-glow', '--globe-mark', '--orbit-rgb'].forEach(function (k) {
           c[k.slice(2)] = css.getPropertyValue(k).trim();
         });
         colors = c;
@@ -824,15 +831,104 @@
         vw = window.innerWidth; vh = window.innerHeight;
         R = Math.round(Math.min(vh * 0.46, Math.max(vw * 0.55, 160)));
         cy = vh - R;                         // el globo toca el borde inferior
+        cx = vw;                             // centro en el borde derecho de la ventana
         dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-        var cw = Math.ceil(R * 1.12) + 2;
-        cx = cw;                             // centro en el borde derecho del lienzo
-        cv.width = Math.round(cw * dpr); cv.height = Math.round(vh * dpr);
-        cv.style.width = cw + 'px'; cv.style.height = vh + 'px';
+        cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
+        cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
         if (hasD3) {
           proj = d3.geoOrthographic().scale(R).translate([cx, cy]).clipAngle(90).precision(0.7);
           path = d3.geoPath(proj, ctx);
         }
+        var n = vw < 700 ? 4 : 7;
+        trails = [];
+        for (var i = 0; i < n; i++) trails.push(spawn(true));
+      }
+
+      /* Estelas en órbita ------------------------------------------------ */
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function orbitPos(tr, th) {
+        var x = tr.a * Math.cos(th), s = tr.a * Math.sin(th);
+        var y = s * tr.ci, z = s * tr.si;                        // plano orbital inclinado
+        return [cx + x * tr.co - y * tr.so, cy + x * tr.so + y * tr.co, z];
+      }
+      function behindGlobe(p) { var dx = p[0] - cx, dy = p[1] - cy; return p[2] < 0 && dx * dx + dy * dy < R * R; }
+      function onScreen(p) { return p[0] > -8 && p[0] < vw - 2 && p[1] > -8 && p[1] < vh + 8; }
+      function shown(tr, th) { var p = orbitPos(tr, th); return onScreen(p) && !behindGlobe(p); }
+
+      // Nueva órbita; la cabeza arranca justo antes de asomar por un borde o por detrás del globo
+      function spawn(initial) {
+        var a = rand(R * 1.12, Math.max(R * 1.8, Math.max(vw, vh) * 1.15));
+        var inc = rand(58, 84) * Math.PI / 180 * (Math.random() < 0.5 ? 1 : -1);
+        var om = rand(-38, 38) * Math.PI / 180;
+        var tr = {
+          a: a, ci: Math.cos(inc), si: Math.sin(inc), co: Math.cos(om), so: Math.sin(om),
+          dir: Math.random() < 0.5 ? 1 : -1,
+          w: rand(70, 140) / a,                                    // rad/s: entre 70 y 140 px/s
+          len: Math.min(2.6, rand(380, 1000) / a),                 // longitud de la cola, en radianes
+          width: rand(1.2, 2.1), th: 0, seen: false, idle: 0
+        };
+        var th = rand(0, Math.PI * 2), k;
+        for (k = 0; k < 400 && !shown(tr, th); k++) th += 0.016;     // busca un tramo visible
+        if (initial) { tr.th = th + tr.dir * rand(0, 1.2); return tr; }
+        for (k = 0; k < 400 && shown(tr, th); k++) th -= tr.dir * 0.016; // retrocede hasta su entrada
+        tr.th = th;
+        return tr;
+      }
+
+      function stepTrails(dt) {
+        for (var i = 0; i < trails.length; i++) {
+          var tr = trails[i];
+          tr.th += tr.dir * tr.w * dt;
+          var vis = false;
+          for (var k = 0; k <= 6 && !vis; k++) vis = shown(tr, tr.th - tr.dir * tr.len * k / 6);
+          if (vis) { tr.seen = true; tr.idle = 0; } else tr.idle += dt;
+          if ((tr.seen && tr.idle > 0.4) || tr.idle > 14) trails[i] = spawn(false);
+        }
+      }
+
+      // Cola en bandas de opacidad decreciente, separada en tramos por delante y por detrás del globo
+      function trailPaths() {
+        var out = { back: [], front: [], heads: [] };
+        trails.forEach(function (tr) {
+          var N = Math.max(14, Math.min(140, Math.round(tr.len * tr.a / 7)));
+          var bands = [], b;
+          for (b = 0; b < BANDS; b++) bands.push({ back: new Path2D(), front: new Path2D(), nb: 0, nf: 0 });
+          var prev = orbitPos(tr, tr.th);
+          for (var i = 1; i <= N; i++) {
+            var cur = orbitPos(tr, tr.th - tr.dir * tr.len * i / N);
+            if (!behindGlobe(prev) && !behindGlobe(cur)) {
+              var band = bands[Math.min(BANDS - 1, Math.floor((i - 1) / N * BANDS))];
+              var front = prev[2] + cur[2] >= 0, pth = front ? band.front : band.back;
+              pth.moveTo(prev[0], prev[1]); pth.lineTo(cur[0], cur[1]);
+              if (front) band.nf++; else band.nb++;
+            }
+            prev = cur;
+          }
+          bands.forEach(function (bd, j) {
+            var f = 1 - j / BANDS, style = { alpha: 0.7 * Math.pow(f, 1.3), width: tr.width * (0.25 + 0.75 * f) };
+            if (bd.nb) out.back.push({ p: bd.back, s: style });
+            if (bd.nf) out.front.push({ p: bd.front, s: style });
+          });
+          var h = orbitPos(tr, tr.th);
+          if (!behindGlobe(h)) out.heads.push({ x: h[0], y: h[1], front: h[2] >= 0, r: tr.width + 0.8 });
+        });
+        return out;
+      }
+      function strokeTrails(list, heads, front) {
+        var rgb = colors['orbit-rgb'];
+        ctx.lineCap = 'round';
+        list.forEach(function (t) {
+          ctx.strokeStyle = 'rgba(' + rgb + ',' + t.s.alpha.toFixed(3) + ')';
+          ctx.lineWidth = t.s.width;
+          ctx.stroke(t.p);
+        });
+        heads.forEach(function (h) {
+          if (h.front !== front) return;
+          ctx.fillStyle = 'rgba(' + rgb + ',0.18)';
+          ctx.beginPath(); ctx.arc(h.x, h.y, h.r * 2.6, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = 'rgba(' + rgb + ',0.95)';
+          ctx.beginPath(); ctx.arc(h.x, h.y, h.r, 0, Math.PI * 2); ctx.fill();
+        });
       }
 
       // Descarta los polígonos que quedan por completo en la cara oculta
@@ -850,7 +946,9 @@
       function draw() {
         var c = colors;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, cv.width / dpr, vh);
+        ctx.clearRect(0, 0, vw, vh);
+        var tp = trailPaths();
+        strokeTrails(tp.back, tp.heads, false);
 
         // Atmósfera
         var glow = ctx.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.1);
@@ -891,6 +989,8 @@
             ctx.textAlign = 'left';
           }
         }
+
+        strokeTrails(tp.front, tp.heads, true);
       }
 
       function fmt(v) { var l = ((v + 540) % 360) - 180; return Math.abs(l).toFixed(1).replace('.', ',') + '° ' + (l >= 0 ? 'E' : 'O'); }
@@ -898,7 +998,9 @@
 
       function tick(t) {
         if (!last) last = t;
-        rot += SPEED * Math.min(0.1, (t - last) / 1000);
+        var dt = Math.min(0.1, (t - last) / 1000);
+        rot += SPEED * dt;
+        stepTrails(dt);
         last = t;
         if (t - lastDraw > 33) { draw(); lastDraw = t; }          // unos 30 fotogramas por segundo
         if (t - lastReadout > 500) { readout(); lastReadout = t; }
