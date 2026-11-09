@@ -39,12 +39,15 @@
   <style>
     /* Layout: mapa vectorial fijo a pantalla completa como fondo; una columna central de tarjetas (máx. 1100 px) que se abre en rejilla en escritorio. */
     :root {
-      --map-water: #e4ecf0;
-      --map-land: #f7f9f8;
-      --map-coast: #a7bac5;
-      --map-border: #bccbd3;
-      --map-grat: rgba(18, 96, 135, 0.09);
-      --map-mark: #126087;
+      --space: #e8eef1;
+      --globe-water: #d2e1e9;
+      --globe-land: #f8faf9;
+      --globe-coast: #8fa8b6;
+      --globe-border: #b3c4cd;
+      --globe-grat: rgba(18, 96, 135, 0.13);
+      --globe-shade: rgba(19, 40, 54, 0.2);
+      --globe-glow: rgba(18, 96, 135, 0.16);
+      --globe-mark: #126087;
 
       --surface: #ffffff;
       --surface-2: #f1f5f7;
@@ -82,12 +85,15 @@
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
-        --map-water: #0b151c;
-        --map-land: #14222b;
-        --map-coast: #2e4757;
-        --map-border: #27404d;
-        --map-grat: rgba(130, 195, 228, 0.07);
-        --map-mark: #6dbbe0;
+        --space: #091117;
+        --globe-water: #12293a;
+        --globe-land: #254253;
+        --globe-coast: #4a7389;
+        --globe-border: #2d4b5c;
+        --globe-grat: rgba(130, 195, 228, 0.11);
+        --globe-shade: rgba(0, 0, 0, 0.5);
+        --globe-glow: rgba(109, 187, 224, 0.22);
+        --globe-mark: #6dbbe0;
         --surface: #121d24;
         --surface-2: #19262f;
         --ink: #e6edf1;
@@ -118,12 +124,15 @@
       }
     }
     :root[data-theme="dark"] {
-      --map-water: #0b151c;
-      --map-land: #14222b;
-      --map-coast: #2e4757;
-      --map-border: #27404d;
-      --map-grat: rgba(130, 195, 228, 0.07);
-      --map-mark: #6dbbe0;
+      --space: #091117;
+      --globe-water: #12293a;
+      --globe-land: #254253;
+      --globe-coast: #4a7389;
+      --globe-border: #2d4b5c;
+      --globe-grat: rgba(130, 195, 228, 0.11);
+      --globe-shade: rgba(0, 0, 0, 0.5);
+      --globe-glow: rgba(109, 187, 224, 0.22);
+      --globe-mark: #6dbbe0;
       --surface: #121d24;
       --surface-2: #19262f;
       --ink: #e6edf1;
@@ -158,7 +167,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: 96px; }
     body {
       margin: 0;
-      background: var(--map-water);
+      background: var(--space);
       color: var(--ink);
       font-family: var(--font-body);
       font-size: 1.0625rem;
@@ -183,7 +192,7 @@
 
     /* Fondo cartográfico */
     .map-layer { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
-    #mapa { position: absolute; will-change: transform; }
+    #mapa { position: absolute; left: 0; top: 0; }
 
     /* Franja de maqueta */
     .mockbar {
@@ -529,7 +538,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-moon"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-sun" hidden><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM3.5 4.9l1.4-1.4 2.2 2.1-1.5 1.5zm13.4 13.4 1.5-1.5 2.1 2.2-1.4 1.4zM16.9 5.6l2.2-2.1 1.4 1.4-2.1 2.2zM3.5 19.1l2.1-2.2 1.5 1.5-2.2 2.1z"/></svg>
         </button>
-        <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el mapa de fondo" title="Pausar el mapa de fondo">
+        <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el globo de fondo" title="Pausar el globo de fondo">
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-play" hidden><path d="M8 5.5v13l10.5-6.5z"/></svg>
         </button>
@@ -716,7 +725,7 @@
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Mapa de fondo vectorial</strong><p>Natural Earth dibujado en canvas en lugar de teselas de openstreetmap.fr pedidas cada 100 ms. Sin desenfoque, con botón de pausa, se detiene si activas «reducir movimiento» y arranca en Madrid de verdad (3,70° O; antes 3,69° E, en el mar).</p></div></li>
+        <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde izquierdo de la pantalla y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -727,10 +736,12 @@
   <footer class="gutter">
     <div class="foot">
       <span>© 2026 Roberto Jiménez López</span>
-      <span class="tnum">Fondo: Natural Earth 1:50M · centro <span id="coords">40,42° N 3,70° O</span></span>
+      <span class="tnum">Fondo: Natural Earth 1:50M · meridiano central <span id="coords">23,7° O</span></span>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js"></script>
   <script>
     (function () {
       var root = document.documentElement;
@@ -784,136 +795,109 @@
       });
 
       /* ------------------------------------------------------------------
-         Mapa de fondo: Natural Earth en Web Mercator dibujado en canvas.
-         Se pinta un lienzo algo mayor que la ventana y se desplaza con
-         transform; solo se vuelve a dibujar al agotar el margen.
+         Fondo: globo terráqueo en proyección ortográfica (d3-geo) que gira
+         sobre su eje inclinado. El centro del globo coincide con el borde
+         izquierdo de la ventana, así que solo se ve su mitad derecha.
          ------------------------------------------------------------------ */
-      var PATHS = [
-        { lat: 40.4168, lng: -3.7038, dLat: 0, dLng: 0.2, zoom: 6 },      // Madrid, hacia el este
-        { lat: 39.3, lng: -100, dLat: 0.1, dLng: 0.1, zoom: 5 },          // Grandes Llanuras, hacia el noreste
-        { lat: 36.3211, lng: 131.725, dLat: 0, dLng: -0.2, zoom: 6 },     // Rocas de Liancourt, hacia el oeste
-        { lat: 9.9635, lng: 40.745, dLat: 0.1, dLng: 0.1, zoom: 5 }       // Rift etíope, hacia el noreste
-      ];                                                                  // dLat/dLng en grados por segundo
-      var path = PATHS[Math.floor(Math.random() * PATHS.length)];
-      var W = 256 * Math.pow(2, path.zoom);
       var cv = document.getElementById('mapa');
       var ctx = cv.getContext('2d');
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       var dark = window.matchMedia('(prefers-color-scheme: dark)');
-      var geo = null, vw = 0, vh = 0, pad = 0, dpr = 1, cx, cy, sx = 0, sy = 0;
-      var running = !reduce.matches, raf = 0, last = 0, lastReadout = 0;
+      var hasD3 = !!(window.d3 && d3.geoOrthographic);
+      var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
+      var VIEW_LAT = 18;                   // latitud desde la que se mira el globo
+      var TILT = -23.44;                   // inclinación del eje terrestre
+      var MADRID = [-3.7038, 40.4168];
+      var rot = 23.7;                      // meridiano central 23,7° O: Madrid entra en escena junto al borde
+      var running = !reduce.matches, raf = 0, last = 0, lastDraw = 0, lastReadout = 0;
+      var vw = 0, vh = 0, R = 0, cy = 0, dpr = 1, colors = {};
+      var land = null, borders = null, polys = [], grat = null, proj = null, path = null;
 
-      function mx(lon) { return (lon + 180) / 360 * W; }
-      function my(lat) {
-        lat = Math.max(-85, Math.min(85, lat));
-        var s = Math.sin(lat * Math.PI / 180);
-        return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W;
-      }
-      function invLat(y) { return Math.atan(Math.sinh(Math.PI * (1 - 2 * y / W))) * 180 / Math.PI; }
-
-      cx = mx(path.lng); cy = my(path.lat);
-      var vx = path.dLng / 360 * W;
-      var vy = -path.dLat / 360 * W / Math.cos(path.lat * Math.PI / 180);
-
-      function decode(list, p) {
-        return list.map(function (a) {
-          var pts = new Float64Array(a.length), x = 0, y = 0;
-          var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-          for (var i = 0; i < a.length; i += 2) {
-            x += a[i]; y += a[i + 1];
-            var px = mx(x / p), py = my(y / p);
-            pts[i] = px; pts[i + 1] = py;
-            if (px < x0) x0 = px; if (px > x1) x1 = px;
-            if (py < y0) y0 = py; if (py > y1) y1 = py;
-          }
-          return { pts: pts, b: [x0, y0, x1, y1] };
+      function readColors() {
+        var css = getComputedStyle(root), c = {};
+        ['--space', '--globe-water', '--globe-land', '--globe-coast', '--globe-border', '--globe-grat', '--globe-shade', '--globe-glow', '--globe-mark'].forEach(function (k) {
+          c[k.slice(2)] = css.getPropertyValue(k).trim();
         });
+        colors = c;
       }
 
       function size() {
         vw = window.innerWidth; vh = window.innerHeight;
+        R = Math.round(Math.min(vh * 0.46, Math.max(vw * 0.55, 160)));
+        cy = Math.round(vh / 2);
         dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-        pad = Math.round(Math.min(320, Math.max(160, Math.max(vw, vh) * 0.22)));
-        var cw = vw + 2 * pad, ch = vh + 2 * pad;
-        cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
-        cv.style.width = cw + 'px'; cv.style.height = ch + 'px';
-        cv.style.left = -pad + 'px'; cv.style.top = -pad + 'px';
+        var cw = Math.ceil(R * 1.12) + 2;
+        cv.width = Math.round(cw * dpr); cv.height = Math.round(vh * dpr);
+        cv.style.width = cw + 'px'; cv.style.height = vh + 'px';
+        if (hasD3) {
+          proj = d3.geoOrthographic().scale(R).translate([0, cy]).clipAngle(90).precision(0.7);
+          path = d3.geoPath(proj, ctx);
+        }
       }
 
-      function render() {
-        var css = getComputedStyle(root);
-        var col = function (k) { return css.getPropertyValue(k).trim(); };
-        var cw = vw + 2 * pad, ch = vh + 2 * pad;
-        var ox = cx - cw / 2, oy = cy - ch / 2;
+      // Descarta los polígonos que quedan por completo en la cara oculta
+      function visibleLand() {
+        var center = [-rot, VIEW_LAT], out = [];
+        for (var i = 0; i < polys.length; i++) {
+          var p = polys[i];
+          if (d3.geoDistance(p.c, center) - p.r < Math.PI / 2) out.push(p.coords);
+        }
+        return { type: 'MultiPolygon', coordinates: out };
+      }
+
+      function sphere(fill) { ctx.beginPath(); ctx.arc(0, cy, R, 0, Math.PI * 2); if (fill) { ctx.fillStyle = fill; ctx.fill(); } }
+
+      function draw() {
+        var c = colors;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.fillStyle = col('--map-water');
-        ctx.fillRect(0, 0, cw, ch);
-        ctx.translate(-ox, -oy);
+        ctx.clearRect(0, 0, cv.width / dpr, vh);
 
-        var vis = function (r) { return r.b[2] >= ox && r.b[0] <= ox + cw && r.b[3] >= oy && r.b[1] <= oy + ch; };
-        var add = function (p2d, pts, close) {
-          p2d.moveTo(pts[0], pts[1]);
-          for (var i = 2; i < pts.length; i += 2) p2d.lineTo(pts[i], pts[i + 1]);
-          if (close) p2d.closePath();
-        };
+        // Atmósfera
+        var glow = ctx.createRadialGradient(0, cy, R * 0.98, 0, cy, R * 1.1);
+        glow.addColorStop(0, c['globe-glow']); glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow; ctx.fillRect(0, cy - R * 1.12, R * 1.12, R * 2.24);
 
-        if (geo) {
-          var land = new Path2D();
-          geo.land.forEach(function (r) { if (vis(r)) add(land, r.pts, true); });
-          ctx.fillStyle = col('--map-land');
-          ctx.fill(land, 'evenodd');
+        sphere(c['globe-water']);
+        if (hasD3) {
+          proj.rotate([rot, -VIEW_LAT, TILT]);
           ctx.lineJoin = 'round';
-          ctx.strokeStyle = col('--map-coast');
-          ctx.lineWidth = 1;
-          ctx.stroke(land);
-
-          var bd = new Path2D();
-          geo.borders.forEach(function (r) { if (vis(r)) add(bd, r.pts, false); });
-          ctx.strokeStyle = col('--map-border');
-          ctx.lineWidth = 0.9;
-          ctx.setLineDash([5, 4]);
-          ctx.stroke(bd);
-          ctx.setLineDash([]);
+          ctx.beginPath(); path(grat);
+          ctx.strokeStyle = c['globe-grat']; ctx.lineWidth = 0.8; ctx.stroke();
+          if (land) {
+            ctx.beginPath(); path(visibleLand());
+            ctx.fillStyle = c['globe-land']; ctx.fill();
+            ctx.strokeStyle = c['globe-coast']; ctx.lineWidth = 0.8; ctx.stroke();
+            ctx.beginPath(); path(borders);
+            ctx.strokeStyle = c['globe-border']; ctx.lineWidth = 0.6; ctx.stroke();
+          }
         }
 
-        // Retícula cada 2°
-        var lon0 = (ox / W) * 360 - 180, lon1 = ((ox + cw) / W) * 360 - 180;
-        var lat0 = invLat(oy + ch), lat1 = invLat(oy);
-        var g = new Path2D();
-        for (var lo = Math.ceil(lon0 / 2) * 2; lo <= lon1; lo += 2) { g.moveTo(mx(lo), oy); g.lineTo(mx(lo), oy + ch); }
-        for (var la = Math.ceil(lat0 / 2) * 2; la <= lat1; la += 2) { g.moveTo(ox, my(la)); g.lineTo(ox + cw, my(la)); }
-        ctx.strokeStyle = col('--map-grat');
-        ctx.lineWidth = 1;
-        ctx.stroke(g);
+        // Oscurecimiento hacia el limbo, para dar volumen
+        var shade = ctx.createRadialGradient(R * 0.12, cy - R * 0.28, R * 0.2, 0, cy, R);
+        shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, c['globe-shade']);
+        sphere(shade);
+        ctx.strokeStyle = c['globe-coast']; ctx.lineWidth = 1; ctx.stroke();
 
-        // Madrid
-        var mdx = mx(-3.7038), mdy = my(40.4168);
-        if (mdx > ox && mdx < ox + cw && mdy > oy && mdy < oy + ch) {
-          ctx.fillStyle = col('--map-mark');
-          ctx.beginPath(); ctx.arc(mdx, mdy, 3.5, 0, Math.PI * 2); ctx.fill();
-          ctx.font = '500 12px "DM Mono", ui-monospace, monospace';
-          ctx.fillText('Madrid', mdx + 8, mdy + 4);
+        // Madrid, cuando está en la cara visible
+        if (hasD3 && d3.geoDistance(MADRID, [-rot, VIEW_LAT]) < Math.PI / 2 - 0.05) {
+          var m = proj(MADRID);
+          if (m[0] > 6) {
+            ctx.fillStyle = c['globe-mark'];
+            ctx.beginPath(); ctx.arc(m[0], m[1], 3.5, 0, Math.PI * 2); ctx.fill();
+            ctx.font = '500 12px "DM Mono", ui-monospace, monospace';
+            ctx.fillText('Madrid', m[0] + 8, m[1] + 4);
+          }
         }
-
-        sx = 0; sy = 0;
-        cv.style.transform = 'translate3d(0,0,0)';
-        readout();
       }
 
-      function fmt(v, pos, neg) { return Math.abs(v).toFixed(2).replace('.', ',') + '° ' + (v >= 0 ? pos : neg); }
-      function readout() {
-        var lon = cx / W * 360 - 180, lat = invLat(cy);
-        document.getElementById('coords').textContent = fmt(lat, 'N', 'S') + ' ' + fmt(lon, 'E', 'O');
-      }
+      function fmt(v) { var l = ((v + 540) % 360) - 180; return Math.abs(l).toFixed(1).replace('.', ',') + '° ' + (l >= 0 ? 'E' : 'O'); }
+      function readout() { document.getElementById('coords').textContent = fmt(-rot); }
 
       function tick(t) {
         if (!last) last = t;
-        var dt = Math.min(0.1, (t - last) / 1000);
+        rot += SPEED * Math.min(0.1, (t - last) / 1000);
         last = t;
-        cx += vx * dt; cy += vy * dt;
-        sx -= vx * dt; sy -= vy * dt;
-        if (Math.abs(sx) > pad * 0.9 || Math.abs(sy) > pad * 0.9) render();
-        else cv.style.transform = 'translate3d(' + sx.toFixed(2) + 'px,' + sy.toFixed(2) + 'px,0)';
+        if (t - lastDraw > 33) { draw(); lastDraw = t; }          // unos 30 fotogramas por segundo
         if (t - lastReadout > 500) { readout(); lastReadout = t; }
         raf = requestAnimationFrame(tick);
       }
@@ -923,7 +907,7 @@
       var btn = document.getElementById('map-toggle');
       function syncBtn() {
         btn.setAttribute('aria-pressed', String(!running));
-        var label = running ? 'Pausar el mapa de fondo' : 'Reanudar el mapa de fondo';
+        var label = running ? 'Pausar el globo de fondo' : 'Reanudar el globo de fondo';
         btn.setAttribute('aria-label', label); btn.title = label;
         document.getElementById('ico-pause').toggleAttribute('hidden', !running);
         document.getElementById('ico-play').toggleAttribute('hidden', running);
@@ -933,15 +917,33 @@
       document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
 
       var rt = 0;
-      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); render(); }, 150); });
-      dark.addEventListener('change', render);
-      new MutationObserver(render).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 150); });
+      var recolor = function () { readColors(); draw(); };
+      dark.addEventListener('change', recolor);
+      new MutationObserver(recolor).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
-      size(); render(); syncBtn(); play();
-      fetch('world.json').then(function (r) { return r.json(); }).then(function (d) {
-        geo = { land: decode(d.land, d.p), borders: decode(d.borders, d.p) };
-        render();
-      }).catch(function () { /* sin datos: queda el mar y la retícula */ });
+      function decode(a, p) {
+        var out = [], x = 0, y = 0;
+        for (var i = 0; i < a.length; i += 2) { x += a[i]; y += a[i + 1]; out.push([x / p, y / p]); }
+        return out;
+      }
+
+      if (hasD3) grat = d3.geoGraticule().step([15, 15])();
+      readColors(); size(); draw(); readout(); syncBtn(); play();
+      if (hasD3) {
+        fetch('world.json').then(function (r) { return r.json(); }).then(function (d) {
+          polys = d.polys.map(function (rings) {
+            var coords = rings.map(function (r) { return decode(r, d.p); });
+            var feature = { type: 'Polygon', coordinates: coords };
+            var c = d3.geoCentroid(feature), r = 0;
+            coords[0].forEach(function (pt) { var g = d3.geoDistance(c, pt); if (g > r) r = g; });
+            return { coords: coords, c: c, r: r };
+          });
+          land = true;
+          borders = { type: 'MultiLineString', coordinates: d.borders.map(function (b) { return decode(b, d.p); }) };
+          draw();
+        }).catch(function () { /* sin datos: queda la esfera con su retícula */ });
+      }
     })();
   </script>
 </body>

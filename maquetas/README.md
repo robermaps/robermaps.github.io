@@ -4,7 +4,7 @@ Dos propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin 
 
 | Carpeta | Qué es |
 | --- | --- |
-| [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (mapa en movimiento de fondo, tarjetas encima, barra superior con @robermaps) y corrige o mejora todo lo demás. Trae marcas naranjas numeradas que explican cada cambio; se ocultan con «Ocultar notas». |
+| [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (fondo cartográfico en movimiento, ahora un globo que gira, tarjetas encima, barra superior con @robermaps) y corrige o mejora todo lo demás. Trae marcas naranjas numeradas que explican cada cambio; se ocultan con «Ocultar notas». |
 | [`b-hoja-559/`](b-hoja-559/) | **Maqueta B · Hoja 559.** Propuesta nueva: la web es una hoja del Mapa Topográfico (hoja 559, Madrid) con collar graduado, relieve generado en el navegador, leyenda como menú, mapa índice de proyectos y tablas de atributos. |
 
 **Decisión: maqueta A.** Ya está ajustada con la estructura elegida: presentación transversal, geoproyectos, otros proyectos (con el archivo), trayectoria y contacto, sin notas técnicas y con botón de tema claro/oscuro. La B se queda en la rama solo como referencia.
@@ -78,10 +78,10 @@ Respeta lo que ya funciona (mapa de fondo, columna de tarjetas, el azul `#126087
 - **Trayectoria**: una lista de experiencia y formación (Copernicus, plugins de QGIS, desarrollo y diseño web, Grado en Geografía). Sin texto «Sobre mí» ni bloque de herramientas.
 - Sin sección de notas técnicas.
 - **Contacto**: email grande con botón de copiar y redes con su usuario visible.
-- **Mapa de fondo vectorial**: Natural Earth 1:50M dibujado en `<canvas>` en Web Mercator. Se pinta un lienzo algo mayor que la ventana y se desplaza con `transform`, así que en cada fotograma solo cambia una propiedad CSS; solo se redibuja al agotar el margen (cada 20-30 s). Se pausa con el botón de la barra, al ocultar la pestaña y con «reducir movimiento». Mantiene tus cuatro rutas aleatorias con los comentarios corregidos y Madrid en su sitio. El pie muestra las coordenadas del centro de la vista.
+- **Globo terráqueo de fondo**: sustituye al mapa Mercator. Es un globo en proyección ortográfica (d3-geo) con el centro en el borde izquierdo de la pantalla, así que solo se ve su mitad derecha. Gira sobre su eje inclinado 23,44°, una vuelta cada 2 minutos, y se ve desde 18° N; al cargar, Madrid aparece junto al borde y cruza el globo. Se dibuja a unos 30 fotogramas por segundo y antes descarta los polígonos de la cara oculta. Se pausa con el botón de la barra, al ocultar la pestaña y con «reducir movimiento». Detrás de la tarjeta de presentación, que es translúcida, se ve girar. El pie muestra el meridiano central.
 - **Modo oscuro** automático según el dispositivo, con botón sol/luna para cambiarlo a mano (se guarda en `localStorage` y se aplica antes de pintar para evitar el parpadeo), foco visible con teclado, contraste AA, Open Graph y JSON-LD `Person`. Sin AdSense.
 
-`world.json` sale de `world-atlas@2.0.2` (Natural Earth 1:50M), con la tierra fusionada, las fronteras interiores y coordenadas cuantizadas a 0,02° y codificadas en deltas: 335 KB, unos 105 KB comprimido con gzip, que es como lo sirve GitHub Pages. Sustituye a Leaflet (148 KB) y a las teselas.
+`world.json` sale de `world-atlas@2.0.2` (Natural Earth 1:50M): la tierra fusionada en polígonos con sus huecos (el Caspio, por ejemplo), las fronteras interiores, simplificación esférica y coordenadas cuantizadas a 0,025° y codificadas en deltas. Ocupa 168 KB, unos 57 KB comprimido con gzip, que es como lo sirve GitHub Pages. La proyección y el recorte del hemisferio oculto los hace `d3-geo@3.1.1` (con `d3-array@3.2.4`), cargados desde jsDelivr; si no cargan, queda la esfera sin continentes.
 
 ## 3. Maqueta B · Hoja 559
 
