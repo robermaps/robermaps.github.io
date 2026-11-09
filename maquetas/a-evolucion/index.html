@@ -303,12 +303,24 @@
       gap: 28px;
     }
     .card {
-      background: var(--surface);
+      --card-bg: var(--surface);
+      background: var(--card-bg);
       border: 1px solid var(--line);
       border-radius: 16px;
       box-shadow: var(--shadow);
       padding: clamp(20px, 4vw, 40px);
       min-width: 0;
+    }
+    /* En escritorio, el lado derecho de cada tarjeta se funde en transparente para dejar
+       ver el globo. El contenido termina antes de la franja, así que el texto queda siempre
+       sobre fondo sólido. */
+    @media (min-width: 900px) {
+      .card {
+        --fade: clamp(120px, 13vw, 190px);
+        --solid-end: calc(100% - var(--fade));
+        background: linear-gradient(90deg, var(--card-bg) 0, var(--card-bg) var(--solid-end), transparent 100%);
+      }
+      .card:not(.hero) { padding-right: calc(var(--fade) + 8px); }
     }
     h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
     h2 { font-weight: 700; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.15; letter-spacing: -0.015em; }
@@ -335,7 +347,7 @@
        El script ajusta --solid-end al final real del texto; sin script queda sólido. */
     .card.hero {
       --solid-end: 100%;
-      background: linear-gradient(90deg, var(--surface) 0, var(--surface) var(--solid-end), transparent 100%);
+      background: linear-gradient(90deg, var(--card-bg) 0, var(--card-bg) var(--solid-end), transparent 100%);
     }
     .avatar {
       width: clamp(112px, 16vw, 184px);
@@ -473,7 +485,7 @@
     @media (max-width: 700px) { .contact { grid-template-columns: minmax(0, 1fr); } }
 
     /* Cambios */
-    .changes { background: var(--note-bg); border-color: var(--note-line); }
+    .changes { --card-bg: var(--note-bg); border-color: var(--note-line); }
     .changes ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px 32px; }
     .changes li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
     .changes .num {
@@ -728,12 +740,13 @@
         <p>Los números corresponden a las marcas naranjas de la página.</p>
       </div>
       <ol>
-        <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda, un único botón para escribirte y un fondo que, pasado el texto, se funde en transparente hacia la derecha para dejar ver el globo.</p></div></li>
+        <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda y un único botón para escribirte.</p></div></li>
         <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis, etiquetas de tecnología y enlaces a la ficha y al repositorio. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Tarjetas que se funden con el fondo</strong><p>En escritorio, el lado derecho de cada tarjeta pasa a transparente y deja ver el globo y las estelas. El contenido termina antes de esa franja, así que el texto siempre queda sobre fondo sólido. En móvil las tarjetas son sólidas.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -766,8 +779,10 @@
           Array.prototype.forEach.call(range.getClientRects(), function (q) { if (q.width) right = Math.max(right, q.right); });
         }
         heroText.querySelectorAll('.btn, .loc, .note').forEach(function (el) { right = Math.max(right, el.getBoundingClientRect().right); });
-        var solid = Math.ceil(right - card.left + 32);
-        heroCard.style.setProperty('--solid-end', solid > card.width - 80 ? '100%' : solid + 'px');
+        // Misma franja que el resto de tarjetas, salvo que el texto llegue más lejos
+        var fade = window.innerWidth >= 900 ? Math.min(190, Math.max(120, window.innerWidth * 0.13)) : 0;
+        var solid = Math.max(Math.ceil(right - card.left + 32), card.width - fade);
+        heroCard.style.setProperty('--solid-end', solid > card.width - 60 ? '100%' : solid + 'px');
       }
       if (window.ResizeObserver) new ResizeObserver(fitHeroFade).observe(heroCard);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeroFade);
