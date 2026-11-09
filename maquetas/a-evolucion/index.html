@@ -192,7 +192,7 @@
 
     /* Fondo cartográfico */
     .map-layer { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
-    #mapa { position: absolute; left: 0; top: 0; }
+    #mapa { position: absolute; right: 0; top: 0; }
 
     /* Franja de maqueta */
     .mockbar {
@@ -723,7 +723,7 @@
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde izquierdo de la pantalla y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -734,7 +734,7 @@
   <footer class="gutter">
     <div class="foot">
       <span>© 2026 Roberto Jiménez López</span>
-      <span class="tnum">Fondo: Natural Earth 1:50M · meridiano central <span id="coords">23,7° O</span></span>
+      <span class="tnum">Fondo: Natural Earth 1:50M · meridiano central <span id="coords">20,3° E</span></span>
     </div>
   </footer>
 
@@ -795,7 +795,8 @@
       /* ------------------------------------------------------------------
          Fondo: globo terráqueo en proyección ortográfica (d3-geo) que gira
          sobre su eje inclinado. El centro del globo coincide con el borde
-         izquierdo de la ventana, así que solo se ve su mitad derecha.
+         derecho de la ventana y el globo se apoya en su parte inferior,
+         así que solo se ve su mitad izquierda.
          ------------------------------------------------------------------ */
       var cv = document.getElementById('mapa');
       var ctx = cv.getContext('2d');
@@ -804,11 +805,11 @@
       var hasD3 = !!(window.d3 && d3.geoOrthographic);
       var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
       var VIEW_LAT = 18;                   // latitud desde la que se mira el globo
-      var TILT = -23.44;                   // inclinación del eje terrestre
+      var TILT = 23.44;                    // inclinación del eje terrestre (polo norte hacia la mitad visible)
       var MADRID = [-3.7038, 40.4168];
-      var rot = 23.7;                      // meridiano central 23,7° O: Madrid entra en escena junto al borde
+      var rot = -20.3;                     // meridiano central 20,3° E: al cargar, Madrid asoma junto al margen derecho
       var running = !reduce.matches, raf = 0, last = 0, lastDraw = 0, lastReadout = 0;
-      var vw = 0, vh = 0, R = 0, cy = 0, dpr = 1, colors = {};
+      var vw = 0, vh = 0, R = 0, cx = 0, cy = 0, dpr = 1, colors = {};
       var land = null, borders = null, polys = [], grat = null, proj = null, path = null;
 
       function readColors() {
@@ -822,13 +823,14 @@
       function size() {
         vw = window.innerWidth; vh = window.innerHeight;
         R = Math.round(Math.min(vh * 0.46, Math.max(vw * 0.55, 160)));
-        cy = Math.round(vh / 2);
+        cy = vh - R;                         // el globo toca el borde inferior
         dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         var cw = Math.ceil(R * 1.12) + 2;
+        cx = cw;                             // centro en el borde derecho del lienzo
         cv.width = Math.round(cw * dpr); cv.height = Math.round(vh * dpr);
         cv.style.width = cw + 'px'; cv.style.height = vh + 'px';
         if (hasD3) {
-          proj = d3.geoOrthographic().scale(R).translate([0, cy]).clipAngle(90).precision(0.7);
+          proj = d3.geoOrthographic().scale(R).translate([cx, cy]).clipAngle(90).precision(0.7);
           path = d3.geoPath(proj, ctx);
         }
       }
@@ -843,7 +845,7 @@
         return { type: 'MultiPolygon', coordinates: out };
       }
 
-      function sphere(fill) { ctx.beginPath(); ctx.arc(0, cy, R, 0, Math.PI * 2); if (fill) { ctx.fillStyle = fill; ctx.fill(); } }
+      function sphere(fill) { ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); if (fill) { ctx.fillStyle = fill; ctx.fill(); } }
 
       function draw() {
         var c = colors;
@@ -851,9 +853,9 @@
         ctx.clearRect(0, 0, cv.width / dpr, vh);
 
         // Atmósfera
-        var glow = ctx.createRadialGradient(0, cy, R * 0.98, 0, cy, R * 1.1);
+        var glow = ctx.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.1);
         glow.addColorStop(0, c['globe-glow']); glow.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = glow; ctx.fillRect(0, cy - R * 1.12, R * 1.12, R * 2.24);
+        ctx.fillStyle = glow; ctx.fillRect(cx - R * 1.12, cy - R * 1.12, R * 1.12, R * 2.24);
 
         sphere(c['globe-water']);
         if (hasD3) {
@@ -871,7 +873,7 @@
         }
 
         // Oscurecimiento hacia el limbo, para dar volumen
-        var shade = ctx.createRadialGradient(R * 0.12, cy - R * 0.28, R * 0.2, 0, cy, R);
+        var shade = ctx.createRadialGradient(cx - R * 0.12, cy - R * 0.28, R * 0.2, cx, cy, R);
         shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, c['globe-shade']);
         sphere(shade);
         ctx.strokeStyle = c['globe-coast']; ctx.lineWidth = 1; ctx.stroke();
@@ -879,11 +881,14 @@
         // Madrid, cuando está en la cara visible
         if (hasD3 && d3.geoDistance(MADRID, [-rot, VIEW_LAT]) < Math.PI / 2 - 0.05) {
           var m = proj(MADRID);
-          if (m[0] > 6) {
+          if (m[0] < cx - 6) {
             ctx.fillStyle = c['globe-mark'];
             ctx.beginPath(); ctx.arc(m[0], m[1], 3.5, 0, Math.PI * 2); ctx.fill();
             ctx.font = '500 12px "DM Mono", ui-monospace, monospace';
-            ctx.fillText('Madrid', m[0] + 8, m[1] + 4);
+            var right = m[0] > cx - 70;      // junto al borde, la etiqueta va a la izquierda del punto
+            ctx.textAlign = right ? 'right' : 'left';
+            ctx.fillText('Madrid', right ? m[0] - 8 : m[0] + 8, m[1] + 4);
+            ctx.textAlign = 'left';
           }
         }
       }
