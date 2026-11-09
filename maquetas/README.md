@@ -72,7 +72,7 @@ Hace falta servirlas por HTTP: la maqueta A carga `world.json` con `fetch()` y e
 
 Respeta lo que ya funciona (mapa de fondo, columna de tarjetas, el azul `#126087`, el «@robermaps» como marca) y cambia lo siguiente:
 
-- **Presentación**: nombre como `h1`, rol («Geógrafo cuantitativo · Diseñador · Desarrollador»), ubicación con coordenadas, un texto breve sobre convertir la información en cosas que se entienden y se usan (mapas, aplicaciones y páginas web), alineado a la izquierda, y un único botón «Escríbeme».
+- **Presentación**: nombre como `h1`, rol («Geógrafo cuantitativo · Diseñador · Desarrollador»), ubicación con coordenadas, un texto breve sobre convertir la información en cosas que se entienden y se usan (mapas, aplicaciones y páginas web), alineado a la izquierda, un único botón «Escríbeme» y la tarjeta ligeramente translúcida para que se vea el mapa moverse detrás.
 - **Geoproyectos**: rejilla con miniaturas en SVG (sin emojis), etiquetas de tecnología y enlaces. Abre la sección OpenPlanetaryMap Tile Loader para QGIS 4.x (activo; ficha en QGIS Plugins y repositorio `robermaps/opmtileloader`), seguido del visor de la Luna y Marte.
 - **Otros proyectos**: sección separada para lo que no es geoespacial, de momento con un aviso de «Muy pronto», y debajo **Del archivo**: OpenPlanetary Tile Loader para QGIS 3.x («Ya no lo mantengo») y @esmapbot (inactivo).
 - **Trayectoria**: una lista de experiencia y formación (Copernicus, plugins de QGIS, desarrollo y diseño web, Grado en Geografía). Sin texto «Sobre mí» ni bloque de herramientas.

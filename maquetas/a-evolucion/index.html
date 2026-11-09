@@ -319,6 +319,8 @@
 
     /* Presentación */
     .hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: start; }
+    /* Fondo translúcido: deja ver el mapa moverse detrás sin perder legibilidad del texto */
+    .card.hero { background: color-mix(in srgb, var(--surface) 66%, transparent); }
     .avatar {
       width: clamp(112px, 16vw, 184px);
       height: auto;
@@ -709,7 +711,7 @@
         <p>Los números corresponden a las marcas naranjas de la página.</p>
       </div>
       <ol>
-        <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda y un único botón para escribirte.</p></div></li>
+        <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda, un único botón para escribirte y una tarjeta ligeramente translúcida que deja ver el mapa de fondo moverse.</p></div></li>
         <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis, etiquetas de tecnología y enlaces a la ficha y al repositorio. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
