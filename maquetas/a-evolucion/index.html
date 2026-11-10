@@ -278,17 +278,50 @@
     .icon-btn:hover { background: var(--surface-2); }
     .icon-btn svg { width: 19px; height: 19px; fill: currentColor; }
     .sep { width: 1px; height: 22px; background: var(--line); margin-inline: 4px; }
+    .menu-btn, .menu-social { display: none; }
+
+    /* Móvil: sin globo, un único fondo y la navegación dentro del menú de hamburguesa */
     @media (max-width: 780px) {
-      .topbar-inner { flex-wrap: wrap; row-gap: 0; }
+      body { background: var(--surface); }
+      .map-layer, .bg-info { display: none; }
+      .topbar { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
       .tools-bar { margin-left: auto; }
+      .tools-bar .social, .tools-bar .sep, #map-toggle { display: none; }
+      .menu-btn { display: grid; }
       .nav {
-        order: 3;
-        width: 100%;
-        margin: 0 -4px;
-        padding-bottom: 8px;
-        overflow-x: auto;
-        scrollbar-width: none;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        margin: 0;
+        padding-block: 4px 16px;
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
       }
+      .topbar.open .nav { display: flex; }
+      .nav a { padding: 15px 4px; border-radius: 0; border-bottom: 1px solid var(--line); font-size: 1.0625rem; color: var(--ink); }
+      .nav a:hover { background: none; color: var(--brand); }
+      .menu-social { display: flex; gap: 4px; padding-top: 12px; margin-left: -8px; }
+      .menu-social a.icon-btn { padding: 0; border-bottom: 0; }
+
+      main { gap: 0; padding-block: 4px 24px; }
+      main > .card:not(.changes) {
+        background: none;
+        border: 0;
+        border-top: 1px solid var(--line);
+        border-radius: 0;
+        box-shadow: none;
+        padding: 32px 0;
+      }
+      main > .card:first-child { border-top: 0; padding-top: 24px; }
+      main > .changes { margin-top: 24px; }
+      .foot { background: none; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding-inline: 0; }
     }
 
     /* Contenido */
@@ -534,20 +567,25 @@
   <header class="topbar">
     <div class="topbar-inner gutter">
       <a class="brand" href="#inicio"><span>@</span>robermaps</a>
-      <nav class="nav" aria-label="Secciones">
+      <nav class="nav" id="menu" aria-label="Secciones">
         <a href="#geoproyectos">Geoproyectos</a>
         <a href="#otros">Otros proyectos</a>
         <a href="#trayectoria">Trayectoria</a>
         <a href="#contacto">Contacto</a>
+        <div class="menu-social" aria-label="Redes">
+          <a class="icon-btn" href="https://x.com/robermaps" aria-label="X (antes Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a class="icon-btn" href="https://www.linkedin.com/in/robermaps" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a class="icon-btn" href="https://github.com/robermaps" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        </div>
       </nav>
       <div class="tools-bar">
-        <a class="icon-btn" href="https://x.com/robermaps" aria-label="X (antes Twitter)">
+        <a class="icon-btn social" href="https://x.com/robermaps" aria-label="X (antes Twitter)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a class="icon-btn" href="https://www.linkedin.com/in/robermaps" aria-label="LinkedIn">
+        <a class="icon-btn social" href="https://www.linkedin.com/in/robermaps" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         </a>
-        <a class="icon-btn" href="https://github.com/robermaps" aria-label="GitHub">
+        <a class="icon-btn social" href="https://github.com/robermaps" aria-label="GitHub">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
         </a>
         <span class="sep" aria-hidden="true"></span>
@@ -558,6 +596,10 @@
         <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el globo de fondo" title="Pausar el globo de fondo">
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-play" hidden><path d="M8 5.5v13l10.5-6.5z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-menu"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-close" hidden><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12 19 17.6 17.6 19 12 13.4 6.4 19 5 17.6 10.6 12 5 6.4z"/></svg>
         </button>
       </div>
     </div>
@@ -745,6 +787,7 @@
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Tarjetas que se funden con el fondo</strong><p>En escritorio, el fondo de cada tarjeta se funde en transparente por la derecha y deja ver el globo y las estelas, sin mover el contenido. En la presentación, el degradado empieza después del texto. En móvil las tarjetas son sólidas.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono no hay globo ni estelas: el contenido va sobre un único fondo, con las secciones separadas por líneas finas, y no se descargan d3 ni los datos del mapa. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -755,12 +798,10 @@
   <footer class="gutter">
     <div class="foot">
       <span>© 2026 Roberto Jiménez López</span>
-      <span class="tnum">Fondo: Natural Earth 1:50M · meridiano central <span id="coords">20,3° E</span></span>
+      <span class="tnum bg-info">Fondo: Natural Earth 1:50M · meridiano central <span id="coords">20,3° E</span></span>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js"></script>
   <script>
     (function () {
       var root = document.documentElement;
@@ -847,7 +888,8 @@
       var ctx = cv.getContext('2d');
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       var dark = window.matchMedia('(prefers-color-scheme: dark)');
-      var hasD3 = !!(window.d3 && d3.geoOrthographic);
+      var hasD3 = false;                   // d3-geo se carga solo cuando se muestra el globo
+      var mobile = window.matchMedia('(max-width: 780px)');
       var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
       var VIEW_LAT = 18;                   // latitud desde la que se mira el globo
       var TILT = 23.44;                    // inclinación del eje terrestre (polo norte hacia la mitad visible)
@@ -1045,7 +1087,7 @@
         if (t - lastReadout > 500) { readout(); lastReadout = t; }
         raf = requestAnimationFrame(tick);
       }
-      function play() { if (!raf && running && !document.hidden) { last = 0; raf = requestAnimationFrame(tick); } }
+      function play() { if (!raf && running && !document.hidden && !mobile.matches) { last = 0; raf = requestAnimationFrame(tick); } }
       function stop() { cancelAnimationFrame(raf); raf = 0; }
 
       var btn = document.getElementById('map-toggle');
@@ -1061,8 +1103,8 @@
       document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
 
       var rt = 0;
-      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 150); });
-      var recolor = function () { readColors(); draw(); };
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (!mobile.matches) { size(); draw(); } }, 150); });
+      var recolor = function () { readColors(); if (!mobile.matches) draw(); };
       dark.addEventListener('change', recolor);
       new MutationObserver(recolor).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
@@ -1072,22 +1114,61 @@
         return out;
       }
 
-      if (hasD3) grat = d3.geoGraticule().step([15, 15])();
-      readColors(); size(); draw(); readout(); syncBtn(); play();
-      if (hasD3) {
-        fetch('world.json').then(function (r) { return r.json(); }).then(function (d) {
-          polys = d.polys.map(function (rings) {
-            var coords = rings.map(function (r) { return decode(r, d.p); });
-            var feature = { type: 'Polygon', coordinates: coords };
-            var c = d3.geoCentroid(feature), r = 0;
-            coords[0].forEach(function (pt) { var g = d3.geoDistance(c, pt); if (g > r) r = g; });
-            return { coords: coords, c: c, r: r };
-          });
-          land = true;
-          borders = { type: 'MultiLineString', coordinates: d.borders.map(function (b) { return decode(b, d.p); }) };
-          draw();
-        }).catch(function () { /* sin datos: queda la esfera con su retícula */ });
+      function loadScript(src) {
+        return new Promise(function (ok, ko) {
+          var el = document.createElement('script');
+          el.src = src; el.onload = ok; el.onerror = ko;
+          document.head.appendChild(el);
+        });
       }
+      var globeRequested = false;
+      function initGlobe() {
+        if (globeRequested) return;
+        globeRequested = true;
+        loadScript('https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js').then(function () {
+          return loadScript('https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js');
+        }).then(function () {
+          hasD3 = !!(window.d3 && d3.geoOrthographic);
+          if (!hasD3) return;
+          grat = d3.geoGraticule().step([15, 15])();
+          size(); draw();
+          return fetch('world.json').then(function (r) { return r.json(); }).then(function (d) {
+            polys = d.polys.map(function (rings) {
+              var coords = rings.map(function (r) { return decode(r, d.p); });
+              var feature = { type: 'Polygon', coordinates: coords };
+              var c = d3.geoCentroid(feature), r = 0;
+              coords[0].forEach(function (pt) { var g = d3.geoDistance(c, pt); if (g > r) r = g; });
+              return { coords: coords, c: c, r: r };
+            });
+            land = true;
+            borders = { type: 'MultiLineString', coordinates: d.borders.map(function (b) { return decode(b, d.p); }) };
+            draw();
+          });
+        }).catch(function () { /* sin d3 o sin datos: queda la esfera con las estelas */ });
+      }
+      function showGlobe() { size(); draw(); readout(); play(); initGlobe(); }
+
+      readColors(); syncBtn();
+      if (!mobile.matches) showGlobe();
+      mobile.addEventListener('change', function () { if (mobile.matches) { stop(); setMenu(false); } else showGlobe(); });
+
+      /* Menú de hamburguesa (móvil) */
+      var topbar = document.querySelector('.topbar'), menuBtn = document.getElementById('menu-toggle');
+      function setMenu(open) {
+        topbar.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        document.getElementById('ico-menu').toggleAttribute('hidden', open);
+        document.getElementById('ico-close').toggleAttribute('hidden', !open);
+      }
+      menuBtn.addEventListener('click', function () { setMenu(!topbar.classList.contains('open')); });
+      document.getElementById('menu').addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && topbar.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+      });
+      document.addEventListener('click', function (e) {
+        if (topbar.classList.contains('open') && !topbar.contains(e.target)) setMenu(false);
+      });
     })();
   </script>
 </body>
