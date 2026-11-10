@@ -278,7 +278,7 @@
     .icon-btn:hover { background: var(--surface-2); }
     .icon-btn svg { width: 19px; height: 19px; fill: currentColor; }
     .sep { width: 1px; height: 22px; background: var(--line); margin-inline: 4px; }
-    .menu-btn, .menu-social { display: none; }
+    .menu-btn, .menu-social, #mini-globe { display: none; }
 
     /* Móvil: sin globo, un único fondo y la navegación dentro del menú de hamburguesa */
     @media (max-width: 780px) {
@@ -286,7 +286,7 @@
       .map-layer, .bg-info { display: none; }
       .topbar { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
       .tools-bar { margin-left: auto; }
-      .tools-bar .social, .tools-bar .sep, #map-toggle { display: none; }
+      .tools-bar .social, .tools-bar .sep { display: none; }
       .menu-btn { display: grid; }
       .nav {
         display: none;
@@ -321,6 +321,19 @@
       }
       main > .card:first-child { border-top: 0; padding-top: 24px; }
       main > .changes { margin-top: 24px; }
+      /* Globo pequeño en el hueco de la cabecera, a la derecha del avatar */
+      .hero { position: relative; }
+      #mini-globe {
+        display: block;
+        position: absolute;
+        top: 24px;
+        right: 0;
+        width: clamp(104px, 30vw, 124px);
+        height: auto;
+        aspect-ratio: 1;
+        max-width: 100%;
+        pointer-events: none;
+      }
       .foot { background: none; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding-inline: 0; }
     }
 
@@ -593,7 +606,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-moon"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-sun" hidden><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM3.5 4.9l1.4-1.4 2.2 2.1-1.5 1.5zm13.4 13.4 1.5-1.5 2.1 2.2-1.4 1.4zM16.9 5.6l2.2-2.1 1.4 1.4-2.1 2.2zM3.5 19.1l2.1-2.2 1.5 1.5-2.2 2.1z"/></svg>
         </button>
-        <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el globo de fondo" title="Pausar el globo de fondo">
+        <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar el globo" title="Pausar el globo">
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-play" hidden><path d="M8 5.5v13l10.5-6.5z"/></svg>
         </button>
@@ -610,6 +623,7 @@
     <!-- Presentación -->
     <section class="card hero" aria-labelledby="nombre">
       <img class="avatar" src="avatar.jpg" width="184" height="184" alt="Avatar de Rober: un muñeco de Playmobil columpiándose en un neumático">
+      <canvas id="mini-globe" width="120" height="120" aria-hidden="true"></canvas>
       <div>
         <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
         <p class="role">Geógrafo cuantitativo · Desarrollador · Diseñador</p>
@@ -787,7 +801,7 @@
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Tiene botón de pausa y se detiene con «reducir movimiento» o al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Tarjetas que se funden con el fondo</strong><p>En escritorio, el fondo de cada tarjeta se funde en transparente por la derecha y deja ver el globo y las estelas, sin mover el contenido. En la presentación, el degradado empieza después del texto. En móvil las tarjetas son sólidas.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono no hay globo ni estelas: el contenido va sobre un único fondo, con las secciones separadas por líneas finas, y no se descargan d3 ni los datos del mapa. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono no hay globo de fondo ni estelas: el contenido va sobre un único fondo, con las secciones separadas por líneas finas. Un globo pequeño gira en el hueco de la cabecera, junto al avatar, con datos ligeros (1:110M, 17 KB) y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -1013,10 +1027,10 @@
       }
 
       // Descarta los polígonos que quedan por completo en la cara oculta
-      function visibleLand() {
-        var center = [-rot, VIEW_LAT], out = [];
-        for (var i = 0; i < polys.length; i++) {
-          var p = polys[i];
+      function visibleLand(list, r) {
+        var center = [-r, VIEW_LAT], out = [];
+        for (var i = 0; i < list.length; i++) {
+          var p = list[i];
           if (d3.geoDistance(p.c, center) - p.r < Math.PI / 2) out.push(p.coords);
         }
         return { type: 'MultiPolygon', coordinates: out };
@@ -1043,7 +1057,7 @@
           ctx.beginPath(); path(grat);
           ctx.strokeStyle = c['globe-grat']; ctx.lineWidth = 0.8; ctx.stroke();
           if (land) {
-            ctx.beginPath(); path(visibleLand());
+            ctx.beginPath(); path(visibleLand(polys, rot));
             ctx.fillStyle = c['globe-land']; ctx.fill();
             ctx.strokeStyle = c['globe-coast']; ctx.lineWidth = 0.8; ctx.stroke();
             ctx.beginPath(); path(borders);
@@ -1093,18 +1107,20 @@
       var btn = document.getElementById('map-toggle');
       function syncBtn() {
         btn.setAttribute('aria-pressed', String(!running));
-        var label = running ? 'Pausar el globo de fondo' : 'Reanudar el globo de fondo';
+        var label = running ? 'Pausar el globo' : 'Reanudar el globo';
         btn.setAttribute('aria-label', label); btn.title = label;
         document.getElementById('ico-pause').toggleAttribute('hidden', !running);
         document.getElementById('ico-play').toggleAttribute('hidden', running);
       }
-      btn.addEventListener('click', function () { running = !running; syncBtn(); running ? play() : stop(); });
-      reduce.addEventListener('change', function () { running = !reduce.matches; syncBtn(); running ? play() : stop(); });
-      document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
+      function playAll() { play(); miniPlay(); }
+      function stopAll() { stop(); miniStop(); }
+      btn.addEventListener('click', function () { running = !running; syncBtn(); running ? playAll() : stopAll(); });
+      reduce.addEventListener('change', function () { running = !reduce.matches; syncBtn(); running ? playAll() : stopAll(); });
+      document.addEventListener('visibilitychange', function () { document.hidden ? stopAll() : playAll(); });
 
       var rt = 0;
-      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (!mobile.matches) { size(); draw(); } }, 150); });
-      var recolor = function () { readColors(); if (!mobile.matches) draw(); };
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (mobile.matches) { miniSize(); miniDraw(); } else { size(); draw(); } }, 150); });
+      var recolor = function () { readColors(); if (mobile.matches) miniDraw(); else draw(); };
       dark.addEventListener('change', recolor);
       new MutationObserver(recolor).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
@@ -1121,25 +1137,37 @@
           document.head.appendChild(el);
         });
       }
+      // d3 se descarga una sola vez, al primer globo que lo necesite
+      var d3Promise = null;
+      function loadD3() {
+        if (!d3Promise) {
+          d3Promise = loadScript('https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js').then(function () {
+            return loadScript('https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js');
+          }).then(function () {
+            hasD3 = !!(window.d3 && d3.geoOrthographic);
+            if (!hasD3) throw new Error('d3-geo no disponible');
+            grat = d3.geoGraticule().step([15, 15])();
+          });
+        }
+        return d3Promise;
+      }
+      function parsePolys(d) {
+        return d.polys.map(function (rings) {
+          var coords = rings.map(function (r) { return decode(r, d.p); });
+          var c = d3.geoCentroid({ type: 'Polygon', coordinates: coords }), r = 0;
+          coords[0].forEach(function (pt) { var g = d3.geoDistance(c, pt); if (g > r) r = g; });
+          return { coords: coords, c: c, r: r };
+        });
+      }
+
       var globeRequested = false;
       function initGlobe() {
         if (globeRequested) return;
         globeRequested = true;
-        loadScript('https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js').then(function () {
-          return loadScript('https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js');
-        }).then(function () {
-          hasD3 = !!(window.d3 && d3.geoOrthographic);
-          if (!hasD3) return;
-          grat = d3.geoGraticule().step([15, 15])();
+        loadD3().then(function () {
           size(); draw();
           return fetch('world.json').then(function (r) { return r.json(); }).then(function (d) {
-            polys = d.polys.map(function (rings) {
-              var coords = rings.map(function (r) { return decode(r, d.p); });
-              var feature = { type: 'Polygon', coordinates: coords };
-              var c = d3.geoCentroid(feature), r = 0;
-              coords[0].forEach(function (pt) { var g = d3.geoDistance(c, pt); if (g > r) r = g; });
-              return { coords: coords, c: c, r: r };
-            });
+            polys = parsePolys(d);
             land = true;
             borders = { type: 'MultiLineString', coordinates: d.borders.map(function (b) { return decode(b, d.p); }) };
             draw();
@@ -1148,9 +1176,84 @@
       }
       function showGlobe() { size(); draw(); readout(); play(); initGlobe(); }
 
+      /* Globo pequeño de la cabecera (móvil) ------------------------------ */
+      var mg = document.getElementById('mini-globe'), mctx = mg.getContext('2d');
+      var MINI_SPEED = 6;                  // grados por segundo: una vuelta por minuto
+      var mini = { rot: -20.3, polys: [], proj: null, path: null, d: 0, dpr: 1, raf: 0, last: 0, lastDraw: 0, visible: true };
+
+      function miniSize() {
+        var d = Math.round(mg.getBoundingClientRect().width) || 120;
+        mini.d = d; mini.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        mg.width = Math.round(d * mini.dpr); mg.height = Math.round(d * mini.dpr);
+        if (hasD3) {
+          mini.proj = d3.geoOrthographic().scale(d / 2 - 7).translate([d / 2, d / 2]).clipAngle(90).precision(0.5);
+          mini.path = d3.geoPath(mini.proj, mctx);
+        }
+      }
+      function miniDraw() {
+        var c = colors, d = mini.d, r = d / 2 - 7, m = d / 2;
+        if (!d) return;
+        mctx.setTransform(mini.dpr, 0, 0, mini.dpr, 0, 0);
+        mctx.clearRect(0, 0, d, d);
+        var glow = mctx.createRadialGradient(m, m, r * 0.98, m, m, r * 1.12);
+        glow.addColorStop(0, c['globe-glow']); glow.addColorStop(1, 'rgba(0,0,0,0)');
+        mctx.fillStyle = glow; mctx.fillRect(0, 0, d, d);
+        mctx.beginPath(); mctx.arc(m, m, r, 0, Math.PI * 2); mctx.fillStyle = c['globe-water']; mctx.fill();
+        var madrid = null;
+        if (hasD3 && mini.proj) {
+          mini.proj.rotate([mini.rot, -VIEW_LAT, -TILT]);
+          mctx.lineJoin = 'round';
+          mctx.beginPath(); mini.path(grat);
+          mctx.strokeStyle = c['globe-grat']; mctx.lineWidth = 0.6; mctx.stroke();
+          if (mini.polys.length) {
+            mctx.beginPath(); mini.path(visibleLand(mini.polys, mini.rot));
+            mctx.fillStyle = c['globe-land']; mctx.fill();
+            mctx.strokeStyle = c['globe-coast']; mctx.lineWidth = 0.6; mctx.stroke();
+          }
+          if (d3.geoDistance(MADRID, [-mini.rot, VIEW_LAT]) < Math.PI / 2 - 0.05) madrid = mini.proj(MADRID);
+        }
+        var shade = mctx.createRadialGradient(m - r * 0.3, m - r * 0.35, r * 0.15, m, m, r);
+        shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, c['globe-shade']);
+        mctx.beginPath(); mctx.arc(m, m, r, 0, Math.PI * 2); mctx.fillStyle = shade; mctx.fill();
+        mctx.strokeStyle = c['globe-coast']; mctx.lineWidth = 1; mctx.stroke();
+        if (madrid) { mctx.fillStyle = c['globe-mark']; mctx.beginPath(); mctx.arc(madrid[0], madrid[1], 2.4, 0, Math.PI * 2); mctx.fill(); }
+      }
+      function miniTick(t) {
+        if (!mini.last) mini.last = t;
+        mini.rot += MINI_SPEED * Math.min(0.1, (t - mini.last) / 1000);
+        mini.last = t;
+        if (t - mini.lastDraw > 40) { miniDraw(); mini.lastDraw = t; }
+        mini.raf = requestAnimationFrame(miniTick);
+      }
+      function miniPlay() { if (!mini.raf && running && !document.hidden && mobile.matches && mini.visible) { mini.last = 0; mini.raf = requestAnimationFrame(miniTick); } }
+      function miniStop() { cancelAnimationFrame(mini.raf); mini.raf = 0; }
+      var miniRequested = false;
+      function initMini() {
+        if (miniRequested) return;
+        miniRequested = true;
+        loadD3().then(function () {
+          miniSize(); miniDraw();
+          return fetch('world-110m.json').then(function (r) { return r.json(); }).then(function (d) {
+            mini.polys = parsePolys(d);
+            miniDraw();
+          });
+        }).catch(function () { /* sin d3 o sin datos: queda la esfera */ });
+      }
+      function showMini() { miniSize(); miniDraw(); miniPlay(); initMini(); }
+      // Solo gira mientras la cabecera está en pantalla
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          mini.visible = entries[0].isIntersecting;
+          mini.visible ? miniPlay() : miniStop();
+        }).observe(mg);
+      }
+
       readColors(); syncBtn();
-      if (!mobile.matches) showGlobe();
-      mobile.addEventListener('change', function () { if (mobile.matches) { stop(); setMenu(false); } else showGlobe(); });
+      if (mobile.matches) showMini(); else showGlobe();
+      mobile.addEventListener('change', function () {
+        if (mobile.matches) { stop(); setMenu(false); showMini(); }
+        else { miniStop(); showGlobe(); }
+      });
 
       /* Menú de hamburguesa (móvil) */
       var topbar = document.querySelector('.topbar'), menuBtn = document.getElementById('menu-toggle');
