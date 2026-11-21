@@ -315,8 +315,13 @@
     .section.hero { border-top: 0; padding-top: clamp(24px, 5vw, 56px); }
 
     @media (min-width: 1024px) {
-      :root { --col-left: clamp(24px, 7vw, 120px); }
-      main, footer { width: min(720px, 52vw); margin-left: var(--col-left); }
+      /* La columna se centra en el espacio libre a la izquierda del globo (su radio es,
+         como mucho, media altura de la ventana), con un margen mínimo en pantallas justas */
+      :root {
+        --col-w: min(720px, 52vw);
+        --col-left: max(clamp(24px, 7vw, 120px), calc((100vw - 50vh - var(--col-w)) / 2));
+      }
+      main, footer { width: var(--col-w); margin-left: var(--col-left); }
       .topbar-inner, .mockbar-inner { margin-left: var(--col-left); }
       /* Las órbitas se desvanecen antes de llegar a la columna de texto (el script fija --mask-x) */
       .map-layer {
@@ -772,7 +777,7 @@
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activa en escritorio y en móvil, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. En escritorio forman una columna a la izquierda y el globo ocupa el lado derecho, con unas órbitas que se desvanecen antes de llegar al texto. En pantallas estrechas el globo se coloca en la cabecera.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. En escritorio forman una columna centrada en el espacio libre a la izquierda del globo, que ocupa el lado derecho con unas órbitas que se desvanecen antes de llegar al texto. En pantallas estrechas el globo se coloca en la cabecera.</p></div></li>
         <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. La animación del escritorio (medio globo cortado por el borde derecho, con sus estelas) se coloca en la cabecera, a la altura del avatar, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
