@@ -170,7 +170,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: 96px; }
     body {
       margin: 0;
-      background: var(--space);
+      background: var(--surface);
       color: var(--ink);
       font-family: var(--font-body);
       font-size: 1.0625rem;
@@ -206,8 +206,6 @@
       font: 500 0.8125rem/1.3 var(--font-mono);
     }
     .mockbar-inner {
-      max-width: 1100px;
-      margin-inline: auto;
       padding-block: 8px;
       display: flex;
       flex-wrap: wrap;
@@ -238,8 +236,6 @@
       border-bottom: 1px solid var(--line);
     }
     .topbar-inner {
-      max-width: 1100px;
-      margin-inline: auto;
       min-height: 60px;
       display: flex;
       align-items: center;
@@ -280,10 +276,8 @@
     .sep { width: 1px; height: 22px; background: var(--line); margin-inline: 4px; }
     .menu-btn, .menu-social { display: none; }
 
-    /* Móvil: sin globo, un único fondo y la navegación dentro del menú de hamburguesa */
+    /* Móvil: la navegación va dentro del menú de hamburguesa */
     @media (max-width: 780px) {
-      body { background: var(--surface); }
-      .map-layer, .bg-info { display: none; }
       .topbar { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
       .tools-bar { margin-left: auto; }
       .tools-bar .social, .tools-bar .sep { display: none; }
@@ -309,21 +303,32 @@
       .nav a:hover { background: none; color: var(--brand); }
       .menu-social { display: flex; gap: 4px; padding-top: 12px; margin-left: -8px; }
       .menu-social a.icon-btn { padding: 0; border-bottom: 0; }
+    }
 
-      main { gap: 0; padding-block: 4px 24px; }
-      main > .card:not(.changes) {
-        background: none;
-        border: 0;
-        border-top: 1px solid var(--line);
-        border-radius: 0;
-        box-shadow: none;
-        padding: 32px 0;
+    /* Composición sin tarjetas: las secciones van directamente sobre la página, separadas por
+       espacio y una línea fina. En escritorio forman una columna a la izquierda y el globo ocupa
+       el lado derecho; en pantallas estrechas el globo se coloca en la cabecera. */
+    main, footer { position: relative; z-index: 1; min-width: 0; }
+    main { padding-block: 8px 56px; }
+    footer { padding-block: 0 40px; }
+    .section { padding-block: clamp(36px, 6vw, 64px); border-top: 1px solid var(--line); min-width: 0; }
+    .section.hero { border-top: 0; padding-top: clamp(24px, 5vw, 56px); }
+
+    @media (min-width: 1024px) {
+      :root { --col-left: clamp(24px, 7vw, 120px); }
+      main, footer { width: min(720px, 52vw); margin-left: var(--col-left); }
+      .topbar-inner, .mockbar-inner { margin-left: var(--col-left); }
+      /* Las órbitas se desvanecen antes de llegar a la columna de texto (el script fija --mask-x) */
+      .map-layer {
+        -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--mask-x, 55vw) - 40px), #000 calc(var(--mask-x, 55vw) + 100px));
+        mask-image: linear-gradient(90deg, transparent calc(var(--mask-x, 55vw) - 40px), #000 calc(var(--mask-x, 55vw) + 100px));
       }
-      main > .card:first-child { border-top: 0; padding-top: 24px; }
-      main > .changes { margin-top: 24px; }
-      /* La misma animación del escritorio, colocada en la cabecera: medio globo cortado por
-         el borde derecho de la pantalla, a la altura del avatar, con sus estelas. Se desvanece
-         hacia abajo para no cortarse en seco. */
+    }
+
+    /* Pantallas estrechas: la misma animación del globo se coloca en la cabecera, cortada por el
+       borde derecho de la pantalla y a la altura del avatar. Se desvanece hacia abajo. */
+    @media (max-width: 1023px) {
+      .map-layer, .bg-info { display: none; }
       .hero { position: relative; }
       .hero > .map-layer {
         display: block;
@@ -337,38 +342,8 @@
         mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
       }
       .hero > img, .hero > div:not(.map-layer) { position: relative; z-index: 1; }
-      .foot { background: none; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding-inline: 0; }
     }
 
-    /* Contenido */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin-inline: auto;
-      padding-block: 32px 48px;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-    .card {
-      --card-bg: var(--surface);
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: clamp(20px, 4vw, 40px);
-      min-width: 0;
-    }
-    /* En escritorio, el fondo de cada tarjeta se funde en transparente por la derecha para
-       dejar ver el globo. Solo cambia el fondo: el contenido no se mueve. */
-    @media (min-width: 900px) {
-      .card {
-        --fade: clamp(120px, 13vw, 190px);
-        --solid-end: calc(100% - var(--fade));
-        background: linear-gradient(90deg, var(--card-bg) 0, var(--card-bg) var(--solid-end), transparent 100%);
-      }
-    }
     h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
     h2 { font-weight: 700; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.15; letter-spacing: -0.015em; }
     h3 { font-weight: 700; font-size: 1.1875rem; line-height: 1.25; }
@@ -389,15 +364,9 @@
     .hide-notes .note { display: none; }
 
     /* Presentación */
-    .hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: start; }
-    /* Fondo sólido bajo el texto y degradado a transparente hacia el borde derecho.
-       El script ajusta --solid-end al final real del texto; sin script queda sólido. */
-    .card.hero {
-      --solid-end: 100%;
-      background: linear-gradient(90deg, var(--card-bg) 0, var(--card-bg) var(--solid-end), transparent 100%);
-    }
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
     .avatar {
-      width: clamp(112px, 16vw, 184px);
+      width: clamp(104px, 11vw, 136px);
       height: auto;
       aspect-ratio: 1;
       object-fit: cover;
@@ -405,7 +374,7 @@
       display: block;
       background: var(--surface-2);
     }
-    .hero h1 { font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.04; letter-spacing: -0.025em; }
+    .hero h1 { font-weight: 700; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.03em; }
     .role { margin: 10px 0 0; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.3 var(--font-display); color: var(--brand); }
     .loc {
       display: inline-flex;
@@ -419,7 +388,7 @@
       font: 400 0.8125rem/1.2 var(--font-mono);
     }
     .loc svg { width: 14px; height: 14px; fill: var(--brand); flex: none; }
-    .bio { max-width: 64ch; margin-top: 20px; }
+    .bio { max-width: 60ch; margin-top: 20px; }
     .bio p { margin: 0 0 0.8em; }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
     .btn {
@@ -438,16 +407,12 @@
     .btn-primary:hover { background: var(--brand-hover); }
     .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
     .btn-ghost:hover { background: var(--surface-2); }
-    @media (max-width: 620px) {
-      .hero { grid-template-columns: minmax(0, 1fr); }
-      .avatar { width: 104px; }
-    }
 
     /* Secciones */
-    .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 22px; }
+    .sec-head { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 28px; }
     .sec-head p { margin: 0; color: var(--ink-2); max-width: 60ch; }
     .subhead {
-      margin: 34px 0 14px;
+      margin: 40px 0 14px;
       font: 500 0.8125rem/1 var(--font-mono);
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -467,7 +432,11 @@
       overflow: hidden;
       background: var(--surface);
     }
+    /* Proyectos activos: sin caja, solo la miniatura enmarcada */
+    .projects .project { border: 0; border-radius: 0; background: none; overflow: visible; }
+    .projects .project-body { padding: 16px 0 0; }
     .thumb { display: block; aspect-ratio: 2 / 1; max-width: 100%; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+    .projects .thumb { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
     .archive .thumb { aspect-ratio: 8 / 3; }
     /* Archivo: mismo estilo que el aviso «Muy pronto» (borde punteado y fondo gris) para
        distinguirlo de los proyectos activos */
@@ -536,7 +505,7 @@
     @media (max-width: 700px) { .contact { grid-template-columns: minmax(0, 1fr); } }
 
     /* Cambios */
-    .changes { --card-bg: var(--note-bg); border-color: var(--note-line); }
+    .changes { margin-top: 48px; padding: clamp(20px, 4vw, 32px); background: var(--note-bg); border: 1px solid var(--note-line); border-radius: 16px; }
     .changes ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px 32px; }
     .changes li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
     .changes .num {
@@ -547,16 +516,13 @@
     .changes strong { font-family: var(--font-display); }
     .changes p { margin: 2px 0 0; color: var(--ink-2); }
 
-    footer { position: relative; z-index: 1; max-width: 1100px; margin-inline: auto; padding-block: 0 40px; }
     .foot {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 8px 20px;
-      padding: 14px 18px;
-      border-radius: 12px;
-      background: var(--surface);
-      border: 1px solid var(--line);
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
       color: var(--ink-2);
       font: 400 0.8125rem/1.4 var(--font-mono);
     }
@@ -628,7 +594,7 @@
   <main id="inicio" class="gutter">
 
     <!-- Presentación -->
-    <section class="card hero" aria-labelledby="nombre">
+    <section class="section hero" aria-labelledby="nombre">
       <img class="avatar" src="avatar.jpg" width="184" height="184" alt="Avatar de Rober: un muñeco de Playmobil columpiándose en un neumático">
       <div>
         <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
@@ -645,7 +611,7 @@
     </section>
 
     <!-- Geoproyectos -->
-    <section class="card" id="geoproyectos" aria-labelledby="t-geo">
+    <section class="section" id="geoproyectos" aria-labelledby="t-geo">
       <div class="sec-head">
         <h2 id="t-geo">Geoproyectos<a class="note" href="#c2" aria-label="Nota 2">2</a></h2>
         <p>Herramientas para explorar La Tierra y otros mundos.</p>
@@ -698,7 +664,7 @@
     </section>
 
     <!-- Otros proyectos -->
-    <section class="card" id="otros" aria-labelledby="t-otros">
+    <section class="section" id="otros" aria-labelledby="t-otros">
       <div class="sec-head">
         <h2 id="t-otros">Otros proyectos<a class="note" href="#c3" aria-label="Nota 3">3</a></h2>
         <p>Lo que está por llegar fuera de los mapas y lo que guardo en el archivo.</p>
@@ -752,7 +718,7 @@
     </section>
 
     <!-- Trayectoria -->
-    <section class="card" id="trayectoria" aria-labelledby="t-tray">
+    <section class="section" id="trayectoria" aria-labelledby="t-tray">
       <div class="sec-head">
         <h2 id="t-tray">Trayectoria<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
       </div>
@@ -777,7 +743,7 @@
     </section>
 
     <!-- Contacto -->
-    <section class="card contact" id="contacto" aria-labelledby="t-contacto">
+    <section class="section contact" id="contacto" aria-labelledby="t-contacto">
       <div>
         <h2 id="t-contacto">¿Hablamos?<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
         <p>Para proyectos, colaboraciones o dudas sobre mis herramientas, escríbeme.</p>
@@ -794,7 +760,7 @@
     </section>
 
     <!-- Qué ha cambiado (solo maqueta) -->
-    <section class="card changes" id="cambios" aria-labelledby="t-cambios">
+    <section class="changes" id="cambios" aria-labelledby="t-cambios">
       <div class="sec-head">
         <h2 id="t-cambios">Qué cambia respecto a la web actual</h2>
         <p>Los números corresponden a las marcas naranjas de la página.</p>
@@ -806,7 +772,7 @@
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
         <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activa en escritorio y en móvil, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Tarjetas que se funden con el fondo</strong><p>En escritorio, el fondo de cada tarjeta se funde en transparente por la derecha y deja ver el globo y las estelas, sin mover el contenido. En la presentación, el degradado empieza después del texto. En móvil las tarjetas son sólidas.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. En escritorio forman una columna a la izquierda y el globo ocupa el lado derecho, con unas órbitas que se desvanecen antes de llegar al texto. En pantallas estrechas el globo se coloca en la cabecera.</p></div></li>
         <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. La animación del escritorio (medio globo cortado por el borde derecho, con sus estelas) se coloca en la cabecera, a la altura del avatar, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
@@ -825,27 +791,6 @@
   <script>
     (function () {
       var root = document.documentElement;
-
-      /* Tarjeta de presentación: el degradado empieza donde acaba el texto */
-      var heroCard = document.querySelector('.card.hero');
-      var heroText = heroCard.querySelector(':scope > div:not(.map-layer)');
-      function fitHeroFade() {
-        var card = heroCard.getBoundingClientRect(), right = 0, range = document.createRange();
-        var walk = document.createTreeWalker(heroText, NodeFilter.SHOW_TEXT), node;
-        while ((node = walk.nextNode())) {                    // solo las líneas de texto, no las cajas de bloque
-          if (!node.nodeValue.trim()) continue;
-          range.selectNodeContents(node);
-          Array.prototype.forEach.call(range.getClientRects(), function (q) { if (q.width) right = Math.max(right, q.right); });
-        }
-        heroText.querySelectorAll('.btn, .loc, .note').forEach(function (el) { right = Math.max(right, el.getBoundingClientRect().right); });
-        // Misma franja que el resto de tarjetas, salvo que el texto llegue más lejos
-        var fade = window.innerWidth >= 900 ? Math.min(190, Math.max(120, window.innerWidth * 0.13)) : 0;
-        var solid = Math.max(Math.ceil(right - card.left + 32), card.width - fade);
-        heroCard.style.setProperty('--solid-end', solid > card.width - 60 ? '100%' : solid + 'px');
-      }
-      if (window.ResizeObserver) new ResizeObserver(fitHeroFade).observe(heroCard);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeroFade);
-      fitHeroFade();
 
       /* Tema claro / oscuro: automático según el sistema, o el que elija el visitante */
       var themeBtn = document.getElementById('theme-toggle');
@@ -878,7 +823,6 @@
         tgl.setAttribute('aria-pressed', String(on));
         root.classList.toggle('hide-notes', !on);
         tgl.textContent = on ? 'Ocultar notas' : 'Mostrar notas';
-        fitHeroFade();
       });
 
       /* Copiar email */
@@ -908,7 +852,8 @@
       var ctx = cv.getContext('2d');
       var dark = window.matchMedia('(prefers-color-scheme: dark)');
       var hasD3 = false;                   // d3-geo se carga solo cuando se muestra el globo
-      var mobile = window.matchMedia('(max-width: 780px)');
+      var mobile = window.matchMedia('(max-width: 780px)');    // menú de hamburguesa
+      var compact = window.matchMedia('(max-width: 1023px)');  // globo dentro de la cabecera
       var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
       var VIEW_LAT = 18;                   // latitud desde la que se mira el globo
       var TILT = 23.44;                    // inclinación del eje terrestre (polo norte hacia la mitad visible)
@@ -929,16 +874,19 @@
       }
 
       function size() {
-        if (mobile.matches) {
-          // En móvil el lienzo ocupa la cabecera; el globo empieza a la altura del avatar
+        if (compact.matches) {
+          // En pantallas estrechas el lienzo ocupa la cabecera; el globo empieza a la altura del avatar
           var box = mapLayer.getBoundingClientRect();
           vw = Math.max(1, Math.round(box.width)); vh = Math.max(1, Math.round(box.height));
           R = Math.round(Math.min(vw * 0.4, 180));
           cy = Math.round(heroAvatar.getBoundingClientRect().top - box.top) + R;
         } else {
+          // En escritorio el globo ocupa el hueco a la derecha de la columna de texto
           vw = window.innerWidth; vh = window.innerHeight;
-          R = Math.round(Math.min(vh * 0.46, Math.max(vw * 0.55, 160)));
+          var colRight = Math.round(mainEl.getBoundingClientRect().right);
+          R = Math.round(Math.max(180, Math.min(vh * 0.5, vw - colRight - 120)));
           cy = vh - R;                       // el globo toca el borde inferior
+          mapLayer.style.setProperty('--mask-x', colRight + 'px');
         }
         cx = vw;                             // centro en el borde derecho de la pantalla
         dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -948,7 +896,7 @@
           proj = d3.geoOrthographic().scale(R).translate([cx, cy]).clipAngle(90).precision(0.7);
           path = d3.geoPath(proj, ctx);
         }
-        var n = vw < 700 ? 4 : 7;
+        var n = compact.matches ? 4 : 7;
         trails = [];
         for (var i = 0; i < n; i++) trails.push(spawn(true));
       }
@@ -966,7 +914,7 @@
 
       // Nueva órbita; la cabeza arranca justo antes de asomar por un borde o por detrás del globo
       function spawn(initial) {
-        var a = rand(R * 1.12, Math.max(R * 1.8, Math.max(vw, vh) * 1.15));
+        var a = rand(R * 1.12, compact.matches ? Math.max(R * 1.8, Math.max(vw, vh) * 1.15) : R * 2.1);
         var inc = rand(58, 84) * Math.PI / 180 * (Math.random() < 0.5 ? 1 : -1);
         var om = rand(-38, 38) * Math.PI / 180;
         var tr = {
@@ -1174,7 +1122,7 @@
       // Datos: 1:110M en móvil (globo pequeño) y 1:50M en escritorio; nunca se rebaja la calidad
       var dataLevel = 0, loadingLevel = 0;
       function initGlobe() {
-        var need = mobile.matches ? 1 : 2;
+        var need = compact.matches ? 1 : 2;
         if (dataLevel >= need || loadingLevel >= need) return;
         loadingLevel = need;
         loadD3().then(function () {
@@ -1191,12 +1139,12 @@
       }
 
       // El lienzo vive en el fondo de la página en escritorio y dentro de la cabecera en móvil
-      var mapLayer = cv.parentNode, heroSection = document.querySelector('.hero');
+      var mapLayer = cv.parentNode, heroSection = document.querySelector('.hero'), mainEl = document.querySelector('main');
       var heroAvatar = heroSection.querySelector('.avatar');
       var homeSpot = document.createComment('globo');
       mapLayer.parentNode.insertBefore(homeSpot, mapLayer);
       function place() {
-        if (mobile.matches) { if (mapLayer.parentNode !== heroSection) heroSection.insertBefore(mapLayer, heroSection.firstChild); }
+        if (compact.matches) { if (mapLayer.parentNode !== heroSection) heroSection.insertBefore(mapLayer, heroSection.firstChild); }
         else if (mapLayer.parentNode === heroSection) homeSpot.parentNode.insertBefore(mapLayer, homeSpot.nextSibling);
       }
       function showGlobe() { place(); size(); draw(); readout(); play(); initGlobe(); }
@@ -1214,16 +1162,14 @@
         var lastHeroH = 0;
         new ResizeObserver(function () {
           var h = Math.round(heroSection.getBoundingClientRect().height);
-          if (mobile.matches && h !== lastHeroH) { lastHeroH = h; size(); draw(); }
+          if (compact.matches && h !== lastHeroH) { lastHeroH = h; size(); draw(); }
         }).observe(heroSection);
       }
 
       readColors(); syncBtn();
       showGlobe();
-      mobile.addEventListener('change', function () {
-        if (mobile.matches) setMenu(false);
-        stop(); showGlobe();
-      });
+      compact.addEventListener('change', function () { stop(); showGlobe(); });
+      mobile.addEventListener('change', function () { setMenu(false); });
 
       /* Menú de hamburguesa (móvil) */
       var topbar = document.querySelector('.topbar'), menuBtn = document.getElementById('menu-toggle');
