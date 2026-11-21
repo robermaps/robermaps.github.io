@@ -29,7 +29,6 @@
     "name": "Roberto Jiménez López",
     "alternateName": "robermaps",
     "url": "https://robermaps.github.io/",
-    "image": "https://avatars.githubusercontent.com/u/81579458?v=4",
     "jobTitle": "Geógrafo y analista SIG",
     "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
     "knowsAbout": ["Sistemas de Información Geográfica", "QGIS", "Python", "GDAL", "Cartografía", "Teledetección", "Desarrollo web"],
@@ -194,8 +193,8 @@
     }
 
     /* Fondo cartográfico */
-    .map-layer { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
-    #mapa { position: absolute; right: 0; top: 0; }
+    .map-layer { position: relative; overflow: hidden; pointer-events: none; }
+    #mapa { position: absolute; left: 0; top: 0; }
 
     /* Franja de maqueta */
     .mockbar {
@@ -308,30 +307,47 @@
     /* Composición sin tarjetas: las secciones van directamente sobre la página, separadas por
        espacio y una línea fina. En escritorio forman una columna a la izquierda y el globo ocupa
        el lado derecho; en pantallas estrechas el globo se coloca en la cabecera. */
+    /* Todo va centrado, con márgenes amplios a los lados: barras, contenido y globo comparten
+       el mismo ancho máximo */
+    :root { --side: clamp(20px, 5vw, 80px); --page-max: 1320px; }
+    .layout, .topbar-inner, .mockbar-inner {
+      max-width: var(--page-max);
+      margin-inline: auto;
+      padding-left: max(var(--side), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--side), env(safe-area-inset-right, 0px));
+    }
     main, footer { position: relative; z-index: 1; min-width: 0; }
     main { padding-block: 8px 56px; }
     footer { padding-block: 0 40px; }
     .section { padding-block: clamp(36px, 6vw, 64px); border-top: 1px solid var(--line); min-width: 0; }
     .section.hero { border-top: 0; padding-top: clamp(24px, 5vw, 56px); }
+    .globe-col { display: none; }
 
+    /* Escritorio: columna de contenido y, a su derecha, el globo completo con sus órbitas. El globo
+       es «sticky»: baja acompañando el desplazamiento de la página. */
     @media (min-width: 1024px) {
-      /* La columna se centra en el espacio libre a la izquierda del globo (su radio es,
-         como mucho, media altura de la ventana), con un margen mínimo en pantallas justas */
-      :root {
-        --col-w: min(720px, 52vw);
-        --col-left: max(clamp(24px, 7vw, 120px), calc((100vw - 50vh - var(--col-w)) / 2));
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) clamp(280px, 26vw, 400px);
+        column-gap: clamp(40px, 5vw, 80px);
+        align-items: start;
       }
-      main, footer { width: var(--col-w); margin-left: var(--col-left); }
-      .topbar-inner, .mockbar-inner { margin-left: var(--col-left); }
-      /* Las órbitas se desvanecen antes de llegar a la columna de texto (el script fija --mask-x) */
-      .map-layer {
-        -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--mask-x, 55vw) - 40px), #000 calc(var(--mask-x, 55vw) + 100px));
-        mask-image: linear-gradient(90deg, transparent calc(var(--mask-x, 55vw) - 40px), #000 calc(var(--mask-x, 55vw) + 100px));
+      main, footer { grid-column: 1; max-width: 720px; }
+      .globe-col { display: block; grid-column: 2; grid-row: 1 / span 2; align-self: stretch; }
+      .globe-col .map-layer {
+        position: sticky;
+        top: calc(84px + env(safe-area-inset-top, 0px));
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        max-height: calc(100vh - 120px);
+        /* Las órbitas se desvanecen hacia los bordes del recuadro */
+        -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent);
+        mask-image: radial-gradient(closest-side, #000 72%, transparent);
       }
     }
 
-    /* Pantallas estrechas: la misma animación del globo se coloca en la cabecera, cortada por el
-       borde derecho de la pantalla y a la altura del avatar. Se desvanece hacia abajo. */
+    /* Pantallas estrechas: el globo completo, más pequeño, va en la esquina superior derecha de la
+       cabecera, junto al nombre, con sus órbitas. Se desvanece hacia abajo. */
     @media (max-width: 1023px) {
       .map-layer, .bg-info { display: none; }
       .hero { position: relative; }
@@ -340,13 +356,15 @@
         position: absolute;
         top: 0;
         bottom: 0;
-        left: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
-        right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+        left: calc(-1 * max(var(--side), env(safe-area-inset-left, 0px)));
+        right: calc(-1 * max(var(--side), env(safe-area-inset-right, 0px)));
         z-index: 0;
         -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
         mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
       }
-      .hero > img, .hero > div:not(.map-layer) { position: relative; z-index: 1; }
+      .hero > div:not(.map-layer) { position: relative; z-index: 1; }
+      /* El nombre se parte antes de llegar al globo */
+      .hero h1 { max-width: calc(100% - min(40vw, 180px) - 12px); }
     }
 
     h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
@@ -370,15 +388,6 @@
 
     /* Presentación */
     .hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
-    .avatar {
-      width: clamp(104px, 11vw, 136px);
-      height: auto;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border-radius: 18px;
-      display: block;
-      background: var(--surface-2);
-    }
     .hero h1 { font-weight: 700; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.03em; }
     .role { margin: 10px 0 0; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.3 var(--font-display); color: var(--brand); }
     .loc {
@@ -543,7 +552,6 @@
   </style>
 </head>
 <body>
-  <div class="map-layer" aria-hidden="true"><canvas id="mapa"></canvas></div>
 
   <div class="mockbar">
     <div class="mockbar-inner gutter">
@@ -596,11 +604,11 @@
     </div>
   </header>
 
-  <main id="inicio" class="gutter">
+  <div class="layout">
+  <main id="inicio">
 
     <!-- Presentación -->
     <section class="section hero" aria-labelledby="nombre">
-      <img class="avatar" src="avatar.jpg" width="184" height="184" alt="Avatar de Rober: un muñeco de Playmobil columpiándose en un neumático">
       <div>
         <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
         <p class="role">Geógrafo cuantitativo · Desarrollador · Diseñador</p>
@@ -776,9 +784,9 @@
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado y con el mismo estilo punteado que «Muy pronto» para distinguirlos de los proyectos activos.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Globo terráqueo de fondo</strong><p>Un globo en proyección ortográfica, con datos de Natural Earth, partido por el borde derecho de la pantalla, apoyado en su parte inferior y girando sobre su eje inclinado 23,44° (una vuelta cada 2 minutos). A su alrededor orbitan estelas que pasan por delante del globo, se ocultan tras él o salen por los bordes. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activa en escritorio y en móvil, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. En escritorio forman una columna centrada en el espacio libre a la izquierda del globo, que ocupa el lado derecho con unas órbitas que se desvanecen antes de llegar al texto. En pantallas estrechas el globo se coloca en la cabecera.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. La animación del escritorio (medio globo cortado por el borde derecho, con sus estelas) se coloca en la cabecera, a la altura del avatar, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio ocupa la columna derecha y baja acompañando el desplazamiento de la página. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. Todo va centrado con márgenes amplios a los lados: en escritorio, la columna de contenido y, a su derecha, el globo.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. El globo, más pequeño y completo, gira en la esquina superior derecha de la cabecera, junto al nombre, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
@@ -786,12 +794,17 @@
     </section>
   </main>
 
-  <footer class="gutter">
+  <aside class="globe-col" aria-hidden="true">
+    <div class="map-layer"><canvas id="mapa"></canvas></div>
+  </aside>
+
+  <footer>
     <div class="foot">
       <span>© 2026 Roberto Jiménez López</span>
-      <span class="tnum bg-info">Fondo: Natural Earth 1:50M · meridiano central <span id="coords">20,3° E</span></span>
+      <span class="tnum bg-info">Globo: Natural Earth 1:110M · meridiano central <span id="coords">20,3° E</span></span>
     </div>
   </footer>
+  </div>
 
   <script>
     (function () {
@@ -879,21 +892,18 @@
       }
 
       function size() {
+        var box = mapLayer.getBoundingClientRect();
+        vw = Math.max(1, Math.round(box.width)); vh = Math.max(1, Math.round(box.height));
         if (compact.matches) {
-          // En pantallas estrechas el lienzo ocupa la cabecera; el globo empieza a la altura del avatar
-          var box = mapLayer.getBoundingClientRect();
-          vw = Math.max(1, Math.round(box.width)); vh = Math.max(1, Math.round(box.height));
-          R = Math.round(Math.min(vw * 0.4, 180));
-          cy = Math.round(heroAvatar.getBoundingClientRect().top - box.top) + R;
+          // Pantallas estrechas: globo en la esquina superior derecha de la cabecera, junto al nombre
+          R = Math.round(Math.min(vw * 0.2, 90));
+          cx = Math.round(heroSection.getBoundingClientRect().right - box.left) - R - 4;
+          cy = Math.round(heroTitle.getBoundingClientRect().top - box.top) + R + 4;
         } else {
-          // En escritorio el globo ocupa el hueco a la derecha de la columna de texto
-          vw = window.innerWidth; vh = window.innerHeight;
-          var colRight = Math.round(mainEl.getBoundingClientRect().right);
-          R = Math.round(Math.max(180, Math.min(vh * 0.5, vw - colRight - 120)));
-          cy = vh - R;                       // el globo toca el borde inferior
-          mapLayer.style.setProperty('--mask-x', colRight + 'px');
+          // Escritorio: globo completo centrado en su columna
+          R = Math.round(Math.min(vw, vh) * 0.32);
+          cx = vw / 2; cy = vh / 2;
         }
-        cx = vw;                             // centro en el borde derecho de la pantalla
         dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
         cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
@@ -901,7 +911,7 @@
           proj = d3.geoOrthographic().scale(R).translate([cx, cy]).clipAngle(90).precision(0.7);
           path = d3.geoPath(proj, ctx);
         }
-        var n = compact.matches ? 4 : 7;
+        var n = compact.matches ? 4 : 5;
         trails = [];
         for (var i = 0; i < n; i++) trails.push(spawn(true));
       }
@@ -919,14 +929,14 @@
 
       // Nueva órbita; la cabeza arranca justo antes de asomar por un borde o por detrás del globo
       function spawn(initial) {
-        var a = rand(R * 1.12, compact.matches ? Math.max(R * 1.8, Math.max(vw, vh) * 1.15) : R * 2.1);
+        var a = rand(R * 1.15, R * (compact.matches ? 2.4 : 1.75));
         var inc = rand(58, 84) * Math.PI / 180 * (Math.random() < 0.5 ? 1 : -1);
         var om = rand(-38, 38) * Math.PI / 180;
         var tr = {
           a: a, ci: Math.cos(inc), si: Math.sin(inc), co: Math.cos(om), so: Math.sin(om),
           dir: Math.random() < 0.5 ? 1 : -1,
-          w: rand(70, 140) / a,                                    // rad/s: entre 70 y 140 px/s
-          len: Math.min(2.6, rand(380, 1000) / a),                 // longitud de la cola, en radianes
+          w: rand(40, 80) / a,                                     // rad/s: entre 40 y 80 px/s
+          len: rand(1.2, 2.2),                                     // longitud de la cola, en radianes
           width: rand(1.2, 2.1), th: 0, seen: false, idle: 0
         };
         var th = rand(0, Math.PI * 2), k;
@@ -1015,7 +1025,7 @@
         // Atmósfera
         var glow = ctx.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.1);
         glow.addColorStop(0, c['globe-glow']); glow.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = glow; ctx.fillRect(cx - R * 1.12, cy - R * 1.12, R * 1.12, R * 2.24);
+        ctx.fillStyle = glow; ctx.fillRect(cx - R * 1.12, cy - R * 1.12, R * 2.24, R * 2.24);
 
         sphere(c['globe-water']);
         if (hasD3) {
@@ -1033,7 +1043,7 @@
         }
 
         // Oscurecimiento hacia el limbo, para dar volumen
-        var shade = ctx.createRadialGradient(cx - R * 0.12, cy - R * 0.28, R * 0.2, cx, cy, R);
+        var shade = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.15, cx, cy, R);
         shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, c['globe-shade']);
         sphere(shade);
         ctx.strokeStyle = c['globe-coast']; ctx.lineWidth = 1; ctx.stroke();
@@ -1041,15 +1051,13 @@
         // Madrid, cuando está en la cara visible
         if (hasD3 && d3.geoDistance(MADRID, [-rot, VIEW_LAT]) < Math.PI / 2 - 0.05) {
           var m = proj(MADRID);
-          if (m[0] < cx - 6) {
-            ctx.fillStyle = c['globe-mark'];
-            ctx.beginPath(); ctx.arc(m[0], m[1], 3.5, 0, Math.PI * 2); ctx.fill();
-            ctx.font = '500 12px "DM Mono", ui-monospace, monospace';
-            var right = m[0] > cx - 70;      // junto al borde, la etiqueta va a la izquierda del punto
-            ctx.textAlign = right ? 'right' : 'left';
-            ctx.fillText('Madrid', right ? m[0] - 8 : m[0] + 8, m[1] + 4);
-            ctx.textAlign = 'left';
-          }
+          ctx.fillStyle = c['globe-mark'];
+          ctx.beginPath(); ctx.arc(m[0], m[1], 3.5, 0, Math.PI * 2); ctx.fill();
+          ctx.font = '500 12px "DM Mono", ui-monospace, monospace';
+          var right = m[0] + 64 > vw;        // junto al borde del lienzo, la etiqueta va a la izquierda
+          ctx.textAlign = right ? 'right' : 'left';
+          ctx.fillText('Madrid', right ? m[0] - 8 : m[0] + 8, m[1] + 4);
+          ctx.textAlign = 'left';
         }
 
         strokeTrails(tp.front, tp.heads, true);
@@ -1127,7 +1135,7 @@
       // Datos: 1:110M en móvil (globo pequeño) y 1:50M en escritorio; nunca se rebaja la calidad
       var dataLevel = 0, loadingLevel = 0;
       function initGlobe() {
-        var need = compact.matches ? 1 : 2;
+        var need = R > 220 ? 2 : 1;          // a este tamaño basta 1:110M; 1:50M solo para globos grandes
         if (dataLevel >= need || loadingLevel >= need) return;
         loadingLevel = need;
         loadD3().then(function () {
@@ -1144,8 +1152,8 @@
       }
 
       // El lienzo vive en el fondo de la página en escritorio y dentro de la cabecera en móvil
-      var mapLayer = cv.parentNode, heroSection = document.querySelector('.hero'), mainEl = document.querySelector('main');
-      var heroAvatar = heroSection.querySelector('.avatar');
+      var mapLayer = cv.parentNode, heroSection = document.querySelector('.hero');
+      var heroTitle = document.getElementById('nombre');
       var homeSpot = document.createComment('globo');
       mapLayer.parentNode.insertBefore(homeSpot, mapLayer);
       function place() {
