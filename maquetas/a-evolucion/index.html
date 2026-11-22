@@ -328,6 +328,8 @@
        pasillo derecho y termina, grande, en el izquierdo. */
     @media (min-width: 1024px) {
       main, footer { max-width: 720px; margin-inline: auto; }
+      /* La barra superior (y la franja de maqueta) se alinea con los márgenes de la columna */
+      .topbar-inner, .mockbar-inner { max-width: calc(720px + 2 * var(--side)); }
       .globe-col { display: block; }
       .globe-col .map-layer { position: fixed; inset: 0; z-index: 0; }
     }
@@ -389,7 +391,7 @@
       font: 400 0.8125rem/1.2 var(--font-mono);
     }
     .loc svg { width: 14px; height: 14px; fill: var(--brand); flex: none; }
-    .bio { max-width: 60ch; margin-top: 20px; }
+    .bio { margin-top: 20px; }
     .bio p { margin: 0 0 0.8em; }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
     .btn {
@@ -555,8 +557,7 @@
     <div class="topbar-inner gutter">
       <a class="brand" href="#inicio"><span>@</span>robermaps</a>
       <nav class="nav" id="menu" aria-label="Secciones">
-        <a href="#geoproyectos">Geoproyectos</a>
-        <a href="#otros">Otros proyectos</a>
+        <a href="#geoproyectos">Proyectos</a>
         <a href="#trayectoria">Trayectoria</a>
         <a href="#contacto">Contacto</a>
         <div class="menu-social" aria-label="Redes">
@@ -771,7 +772,7 @@
         <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio recorre la pantalla en arco según avanzas por la página: sale de junto a tu nombre y llega, más grande, a la esquina inferior derecha, como si siguiera una órbita. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. Todo va centrado, con la columna de contenido entre dos pasillos libres por los que se mueve el globo. El nombre ocupa una línea por palabra y los proyectos van en una única columna, cada uno en una fila con su miniatura.</p></div></li>
         <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. El globo, más pequeño y completo, gira en la esquina superior derecha de la cabecera, junto al nombre, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Solo tres secciones (Proyectos, Trayectoria y Contacto), alineadas con los márgenes del contenido, e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
         <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
       </ol>
