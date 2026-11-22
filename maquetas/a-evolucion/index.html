@@ -347,9 +347,10 @@
     .role { margin: 10px 0 0; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.3 var(--font-display); color: var(--brand); }
     .role .r { display: block; }                   /* un perfil por línea */
     .role .dot { display: none; }
-    /* Pantallas anchas: el globo cabe en el pasillo derecho, así que nombre y rol van en una sola línea
-       (el nombre, a un tamaño que llena la columna de 720 px) */
-    @media (min-width: 1200px) {
+    /* Pantallas anchas: la cabecera tiene dos columnas, el texto y el globo, así que nombre y rol van en
+       una sola línea (el nombre, a un tamaño que llena la columna de 720 px). Desde 1280 px el globo
+       inicial mide al menos 108 px de radio junto al texto. */
+    @media (min-width: 1280px) {
       .hero h1 { font-size: 4.1rem; }
       .name-line, .role .r, .role .dot { display: inline; }
     }
@@ -790,7 +791,8 @@
       var hasD3 = false;                   // d3-geo se carga solo cuando se muestra el globo
       var mobile = window.matchMedia('(max-width: 780px)');    // menú de hamburguesa
       var compact = window.matchMedia('(max-width: 1023px)');  // globo dentro de la cabecera
-      var wideHead = window.matchMedia('(min-width: 1200px)'); // nombre en una línea; el globo sale del pasillo derecho
+      var wideHead = window.matchMedia('(min-width: 1280px)'); // cabecera en dos columnas: texto y globo
+      var GAP = 40, EDGE = 24;             // separación entre el texto y el globo, y margen hasta el borde
       var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
       var VIEW_LAT = 18;                   // latitud desde la que se mira el globo
       var TILT = 23.44;                    // inclinación del eje terrestre (polo norte hacia la mitad visible)
@@ -842,10 +844,21 @@
           });
           var R0, xS, yS;
           if (wideHead.matches) {
-            var roleBox = heroSection.querySelector('.role').getBoundingClientRect();
-            R0 = Math.round(Math.max(56, Math.min(115, laneR / 2 - 24)));         // cabe en el pasillo, con aire a los lados
-            xS = col.right + laneR / 2;
-            yS = Math.max((name.top + roleBox.bottom) / 2 + window.scrollY, barH + R0 + 20);   // sin meterse bajo la barra
+            // Pantallas anchas: el globo es una segunda columna de la cabecera. Queda a GAP px del
+            // final real del texto (la línea más larga), centrado en vertical con todo el bloque
+            // (nombre, rol, ubicación, presentación y botón) y tan grande como permitan el hueco
+            // hasta el borde de la pantalla y la altura de ese bloque.
+            var block = heroTitle.parentNode, bb = block.getBoundingClientRect(), textRight = col.left, tn;
+            var tw = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+            while ((tn = tw.nextNode())) {
+              if (!tn.textContent.trim()) continue;
+              rg.selectNodeContents(tn);
+              Array.prototype.forEach.call(rg.getClientRects(), function (q) { if (q.width) textRight = Math.max(textRight, q.right); });
+            }
+            var room = vw - textRight - GAP - EDGE;
+            R0 = Math.round(Math.max(56, Math.min(room / 2, bb.height / 2, 200)));
+            xS = textRight + GAP + R0;
+            yS = Math.max(bb.top + bb.height / 2 + window.scrollY, barH + R0 + 16);   // sin meterse bajo la barra
           } else {
             R0 = Math.round(Math.max(56, Math.min(110, name.height / 2)));         // diámetro parecido al bloque del nombre
             xS = Math.min(Math.max((nameRight + col.right) / 2, nameRight + 24 + R0), vw - R0 - 16);
