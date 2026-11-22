@@ -456,6 +456,24 @@
     .xp .ico svg { width: 18px; height: 18px; fill: none; stroke: var(--chip-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .xp strong { display: block; font: 700 1.0625rem/1.3 var(--font-display); }
     .xp span { color: var(--ink-2); }
+    /* Experiencia y formación: fechas a la izquierda y una línea fina que las une */
+    .tl-groups .subhead { margin-top: 44px; }
+    .timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+    .timeline li { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 20px; }
+    .timeline .when { font: 500 0.8125rem/1.7 var(--font-mono); color: var(--ink-2); white-space: nowrap; }
+    .timeline li > div { position: relative; padding: 0 0 22px 20px; border-left: 1px solid var(--line); }
+    .timeline li:last-child > div { padding-bottom: 0; }
+    .timeline li > div::before { content: ""; position: absolute; left: -4px; top: 0.5em; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+    .timeline strong { display: block; font: 700 1.0625rem/1.35 var(--font-display); }
+    .timeline .org { font-weight: 600; color: var(--brand); }
+    .timeline p { margin: 4px 0 0; color: var(--ink-2); }
+    @media (max-width: 560px) {
+      /* En el teléfono la fecha va encima y la línea recorre toda la lista sin cortes */
+      .timeline li { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 0 0 22px 20px; border-left: 1px solid var(--line); }
+      .timeline li:last-child { padding-bottom: 0; }
+      .timeline li > div { padding: 0; border-left: 0; }
+      .timeline li > div::before { left: -24px; }
+    }
 
     /* Otros proyectos */
     .soon {
@@ -683,25 +701,41 @@
     <section class="section" id="trayectoria" aria-labelledby="t-tray">
       <div class="sec-head">
         <h2 id="t-tray">Trayectoria</h2>
+        <p>Más de cinco años convirtiendo datos del territorio en mapas, análisis y aplicaciones, de la imagen de satélite a la web.</p>
       </div>
       <ul class="xp">
         <li>
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 14l5-5 4 4 3-3 4 4"/></svg></span>
-          <div><strong>Fotointerpretación de imágenes de satélite</strong><span>Programa Copernicus · cartografía de usos del suelo en espacios Red Natura 2000 · año y medio</span></div>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4z"/><path d="M9 4v13.5M15 6.5V20"/></svg></span>
+          <div><strong>Cartografía y diseño</strong><span>Mapas, visores web y dashboards que hacen legibles los datos del territorio, de la fotointerpretación de imágenes de satélite a los informes para cliente.</span></div>
         </li>
         <li>
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l8 4-8 4-8-4 8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></svg></span>
-          <div><strong>Plugins para QGIS</strong><span>Dos plugins en el repositorio oficial: OpenPlanetary Tile Loader (QGIS 3) y su sucesor, OpenPlanetaryMap Tile Loader (QGIS 4 y Qt6)</span></div>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6"/><path d="M5 12v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/></svg></span>
+          <div><strong>Geografía cuantitativa</strong><span>Bases de datos espaciales, procesos ETL sobre grandes volúmenes de datos y análisis urbano, catastral, hidrológico, de transporte y de riesgos con fuentes oficiales (Catastro, IGN, INE).</span></div>
         </li>
         <li>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span>
-          <div><strong>Desarrollo y diseño web</strong><span>Visores cartográficos y páginas web, desde la interfaz hasta la infraestructura en la nube, con funciones serverless que se ejecutan en el edge, cerca de quien las usa</span></div>
-        </li>
-        <li>
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M7 10.5V16c2.8 2 7.2 2 10 0v-5.5"/></svg></span>
-          <div><strong>Grado en Geografía</strong><span>Especialidad en geografía urbana y enfoque cuantitativo a través de tecnologías de información geográfica</span></div>
+          <div><strong>Desarrollo web y apps</strong><span>Visores cartográficos y páginas web, desde la interfaz hasta la infraestructura en la nube, con funciones serverless que se ejecutan en el edge, y dos plugins en el repositorio oficial de QGIS.</span></div>
         </li>
       </ul>
+
+      <div class="tl-groups">
+        <div>
+          <h3 class="subhead">Experiencia</h3>
+          <ol class="timeline">
+            <li><span class="when">2025 – hoy</span><div><strong>Analista programador <span class="org">· Ibertech</span></strong><p>Procesos ETL en Python y SQL sobre grandes volúmenes de datos, bases de datos optimizadas y visores cartográficos y dashboards para el seguimiento de indicadores medioambientales.</p></div></li>
+            <li><span class="when">2022 – 2025</span><div><strong>Analista de datos espaciales <span class="org">· Clothos</span></strong><p>Bases de datos espaciales y análisis catastral, hidrológico y de transporte para consultoría territorial, automatización de informes con Python y la web corporativa.</p></div></li>
+            <li><span class="when">2022</span><div><strong>Analista de datos espaciales <span class="org">· IDOM</span></strong><p>Cartografía, dashboards y visores web para estudios de urbanismo y de riesgos ambientales.</p></div></li>
+            <li><span class="when">2018 – 2019</span><div><strong>Técnico fotointérprete <span class="org">· Telespazio Ibérica</span></strong><p>Corrección de imágenes de satélite y cartografía de usos y coberturas del suelo para el programa Copernicus, en espacios de la Red Natura 2000.</p></div></li>
+          </ol>
+        </div>
+        <div>
+          <h3 class="subhead">Formación</h3>
+          <ol class="timeline">
+            <li><span class="when">2020 – 2021</span><div><strong>Diploma en Programación y Sistemas de Información Geográfica <span class="org">· Asociación Geoinnova</span></strong></div></li>
+            <li><span class="when">2013 – 2019</span><div><strong>Grado en Geografía y Ordenación del Territorio <span class="org">· Universidad Autónoma de Madrid</span></strong><p>Especialidad en geografía urbana y enfoque cuantitativo a través de tecnologías de información geográfica, con estancias en University College London y la Universidad de Granada.</p></div></li>
+          </ol>
+        </div>
+      </div>
     </section>
 
     <!-- Contacto -->
