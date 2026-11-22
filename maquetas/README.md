@@ -5,6 +5,7 @@ Dos propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin 
 | Carpeta | Qué es |
 | --- | --- |
 | [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (fondo cartográfico en movimiento, ahora un globo que gira, barra superior con @robermaps) y corrige o mejora todo lo demás. Ya no lleva notas de maqueta: los cambios se explican en este README. |
+| [`a-evolucion-v1/`](a-evolucion-v1/) | **Maqueta A · Versión 1 (guardada el 22 de noviembre de 2026).** Copia fija de la maqueta A tal como quedó en el commit `dc4abce`, antes de probar ideas nuevas: globo que acompaña el scroll en dos tramos de órbita, contenido sin tarjetas y sin notas de maqueta. No se toca; los cambios siguen en `a-evolucion/`. |
 | [`b-hoja-559/`](b-hoja-559/) | **Maqueta B · Hoja 559.** Propuesta nueva: la web es una hoja del Mapa Topográfico (hoja 559, Madrid) con collar graduado, relieve generado en el navegador, leyenda como menú, mapa índice de proyectos y tablas de atributos. |
 
 **Decisión: maqueta A.** Ya está ajustada con la estructura elegida: presentación transversal, geoproyectos, otros proyectos (con el archivo), trayectoria y contacto, sin notas técnicas y con botón de tema claro/oscuro. La B se queda en la rama solo como referencia.
