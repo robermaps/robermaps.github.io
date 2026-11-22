@@ -48,6 +48,12 @@
       --globe-glow: rgba(18, 96, 135, 0.16);
       --globe-mark: #126087;
       --orbit-rgb: 18, 96, 135;
+      --sun-core: #ffe08a;
+      --sun-limb: #ffa63d;
+      --sun-rgb: 255, 166, 61;
+      --sun-sky: 0.22;
+      --night-rgb: 15, 34, 48;
+      --night-a: 0.5;
 
       --surface: #ffffff;
       --surface-2: #f1f5f7;
@@ -91,6 +97,12 @@
         --globe-glow: rgba(109, 187, 224, 0.22);
         --globe-mark: #6dbbe0;
         --orbit-rgb: 140, 205, 238;
+        --sun-core: #fff3cc;
+        --sun-limb: #ffbd5a;
+        --sun-rgb: 255, 178, 86;
+        --sun-sky: 0.17;
+        --night-rgb: 1, 6, 11;
+        --night-a: 0.7;
         --surface: #121d24;
         --surface-2: #19262f;
         --ink: #e6edf1;
@@ -127,6 +139,12 @@
       --globe-glow: rgba(109, 187, 224, 0.22);
       --globe-mark: #6dbbe0;
       --orbit-rgb: 140, 205, 238;
+      --sun-core: #fff3cc;
+      --sun-limb: #ffbd5a;
+      --sun-rgb: 255, 178, 86;
+      --sun-sky: 0.17;
+      --night-rgb: 1, 6, 11;
+      --night-a: 0.7;
       --surface: #121d24;
       --surface-2: #19262f;
       --ink: #e6edf1;
@@ -770,10 +788,17 @@
       var vw = 0, vh = 0, R = 0, cx = 0, cy = 0, dpr = 1, colors = {};
       var land = null, borders = null, polys = [], grat = null, proj = null, path = null;
       var trails = [], BANDS = 10;
+      // Luz en coordenadas de pantalla (x a la derecha, y hacia abajo, z hacia quien mira) y el sol
+      var light = [0, 0, 1], lightDir = [-0.65, -0.76], nightCircle = null;
+      var sun = { x: 0, y: 0, r: 0, vis: 0 };
+      function smooth(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+      // ux, uy: dirección del sol en pantalla vista desde el globo; alpha: ángulo entre el sol y la cámara
+      function setLight(ux, uy, alpha) { var s = Math.sin(alpha); lightDir = [ux, uy]; light = [ux * s, uy * s, Math.cos(alpha)]; }
 
       function readColors() {
         var css = getComputedStyle(root), c = {};
-        ['--space', '--globe-water', '--globe-land', '--globe-coast', '--globe-border', '--globe-grat', '--globe-shade', '--globe-glow', '--globe-mark', '--orbit-rgb'].forEach(function (k) {
+        ['--space', '--globe-water', '--globe-land', '--globe-coast', '--globe-border', '--globe-grat', '--globe-shade', '--globe-glow', '--globe-mark', '--orbit-rgb',
+         '--sun-core', '--sun-limb', '--sun-rgb', '--sun-sky', '--night-rgb', '--night-a'].forEach(function (k) {
           c[k.slice(2)] = css.getPropertyValue(k).trim();
         });
         colors = c;
@@ -787,6 +812,7 @@
           R = Math.round(Math.min(vw * 0.2, 90));
           cx = Math.round(heroSection.getBoundingClientRect().right - box.left) - R - 4;
           cy = Math.round(heroTitle.getBoundingClientRect().top - box.top) + R + 4;
+          sun.vis = 0; setLight(-0.65, -0.76, 35 * Math.PI / 180);
         } else {
           // Escritorio: el globo empieza a medio camino entre el nombre y el borde derecho de la columna,
           // llega al centro del borde derecho de la pantalla a mitad de página y termina en la esquina
@@ -801,7 +827,14 @@
           var R0 = Math.round(Math.max(56, Math.min(110, name.height / 2)));       // diámetro parecido al bloque del nombre
           var R1 = Math.round(Math.max(R0 * 1.5, Math.min(Math.min(vw, vh) * 0.34, laneL * 1.15)));
           var Rm = R0 + (R1 - R0) * Math.pow(0.5, 1.2);
+          // El sol es más pequeño que el globo (está mucho más lejos) y acaba en el pasillo derecho, abajo
+          var Rs = Math.round(Math.max(48, Math.min(120, Math.min(vw, vh) * 0.11)));
+          var laneR = Math.max(0, vw - col.right);
           arcGeo = {
+            Rs: Rs,
+            sx0: vw + Rs * 3.4, sy0: vh + Rs * 3.4,                                // fuera de la pantalla, tras la esquina inferior derecha
+            sxF: Math.min(vw - Rs * 0.4, col.right + Math.max(laneR * 0.55, Rs)),
+            syF: vh - Rs - Math.max(40, vh * 0.08),
             R0: R0, R1: R1, colL: col.left, colR: col.right,
             xS: Math.min(Math.max((nameRight + col.right) / 2, nameRight + 24 + R0), vw - R0 - 16),
             yS: name.top + window.scrollY + name.height / 2,                       // posición del nombre con la página arriba del todo
@@ -817,6 +850,7 @@
         if (hasD3) {
           proj = d3.geoOrthographic().scale(R).translate([cx, cy]).clipAngle(90).precision(0.7);
           path = d3.geoPath(proj, ctx);
+          nightCircle = d3.geoCircle().precision(3);
         }
         var n = compact.matches ? 4 : 5;
         trails = [];
@@ -850,6 +884,17 @@
         var over = Math.max(0, Math.min(cx + R, A.colR) - Math.max(cx - R, A.colL)) / (2 * R);
         var t = Math.min(1, Math.max(0, (p - 0.03) / 0.09)), away = t * t * (3 - 2 * t);
         globeFade = 1 - 0.6 * Math.min(1, over) * away;
+        // El desplazamiento es también un giro de cámara hacia el sol: entra por la esquina inferior
+        // derecha (primero sube, luego se desliza a la izquierda) y el globo pasa de verse casi lleno,
+        // con el sol a la espalda de quien mira, a verse iluminado de lado, con el sol delante.
+        var sp = Math.min(1, Math.max(0, (p - 0.3) / 0.7));
+        var ex = 1 - Math.pow(1 - sp, 1.6), ey = 1 - Math.pow(1 - sp, 2.6);
+        sun.x = A.sx0 + (A.sxF - A.sx0) * ex;
+        sun.y = A.sy0 + (A.syF - A.sy0) * ey;
+        sun.r = A.Rs;
+        sun.vis = smooth(0.22, 0.95, p);
+        var dx = sun.x - cx, dy = sun.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        setLight(dx / d, dy / d, (28 + 72 * smooth(0.08, 1, p)) * Math.PI / 180);
         if (proj) proj.scale(R).translate([cx, cy]);
       }
 
@@ -951,12 +996,51 @@
         return { type: 'MultiPolygon', coordinates: out };
       }
 
+      // Luz del sol sobre el fondo de la página, corona y disco
+      function drawSun(c) {
+        var s = sun, k = s.vis, rgb = c['sun-rgb'], sky = (parseFloat(c['sun-sky']) || 0.2) * k;
+        var far = Math.sqrt(vw * vw + vh * vh) * 1.05;
+        var g = ctx.createRadialGradient(s.x, s.y, s.r * 0.6, s.x, s.y, far);
+        g.addColorStop(0, 'rgba(' + rgb + ',' + sky + ')');
+        g.addColorStop(0.3, 'rgba(' + rgb + ',' + (sky * 0.42) + ')');
+        g.addColorStop(0.65, 'rgba(' + rgb + ',' + (sky * 0.12) + ')');
+        g.addColorStop(1, 'rgba(' + rgb + ',0)');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, vw, vh);
+        var cr = s.r * 3.6;
+        if (s.x - cr > vw || s.y - cr > vh) return;                // todavía fuera de la pantalla
+        var co = ctx.createRadialGradient(s.x, s.y, s.r * 0.95, s.x, s.y, cr);
+        co.addColorStop(0, 'rgba(' + rgb + ',0.6)');
+        co.addColorStop(0.22, 'rgba(' + rgb + ',0.22)');
+        co.addColorStop(1, 'rgba(' + rgb + ',0)');
+        ctx.fillStyle = co; ctx.fillRect(s.x - cr, s.y - cr, cr * 2, cr * 2);
+        var di = ctx.createRadialGradient(s.x - s.r * 0.12, s.y - s.r * 0.12, 0, s.x, s.y, s.r);
+        di.addColorStop(0, c['sun-core']); di.addColorStop(0.62, c['sun-core']); di.addColorStop(1, c['sun-limb']);
+        ctx.fillStyle = di; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Cara nocturna: 18 casquetes centrados en el punto antisolar, de 107° a 73°, que se superponen
+      // y dan un terminador suave. El punto subsolar sale de pasar la dirección de la luz a
+      // coordenadas geográficas del globo girado, así que el día y la noche quedan fijos frente
+      // al sol mientras la Tierra gira debajo.
+      function drawNight(c) {
+        var lam = Math.atan2(light[0], light[2]) * 180 / Math.PI;
+        var phi = Math.asin(Math.max(-1, Math.min(1, -light[1]))) * 180 / Math.PI;
+        var sub = d3.geoRotation([rot, -VIEW_LAT, TILT]).invert([lam, phi]);
+        var anti = [sub[0] + 180, -sub[1]];
+        var n = 18, step = 2, a = parseFloat(c['night-a']) || 0.5;
+        ctx.fillStyle = 'rgba(' + c['night-rgb'] + ',' + (1 - Math.pow(1 - a, 1 / n)) + ')';
+        for (var i = 0; i < n; i++) {
+          ctx.beginPath(); path(nightCircle.center(anti).radius(90 + step * (n - 1) / 2 - step * i)()); ctx.fill();
+        }
+      }
+
       function sphere(fill) { ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); if (fill) { ctx.fillStyle = fill; ctx.fill(); } }
 
       function draw() {
         var c = colors;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, vw, vh);
+        if (!compact.matches && sun.vis > 0.002) drawSun(c);
         ctx.globalAlpha = compact.matches ? 1 : globeFade;
         var tp = trailPaths();
         strokeTrails(tp.back, tp.heads, false);
@@ -981,11 +1065,22 @@
           }
         }
 
-        // Oscurecimiento hacia el limbo, para dar volumen
-        var shade = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.15, cx, cy, R);
+        if (hasD3 && nightCircle) drawNight(c);
+
+        // Oscurecimiento hacia el limbo, para dar volumen, con el brillo hacia el lado del sol
+        var hx = cx + R * light[0] * 0.5, hy = cy + R * light[1] * 0.5;
+        var shade = ctx.createRadialGradient(hx, hy, R * 0.15, cx, cy, R);
         shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, c['globe-shade']);
         sphere(shade);
         ctx.strokeStyle = c['globe-coast']; ctx.lineWidth = 1; ctx.stroke();
+        // Borde de la atmósfera encendido por el sol cuando está a la vista
+        if (!compact.matches && sun.vis > 0.002) {
+          var rim = ctx.createLinearGradient(cx - lightDir[0] * R, cy - lightDir[1] * R, cx + lightDir[0] * R, cy + lightDir[1] * R);
+          rim.addColorStop(0.6, 'rgba(' + c['sun-rgb'] + ',0)');
+          rim.addColorStop(1, 'rgba(' + c['sun-rgb'] + ',' + (0.85 * sun.vis) + ')');
+          ctx.beginPath(); ctx.arc(cx, cy, R + 0.5, 0, Math.PI * 2);
+          ctx.strokeStyle = rim; ctx.lineWidth = 2.5; ctx.stroke();
+        }
 
         // Madrid, cuando está en la cara visible
         if (hasD3 && d3.geoDistance(MADRID, [-rot, VIEW_LAT]) < Math.PI / 2 - 0.05) {
