@@ -4,7 +4,7 @@ Dos propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin 
 
 | Carpeta | Qué es |
 | --- | --- |
-| [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (fondo cartográfico en movimiento, ahora un globo que gira, tarjetas encima, barra superior con @robermaps) y corrige o mejora todo lo demás. Trae marcas naranjas numeradas que explican cada cambio; se ocultan con «Ocultar notas». |
+| [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (fondo cartográfico en movimiento, ahora un globo que gira, barra superior con @robermaps) y corrige o mejora todo lo demás. Ya no lleva notas de maqueta: los cambios se explican en este README. |
 | [`b-hoja-559/`](b-hoja-559/) | **Maqueta B · Hoja 559.** Propuesta nueva: la web es una hoja del Mapa Topográfico (hoja 559, Madrid) con collar graduado, relieve generado en el navegador, leyenda como menú, mapa índice de proyectos y tablas de atributos. |
 
 **Decisión: maqueta A.** Ya está ajustada con la estructura elegida: presentación transversal, geoproyectos, otros proyectos (con el archivo), trayectoria y contacto, sin notas técnicas y con botón de tema claro/oscuro. La B se queda en la rama solo como referencia.
@@ -76,7 +76,7 @@ Respeta lo que ya funciona (mapa de fondo, columna de tarjetas, el azul `#126087
 - **Geoproyectos**: miniaturas en SVG (sin emojis) y enlaces con formato de etiqueta (fondo suave, tipografía monoespaciada), sin etiquetas de tecnologías. Abre la sección OpenPlanetaryMap Tile Loader para QGIS 4.x (activo; ficha en QGIS Plugins y repositorio `robermaps/opmtileloader`), seguido del visor de la Luna y Marte.
 - **Otros proyectos**: sección separada para lo que no es geoespacial, de momento con un aviso de «Muy pronto», y debajo **Del archivo**: OpenPlanetary Tile Loader para QGIS 3.x («Ya no lo mantengo») y @esmapbot (inactivo). Las tarjetas del archivo usan el mismo estilo que «Muy pronto» (borde punteado y fondo gris) para distinguirse de los proyectos activos.
 - **Trayectoria**: una lista de experiencia y formación (Copernicus, plugins de QGIS, desarrollo y diseño web, Grado en Geografía). Sin texto «Sobre mí» ni bloque de herramientas.
-- Sin sección de notas técnicas.
+- Sin sección de notas técnicas, ni notas de maqueta (franja superior, marcas numeradas y lista «Qué cambia»): la página se ve tal como quedaría publicada.
 - **Contacto**: email grande con botón de copiar y redes con su usuario visible.
 - **Versión móvil** (hasta 780 px): la misma composición sin tarjetas. La navegación y las redes van dentro de un menú de hamburguesa que se cierra al elegir una sección, al tocar fuera o con Escape. El globo usa `world-110m.json` (Natural Earth 1:110M, 17 KB comprimido) y se para cuando la cabecera sale de pantalla. d3 se carga bajo demanda una sola vez.
 - **Barra superior**: solo Proyectos (lleva a Geoproyectos), Trayectoria y Contacto, también en el menú de móvil. En escritorio, la marca y los iconos se alinean con los márgenes de la columna de contenido.
@@ -112,5 +112,5 @@ No usa librerías: el relieve son unas 200 líneas de JavaScript y la página en
 ## 5. Siguientes pasos que recomiendo
 
 1. Arreglar el visor de la Luna y Marte ya, con independencia de la maqueta que elijas: quitar las tres referencias rotas, usar el Leaflet local 1.9.4, pasar las capas a `https://` y actualizar el panel con el SlideMenu restaurado o un panel propio.
-2. Pasar la maqueta A a `index.html` (quitando las notas de maqueta, la franja superior y el `noindex`).
+2. Pasar la maqueta A a `index.html` (quitando el `noindex`).
 3. Limpiar el repo (ficheros sin uso, `.DS_Store`, acciones del workflow).

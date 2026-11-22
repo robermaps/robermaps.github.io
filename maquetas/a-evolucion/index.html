@@ -65,10 +65,6 @@
       --chip-ink: #0f4f70;
       --focus: #d99a00;
 
-      --note: #b45309;
-      --note-ink: #ffffff;
-      --note-bg: #fff6e5;
-      --note-line: #f1d7a8;
 
       --moon-1: #d3d7dc;
       --moon-2: #b3b9c0;
@@ -109,10 +105,6 @@
         --chip: #183241;
         --chip-ink: #a9d8ef;
         --focus: #f2b632;
-        --note: #f0a64a;
-        --note-ink: #2a1803;
-        --note-bg: #261d10;
-        --note-line: #4a3819;
         --moon-1: #8d939b;
         --moon-2: #6f767e;
         --moon-3: #575d65;
@@ -149,10 +141,6 @@
       --chip: #183241;
       --chip-ink: #a9d8ef;
       --focus: #f2b632;
-      --note: #f0a64a;
-      --note-ink: #2a1803;
-      --note-bg: #261d10;
-      --note-line: #4a3819;
       --moon-1: #8d939b;
       --moon-2: #6f767e;
       --moon-3: #575d65;
@@ -195,34 +183,6 @@
     /* Fondo cartográfico */
     .map-layer { position: relative; overflow: hidden; pointer-events: none; }
     #mapa { position: absolute; left: 0; top: 0; }
-
-    /* Franja de maqueta */
-    .mockbar {
-      position: relative;
-      z-index: 2;
-      background: var(--note-bg);
-      border-bottom: 1px solid var(--note-line);
-      font: 500 0.8125rem/1.3 var(--font-mono);
-    }
-    .mockbar-inner {
-      padding-block: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px 16px;
-    }
-    .mockbar strong { font-weight: 500; color: var(--note); }
-    .mockbar .push { margin-left: auto; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .mockbar a { color: var(--ink); }
-    .linkbtn {
-      font: inherit;
-      color: var(--ink);
-      background: none;
-      border: 1px solid var(--note-line);
-      border-radius: 6px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
 
     /* Barra superior */
     .topbar {
@@ -310,7 +270,7 @@
     /* Todo va centrado: barras y contenido comparten un ancho máximo de 1100 px con 16 px de margen
        interior, los mismos valores que tenía la página con tarjetas */
     :root { --side: 16px; --page-max: 1100px; }
-    .layout, .topbar-inner, .mockbar-inner {
+    .layout, .topbar-inner {
       max-width: var(--page-max);
       margin-inline: auto;
       padding-left: max(var(--side), env(safe-area-inset-left, 0px));
@@ -329,7 +289,7 @@
     @media (min-width: 1024px) {
       main, footer { max-width: 720px; margin-inline: auto; }
       /* La barra superior (y la franja de maqueta) se alinea con los márgenes de la columna */
-      .topbar-inner, .mockbar-inner { max-width: calc(720px + 2 * var(--side)); }
+      .topbar-inner { max-width: calc(720px + 2 * var(--side)); }
       .globe-col { display: block; }
       .globe-col .map-layer { position: fixed; inset: 0; z-index: 0; }
     }
@@ -358,21 +318,6 @@
     h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
     h2 { font-weight: 700; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.15; letter-spacing: -0.015em; }
     h3 { font-weight: 700; font-size: 1.1875rem; line-height: 1.25; }
-    .note {
-      display: inline-grid;
-      place-items: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--note);
-      color: var(--note-ink);
-      font: 500 0.75rem/1 var(--font-mono);
-      vertical-align: 0.2em;
-      margin-left: 8px;
-      text-decoration: none;
-      flex: none;
-    }
-    .hide-notes .note { display: none; }
 
     /* Presentación */
     .hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
@@ -517,16 +462,6 @@
     @media (max-width: 700px) { .contact { grid-template-columns: minmax(0, 1fr); } }
 
     /* Cambios */
-    .changes { margin-top: 48px; padding: clamp(20px, 4vw, 32px); background: var(--note-bg); border: 1px solid var(--note-line); border-radius: 16px; }
-    .changes ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px 32px; }
-    .changes li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
-    .changes .num {
-      display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
-      background: var(--note); color: var(--note-ink); font: 500 0.75rem/1 var(--font-mono);
-    }
-    .changes .num.g { background: transparent; color: var(--note); border: 1.5px solid var(--note); }
-    .changes strong { font-family: var(--font-display); }
-    .changes p { margin: 2px 0 0; color: var(--ink-2); }
 
     .foot {
       display: flex;
@@ -550,16 +485,6 @@
   </style>
 </head>
 <body>
-
-  <div class="mockbar">
-    <div class="mockbar-inner gutter">
-      <span><strong>Maqueta A</strong> · Evolución de la web actual</span>
-      <span class="push">
-        <button class="linkbtn" id="toggle-notes" type="button" aria-pressed="true">Ocultar notas</button>
-        <a href="#cambios">Qué ha cambiado</a>
-      </span>
-    </div>
-  </div>
 
   <header class="topbar">
     <div class="topbar-inner gutter">
@@ -607,7 +532,7 @@
     <!-- Presentación -->
     <section class="section hero" aria-labelledby="nombre">
       <div>
-        <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López<a class="note" href="#c1" aria-label="Nota 1">1</a></span></h1>
+        <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López</span></h1>
         <p class="role">Geógrafo cuantitativo · Desarrollador · Diseñador</p>
         <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
         <div class="bio">
@@ -623,7 +548,7 @@
     <!-- Geoproyectos -->
     <section class="section" id="geoproyectos" aria-labelledby="t-geo">
       <div class="sec-head">
-        <h2 id="t-geo">Geoproyectos<a class="note" href="#c2" aria-label="Nota 2">2</a></h2>
+        <h2 id="t-geo">Geoproyectos</h2>
         <p>Herramientas para explorar La Tierra y otros mundos.</p>
       </div>
 
@@ -674,7 +599,7 @@
     <!-- Otros proyectos -->
     <section class="section" id="otros" aria-labelledby="t-otros">
       <div class="sec-head">
-        <h2 id="t-otros">Otros proyectos<a class="note" href="#c3" aria-label="Nota 3">3</a></h2>
+        <h2 id="t-otros">Otros proyectos</h2>
         <p>Lo que está por llegar fuera de los mapas y lo que guardo en el archivo.</p>
       </div>
       <div class="soon">
@@ -726,7 +651,7 @@
     <!-- Trayectoria -->
     <section class="section" id="trayectoria" aria-labelledby="t-tray">
       <div class="sec-head">
-        <h2 id="t-tray">Trayectoria<a class="note" href="#c4" aria-label="Nota 4">4</a></h2>
+        <h2 id="t-tray">Trayectoria</h2>
       </div>
       <ul class="xp">
         <li>
@@ -751,7 +676,7 @@
     <!-- Contacto -->
     <section class="section contact" id="contacto" aria-labelledby="t-contacto">
       <div>
-        <h2 id="t-contacto">¿Hablamos?<a class="note" href="#c5" aria-label="Nota 5">5</a></h2>
+        <h2 id="t-contacto">¿Hablamos?</h2>
         <p>Para proyectos, colaboraciones o dudas sobre mis herramientas, escríbeme.</p>
         <div class="mail-row">
           <a class="mail" id="mail" href="mailto:robermaps@outlook.es">robermaps@outlook.es</a>
@@ -763,27 +688,6 @@
         <li><a href="https://github.com/robermaps"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub <small>robermaps</small></a></li>
         <li><a href="https://x.com/robermaps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X <small>@robermaps</small></a></li>
       </ul>
-    </section>
-
-    <!-- Qué ha cambiado (solo maqueta) -->
-    <section class="changes" id="cambios" aria-labelledby="t-cambios">
-      <div class="sec-head">
-        <h2 id="t-cambios">Qué cambia respecto a la web actual</h2>
-        <p>Los números corresponden a las marcas naranjas de la página.</p>
-      </div>
-      <ol>
-        <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda y un único botón para escribirte.</p></div></li>
-        <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis y enlaces a la ficha y al repositorio con aspecto de etiqueta, sin etiquetas de tecnologías. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
-        <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado y con el mismo estilo punteado que «Muy pronto» para distinguirlos de los proyectos activos.</p></div></li>
-        <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
-        <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio recorre la pantalla según avanzas por la página, como si siguiera una órbita: sale de entre tu nombre y el borde de la columna, llega al centro del borde derecho a mitad de página y termina, más grande, en la esquina inferior izquierda. Se atenúa mientras pasa por detrás del texto. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. Todo va centrado, con la columna de contenido entre dos pasillos libres por los que se mueve el globo. El nombre ocupa una línea por palabra y los proyectos van en una única columna, cada uno en una fila con su miniatura.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. El globo, más pequeño y completo, gira en la esquina superior derecha de la cabecera, junto al nombre, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Solo tres secciones (Proyectos, Trayectoria y Contacto), alineadas con los márgenes del contenido, e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Metadatos y rendimiento</strong><p>Open Graph y JSON-LD de tipo Person para buscadores y redes, descripción en español y sin el script de AdSense, que en la UE exige además un banner de consentimiento.</p></div></li>
-      </ol>
     </section>
   </main>
 
@@ -826,15 +730,6 @@
       sysDark.addEventListener('change', syncTheme);
       new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
       syncTheme();
-
-      /* Notas de la maqueta */
-      var tgl = document.getElementById('toggle-notes');
-      tgl.addEventListener('click', function () {
-        var on = tgl.getAttribute('aria-pressed') !== 'true';
-        tgl.setAttribute('aria-pressed', String(on));
-        root.classList.toggle('hide-notes', !on);
-        tgl.textContent = on ? 'Ocultar notas' : 'Mostrar notas';
-      });
 
       /* Copiar email */
       var copyBtn = document.getElementById('copy-mail');
@@ -899,7 +794,7 @@
           var col = mainEl.getBoundingClientRect();
           var laneL = Math.max(0, col.left);
           var name = heroTitle.getBoundingClientRect(), nameRight = name.left, rg = document.createRange();
-          heroTitle.querySelectorAll('.name-line, .note').forEach(function (el) {    // ancho real del texto
+          heroTitle.querySelectorAll('.name-line').forEach(function (el) {    // ancho real del texto
             rg.selectNodeContents(el);
             Array.prototype.forEach.call(rg.getClientRects(), function (q) { if (q.width) nameRight = Math.max(nameRight, q.right); });
           });
