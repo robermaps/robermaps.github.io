@@ -323,8 +323,8 @@
     .section.hero { border-top: 0; padding-top: clamp(24px, 5vw, 56px); }
     .globe-col { display: none; }
 
-    /* Escritorio: columna de contenido y, a su derecha, el globo completo con sus órbitas. El globo
-       es «sticky»: baja acompañando el desplazamiento de la página. */
+    /* Escritorio: columna de contenido y, a su derecha, una columna libre por la que baja el globo.
+       El globo recorre la ventana en arco según el avance por la página (lo calcula el script). */
     @media (min-width: 1024px) {
       .layout {
         display: grid;
@@ -334,16 +334,7 @@
       }
       main, footer { grid-column: 1; max-width: 720px; }
       .globe-col { display: block; grid-column: 2; grid-row: 1 / span 2; align-self: stretch; }
-      .globe-col .map-layer {
-        position: sticky;
-        top: calc(84px + env(safe-area-inset-top, 0px));
-        width: 100%;
-        aspect-ratio: 4 / 5;
-        max-height: calc(100vh - 120px);
-        /* Las órbitas se desvanecen hacia los bordes del recuadro */
-        -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent);
-        mask-image: radial-gradient(closest-side, #000 72%, transparent);
-      }
+      .globe-col .map-layer { position: fixed; inset: 0; z-index: 0; }
     }
 
     /* Pantallas estrechas: el globo completo, más pequeño, va en la esquina superior derecha de la
@@ -388,7 +379,8 @@
 
     /* Presentación */
     .hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
-    .hero h1 { font-weight: 700; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.03em; }
+    .hero h1 { font-weight: 700; font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -0.03em; }
+    .name-line { display: block; }
     .role { margin: 10px 0 0; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.3 var(--font-display); color: var(--brand); }
     .loc {
       display: inline-flex;
@@ -435,8 +427,9 @@
       align-items: center;
     }
 
-    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
-    .archive { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+    /* Una única columna de proyectos */
+    .projects { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .archive { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
     .project {
       display: flex;
       flex-direction: column;
@@ -458,6 +451,14 @@
     .archive .thumb { background: transparent; border-bottom: 2px dashed var(--line); }
     .thumb svg { display: block; width: 100%; height: 100%; }
     .project-body { display: flex; flex-direction: column; gap: 10px; padding: 18px; flex: 1; }
+    /* Con espacio, cada proyecto es una fila: miniatura a la izquierda y texto a la derecha */
+    @media (min-width: 640px) {
+      .project { display: grid; grid-template-columns: minmax(180px, 36%) minmax(0, 1fr); align-items: start; }
+      .projects .project { column-gap: 28px; }
+      .projects .project-body { padding: 0; }
+      .archive .project { align-items: stretch; }
+      .archive .thumb { aspect-ratio: auto; height: 100%; min-height: 150px; border-bottom: 0; border-right: 2px dashed var(--line); }
+    }
     .project-body p { margin: 0; color: var(--ink-2); }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
     .tags li {
@@ -610,7 +611,7 @@
     <!-- Presentación -->
     <section class="section hero" aria-labelledby="nombre">
       <div>
-        <h1 id="nombre">Roberto Jiménez López<a class="note" href="#c1" aria-label="Nota 1">1</a></h1>
+        <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López<a class="note" href="#c1" aria-label="Nota 1">1</a></span></h1>
         <p class="role">Geógrafo cuantitativo · Desarrollador · Diseñador</p>
         <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
         <div class="bio">
@@ -784,8 +785,8 @@
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado y con el mismo estilo punteado que «Muy pronto» para distinguirlos de los proyectos activos.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio ocupa la columna derecha y baja acompañando el desplazamiento de la página. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. Todo va centrado con márgenes amplios a los lados: en escritorio, la columna de contenido y, a su derecha, el globo.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio recorre la pantalla en arco según avanzas por la página: sale pequeño de la esquina superior izquierda y llega grande a la inferior derecha, como si siguiera una órbita. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. Todo va centrado con márgenes amplios a los lados. El nombre ocupa una línea por palabra y los proyectos van en una única columna, cada uno en una fila con su miniatura.</p></div></li>
         <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. El globo, más pequeño y completo, gira en la esquina superior derecha de la cabecera, junto al nombre, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Navegación por secciones e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
         <li><span class="num g">G</span><div><strong>Modo oscuro y accesibilidad</strong><p>Tema claro u oscuro según el dispositivo, con un botón sol/luna para cambiarlo a mano (la elección se recuerda). Foco visible con teclado y contraste AA en todos los textos.</p></div></li>
@@ -900,9 +901,13 @@
           cx = Math.round(heroSection.getBoundingClientRect().right - box.left) - R - 4;
           cy = Math.round(heroTitle.getBoundingClientRect().top - box.top) + R + 4;
         } else {
-          // Escritorio: globo completo centrado en su columna
-          R = Math.round(Math.min(vw, vh) * 0.32);
-          cx = vw / 2; cy = vh / 2;
+          // Escritorio: el globo va de la esquina superior izquierda (pequeño, lejos) a la inferior
+          // derecha (grande, cerca) siguiendo un arco, según el avance por la página
+          var R0 = Math.round(Math.max(26, Math.min(56, vw * 0.035)));
+          var R1 = Math.round(Math.min(vw, vh) * 0.34);
+          arcGeo = { R0: R0, R1: R1, x0: R0 + 24, y0: 104 + R0 + 12, x1: vw - R1 * 0.6, y1: vh - R1 * 0.6 };
+          arcP = scrollProgress();
+          placeOnArc(arcP);
         }
         dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
@@ -916,10 +921,27 @@
         for (var i = 0; i < n; i++) trails.push(spawn(true));
       }
 
+      /* Recorrido del globo en escritorio ---------------------------------- */
+      var arcGeo = null, arcP = 0;
+      function scrollProgress() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      }
+      // Cuarto de elipse con centro en (x0, y1): sale hacia la derecha por arriba y baja por el lado
+      // derecho, como un tramo de órbita. Al principio avanza deprisa y al final despacio.
+      function placeOnArc(p) {
+        var A = arcGeo, q = 1 - Math.pow(1 - p, 3), th = q * Math.PI / 2;
+        cx = A.x0 + (A.x1 - A.x0) * Math.sin(th);
+        cy = A.y1 - (A.y1 - A.y0) * Math.cos(th);
+        R = A.R0 + (A.R1 - A.R0) * Math.pow(p, 1.4);
+        if (proj) proj.scale(R).translate([cx, cy]);
+      }
+
       /* Estelas en órbita ------------------------------------------------ */
       function rand(a, b) { return a + Math.random() * (b - a); }
       function orbitPos(tr, th) {
-        var x = tr.a * Math.cos(th), s = tr.a * Math.sin(th);
+        var a = tr.k * R;                                        // el radio de la órbita escala con el globo
+        var x = a * Math.cos(th), s = a * Math.sin(th);
         var y = s * tr.ci, z = s * tr.si;                        // plano orbital inclinado
         return [cx + x * tr.co - y * tr.so, cy + x * tr.so + y * tr.co, z];
       }
@@ -929,13 +951,13 @@
 
       // Nueva órbita; la cabeza arranca justo antes de asomar por un borde o por detrás del globo
       function spawn(initial) {
-        var a = rand(R * 1.15, R * (compact.matches ? 2.4 : 1.75));
+        var k = rand(1.15, compact.matches ? 2.4 : 1.75);
         var inc = rand(58, 84) * Math.PI / 180 * (Math.random() < 0.5 ? 1 : -1);
         var om = rand(-38, 38) * Math.PI / 180;
         var tr = {
-          a: a, ci: Math.cos(inc), si: Math.sin(inc), co: Math.cos(om), so: Math.sin(om),
+          k: k, ci: Math.cos(inc), si: Math.sin(inc), co: Math.cos(om), so: Math.sin(om),
           dir: Math.random() < 0.5 ? 1 : -1,
-          w: rand(40, 80) / a,                                     // rad/s: entre 40 y 80 px/s
+          w: rand(0.3, 0.65),                                      // velocidad angular, en rad/s
           len: rand(1.2, 2.2),                                     // longitud de la cola, en radianes
           width: rand(1.2, 2.1), th: 0, seen: false, idle: 0
         };
@@ -962,7 +984,7 @@
       function trailPaths() {
         var out = { back: [], front: [], heads: [] };
         trails.forEach(function (tr) {
-          var N = Math.max(14, Math.min(140, Math.round(tr.len * tr.a / 7)));
+          var N = Math.max(14, Math.min(140, Math.round(tr.len * tr.k * R / 7)));
           var bands = [], b;
           for (b = 0; b < BANDS; b++) bands.push({ back: new Path2D(), front: new Path2D(), nb: 0, nf: 0 });
           var prev = orbitPos(tr, tr.th);
@@ -1070,6 +1092,10 @@
         if (!last) last = t;
         var dt = Math.min(0.1, (t - last) / 1000);
         rot += SPEED * dt;
+        if (!compact.matches && arcGeo) {                         // el globo sigue el desplazamiento con suavidad
+          arcP += (scrollProgress() - arcP) * Math.min(1, dt * 6);
+          placeOnArc(arcP);
+        }
         stepTrails(dt);
         last = t;
         if (t - lastDraw > 33) { draw(); lastDraw = t; }          // unos 30 fotogramas por segundo
@@ -1089,6 +1115,11 @@
       }
       btn.addEventListener('click', function () { running = !running; syncBtn(); running ? play() : stop(); });
       document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
+
+      // Con la animación en pausa, el globo sigue moviéndose con el desplazamiento
+      window.addEventListener('scroll', function () {
+        if (!raf && !compact.matches && arcGeo) { arcP = scrollProgress(); placeOnArc(arcP); draw(); }
+      }, { passive: true });
 
       var rt = 0;
       window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 150); });
@@ -1135,7 +1166,8 @@
       // Datos: 1:110M en móvil (globo pequeño) y 1:50M en escritorio; nunca se rebaja la calidad
       var dataLevel = 0, loadingLevel = 0;
       function initGlobe() {
-        var need = R > 220 ? 2 : 1;          // a este tamaño basta 1:110M; 1:50M solo para globos grandes
+        var big = compact.matches || !arcGeo ? R : arcGeo.R1;
+        var need = big > 220 ? 2 : 1;        // 1:110M para globos pequeños; 1:50M cuando llega a ser grande
         if (dataLevel >= need || loadingLevel >= need) return;
         loadingLevel = need;
         loadD3().then(function () {
