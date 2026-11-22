@@ -52,6 +52,7 @@
       --sun-limb: #ffa63d;
       --sun-rgb: 255, 166, 61;
       --sun-sky: 0.22;
+      --sun-behind: 0.5;
       --night-rgb: 15, 34, 48;
       --night-a: 0.5;
 
@@ -101,6 +102,7 @@
         --sun-limb: #ffbd5a;
         --sun-rgb: 255, 178, 86;
         --sun-sky: 0.17;
+        --sun-behind: 0.22;
         --night-rgb: 1, 6, 11;
         --night-a: 0.7;
         --surface: #121d24;
@@ -143,6 +145,7 @@
       --sun-limb: #ffbd5a;
       --sun-rgb: 255, 178, 86;
       --sun-sky: 0.17;
+      --sun-behind: 0.22;
       --night-rgb: 1, 6, 11;
       --night-a: 0.7;
       --surface: #121d24;
@@ -790,7 +793,7 @@
       var trails = [], BANDS = 10;
       // Luz en coordenadas de pantalla (x a la derecha, y hacia abajo, z hacia quien mira) y el sol
       var light = [0, 0, 1], lightDir = [-0.65, -0.76], nightCircle = null;
-      var sun = { x: 0, y: 0, r: 0, vis: 0 };
+      var sun = { x: 0, y: 0, r: 0, vis: 0, cover: 0 };
       function smooth(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
       // ux, uy: dirección del sol en pantalla vista desde el globo; alpha: ángulo entre el sol y la cámara
       function setLight(ux, uy, alpha) { var s = Math.sin(alpha); lightDir = [ux, uy]; light = [ux * s, uy * s, Math.cos(alpha)]; }
@@ -798,7 +801,7 @@
       function readColors() {
         var css = getComputedStyle(root), c = {};
         ['--space', '--globe-water', '--globe-land', '--globe-coast', '--globe-border', '--globe-grat', '--globe-shade', '--globe-glow', '--globe-mark', '--orbit-rgb',
-         '--sun-core', '--sun-limb', '--sun-rgb', '--sun-sky', '--night-rgb', '--night-a'].forEach(function (k) {
+         '--sun-core', '--sun-limb', '--sun-rgb', '--sun-sky', '--sun-behind', '--night-rgb', '--night-a'].forEach(function (k) {
           c[k.slice(2)] = css.getPropertyValue(k).trim();
         });
         colors = c;
@@ -827,14 +830,19 @@
           var R0 = Math.round(Math.max(56, Math.min(110, name.height / 2)));       // diámetro parecido al bloque del nombre
           var R1 = Math.round(Math.max(R0 * 1.5, Math.min(Math.min(vw, vh) * 0.34, laneL * 1.15)));
           var Rm = R0 + (R1 - R0) * Math.pow(0.5, 1.2);
-          // El sol es más pequeño que el globo (está mucho más lejos) y acaba en el pasillo derecho, abajo
+          // El sol es más pequeño que el globo (está mucho más lejos). Sale de detrás de la esquina
+          // inferior izquierda, sube por el pasillo izquierdo, cruza por la parte alta y acaba en la
+          // esquina superior derecha, bajo la barra: una curva de Bézier cuadrática con el punto de
+          // control arriba a la izquierda.
           var Rs = Math.round(Math.max(48, Math.min(120, Math.min(vw, vh) * 0.11)));
           var laneR = Math.max(0, vw - col.right);
+          var barH = document.querySelector('.topbar').getBoundingClientRect().height;
           arcGeo = {
             Rs: Rs,
-            sx0: vw + Rs * 3.4, sy0: vh + Rs * 3.4,                                // fuera de la pantalla, tras la esquina inferior derecha
+            sx0: -Rs * 3.4, sy0: vh + Rs * 3.4,                                    // fuera de la pantalla, tras la esquina inferior izquierda
+            scx: laneL * 0.35, scy: vh * 0.02,                                     // punto de control
             sxF: Math.min(vw - Rs * 0.4, col.right + Math.max(laneR * 0.55, Rs)),
-            syF: vh - Rs - Math.max(40, vh * 0.08),
+            syF: barH + Rs + Math.max(24, vh * 0.05),
             R0: R0, R1: R1, colL: col.left, colR: col.right,
             xS: Math.min(Math.max((nameRight + col.right) / 2, nameRight + 24 + R0), vw - R0 - 16),
             yS: name.top + window.scrollY + name.height / 2,                       // posición del nombre con la página arriba del todo
@@ -885,14 +893,18 @@
         var t = Math.min(1, Math.max(0, (p - 0.03) / 0.09)), away = t * t * (3 - 2 * t);
         globeFade = 1 - 0.6 * Math.min(1, over) * away;
         // El desplazamiento es también un giro de cámara hacia el sol: entra por la esquina inferior
-        // derecha (primero sube, luego se desliza a la izquierda) y el globo pasa de verse casi lleno,
-        // con el sol a la espalda de quien mira, a verse iluminado de lado, con el sol delante.
-        var sp = Math.min(1, Math.max(0, (p - 0.3) / 0.7));
-        var ex = 1 - Math.pow(1 - sp, 1.6), ey = 1 - Math.pow(1 - sp, 2.6);
-        sun.x = A.sx0 + (A.sxF - A.sx0) * ex;
-        sun.y = A.sy0 + (A.syF - A.sy0) * ey;
+        // izquierda y acaba en la superior derecha mientras el globo va de arriba a la derecha a abajo
+        // a la izquierda, así que el globo da media vuelta a su alrededor en el sentido de las agujas
+        // del reloj. A la vez pasa de verse casi lleno, con el sol a la espalda de quien mira, a verse
+        // iluminado de lado, con el sol delante.
+        var st = Math.min(1, Math.max(0, (p - 0.15) / 0.85)), su = 1 - st;
+        sun.x = su * su * A.sx0 + 2 * su * st * A.scx + st * st * A.sxF;
+        sun.y = su * su * A.sy0 + 2 * su * st * A.scy + st * st * A.syF;
         sun.r = A.Rs;
-        sun.vis = smooth(0.22, 0.95, p);
+        sun.vis = smooth(0.12, 0.6, p);
+        // Cuánto se mete en la columna de texto: empieza a atenuarse antes de que el disco llegue al texto
+        var sd = Math.max(0, A.colL - sun.x, sun.x - A.colR);
+        sun.cover = 1 - smooth(A.Rs * 0.2, A.Rs * 1.6, sd);
         var dx = sun.x - cx, dy = sun.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
         setLight(dx / d, dy / d, (28 + 72 * smooth(0.08, 1, p)) * Math.PI / 180);
         if (proj) proj.scale(R).translate([cx, cy]);
@@ -1007,7 +1019,10 @@
         g.addColorStop(1, 'rgba(' + rgb + ',0)');
         ctx.fillStyle = g; ctx.fillRect(0, 0, vw, vh);
         var cr = s.r * 3.6;
-        if (s.x - cr > vw || s.y - cr > vh) return;                // todavía fuera de la pantalla
+        if (s.x + cr < 0 || s.x - cr > vw || s.y + cr < 0 || s.y - cr > vh) return;   // fuera de la pantalla
+        // Detrás del texto, el sol se atenúa para que se siga leyendo
+        var behind = parseFloat(c['sun-behind']); if (isNaN(behind)) behind = 0.4;
+        ctx.globalAlpha = 1 - (1 - behind) * s.cover;
         var co = ctx.createRadialGradient(s.x, s.y, s.r * 0.95, s.x, s.y, cr);
         co.addColorStop(0, 'rgba(' + rgb + ',0.6)');
         co.addColorStop(0.22, 'rgba(' + rgb + ',0.22)');
@@ -1016,6 +1031,7 @@
         var di = ctx.createRadialGradient(s.x - s.r * 0.12, s.y - s.r * 0.12, 0, s.x, s.y, s.r);
         di.addColorStop(0, c['sun-core']); di.addColorStop(0.62, c['sun-core']); di.addColorStop(1, c['sun-limb']);
         ctx.fillStyle = di; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = 1;
       }
 
       // Cara nocturna: 18 casquetes centrados en el punto antisolar, de 107° a 73°, que se superponen
