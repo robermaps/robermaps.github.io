@@ -457,9 +457,17 @@
       .archive .thumb { aspect-ratio: auto; height: 100%; min-height: 150px; border-bottom: 0; border-right: 2px dashed var(--line); }
     }
     .project-body p { margin: 0; color: var(--ink-2); }
-    .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: auto; padding-top: 6px; }
-    .links a { font-weight: 600; text-decoration: none; }
-    .links a:hover { text-decoration: underline; }
+    /* Enlaces de cada proyecto con el formato de las antiguas etiquetas de tecnologías */
+    .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+    .links a {
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: var(--chip);
+      color: var(--chip-ink);
+      font: 500 0.75rem/1 var(--font-mono);
+      text-decoration: none;
+    }
+    .links a:hover { text-decoration: underline; text-underline-offset: 2px; }
     .status { font: 500 0.75rem/1.2 var(--font-mono); color: var(--ink-2); }
     .status::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-2); margin-right: 6px; vertical-align: 0.05em; }
     .status.on { color: var(--brand); }
@@ -765,11 +773,11 @@
       </div>
       <ol>
         <li id="c1"><span class="num">1</span><div><strong>Presentación transversal</strong><p>Tu nombre pasa a ser el h1 (antes lo era «@robermaps»), con un texto corto que presenta tu perfil como geógrafo, diseñador y desarrollador. Texto alineado a la izquierda y un único botón para escribirte.</p></div></li>
-        <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis y enlaces a la ficha y al repositorio, sin etiquetas de tecnologías. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
+        <li id="c2"><span class="num">2</span><div><strong>Geoproyectos</strong><p>Separados del resto, con miniaturas en lugar de emojis y enlaces a la ficha y al repositorio con aspecto de etiqueta, sin etiquetas de tecnologías. Abre la sección el plugin para QGIS 4.x, marcado como activo.</p></div></li>
         <li id="c3"><span class="num">3</span><div><strong>Otros proyectos y archivo</strong><p>Sección para lo que no es geoespacial, con un aviso de «Muy pronto», y debajo el archivo: el plugin para QGIS 3.x y @esmapbot, cada uno con su estado y con el mismo estilo punteado que «Muy pronto» para distinguirlos de los proyectos activos.</p></div></li>
         <li id="c4"><span class="num">4</span><div><strong>Trayectoria</strong><p>La web no contaba quién eres. Ahora hay una lista de experiencia y formación, con datos sacados de tus páginas antiguas.</p></div></li>
         <li id="c5"><span class="num">5</span><div><strong>Contacto directo</strong><p>Email grande y con botón de copiar, y redes con su usuario visible.</p></div></li>
-        <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio recorre la pantalla en arco según avanzas por la página: sale de junto a tu nombre y llega, más grande, a la esquina inferior derecha, como si siguiera una órbita. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
+        <li><span class="num g">G</span><div><strong>Globo terráqueo</strong><p>Un globo completo en proyección ortográfica, con datos de Natural Earth, que gira sobre su eje inclinado 23,44° (una vuelta cada 2 minutos) con estelas en órbita que pasan por delante y por detrás. En escritorio recorre la pantalla según avanzas por la página, como si siguiera una órbita: sale de entre tu nombre y el borde de la columna, llega al centro del borde derecho a mitad de página y termina, más grande, en la esquina inferior izquierda. Se atenúa mientras pasa por detrás del texto. Sustituye a las teselas de openstreetmap.fr pedidas cada 100 ms y al desenfoque. Arranca activo, tiene botón de pausa y se detiene al ocultar la pestaña.</p></div></li>
         <li><span class="num g">G</span><div><strong>Contenido sin tarjetas</strong><p>Las secciones van directamente sobre la página, separadas por espacio y una línea fina. Todo va centrado, con la columna de contenido entre dos pasillos libres por los que se mueve el globo. El nombre ocupa una línea por palabra y los proyectos van en una única columna, cada uno en una fila con su miniatura.</p></div></li>
         <li><span class="num g">G</span><div><strong>Versión móvil limpia</strong><p>En el teléfono el contenido va sobre un único fondo, con las secciones separadas por líneas finas. El globo, más pequeño y completo, gira en la esquina superior derecha de la cabecera, junto al nombre, con datos ligeros (1:110M, 17 KB), y se para cuando sale de la pantalla. Las secciones y las redes quedan dentro de un menú de hamburguesa.</p></div></li>
         <li><span class="num g">G</span><div><strong>Barra superior útil</strong><p>Solo tres secciones (Proyectos, Trayectoria y Contacto), alineadas con los márgenes del contenido, e iconos SVG con nombre accesible. Sustituyen a los PNG de hasta 3000 px y 127 KB que no tenían texto alternativo.</p></div></li>
@@ -885,23 +893,25 @@
           cx = Math.round(heroSection.getBoundingClientRect().right - box.left) - R - 4;
           cy = Math.round(heroTitle.getBoundingClientRect().top - box.top) + R + 4;
         } else {
-          // Escritorio: el globo empieza junto al nombre, a su derecha y a su altura, y termina en la
-          // esquina inferior derecha siguiendo un arco según el avance por la página, creciendo como si
-          // se acercara. Al final no llega a la columna de contenido.
+          // Escritorio: el globo empieza a medio camino entre el nombre y el borde derecho de la columna,
+          // llega al centro del borde derecho de la pantalla a mitad de página y termina en la esquina
+          // inferior izquierda al final, siguiendo dos tramos de órbita y creciendo como si se acercara.
           var col = mainEl.getBoundingClientRect();
-          var laneR = Math.max(0, vw - col.right);
+          var laneL = Math.max(0, col.left);
           var name = heroTitle.getBoundingClientRect(), nameRight = name.left, rg = document.createRange();
           heroTitle.querySelectorAll('.name-line, .note').forEach(function (el) {    // ancho real del texto
             rg.selectNodeContents(el);
             Array.prototype.forEach.call(rg.getClientRects(), function (q) { if (q.width) nameRight = Math.max(nameRight, q.right); });
           });
           var R0 = Math.round(Math.max(56, Math.min(110, name.height / 2)));       // diámetro parecido al bloque del nombre
-          var R1 = Math.round(Math.max(R0 * 1.5, Math.min(Math.min(vw, vh) * 0.34, laneR * 1.15)));
+          var R1 = Math.round(Math.max(R0 * 1.5, Math.min(Math.min(vw, vh) * 0.34, laneL * 1.15)));
+          var Rm = R0 + (R1 - R0) * Math.pow(0.5, 1.2);
           arcGeo = {
-            R0: R0, R1: R1,
-            x0: Math.min(nameRight + 48 + R0, vw - R0 - 16),
-            y0: name.top + window.scrollY + name.height / 2,                       // posición del nombre con la página arriba del todo
-            x1: Math.max(vw - R1 * 0.55, col.right + 24 + R1), y1: vh - R1 * 0.55  // cortado por la esquina, sin llegar al texto
+            R0: R0, R1: R1, colL: col.left, colR: col.right,
+            xS: Math.min(Math.max((nameRight + col.right) / 2, nameRight + 24 + R0), vw - R0 - 16),
+            yS: name.top + window.scrollY + name.height / 2,                       // posición del nombre con la página arriba del todo
+            xM: Math.max(vw - Rm * 0.6, col.right + 24 + Rm), yM: vh / 2,          // centro del borde derecho
+            xE: Math.min(R1 * 0.55, col.left - 24 - R1), yE: vh - R1 * 0.55        // esquina inferior izquierda, sin llegar al texto
           };
           arcP = scrollProgress();
           placeOnArc(arcP);
@@ -924,13 +934,27 @@
         var max = document.documentElement.scrollHeight - window.innerHeight;
         return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       }
-      // Cuarto de elipse con centro en (x0, y1): sale hacia la derecha desde el nombre y baja por el
-      // pasillo derecho, como un tramo de órbita. Al principio avanza deprisa y al final despacio.
+      // Dos cuartos de elipse encadenados en sentido horario, como un tramo de órbita:
+      //  1) de la salida (junto al nombre) al centro del borde derecho, con centro en (xS, yM);
+      //  2) del borde derecho a la esquina inferior izquierda, con centro en (xE, yM).
+      // En el punto de unión ambos tramos van en vertical, así que el recorrido no da saltos.
+      var globeFade = 1;
       function placeOnArc(p) {
-        var A = arcGeo, q = 1 - Math.pow(1 - p, 4), th = q * Math.PI / 2;
-        cx = A.x0 + (A.x1 - A.x0) * Math.sin(th);
-        cy = A.y1 - (A.y1 - A.y0) * Math.cos(th);
-        R = A.R0 + (A.R1 - A.R0) * Math.pow(p, 1.4);
+        var A = arcGeo;
+        if (p <= 0.5) {
+          var th = p / 0.5 * Math.PI / 2;
+          cx = A.xS + (A.xM - A.xS) * Math.sin(th);
+          cy = A.yM - (A.yM - A.yS) * Math.cos(th);
+        } else {
+          var ph = (p - 0.5) / 0.5 * Math.PI / 2;
+          cx = A.xE + (A.xM - A.xE) * Math.cos(ph);
+          cy = A.yM + (A.yE - A.yM) * Math.sin(ph);
+        }
+        R = A.R0 + (A.R1 - A.R0) * Math.pow(p, 1.2);
+        // Mientras pasa por detrás de la columna de texto, el globo se atenúa (salvo en la salida)
+        var over = Math.max(0, Math.min(cx + R, A.colR) - Math.max(cx - R, A.colL)) / (2 * R);
+        var t = Math.min(1, Math.max(0, (p - 0.03) / 0.09)), away = t * t * (3 - 2 * t);
+        globeFade = 1 - 0.6 * Math.min(1, over) * away;
         if (proj) proj.scale(R).translate([cx, cy]);
       }
 
@@ -1038,6 +1062,7 @@
         var c = colors;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, vw, vh);
+        ctx.globalAlpha = compact.matches ? 1 : globeFade;
         var tp = trailPaths();
         strokeTrails(tp.back, tp.heads, false);
 
@@ -1080,6 +1105,7 @@
         }
 
         strokeTrails(tp.front, tp.heads, true);
+        ctx.globalAlpha = 1;
       }
 
       function fmt(v) { var l = ((v + 540) % 360) - 180; return Math.abs(l).toFixed(1).replace('.', ',') + '° ' + (l >= 0 ? 'E' : 'O'); }
