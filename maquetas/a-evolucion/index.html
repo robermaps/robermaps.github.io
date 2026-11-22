@@ -345,7 +345,14 @@
     .hero h1 { font-weight: 700; font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -0.03em; }
     .name-line { display: block; }
     .role { margin: 10px 0 0; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.3 var(--font-display); color: var(--brand); }
-    .role span { display: block; }                 /* un perfil por línea */
+    .role .r { display: block; }                   /* un perfil por línea */
+    .role .dot { display: none; }
+    /* Pantallas anchas: el globo cabe en el pasillo derecho, así que nombre y rol van en una sola línea
+       (el nombre, a un tamaño que llena la columna de 720 px) */
+    @media (min-width: 1200px) {
+      .hero h1 { font-size: 4.1rem; }
+      .name-line, .role .r, .role .dot { display: inline; }
+    }
     .role .sr-sep { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* comas solo para lectores de pantalla */
     .loc {
       display: inline-flex;
@@ -556,7 +563,7 @@
     <section class="section hero" aria-labelledby="nombre">
       <div>
         <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López</span></h1>
-        <p class="role"><span>Geógrafo cuantitativo</span><span class="sr-sep">, </span><span>Desarrollador</span><span class="sr-sep">, </span><span>Diseñador</span></p>
+        <p class="role"><span class="r">Geógrafo cuantitativo</span><span class="sr-sep">, </span><span class="dot" aria-hidden="true"> · </span><span class="r">Desarrollador</span><span class="sr-sep">, </span><span class="dot" aria-hidden="true"> · </span><span class="r">Diseñador</span></p>
         <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
         <div class="bio">
           <p>¡Hola! Soy Rober, geógrafo de formación y apasionado por el diseño y la tecnología.</p>
@@ -783,6 +790,7 @@
       var hasD3 = false;                   // d3-geo se carga solo cuando se muestra el globo
       var mobile = window.matchMedia('(max-width: 780px)');    // menú de hamburguesa
       var compact = window.matchMedia('(max-width: 1023px)');  // globo dentro de la cabecera
+      var wideHead = window.matchMedia('(min-width: 1200px)'); // nombre en una línea; el globo sale del pasillo derecho
       var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
       var VIEW_LAT = 18;                   // latitud desde la que se mira el globo
       var TILT = 23.44;                    // inclinación del eje terrestre (polo norte hacia la mitad visible)
@@ -819,17 +827,30 @@
           cy = Math.round(heroTitle.getBoundingClientRect().top - box.top) + R + 4;
           sun.vis = 0; setLight(-0.65, -0.76, 35 * Math.PI / 180);
         } else {
-          // Escritorio: el globo empieza a medio camino entre el nombre y el borde derecho de la columna,
-          // llega al centro del borde derecho de la pantalla a mitad de página y termina en la esquina
-          // inferior izquierda al final, siguiendo dos tramos de órbita y creciendo como si se acercara.
+          // Escritorio: el globo sale junto al nombre, llega al centro del borde derecho de la pantalla
+          // a mitad de página y termina en la esquina inferior izquierda al final, siguiendo dos tramos
+          // de órbita y creciendo como si se acercara. Desde 1200 px, con el nombre en una línea, sale
+          // del pasillo derecho a la altura del nombre y el rol; por debajo, con el nombre apilado,
+          // a medio camino entre el nombre y el borde derecho de la columna.
           var col = mainEl.getBoundingClientRect();
-          var laneL = Math.max(0, col.left);
+          var laneL = Math.max(0, col.left), laneR = Math.max(0, vw - col.right);
+          var barH = document.querySelector('.topbar').getBoundingClientRect().height;
           var name = heroTitle.getBoundingClientRect(), nameRight = name.left, rg = document.createRange();
           heroTitle.querySelectorAll('.name-line').forEach(function (el) {    // ancho real del texto
             rg.selectNodeContents(el);
             Array.prototype.forEach.call(rg.getClientRects(), function (q) { if (q.width) nameRight = Math.max(nameRight, q.right); });
           });
-          var R0 = Math.round(Math.max(56, Math.min(110, name.height / 2)));       // diámetro parecido al bloque del nombre
+          var R0, xS, yS;
+          if (wideHead.matches) {
+            var roleBox = heroSection.querySelector('.role').getBoundingClientRect();
+            R0 = Math.round(Math.max(56, Math.min(115, laneR / 2 - 24)));         // cabe en el pasillo, con aire a los lados
+            xS = col.right + laneR / 2;
+            yS = Math.max((name.top + roleBox.bottom) / 2 + window.scrollY, barH + R0 + 20);   // sin meterse bajo la barra
+          } else {
+            R0 = Math.round(Math.max(56, Math.min(110, name.height / 2)));         // diámetro parecido al bloque del nombre
+            xS = Math.min(Math.max((nameRight + col.right) / 2, nameRight + 24 + R0), vw - R0 - 16);
+            yS = name.top + window.scrollY + name.height / 2;                      // posición del nombre con la página arriba del todo
+          }
           var R1 = Math.round(Math.max(R0 * 1.5, Math.min(Math.min(vw, vh) * 0.34, laneL * 1.15)));
           var Rm = R0 + (R1 - R0) * Math.pow(0.5, 1.2);
           // El sol es más pequeño que el globo (está mucho más lejos). Sale de detrás de la esquina
@@ -837,8 +858,6 @@
           // esquina superior derecha, bajo la barra: una curva de Bézier cuadrática con el punto de
           // control arriba a la izquierda.
           var Rs = Math.round(Math.max(48, Math.min(120, Math.min(vw, vh) * 0.11)));
-          var laneR = Math.max(0, vw - col.right);
-          var barH = document.querySelector('.topbar').getBoundingClientRect().height;
           arcGeo = {
             Rs: Rs,
             sx0: -Rs * 3.4, sy0: vh + Rs * 3.4,                                    // fuera de la pantalla, tras la esquina inferior izquierda
@@ -846,8 +865,7 @@
             sxF: Math.min(vw - Rs * 0.4, col.right + Math.max(laneR * 0.55, Rs)),
             syF: barH + Rs + Math.max(24, vh * 0.05),
             R0: R0, R1: R1, colL: col.left, colR: col.right,
-            xS: Math.min(Math.max((nameRight + col.right) / 2, nameRight + 24 + R0), vw - R0 - 16),
-            yS: name.top + window.scrollY + name.height / 2,                       // posición del nombre con la página arriba del todo
+            xS: xS, yS: yS,
             xM: Math.max(vw - Rm * 0.6, col.right + 24 + Rm), yM: vh / 2,          // centro del borde derecho
             xE: Math.min(R1 * 0.55, col.left - 24 - R1), yE: vh - R1 * 0.55        // esquina inferior izquierda, sin llegar al texto
           };
