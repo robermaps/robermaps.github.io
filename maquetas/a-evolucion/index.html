@@ -368,7 +368,8 @@
     }
     .loc svg { width: 14px; height: 14px; fill: var(--brand); flex: none; }
     .bio { margin-top: 20px; }
-    .bio .bio-aside { text-align: right; }         /* el apunte final, al otro lado */
+    .bio .bio-aside { text-align: right; }         /* el apunte final, al otro lado (en escritorio) */
+    @media (max-width: 1023px) { .bio .bio-aside { text-align: left; } }
     .bio p { margin: 0 0 0.8em; }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
     .btn {
