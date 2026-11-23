@@ -5,6 +5,7 @@ Dos propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin 
 | Carpeta | Qué es |
 | --- | --- |
 | [`a-evolucion/`](a-evolucion/) | **Maqueta A · Evolución.** Mantiene la idea actual (fondo cartográfico en movimiento, ahora un globo que gira, barra superior con @robermaps) y corrige o mejora todo lo demás. Ya no lleva notas de maqueta: los cambios se explican en este README. |
+| [`v2-orbita/`](v2-orbita/) | **V2 · Órbita.** Rediseño que conserva solo la animación de fondo (globo, estelas y sol ligados al scroll) y el contacto de la maqueta A. Todo lo demás está repensado: sin barra, portada con una frase gigante, cinta en movimiento, proyectos como índice y trayectoria que se enciende al bajar. Detalle en la sección 2 bis. |
 | [`a-evolucion-v1/`](a-evolucion-v1/) | **Maqueta A · Versión 1 (guardada el 22 de noviembre de 2026).** Copia fija de la maqueta A tal como quedó en el commit `dc4abce`, antes de probar ideas nuevas: globo que acompaña el scroll en dos tramos de órbita, contenido sin tarjetas y sin notas de maqueta. No se toca; los cambios siguen en `a-evolucion/`. |
 | [`b-hoja-559/`](b-hoja-559/) | **Maqueta B · Hoja 559.** Propuesta nueva: la web es una hoja del Mapa Topográfico (hoja 559, Madrid) con collar graduado, relieve generado en el navegador, leyenda como menú, mapa índice de proyectos y tablas de atributos. |
 
@@ -86,6 +87,20 @@ Respeta lo que ya funciona (mapa de fondo, columna de tarjetas, el azul `#126087
 - **Modo oscuro** automático según el dispositivo, con botón sol/luna para cambiarlo a mano (se guarda en `localStorage` y se aplica antes de pintar para evitar el parpadeo), foco visible con teclado, contraste AA, Open Graph y JSON-LD `Person`. Sin AdSense.
 
 `world.json` sale de `world-atlas@2.0.2` (Natural Earth 1:50M): la tierra fusionada en polígonos con sus huecos (el Caspio, por ejemplo), las fronteras interiores, simplificación esférica y coordenadas cuantizadas a 0,025° y codificadas en deltas. Ocupa 168 KB, unos 57 KB comprimido con gzip, que es como lo sirve GitHub Pages. La proyección y el recorte del hemisferio oculto los hace `d3-geo@3.1.1` (con `d3-array@3.2.4`), cargados desde jsDelivr; si no cargan, queda la esfera sin continentes.
+
+## 2 bis. V2 · Órbita
+
+Parte de la maqueta A y responde a que esta se sentía corporativa y rígida. Conserva tal cual la animación de fondo y la sección de contacto; el resto es nuevo. La columna central de 720 px se mantiene porque la coreografía la necesita: el globo y el sol viajan por los pasillos de los lados.
+
+- **Sin barra superior.** La marca queda en la esquina superior izquierda y la navegación (Proyectos, Trayectoria, Contacto, tema y pausa) en la derecha, flotando; el contenido se funde al pasar por debajo. En móvil, el botón de tres líneas abre un menú a pantalla completa con los enlaces en grande y las redes.
+- **Portada.** El nombre pasa a ser una firma pequeña con las coordenadas de Madrid y la protagonista es la frase «Un mapa es información que *por fin se entiende.*», a tamaño gigante (hasta 6 rem), con el remate en cursiva con serifa y en ámbar, el color del sol. Las palabras entran escalonadas al cargar. El globo arranca a 40 px del texto con un radio de 200 px en todos los anchos de escritorio (comprobado de 1024 a 2560 px) y, en móvil, en la esquina superior derecha junto al nombre.
+- **Cinta.** Los cuatro oficios (cartografía y diseño, geografía cuantitativa, desarrollo web y apps, automatización e IA) pasan en letras huecas a todo el ancho; el globo se ve a través de ellas. Es decorativa (`aria-hidden`).
+- **Proyectos.** La frase «Herramientas para explorar La Tierra y otros mundos.» y un índice de filas grandes: cada fila entera es el enlace, con el nombre en grande, una línea de descripción y los mundos que toca cada proyecto dibujados como esferas (Marte, Mercurio, Luna), que se separan al pasar el ratón. «Otros proyectos · muy pronto» va en letra hueca y el archivo, debajo y en pequeño.
+- **Trayectoria.** La frase de los 7 años ocupa la pantalla y se enciende palabra a palabra al bajar. Los cuatro oficios son un acordeón: solo se ve el título y el texto se abre al tocarlo, de uno en uno.
+- **Contacto.** Igual que en la maqueta A.
+- **Lectura de a bordo.** En escritorio, en la esquina inferior derecha, el meridiano que mira a cámara y el porcentaje de órbita recorrido.
+- **Una sola pausa.** El botón de pausa detiene el globo, la cinta y el resto de movimientos automáticos. El final del recorrido usa un globo algo mayor (hasta el 40 % del lado menor de la ventana).
+- **Tipografía y color.** Se mantienen Schibsted Grotesk, Source Sans 3 y DM Mono, y se añade Instrument Serif en cursiva para los remates. El acento deja de ser el azul y pasa al ámbar del sol.
 
 ## 3. Maqueta B · Hoja 559
 
