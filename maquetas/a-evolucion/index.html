@@ -344,20 +344,8 @@
     .hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
     .hero h1 { font-weight: 700; font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -0.03em; }
     .name-line { display: block; }
-    /* Lo que hago, como la leyenda de un mapa: cada eje con un símbolo de una geometría vectorial
-       (polígono rayado, círculos proporcionales y línea con vértices) */
-    .legend { margin-top: 22px; }
-    .legend-title { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
-    .legend-title::after { content: ""; width: 48px; height: 1px; background: var(--line); }
-    .legend ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-    .legend li { display: flex; align-items: center; gap: 14px; font: 600 clamp(1.3rem, 2.3vw, 1.65rem)/1.15 var(--font-display); letter-spacing: -0.01em; }
-    .legend .sym { width: 38px; height: 29px; flex: none; overflow: visible; }
-    .sym .st { stroke: var(--brand); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
-    .sym .fl { fill: var(--chip); }
-    .sym .ht { stroke: var(--brand); stroke-width: 1.1; stroke-opacity: 0.55; }
-    .sym .dot { fill: var(--brand); }
-    .sym .ln { fill: none; stroke-width: 2; }
-    .sym .nd { fill: var(--surface); stroke-width: 1.4; }
+    /* Frase de presentación, en la tipografía de los títulos */
+    .lead { margin: 18px 0 0; max-width: 30ch; font: 500 clamp(1.3rem, 2.4vw, 1.75rem)/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--ink-2); text-wrap: balance; }
     /* Pantallas anchas: la cabecera tiene dos columnas, el texto y el globo, así que el nombre va en
        una sola línea, a un tamaño que llena la columna de 720 px. Desde 1280 px el globo inicial mide
        al menos 108 px de radio junto al texto. */
@@ -572,14 +560,7 @@
     <section class="section hero" aria-labelledby="nombre">
       <div>
         <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López</span></h1>
-        <div class="legend">
-          <p class="legend-title" id="leyenda">Leyenda</p>
-          <ul aria-labelledby="leyenda">
-            <li><svg class="sym" viewBox="0 0 34 26" aria-hidden="true"><defs><pattern id="lg-hatch" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="fl" width="4.5" height="4.5"/><line class="ht" x1="0" y1="0" x2="0" y2="4.5"/></pattern></defs><path class="st" fill="url(#lg-hatch)" d="M3 7L14 2.5 31 5.5 29.5 21 12 24 4 18.5z"/></svg>Cartografía y diseño</li>
-            <li><svg class="sym" viewBox="0 0 34 26" aria-hidden="true"><circle class="st fl" cx="17" cy="13" r="11.5"/><circle class="st fl" cx="17" cy="17.5" r="7"/><circle class="st dot" cx="17" cy="21" r="3.5"/></svg>Geografía cuantitativa</li>
-            <li><svg class="sym" viewBox="0 0 34 26" aria-hidden="true"><path class="st ln" d="M2.5 20L10.5 9.5 19 15.5 31.5 4.5"/><circle class="st nd" cx="2.5" cy="20" r="2.2"/><circle class="st nd" cx="10.5" cy="9.5" r="2.2"/><circle class="st nd" cx="19" cy="15.5" r="2.2"/><circle class="st nd" cx="31.5" cy="4.5" r="2.2"/></svg>Desarrollo web y apps</li>
-          </ul>
-        </div>
+        <p class="lead">Transformo la información en cosas que se entienden y se usan.</p>
         <p class="loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span class="tnum">Madrid · 40,4168° N 3,7038° O</span></p>
         <div class="actions">
           <a class="btn btn-primary" href="mailto:robermaps@outlook.es">Escríbeme</a>
