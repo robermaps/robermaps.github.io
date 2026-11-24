@@ -315,14 +315,14 @@
     /* Dos líneas que llenan el ancho disponible hasta el globo. --fit es ese ancho: toda la columna en
        pantallas estrechas; en escritorio (más abajo), lo que deja libre el globo. Cada línea toma el
        cuerpo que la hace medir justo --fit: 5,005 y 8,974 son el ancho en em de «Creo cosas» y «que se
-       usan y se entienden.» con sus tipografías, y un script lo afina con la medida real. */
+       entienden y se usan.» con sus tipografías, y un script lo afina con la medida real. */
     .hero-text { container-type: inline-size; }
     .statement { --fit: 100cqi; width: var(--fit); margin-top: clamp(14px, 2.6vh, 28px); font-family: var(--font-display); font-weight: 700; }
     .statement .l { display: block; white-space: nowrap; }
     .statement .l1 { font-size: calc(var(--fit) / 5.005); line-height: 0.98; letter-spacing: -0.045em; }
-    /* En pantallas estrechas la segunda parte se apila en dos líneas («que se usan» / «y se entienden.»)
-       al tamaño que hace medir la más larga (4,968 em) todo el ancho; en escritorio va en una sola */
-    .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 4.968); line-height: 1.02; white-space: normal; }
+    /* En pantallas estrechas la segunda parte se apila en dos líneas («que se entienden» / «y se usan.»)
+       al tamaño que hace medir la más larga (5,592 em) todo el ancho; en escritorio va en una sola */
+    .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 5.592); line-height: 1.02; white-space: normal; }
     .statement .l2 .sub { display: block; white-space: nowrap; }
     .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
     @keyframes rise { from { opacity: 0; transform: translateY(0.3em); } }
@@ -611,7 +611,7 @@
             <h1 class="sr-only" id="nombre">Roberto Jiménez López · @robermaps</h1>
             <p class="brand-spot" aria-hidden="true"><span>@</span>robermaps</p>
           </div>
-          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Creo</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="sub"><span class="w" style="--i:2">que</span> <span class="w" style="--i:3">se</span> <span class="w" style="--i:4">usan</span></span> <span class="sub"><span class="w" style="--i:5">y</span> <span class="w" style="--i:6">se</span> <span class="w" style="--i:7">entienden.</span></span></em></p>
+          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Creo</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="sub"><span class="w" style="--i:2">que</span> <span class="w" style="--i:3">se</span> <span class="w" style="--i:4">entienden</span></span> <span class="sub"><span class="w" style="--i:5">y</span> <span class="w" style="--i:6">se</span> <span class="w" style="--i:7">usan.</span></span></em></p>
           <div class="hero-cta">
             <a class="pill" href="#contacto">Escríbeme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <span class="hint">Baja para orbitar <i aria-hidden="true">↓</i></span>
