@@ -218,7 +218,8 @@
     #mapa { position: absolute; left: 0; top: 0; }
     .globe-col { display: none; }
 
-    /* Cabecera: sin barra. Marca y controles flotan en las esquinas y el contenido se funde al pasar por debajo */
+    /* Cabecera: sin barra ni enlaces. La marca y los dos controles (tema y pausa) flotan en las esquinas
+       y el contenido se funde al pasar por debajo */
     .top {
       position: fixed;
       inset: 0 0 auto;
@@ -250,19 +251,7 @@
       white-space: nowrap;
     }
     .brand span { color: var(--accent); }
-    .nav { display: flex; align-items: center; gap: 2px; margin-left: auto; }
-    .nav > a {
-      padding: 10px 12px;
-      border-radius: 8px;
-      font: 500 0.8125rem/1 var(--font-mono);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--ink-2);
-      white-space: nowrap;
-    }
-    .nav > a:hover { color: var(--accent); }
-    .tools { position: relative; z-index: 1; display: flex; align-items: center; gap: 2px; }
+    .tools { position: relative; z-index: 1; display: flex; align-items: center; gap: 2px; margin-left: auto; }
     .icon-btn {
       display: grid;
       place-items: center;
@@ -276,33 +265,9 @@
     }
     .icon-btn:hover { background: var(--surface-2); }
     .icon-btn svg { width: 18px; height: 18px; fill: currentColor; }
-    .menu-btn, .menu-social { display: none; }
 
-    /* Móvil: las secciones pasan a un menú a pantalla completa, con los enlaces en grande */
     @media (max-width: 780px) {
       .top { min-height: calc(60px + env(safe-area-inset-top, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); }
-      .tools { margin-left: auto; }
-      .menu-btn { display: grid; }
-      .nav {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-        margin: 0;
-        padding-top: calc(env(safe-area-inset-top, 0px) + 76px);
-        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 28px);
-        padding-left: max(16px, env(safe-area-inset-left, 0px));
-        padding-right: max(16px, env(safe-area-inset-right, 0px));
-        background: var(--surface);
-      }
-      .menu-open .nav { display: flex; }
-      .nav > a { padding: 4px 0; border-radius: 0; font: 700 clamp(2.5rem, 12.5vw, 4.25rem)/1.04 var(--font-display); letter-spacing: -0.04em; text-transform: none; color: var(--ink); }
-      .nav > a:first-child { margin-top: auto; }
-      .menu-social { display: flex; gap: 4px; margin-top: auto; margin-left: -11px; }
-      html.menu-open { overflow: hidden; }
     }
 
     /* Columna de lectura; todo lo que es texto vive dentro de ella */
@@ -330,7 +295,7 @@
     .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
 
     /* La cursiva con serifa marca lo que se quiere subrayar */
-    .statement em, .claim em, .manifesto em {
+    .statement em, .claim em, .manifesto em, .craft em {
       font-family: var(--font-serif);
       font-style: italic;
       font-weight: 400;
@@ -457,35 +422,16 @@
     .arow .plinks { margin-top: 8px; }
     @media (min-width: 641px) { .arow { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
 
-    /* Trayectoria: una frase que se enciende al bajar y cuatro oficios que se abren al tocarlos */
+    /* Trayectoria: sin título. Una frase grande y cuatro oficios, cada uno con su rótulo y una línea;
+       todo el texto se enciende palabra a palabra mientras cruza la pantalla */
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
     .manifesto { font: 600 clamp(1.65rem, 4.3vw, 2.9rem)/1.1 var(--font-display); letter-spacing: -0.03em; text-wrap: pretty; }
-    .manifesto.rv .w { opacity: 0.16; transition: opacity 0.45s ease; }
-    .manifesto.rv .w.lit { opacity: 1; }
-    .areas { margin-top: clamp(34px, 6vh, 58px); border-bottom: 1px solid var(--line); }
-    .areas details { border-top: 1px solid var(--line); }
-    .areas summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding-block: 19px;
-      list-style: none;
-      cursor: pointer;
-      font: 600 clamp(1.2rem, 2.7vw, 1.6rem)/1.15 var(--font-display);
-      letter-spacing: -0.02em;
-    }
-    .areas summary::-webkit-details-marker { display: none; }
-    .plus { position: relative; width: 18px; height: 18px; flex: none; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
-    .plus::before, .plus::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: currentColor; }
-    .plus::after { transform: rotate(90deg); }
-    .areas summary:hover .plus { color: var(--accent); }
-    .areas details[open] .plus { transform: rotate(45deg); color: var(--accent); }
-    .areas details p { max-width: 58ch; padding-bottom: 22px; color: var(--ink-2); }
-    @supports (interpolate-size: allow-keywords) {
-      :root { interpolate-size: allow-keywords; }
-      .areas details::details-content { block-size: 0; overflow: clip; transition: block-size 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), content-visibility 0.4s allow-discrete; }
-      .areas details[open]::details-content { block-size: auto; }
-    }
+    .crafts { display: grid; gap: clamp(40px, 7vh, 68px); margin-top: clamp(56px, 10vh, 100px); }
+    .craft h3 { margin-bottom: 14px; font: 500 0.8125rem/1.3 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+    .craft h3::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; border-radius: 50%; background: var(--accent); }
+    .craft p { font: 600 clamp(1.4rem, 3.3vw, 2.15rem)/1.14 var(--font-display); letter-spacing: -0.025em; text-wrap: pretty; }
+    .rv .w { opacity: 0.16; transition: opacity 0.45s ease; }
+    .rv .w.lit { opacity: 1; }
 
     /* Contacto (igual que en la versión anterior) */
     .btn {
@@ -592,16 +538,6 @@
 
   <header class="top">
     <a class="brand" href="#inicio"><span>@</span>robermaps</a>
-    <nav class="nav" id="menu" aria-label="Secciones">
-      <a href="#proyectos">Proyectos</a>
-      <a href="#trayectoria">Trayectoria</a>
-      <a href="#contacto">Contacto</a>
-      <div class="menu-social" aria-label="Redes">
-        <a class="icon-btn" href="https://x.com/robermaps" aria-label="X (antes Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-        <a class="icon-btn" href="https://www.linkedin.com/in/robermaps" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a class="icon-btn" href="https://github.com/robermaps" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-      </div>
-    </nav>
     <div class="tools">
       <button class="icon-btn" id="theme-toggle" type="button" aria-label="Cambiar a tema oscuro" title="Cambiar a tema oscuro">
         <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-moon"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
@@ -610,10 +546,6 @@
       <button class="icon-btn" id="map-toggle" type="button" aria-pressed="false" aria-label="Pausar la animación" title="Pausar la animación">
         <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
         <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-play" hidden><path d="M8 5.5v13l10.5-6.5z"/></svg>
-      </button>
-      <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
-        <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-menu"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-        <svg viewBox="0 0 24 24" aria-hidden="true" id="ico-close" hidden><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12 19 17.6 17.6 19 12 13.4 6.4 19 5 17.6 10.6 12 5 6.4z"/></svg>
       </button>
     </div>
   </header>
@@ -715,29 +647,29 @@
       </div>
     </section>
 
-    <!-- Trayectoria -->
+    <!-- Trayectoria: sin título visible; el texto se enciende al bajar -->
     <section class="scene" id="trayectoria" aria-labelledby="t-tray">
       <div class="col">
-        <h2 class="eyebrow" id="t-tray">Trayectoria</h2>
-        <p class="manifesto">Más de <em>7 años</em> convirtiendo datos públicos y privados en información y herramientas de alto valor.</p>
+        <h2 class="sr-only" id="t-tray">Trayectoria</h2>
+        <p class="manifesto" data-rv>Más de <em>7 años</em> convirtiendo datos públicos y privados en mapas, herramientas y decisiones.</p>
 
-        <div class="areas">
-          <details name="oficio">
-            <summary>Cartografía y diseño<span class="plus" aria-hidden="true"></span></summary>
-            <p>Mapas, visores web y dashboards. Información que por fin se entiende.</p>
-          </details>
-          <details name="oficio">
-            <summary>Geografía cuantitativa<span class="plus" aria-hidden="true"></span></summary>
-            <p>Tecnología para observar y entender mejor que nunca nuestro mundo.</p>
-          </details>
-          <details name="oficio">
-            <summary>Desarrollo web y apps<span class="plus" aria-hidden="true"></span></summary>
-            <p>Reducir el ruido y la fricción hasta su límite físico.</p>
-          </details>
-          <details name="oficio">
-            <summary>Automatización e IA aplicada<span class="plus" aria-hidden="true"></span></summary>
-            <p>Hacer más con más.</p>
-          </details>
+        <div class="crafts">
+          <div class="craft" data-rv>
+            <h3>Cartografía y diseño</h3>
+            <p>Mapas, visores web y dashboards. <em>Información que por fin se entiende.</em></p>
+          </div>
+          <div class="craft" data-rv>
+            <h3>Geografía cuantitativa</h3>
+            <p>Análisis espacial, estadística y modelos. <em>Medir para entender por qué las cosas pasan donde pasan.</em></p>
+          </div>
+          <div class="craft" data-rv>
+            <h3>Desarrollo web y apps</h3>
+            <p>Webs y apps Android. <em>Ruido y fricción reducidos hasta su límite físico.</em></p>
+          </div>
+          <div class="craft" data-rv>
+            <h3>Automatización e IA aplicada</h3>
+            <p>Flujos de datos, agentes y procesos. <em>Lo repetitivo se hace solo.</em></p>
+          </div>
         </div>
       </div>
     </section>
@@ -837,7 +769,6 @@
       var ctx = cv.getContext('2d');
       var dark = window.matchMedia('(prefers-color-scheme: dark)');
       var hasD3 = false;                   // d3-geo se carga solo cuando se muestra el globo
-      var mobile = window.matchMedia('(max-width: 780px)');    // menú a pantalla completa
       var compact = window.matchMedia('(max-width: 1023px)');  // globo dentro de la portada
       var GAP = 40, EDGE = 24;             // separación entre el texto y el globo, y margen hasta el borde
       var SPEED = 3;                       // grados por segundo: una vuelta cada 2 minutos
@@ -1329,50 +1260,44 @@
       // Con las fuentes cargadas cambia el ancho del texto, y con él el punto de salida del globo
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitStatement(); size(); draw(); });
       compact.addEventListener('change', function () { stop(); showGlobe(); });
-      mobile.addEventListener('change', function () { setMenu(false); });
 
-      /* Menú a pantalla completa (móvil) */
-      var menuBtn = document.getElementById('menu-toggle');
-      function setMenu(open) {
-        root.classList.toggle('menu-open', open);
-        menuBtn.setAttribute('aria-expanded', String(open));
-        menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-        document.getElementById('ico-menu').toggleAttribute('hidden', open);
-        document.getElementById('ico-close').toggleAttribute('hidden', !open);
-      }
-      menuBtn.addEventListener('click', function () { setMenu(!root.classList.contains('menu-open')); });
-      document.getElementById('menu').addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && root.classList.contains('menu-open')) { setMenu(false); menuBtn.focus(); }
-      });
-
-      /* La frase de Trayectoria se enciende palabra a palabra mientras cruza la pantalla */
-      var man = document.querySelector('.manifesto'), manWords = [];
-      Array.prototype.slice.call(man.childNodes).forEach(function (n) {
-        if (n.nodeType === 3) {
-          var frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(function (part) {
-            if (!part) return;
-            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
-            var s = document.createElement('span');
-            s.className = 'w'; s.textContent = part;
-            manWords.push(s); frag.appendChild(s);
+      /* Los textos de Trayectoria se encienden palabra a palabra mientras cruzan la pantalla.
+         Cada bloque marcado con data-rv es una unidad: sus palabras se envuelven en <span> y se
+         encienden en orden según cuánto ha subido el bloque por la ventana. */
+      var rvUnits = Array.prototype.map.call(document.querySelectorAll('[data-rv]'), function (el) {
+        var words = [];
+        (function wrap(node) {
+          Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+            if (n.nodeType === 1) { wrap(n); return; }
+            if (n.nodeType !== 3) return;
+            var frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(function (part) {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+              var s = document.createElement('span');
+              s.className = 'w'; s.textContent = part;
+              words.push(s); frag.appendChild(s);
+            });
+            node.replaceChild(frag, n);
           });
-          man.replaceChild(frag, n);
-        } else if (n.nodeType === 1) { n.classList.add('w'); manWords.push(n); }
+        })(el);
+        el.classList.add('rv');
+        return { el: el, words: words, lit: -1 };
       });
-      man.classList.add('rv');
-      var manLit = -1, manQueued = false;
+      var rvQueued = false;
       function litWords() {
-        manQueued = false;
-        var r = man.getBoundingClientRect(), h = window.innerHeight;
-        var prog = (h * 0.88 - r.top) / (r.height + h * 0.42);     // de asomar por abajo a pasar de media pantalla
-        var k = Math.max(0, Math.min(manWords.length, Math.round(prog * manWords.length)));
-        if (k === manLit) return;
-        manLit = k;
-        for (var i = 0; i < manWords.length; i++) manWords[i].classList.toggle('lit', i < k);
+        rvQueued = false;
+        var h = window.innerHeight, atEnd = scrollProgress() > 0.995;   // al final de la página, todo encendido
+        rvUnits.forEach(function (u) {
+          var r = u.el.getBoundingClientRect();
+          var prog = atEnd ? 1 : (h * 0.9 - r.top) / (r.height + h * 0.3);   // de asomar por abajo a pasar del 60 % de la pantalla
+          var k = Math.max(0, Math.min(u.words.length, Math.round(prog * u.words.length)));
+          if (k === u.lit) return;
+          u.lit = k;
+          for (var i = 0; i < u.words.length; i++) u.words[i].classList.toggle('lit', i < k);
+        });
       }
-      function queueLit() { if (!manQueued) { manQueued = true; requestAnimationFrame(litWords); } }
+      function queueLit() { if (!rvQueued) { rvQueued = true; requestAnimationFrame(litWords); } }
       window.addEventListener('scroll', queueLit, { passive: true });
       window.addEventListener('resize', queueLit);
       litWords();
