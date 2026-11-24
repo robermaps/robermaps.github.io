@@ -7,6 +7,8 @@
  *   source: 'carto' → mapas compuestos servidos por la cuenta «opmbuilder» de CARTO.
  *   source: 'ext'   → ráster externo usado por OPM dentro de un mapa compuesto.
  * `fallback` indica la capa que entra si el servidor de la capa no responde.
+ * `lngShift` corrige teselas giradas en longitud (grados): las del sombreado LOLA
+ * se generaron desde un ráster 0–360° y están desplazadas 180° respecto al resto.
  * Longitudes en grados este (±180), latitudes planetocéntricas. Las posiciones
  * de los lugares son aproximadas (2-3 decimales como mucho).
  */
@@ -71,7 +73,7 @@ window.EXPLORER_DATA = (function () {
 			facts: [['Radio medio', '1737,4 km'], ['Gravedad', '1,62 m/s²'], ['Día solar', '29,5 días']],
 			view: { lat: 12, lng: 0, zoom: 3 },
 			defaultLayer: 'opm-moon',
-			shade: { url: S3_OPM + '/301_moon/tiles/w' + XYZ, tms: true, maxZoom: 6, name: 'Sombreado LOLA' },
+			shade: { url: S3_OPM + '/301_moon/tiles/w' + XYZ, tms: true, maxZoom: 6, lngShift: 180, name: 'Sombreado LOLA' },
 			layers: [
 				{
 					id: 'opm-moon',
@@ -95,7 +97,7 @@ window.EXPLORER_DATA = (function () {
 					name: 'Sombreado LOLA',
 					desc: 'Solo relieve: modelo sombreado del altímetro láser LOLA (LRO), 128 píxeles por grado. No figura en el catálogo web de OPM.',
 					url: S3_OPM + '/301_moon/tiles/w' + XYZ,
-					tms: true, maxZoom: 6, source: 's3',
+					tms: true, maxZoom: 6, lngShift: 180, source: 's3',
 					attribution: 'NASA/LRO/LOLA/USGS'
 				}
 			],

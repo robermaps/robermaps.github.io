@@ -215,8 +215,29 @@
 
 	/* ------------------------------------------------------------------ capas de teselas */
 
+	/*
+	 * Algunos juegos de teselas se generaron a partir de un ráster en longitudes 0–360°
+	 * (meridiano central en 180°) y quedan girados en longitud. Con `lngShift` se pide
+	 * a cada posición la columna que le corresponde de verdad. Solo admite giros que
+	 * sean múltiplo del ancho de una tesela, así que el nivel 0 se dibuja con teselas
+	 * del nivel 1.
+	 */
+	var ShiftedTileLayer = L.TileLayer.extend({
+		getTileUrl: function (coords) {
+			var n = 1 << coords.z;
+			var shift = Math.round(this.options.lngShift / 360 * n);
+			var c = L.point(((coords.x + shift) % n + n) % n, coords.y);
+			c.z = coords.z;
+			return L.TileLayer.prototype.getTileUrl.call(this, c);
+		}
+	});
+	function tileLayer(url, options, lngShift) {
+		if (!lngShift) return L.tileLayer(url, options);
+		return new ShiftedTileLayer(url, L.extend({ lngShift: lngShift, minNativeZoom: 1 }, options));
+	}
+
 	function createTiles(def, pane, onStatus) {
-		var layer = L.tileLayer(def.url, {
+		var layer = tileLayer(def.url, {
 			tms: !!def.tms,
 			maxNativeZoom: def.maxZoom,
 			maxZoom: 14,
@@ -224,7 +245,7 @@
 			pane: pane,
 			keepBuffer: 3,
 			attribution: OPM_LINK + ' · ' + def.attribution
-		});
+		}, def.lngShift);
 		var loaded = 0, failed = 0;
 		function report(status) {
 			if (health[def.key] === status) return;
@@ -450,9 +471,9 @@
 		$('shadeField').hidden = !state.shade;
 		$('shadeHint').textContent = 'Multiplica «' + sh.name + '» sobre la capa activa';
 		if (!state.shade) return;
-		shadeLayer = L.tileLayer(sh.url, {
+		shadeLayer = tileLayer(sh.url, {
 			tms: sh.tms, maxNativeZoom: sh.maxZoom, maxZoom: 14, pane: 'shade', opacity: state.shadeOpacity, keepBuffer: 3
-		}).addTo(map);
+		}, sh.lngShift).addTo(map);
 	}
 	$('shadeToggle').addEventListener('change', function () { state.shade = this.checked; updateShade(); });
 	$('shadeRange').addEventListener('input', function () {
