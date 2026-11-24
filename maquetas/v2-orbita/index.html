@@ -349,13 +349,13 @@
     .coords svg { width: 13px; height: 13px; fill: var(--accent); flex: none; }
     /* Dos líneas que llenan el ancho disponible hasta el globo. --fit es ese ancho: toda la columna en
        pantallas estrechas; en escritorio (más abajo), lo que deja libre el globo. Cada línea toma el
-       cuerpo que la hace medir justo --fit: 5,252 y 9,145 son el ancho en em de «Quito cosas» y «hasta
-       que da gusto usarlas.» con sus tipografías, y un script lo afina con la medida real. */
+       cuerpo que la hace medir justo --fit: 5,178 y 8,974 son el ancho en em de «Hago cosas» y «que se
+       usan y se entienden.» con sus tipografías, y un script lo afina con la medida real. */
     .hero-text { container-type: inline-size; }
     .statement { --fit: 100cqi; width: var(--fit); margin-top: clamp(14px, 2.6vh, 28px); font-family: var(--font-display); font-weight: 700; }
     .statement .l { display: block; white-space: nowrap; }
-    .statement .l1 { font-size: calc(var(--fit) / 5.252); line-height: 0.98; letter-spacing: -0.045em; }
-    .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 9.145); line-height: 1.08; }
+    .statement .l1 { font-size: calc(var(--fit) / 5.178); line-height: 0.98; letter-spacing: -0.045em; }
+    .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 8.974); line-height: 1.08; }
     .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
     @keyframes rise { from { opacity: 0; transform: translateY(0.3em); } }
     .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4.4vh, 44px); }
@@ -630,7 +630,7 @@
             <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López</span></h1>
             <p class="coords"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span>Madrid</span><span class="tnum">40,4168° N 3,7038° O</span></p>
           </div>
-          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Quito</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="w" style="--i:2">hasta</span> <span class="w" style="--i:3">que</span> <span class="w" style="--i:4">da</span> <span class="w" style="--i:5">gusto</span> <span class="w" style="--i:6">usarlas.</span></em></p>
+          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Hago</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="w" style="--i:2">que</span> <span class="w" style="--i:3">se</span> <span class="w" style="--i:4">usan</span> <span class="w" style="--i:5">y</span> <span class="w" style="--i:6">se</span> <span class="w" style="--i:7">entienden.</span></em></p>
           <div class="hero-cta">
             <a class="pill" href="mailto:robermaps@outlook.es">Escríbeme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <span class="hint">Baja para orbitar <i aria-hidden="true">↓</i></span>
@@ -650,8 +650,7 @@
     <!-- Proyectos -->
     <section class="scene" id="proyectos" aria-labelledby="t-proy">
       <div class="col">
-        <h2 class="eyebrow" id="t-proy">Proyectos</h2>
-        <p class="claim">Herramientas para explorar La Tierra y <em>otros mundos.</em></p>
+        <h2 class="claim" id="t-proy">Herramientas para explorar La Tierra y <em>otros mundos.</em></h2>
 
         <ul class="plist">
           <li class="prow">
