@@ -483,9 +483,10 @@
       .globe-col .map-layer { position: fixed; inset: 0; z-index: 0; }
       .scene { padding-block: clamp(84px, 13vh, 150px); }
       /* Halo de etiqueta, como en cartografía: un resplandor del color del papel alrededor de las letras,
-         para que el texto de Trayectoria se lea cuando el globo o el sol pasan por detrás. Las palabras
-         aún sin encender se ven algo más que en móvil, donde no hay nada detrás. El lienzo no se toca. */
-      .manifesto, .craft h3, .craft p { text-shadow: 0 0 2px var(--surface), 0 0 5px var(--surface), 0 0 10px var(--surface), 0 0 20px var(--surface), 0 0 34px var(--surface); }
+         solo en el texto de Trayectoria que va en el color de acento (el más fino), para que se lea
+         cuando el globo o el sol pasan por detrás. Las palabras aún sin encender se ven algo más que
+         en móvil, donde no hay nada detrás. El lienzo no se toca. */
+      .manifesto em, .craft p { text-shadow: 0 0 2px var(--surface), 0 0 5px var(--surface), 0 0 10px var(--surface), 0 0 20px var(--surface), 0 0 34px var(--surface); }
       .rv .w { opacity: 0.28; }
       .hero { display: flex; align-items: center; min-height: calc(100svh - clamp(96px, 15vh, 150px)); }
       .hero h1 { font-size: 1.45rem; letter-spacing: -0.02em; }
