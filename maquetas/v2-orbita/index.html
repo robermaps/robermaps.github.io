@@ -439,10 +439,9 @@
     .w-earth { --w1: var(--earth-1); --w2: var(--earth-2); --w3: var(--earth-3); }
     .arrow { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
     .prow:hover .arrow, .prow:focus-within .arrow { transform: translate(5px, -5px); color: var(--accent); }
-    .prow.soon .pname { color: var(--ink-2); }
-    @supports (-webkit-text-stroke: 1px #000) {
-      .prow.soon .pname { color: transparent; -webkit-text-stroke: 1.2px var(--ink-2); }
-    }
+    /* Otros proyectos: una nota de lo que viene y, debajo, el archivo */
+    .soon { margin-top: clamp(22px, 4vh, 36px); }
+    .soon .pdesc { font-size: 1.125rem; }
     @media (max-width: 640px) {
       .prow { grid-template-columns: minmax(0, 1fr); padding-block: 22px; }
       .pside { order: -1; justify-content: space-between; }
@@ -676,14 +675,18 @@
               <svg class="arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
             </div>
           </li>
-          <li class="prow soon">
-            <div>
-              <p class="pmeta"><span class="dot on blink"></span>Muy pronto</p>
-              <h3 class="pname">Otros proyectos</h3>
-              <p class="pdesc">Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
-            </div>
-          </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- Otros proyectos: lo que viene y lo que queda en el archivo -->
+    <section class="scene" id="otros" aria-labelledby="t-otros">
+      <div class="col">
+        <h2 class="claim" id="t-otros">Otros proyectos</h2>
+        <div class="soon">
+          <p class="pmeta"><span class="dot on blink"></span>Muy pronto</p>
+          <p class="pdesc">Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
+        </div>
 
         <div class="archive">
           <p class="eyebrow">Del archivo</p>
@@ -716,7 +719,7 @@
     <section class="scene" id="trayectoria" aria-labelledby="t-tray">
       <div class="col">
         <h2 class="eyebrow" id="t-tray">Trayectoria</h2>
-        <p class="manifesto">Más de <em>7 años</em> convirtiendo datos de la administración pública y la empresa privada en información y herramientas de alto valor.</p>
+        <p class="manifesto">Más de <em>7 años</em> convirtiendo datos públicos y privados en información y herramientas de alto valor.</p>
 
         <div class="areas">
           <details name="oficio">
