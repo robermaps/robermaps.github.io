@@ -6,12 +6,12 @@
   <title>Roberto Jiménez López · @robermaps</title>
   <!-- Maqueta: fuera del índice de buscadores hasta que pase a producción -->
   <meta name="robots" content="noindex">
-  <meta name="description" content="Un mapa es información que por fin se entiende. Cartografía y diseño, geografía cuantitativa y desarrollo web desde Madrid.">
+  <meta name="description" content="Cartografía y diseño, geografía cuantitativa y desarrollo web desde Madrid.">
   <meta name="author" content="Roberto Jiménez López">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="es_ES">
   <meta property="og:title" content="Roberto Jiménez López · @robermaps">
-  <meta property="og:description" content="Un mapa es información que por fin se entiende.">
+  <meta property="og:description" content="Cartografía y diseño, geografía cuantitativa y desarrollo web desde Madrid.">
   <meta property="og:url" content="https://robermaps.github.io/">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@robermaps">
@@ -347,15 +347,17 @@
     .name-line { display: block; }
     .coords { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 400 0.78rem/1.35 var(--font-mono); color: var(--ink-2); }
     .coords svg { width: 13px; height: 13px; fill: var(--accent); flex: none; }
-    .statement {
-      max-width: 6.7em;
-      margin-top: clamp(18px, 3.4vh, 36px);
-      font: 700 clamp(2.9rem, 7.4vw, 6rem)/0.95 var(--font-display);
-      letter-spacing: -0.045em;
-      text-wrap: balance;
-    }
-    .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 55ms + 80ms); }
-    @keyframes rise { from { opacity: 0; transform: translateY(0.35em); } }
+    /* Dos palabras, una por línea, que llenan el ancho disponible hasta el globo. --fit es ese ancho:
+       toda la columna en pantallas estrechas; en escritorio (más abajo), lo que deja libre un globo de
+       200 px de radio. Cada línea toma el cuerpo que la hace medir justo --fit: 2,59 y 1,452 son el
+       ancho en em de «Hago.» y «Usa.» con sus tipografías, y un script lo afina con la medida real. */
+    .hero-text { container-type: inline-size; }
+    .statement { --fit: 100cqi; width: var(--fit); margin-top: clamp(14px, 2.6vh, 28px); font-family: var(--font-display); font-weight: 700; }
+    .statement .l { display: block; white-space: nowrap; }
+    .statement .l1 { font-size: calc(var(--fit) / 2.59); line-height: 0.86; letter-spacing: -0.045em; }
+    .statement .l2 { font-size: calc(var(--fit) / 1.452); line-height: 0.8; }
+    .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 140ms + 80ms); }
+    @keyframes rise { from { opacity: 0; transform: translateY(0.16em); } }
     .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4.4vh, 44px); }
     .pill {
       display: inline-flex;
@@ -534,6 +536,10 @@
       .scene { padding-block: clamp(84px, 13vh, 150px); }
       .hero { display: flex; align-items: center; min-height: calc(100svh - clamp(96px, 15vh, 150px)); }
       .hero h1 { font-size: 1.45rem; letter-spacing: -0.02em; }
+      /* Ancho para las dos palabras: media ventana menos el globo (400 px), su separación (40 px) y el
+         margen (24 px), contando desde el borde de la columna; nunca más que la columna ni que lo que
+         cabe en alto sin tapar la cinta */
+      .statement { --fit: max(300px, min(100cqi, 50vw - 104px, (100svh - 394px) * 1.13)); }
       .name-line { display: inline; }
       .hint { display: inline-flex; align-items: center; gap: 8px; }
       .hud {
@@ -623,7 +629,7 @@
             <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López</span></h1>
             <p class="coords"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span>Madrid</span><span class="tnum">40,4168° N 3,7038° O</span></p>
           </div>
-          <p class="statement"><span class="w" style="--i:0">Un</span> <span class="w" style="--i:1">mapa</span> <span class="w" style="--i:2">es</span> <span class="w" style="--i:3">información</span> <span class="w" style="--i:4">que</span> <em><span class="w" style="--i:5">por</span> <span class="w" style="--i:6">fin</span> <span class="w" style="--i:7">se</span> <span class="w" style="--i:8">entiende.</span></em></p>
+          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Hago.</span></span> <em class="l l2"><span class="w" style="--i:1">Usa.</span></em></p>
           <div class="hero-cta">
             <a class="pill" href="mailto:robermaps@outlook.es">Escríbeme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <span class="hint">Baja para orbitar <i aria-hidden="true">↓</i></span>
@@ -1212,7 +1218,7 @@
       }, { passive: true });
 
       var rt = 0;
-      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 150); });
+      window.addEventListener('resize', function () { fitStatement(); clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 150); });
       var recolor = function () { readColors(); draw(); };
       dark.addEventListener('change', recolor);
       new MutationObserver(recolor).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
@@ -1301,10 +1307,24 @@
         }).observe(heroSection);
       }
 
+      // Las dos palabras de la portada se ajustan para medir exactamente el ancho disponible, con la
+      // tipografía que haya cargado (el CSS ya da un valor muy cercano para el primer pintado)
+      var statement = document.querySelector('.statement');
+      function fitStatement() {
+        var W = statement.getBoundingClientRect().width, rg = document.createRange();
+        Array.prototype.forEach.call(statement.querySelectorAll('.l'), function (l) {
+          l.style.fontSize = '';
+          rg.selectNodeContents(l);
+          var w = rg.getBoundingClientRect().width, fs = parseFloat(getComputedStyle(l).fontSize);
+          if (w > 0 && W > 0) l.style.fontSize = (fs * W / w).toFixed(2) + 'px';
+        });
+      }
+
       readColors(); syncBtn();
+      fitStatement();
       showGlobe();
       // Con las fuentes cargadas cambia el ancho del texto, y con él el punto de salida del globo
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { size(); draw(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitStatement(); size(); draw(); });
       compact.addEventListener('change', function () { stop(); showGlobe(); });
       mobile.addEventListener('change', function () { setMenu(false); });
 
