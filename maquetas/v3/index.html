@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Roberto Jiménez López · @robermaps</title>
+  <title>Roberto Jiménez López · @robermaps · V3</title>
   <!-- Maqueta: fuera del índice de buscadores hasta que pase a producción -->
   <meta name="robots" content="noindex">
   <meta name="description" content="Cartografía y diseño, geografía cuantitativa y desarrollo web desde Madrid.">
@@ -25,7 +25,7 @@
   <style>
     /* Layout: una columna central de 720 px con un pasillo libre a cada lado, por donde viajan el globo y el sol.
        Cada sección es una escena con mucho aire: una frase grande y, debajo, solo lo imprescindible.
-       Color: tinta sobre papel, con el azul del globo (el de las estelas y la marca de Madrid) como único acento. Tipo: grotesca muy grande y apretada,
+       Color: tinta sobre papel, con el ámbar del sol como único acento. Tipo: grotesca muy grande y apretada,
        cursiva con serifa para lo que se quiere subrayar y monoespaciada para los datos. */
     :root {
       --space: #e8eef1;
@@ -61,7 +61,7 @@
       --chip: #e6f0f5;
       --chip-ink: #0f4f70;
       --focus: #d99a00;
-      --accent: #126087;
+      --accent: #b45309;
       --merc-1: #cdbdaa;
       --merc-2: #a39483;
       --merc-3: #7b6e60;
@@ -117,7 +117,7 @@
         --chip: #183241;
         --chip-ink: #a9d8ef;
         --focus: #f2b632;
-        --accent: #6dbbe0;
+        --accent: #ffbd5a;
         --merc-1: #a99a88;
         --merc-2: #86796a;
         --merc-3: #63584c;
@@ -167,7 +167,7 @@
       --chip: #183241;
       --chip-ink: #a9d8ef;
       --focus: #f2b632;
-      --accent: #6dbbe0;
+      --accent: #ffbd5a;
       --merc-1: #a99a88;
       --merc-2: #86796a;
       --merc-3: #63584c;
@@ -388,42 +388,83 @@
     .plinks a { text-underline-offset: 3px; }
     .plinks a:hover { color: var(--accent); }
     .pside { display: flex; align-items: center; gap: 18px; }
-    /* Los mundos que toca cada proyecto */
-    .worlds { display: flex; }
-    .world {
-      width: 42px;
-      height: 42px;
-      margin-left: -13px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 28%, var(--w1), var(--w2) 58%, var(--w3));
-      box-shadow: 0 0 0 3px var(--surface);
-      transition: margin-left 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
-    }
-    .world:first-child { margin-left: 0; }
-    .prow:hover .world + .world, .prow:focus-within .world + .world { margin-left: 5px; }
-    .w-mars { --w1: var(--mars-1); --w2: var(--mars-2); --w3: var(--mars-3); }
-    .w-moon { --w1: var(--moon-1); --w2: var(--moon-2); --w3: var(--moon-3); }
-    .w-merc { --w1: var(--merc-1); --w2: var(--merc-2); --w3: var(--merc-3); }
-    .w-earth { --w1: var(--earth-1); --w2: var(--earth-2); --w3: var(--earth-3); }
+    /* Imágenes de los proyectos: el mismo lenguaje que el globo de fondo (esferas con retícula fina,
+       sombra hacia el limbo y los colores de cada mundo) y una animación corta al pasar el ratón */
+    .pfig { width: 160px; height: 124px; flex: none; overflow: visible; }
+    .afig { width: 64px; height: 64px; flex: none; overflow: visible; }
+    .pfig *, .afig * { transform-box: fill-box; }
+    .grat { fill: none; stroke: #fff; stroke-opacity: 0.4; stroke-width: 0.7; }
+    .rim { fill: none; stroke: var(--globe-coast); stroke-width: 1; }
+    .rim.dash { stroke: var(--line); stroke-dasharray: 3 3; }
+    .sh0 { stop-color: var(--surface); stop-opacity: 0.18; }
+    .sh1 { stop-color: rgb(var(--night-rgb)); stop-opacity: 0.12; }
+    .sh2 { stop-color: rgb(var(--night-rgb)); stop-opacity: 0.45; }
+    .orbit { fill: none; stroke: rgb(var(--orbit-rgb)); stroke-opacity: 0.55; stroke-width: 1; }
+    .f-mars1 { fill: var(--mars-1); } .f-mars2 { fill: var(--mars-2); } .f-mars3 { fill: var(--mars-3); }
+    .f-moon1 { fill: var(--moon-1); } .f-moon2 { fill: var(--moon-2); } .f-moon3 { fill: var(--moon-3); }
+    .f-merc1 { fill: var(--merc-1); }
+    /* Tile Loader: las teselas se recargan en oleada y la capa vectorial se vuelve a dibujar */
+    .vec { fill: none; stroke: #fff; stroke-opacity: 0.92; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+    .vec2 { stroke-opacity: 0.7; }
+    .sat { transform-box: view-box; transform-origin: 0 0; offset-path: path("M141.3 42.7 A70 20 -16 1 1 6.7 81.3 A70 20 -16 1 1 141.3 42.7"); offset-rotate: 0deg; transition: offset-distance 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
+    .sat1 { offset-distance: 8%; }
+    .sat2 { offset-distance: 58%; }
+    .tilt-hint { display: none; }
+    @keyframes reload { 0% { opacity: 1; } 30% { opacity: 0.15; } 100% { opacity: 1; } }
+    @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+    /* Visor: las capas se separan como en el panel de capas */
+    .layer { transform: translateY(calc(var(--y) * 0.55)); transition: transform 0.6s cubic-bezier(0.2, 0.75, 0.2, 1); }
+    .pl { fill: var(--surface-2); stroke: var(--ink-2); stroke-width: 1; stroke-linejoin: round; }
+    .l1 .pl { fill: var(--moon-1); }
+    .l2 .pl { fill: url(#fb-g); }
+    .l3 .pl { fill: var(--surface); }
+    .hyp0 { stop-color: var(--mars-1); } .hyp1 { stop-color: var(--mars-2); } .hyp2 { stop-color: var(--mars-3); }
+    .crater { fill: var(--moon-2); stroke: var(--moon-3); stroke-width: 0.6; }
+    .cont { fill: none; stroke: #fff; stroke-opacity: 0.55; stroke-width: 0.8; }
+    .hill { fill: none; stroke: var(--ink-2); stroke-width: 1; stroke-linecap: round; }
+    /* Muy pronto: un mundo en formación, con una semilla que lo orbita */
+    .proto { fill: none; stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 2 4; }
+    .proto2 { stroke: var(--line); }
+    .seed { fill: var(--accent); }
+    .spin { transform-origin: 60px 60px; transform-box: view-box; animation: spin 14s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* @esmapbot: el encuadre barre el terreno */
+    .coast { fill: var(--surface-2); stroke: var(--ink-2); stroke-width: 1; }
+    .terr { fill: var(--veg-1); }
+    .frame { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
+    .scanline { fill: var(--accent); opacity: 0; }
+    @keyframes scan { 0% { opacity: 0.9; transform: translateY(0); } 90% { opacity: 0.9; } 100% { opacity: 0; transform: translateY(50px); } }
+
+    /* Al pasar el ratón (o al llegar con el teclado; en pantallas táctiles, al aparecer la fila) */
+    .prow:is(:hover, :focus-within, .play) .fig-tiles .tile, .arow:is(:hover, .play) .fig-tiles .tile { animation: reload 0.9s ease both; animation-delay: var(--d); }
+    .prow:is(:hover, :focus-within, .play) .vec { animation: draw 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.35s both; }
+    .prow:is(:hover, :focus-within, .play) .sat1 { offset-distance: 30%; }
+    .prow:is(:hover, :focus-within, .play) .sat2 { offset-distance: 80%; }
+    .prow:is(:hover, :focus-within, .play) .layer { transform: translateY(var(--y)) ; }
+    .prow:is(:hover, :focus-within, .play) .l1 { transform: translateY(-10px); }
+    .soon:is(:hover, .play) .spin { animation-duration: 2.4s; }
+    .arow:is(:hover, .play) .scanline { animation: scan 1.3s ease-in-out both; }
     .arrow { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
     .prow:hover .arrow, .prow:focus-within .arrow { transform: translate(5px, -5px); color: var(--accent); }
     /* Otros proyectos: una nota de lo que viene y, debajo, el archivo */
-    .soon { margin-top: clamp(22px, 4vh, 36px); }
+    .soon { display: flex; align-items: center; gap: 22px; margin-top: clamp(22px, 4vh, 36px); }
+    .soon .pfig { width: 96px; height: 96px; }
     .soon .pdesc { font-size: 1.125rem; }
     @media (max-width: 640px) {
       .prow { grid-template-columns: minmax(0, 1fr); padding-block: 22px; }
       .pside { order: -1; justify-content: space-between; }
-      .world { width: 34px; height: 34px; margin-left: -10px; }
+      .pfig { width: 128px; height: 99px; }
     }
     /* Archivo: lo que ya no está activo, en pequeño */
     .archive { margin-top: clamp(44px, 7vh, 68px); }
     .alist { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
-    .arow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px 28px; color: var(--ink-2); }
+    .arow { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: start; gap: 6px 20px; color: var(--ink-2); }
+    .arow > div:last-child { grid-column: 2; }
     .arow h3 { font-weight: 600; font-size: 1.125rem; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
     .arow .pmeta { margin-top: 6px; }
     .arow .adesc { font-size: 0.98rem; }
     .arow .plinks { margin-top: 8px; }
-    @media (min-width: 641px) { .arow { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+    @media (min-width: 641px) { .arow { grid-template-columns: 64px minmax(0, 5fr) minmax(0, 7fr); } .arow > div:last-child { grid-column: auto; } }
 
     /* Trayectoria: sin título. Una frase grande y cuatro oficios, cada uno con su frase gancho;
        todo el texto se enciende palabra a palabra mientras cruza la pantalla */
@@ -535,9 +576,10 @@
     }
 
     /* El botón de pausa detiene todo lo que se mueve solo */
-    .is-paused .marquee-track, .is-paused .hint i, .is-paused .dot.blink { animation-play-state: paused; }
+    .is-paused .marquee-track, .is-paused .hint i, .is-paused .dot.blink, .is-paused .spin { animation-play-state: paused; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
+      .pfig *, .afig * { animation: none !important; transition: none !important; }
       .statement .w, .hint i { animation: none; }
     }
   </style>
@@ -600,7 +642,17 @@
               <p class="plinks"><a href="https://github.com/robermaps/opmtileloader">Repositorio</a></p>
             </div>
             <div class="pside" aria-hidden="true">
-              <span class="worlds"><i class="world w-mars"></i><i class="world w-merc"></i><i class="world w-moon"></i></span>
+              <svg class="pfig fig-tiles" viewBox="0 0 160 124" aria-hidden="true">
+          <defs><clipPath id="fa-c"><circle cx="74" cy="62" r="46"/></clipPath><radialGradient id="fa-sh" gradientUnits="userSpaceOnUse" cx="57.9" cy="43.6" r="71.3"><stop offset="0.35" class="sh0"/><stop offset="0.8" class="sh1"/><stop offset="1" class="sh2"/></radialGradient></defs>
+          <g clip-path="url(#fa-c)"><rect class="f-mars3" x="28" y="16" width="92" height="92"/><rect class="tile f-mars3" style="--d:0ms" x="28.6" y="16.6" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:70ms" x="43.9" y="16.6" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:140ms" x="59.3" y="16.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:210ms" x="74.6" y="16.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:280ms" x="89.9" y="16.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:350ms" x="105.3" y="16.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:70ms" x="28.6" y="31.9" width="14.1" height="14.1"/><rect class="tile f-mars3" style="--d:140ms" x="43.9" y="31.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:210ms" x="59.3" y="31.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:280ms" x="74.6" y="31.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:350ms" x="89.9" y="31.9" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:420ms" x="105.3" y="31.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:140ms" x="28.6" y="47.3" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:210ms" x="43.9" y="47.3" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:280ms" x="59.3" y="47.3" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:350ms" x="74.6" y="47.3" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:420ms" x="89.9" y="47.3" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:490ms" x="105.3" y="47.3" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:210ms" x="28.6" y="62.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:280ms" x="43.9" y="62.6" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:350ms" x="59.3" y="62.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:420ms" x="74.6" y="62.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:490ms" x="89.9" y="62.6" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:560ms" x="105.3" y="62.6" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:280ms" x="28.6" y="77.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:350ms" x="43.9" y="77.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:420ms" x="59.3" y="77.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:490ms" x="74.6" y="77.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:560ms" x="89.9" y="77.9" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:630ms" x="105.3" y="77.9" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:350ms" x="28.6" y="93.3" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:420ms" x="43.9" y="93.3" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:490ms" x="59.3" y="93.3" width="14.1" height="14.1"/><rect class="tile f-mars1" style="--d:560ms" x="74.6" y="93.3" width="14.1" height="14.1"/><rect class="tile f-mars2" style="--d:630ms" x="89.9" y="93.3" width="14.1" height="14.1"/><rect class="tile f-mars3" style="--d:700ms" x="105.3" y="93.3" width="14.1" height="14.1"/>
+            <path class="vec" pathLength="1" d="M30 70 C48 52 60 78 78 60 S104 40 122 54"/>
+            <path class="vec vec2" pathLength="1" d="M40 92 C56 82 70 96 88 84 S110 74 118 80"/></g>
+        <g class="grat"><ellipse cx="74" cy="62" rx="46" ry="14.7"/><ellipse cx="74" cy="62" rx="20.7" ry="46"/><path d="M34.4 39.0h79.1M34.4 85.0h79.1M74 16v92"/></g>
+        <circle cx="74" cy="62" r="46" fill="url(#fa-sh)"/><circle class="rim" cx="74" cy="62" r="46"/>
+          <ellipse class="orbit" cx="74" cy="62" rx="70" ry="20" transform="rotate(-16 74 62)"/>
+          <g class="sat sat1"><circle class="f-moon1" r="7.5"/><circle class="rim" r="7.5"/></g>
+          <g class="sat sat2"><circle class="f-merc1" r="5.5"/><circle class="rim" r="5.5"/></g>
+        </svg>
               <svg class="arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
             </div>
           </li>
@@ -611,7 +663,14 @@
               <p class="pdesc">9 capas de la superficie lunar y marciana: mapas base, altimetría MOLA, mosaicos Viking y relieve sombreado.</p>
             </div>
             <div class="pside" aria-hidden="true">
-              <span class="worlds"><i class="world w-moon"></i><i class="world w-mars"></i></span>
+              <svg class="pfig fig-layers" viewBox="0 0 160 124" aria-hidden="true">
+          <defs><linearGradient id="fb-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" class="hyp0"/><stop offset="0.55" class="hyp1"/><stop offset="1" class="hyp2"/></linearGradient></defs>
+          <g transform="translate(0 18)">
+            <g class="layer l3" style="--y:56px"><path class="pl" d="M80 0 L140 22 L80 44 L20 22 Z"/><path class="hill" d="M40 20 l18 -7"/><path class="hill" d="M52 24 l18 -7"/><path class="hill" d="M64 20 l18 -7"/><path class="hill" d="M76 24 l18 -7"/><path class="hill" d="M88 20 l18 -7"/><path class="hill" d="M100 24 l18 -7"/></g>
+            <g class="layer l2" style="--y:28px"><path class="pl" fill="url(#fb-g)" d="M80 0 L140 22 L80 44 L20 22 Z"/><path class="cont" d="M38 22 Q80 4 122 22"/><path class="cont" d="M44 22 Q80 9 116 22"/><path class="cont" d="M50 22 Q80 14 110 22"/><path class="cont" d="M56 22 Q80 19 104 22"/></g>
+            <g class="layer l1" style="--y:0px"><path class="pl" d="M80 0 L140 22 L80 44 L20 22 Z"/><ellipse class="crater" cx="62" cy="20" rx="7" ry="2.8"/><ellipse class="crater" cx="92" cy="26" rx="5" ry="2.0"/><ellipse class="crater" cx="78" cy="12" rx="4" ry="1.6"/><ellipse class="crater" cx="104" cy="18" rx="3.5" ry="1.4"/><ellipse class="crater" cx="70" cy="31" rx="3" ry="1.2"/></g>
+          </g>
+        </svg>
               <svg class="arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
             </div>
           </li>
@@ -624,14 +683,26 @@
       <div class="col">
         <h2 class="claim" id="t-otros">Otros proyectos</h2>
         <div class="soon">
-          <p class="pmeta"><span class="dot on blink"></span>Muy pronto</p>
-          <p class="pdesc">Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
+          <svg class="pfig fig-soon" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="proto" cx="60" cy="60" r="30"/>
+          <circle class="proto proto2" cx="60" cy="60" r="44"/>
+          <g class="spin"><circle class="seed" cx="60" cy="16" r="4"/></g>
+        </svg>
+          <div>
+            <p class="pmeta"><span class="dot on blink"></span>Muy pronto</p>
+            <p class="pdesc">Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
+          </div>
         </div>
 
         <div class="archive">
           <p class="eyebrow">Del archivo</p>
           <ul class="alist">
             <li class="arow">
+              <svg class="afig fig-tiles" viewBox="0 0 72 72" aria-hidden="true">
+              <defs><clipPath id="fd-c"><circle cx="36" cy="36" r="27"/></clipPath><radialGradient id="fd-sh" gradientUnits="userSpaceOnUse" cx="26.6" cy="25.2" r="41.9"><stop offset="0.35" class="sh0"/><stop offset="0.8" class="sh1"/><stop offset="1" class="sh2"/></radialGradient></defs>
+              <g clip-path="url(#fd-c)"><rect class="tile f-moon2" style="--d:0ms" x="9.5" y="9.5" width="12.5" height="12.5"/><rect class="tile f-moon1" style="--d:45ms" x="23.0" y="9.5" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:90ms" x="36.5" y="9.5" width="12.5" height="12.5"/><rect class="tile f-moon1" style="--d:135ms" x="50.0" y="9.5" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:180ms" x="9.5" y="23.0" width="12.5" height="12.5"/><rect class="tile f-moon2" style="--d:225ms" x="23.0" y="23.0" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:270ms" x="36.5" y="23.0" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:315ms" x="50.0" y="23.0" width="12.5" height="12.5"/><rect class="tile f-moon1" style="--d:360ms" x="9.5" y="36.5" width="12.5" height="12.5"/><rect class="tile f-moon1" style="--d:405ms" x="23.0" y="36.5" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:450ms" x="36.5" y="36.5" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:495ms" x="50.0" y="36.5" width="12.5" height="12.5"/><rect class="tile f-moon3" style="--d:540ms" x="9.5" y="50.0" width="12.5" height="12.5"/><rect class="tile f-moon1" style="--d:585ms" x="23.0" y="50.0" width="12.5" height="12.5"/><rect class="tile f-moon2" style="--d:630ms" x="36.5" y="50.0" width="12.5" height="12.5"/><rect class="tile f-moon1" style="--d:675ms" x="50.0" y="50.0" width="12.5" height="12.5"/></g>
+              <circle cx="36" cy="36" r="27" fill="url(#fd-sh)"/><circle class="rim dash" cx="36" cy="36" r="31"/>
+            </svg>
               <div>
                 <h3>OpenPlanetary Tile Loader</h3>
                 <p class="pmeta"><span class="dot"></span>Plugin para QGIS 3.x · sin mantenimiento</p>
@@ -642,6 +713,12 @@
               </div>
             </li>
             <li class="arow">
+              <svg class="afig fig-scan" viewBox="0 0 72 72" aria-hidden="true">
+              <path class="coast" d="M14 26 C22 16 40 14 54 18 C60 30 58 46 50 56 C38 60 22 58 16 48 C12 40 12 32 14 26 Z"/>
+              <circle class="terr" cx="24" cy="30" r="1.6"/><circle class="terr" cx="34" cy="24" r="1.2"/><circle class="terr" cx="42" cy="34" r="1.8"/><circle class="terr" cx="30" cy="44" r="1.4"/><circle class="terr" cx="48" cy="46" r="1.2"/><circle class="terr" cx="52" cy="28" r="1.4"/><circle class="terr" cx="22" cy="52" r="1.2"/><circle class="terr" cx="40" cy="52" r="1.6"/>
+              <path class="frame" d="M8 20V8h12M52 8h12v12M64 52v12H52M20 64H8V52"/>
+              <rect class="scanline" x="10" y="10" width="52" height="2"/>
+            </svg>
               <div>
                 <h3>España desde el cielo</h3>
                 <p class="pmeta"><span class="dot"></span>@esmapbot · bot de Twitter · inactivo</p>
@@ -1299,6 +1376,18 @@
       // Con las fuentes cargadas cambia el ancho del texto, y con él el punto de salida del globo
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitStatement(); measureBrand(); size(); draw(); });
       compact.addEventListener('change', function () { stop(); showGlobe(); });
+
+      /* En pantallas táctiles no hay ratón: cada imagen de proyecto se anima una vez al aparecer */
+      if (window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
+        var figIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            var el = e.target; figIO.unobserve(el);
+            el.classList.add('play'); setTimeout(function () { el.classList.remove('play'); }, 2600);
+          });
+        }, { threshold: 0.6 });
+        document.querySelectorAll('.prow, .arow, .soon').forEach(function (el) { figIO.observe(el); });
+      }
 
       /* Los textos de Trayectoria se encienden palabra a palabra mientras cruzan la pantalla.
          Cada bloque marcado con data-rv es una unidad: sus palabras se envuelven en <span> y se
