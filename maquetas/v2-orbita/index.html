@@ -249,6 +249,7 @@
       color: var(--ink);
       text-decoration: none;
       white-space: nowrap;
+      transform-origin: 0 0;
     }
     .brand span { color: var(--accent); }
     .tools { position: relative; z-index: 1; display: flex; align-items: center; gap: 2px; margin-left: auto; }
@@ -308,8 +309,9 @@
     .hero { position: relative; padding-top: calc(env(safe-area-inset-top, 0px) + 84px); padding-bottom: 28px; }
     .hero > .col { position: relative; z-index: 1; }
     .hero-top { display: flex; flex-direction: column; gap: 8px; }
-    .hero h1 { font-weight: 700; font-size: 1.9rem; line-height: 1.02; letter-spacing: -0.03em; }
-    .name-line { display: block; }
+    /* Hueco de la marca en la portada: la marca de la cabecera se dibuja aquí, a este tamaño, con la
+       página arriba del todo, y sube hasta su sitio al desplazarse (lo mueve el script) */
+    .brand-spot { visibility: hidden; font: 700 2.3rem/1 var(--font-display); letter-spacing: -0.01em; white-space: nowrap; }
     .coords { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 400 0.78rem/1.35 var(--font-mono); color: var(--ink-2); }
     .coords svg { width: 13px; height: 13px; fill: var(--accent); flex: none; }
     /* Dos líneas que llenan el ancho disponible hasta el globo. --fit es ese ancho: toda la columna en
@@ -320,10 +322,13 @@
     .statement { --fit: 100cqi; width: var(--fit); margin-top: clamp(14px, 2.6vh, 28px); font-family: var(--font-display); font-weight: 700; }
     .statement .l { display: block; white-space: nowrap; }
     .statement .l1 { font-size: calc(var(--fit) / 5.005); line-height: 0.98; letter-spacing: -0.045em; }
-    .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 8.974); line-height: 1.08; }
+    /* En pantallas estrechas la segunda parte se apila en dos líneas («que se usan» / «y se entienden.»)
+       al tamaño que hace medir la más larga (4,968 em) todo el ancho; en escritorio va en una sola */
+    .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 4.968); line-height: 1.02; white-space: normal; }
+    .statement .l2 .sub { display: block; white-space: nowrap; }
     .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
     @keyframes rise { from { opacity: 0; transform: translateY(0.3em); } }
-    .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4.4vh, 44px); }
+    .hero-cta { display: none; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4.4vh, 44px); }
     .pill {
       display: inline-flex;
       align-items: center;
@@ -451,6 +456,8 @@
     .btn-ghost:hover { background: var(--surface-2); }
     .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
     .contact p { margin: 8px 0 0; color: var(--ink-2); }
+    .contact .sign { margin: 0 0 14px; font: 700 1.45rem/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--ink); }
+    .contact-cta { margin-top: 24px; }
     .mail-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 18px; }
     .mail { font: 700 clamp(1.3rem, 3.4vw, 2.1rem)/1.15 var(--font-display); letter-spacing: -0.01em; color: var(--ink); overflow-wrap: anywhere; user-select: all; }
     .social-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -483,13 +490,15 @@
       /* Las palabras aún sin encender se ven algo más que en móvil, porque aquí el globo pasa por detrás */
       .rv .w { opacity: 0.28; }
       .hero { display: flex; align-items: center; min-height: calc(100svh - clamp(96px, 15vh, 150px)); }
-      .hero h1 { font-size: 1.45rem; letter-spacing: -0.02em; }
+      .brand-spot { font-size: 2.6rem; }
+      .statement .l2 { font-size: calc(var(--fit) / 8.974); line-height: 1.08; white-space: nowrap; }
+      .statement .l2 .sub { display: inline; }
+      .hero-cta { display: flex; }
       /* Ancho para las dos líneas: lo que queda desde el borde de la columna tras descontar el globo,
          su separación (40 px) y el margen (24 px); nunca más que la columna. El globo mide lo que el
          bloque de texto (aprox. 0,32 × ancho + 190 px), hasta 400 px: de ahí las dos fórmulas, la
          segunda para cuando ya ha llegado a ese tope. */
       .statement { --fit: max(300px, min(100cqi, max(37vw + 78px, 50vw - 104px))); }
-      .name-line { display: inline; }
       .hint { display: inline-flex; align-items: center; gap: 8px; }
       .hud {
         position: fixed;
@@ -561,12 +570,12 @@
       <div class="col">
         <div class="hero-text">
           <div class="hero-top">
-            <h1 id="nombre"><span class="name-line">Roberto</span> <span class="name-line">Jiménez</span> <span class="name-line">López</span></h1>
+            <h1 class="sr-only" id="nombre">Roberto Jiménez López · @robermaps</h1>
+            <p class="brand-spot" aria-hidden="true"><span>@</span>robermaps</p>
             <p class="coords"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span>Madrid</span><span class="tnum">40,4168° N 3,7038° O</span></p>
           </div>
-          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Creo</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="w" style="--i:2">que</span> <span class="w" style="--i:3">se</span> <span class="w" style="--i:4">usan</span> <span class="w" style="--i:5">y</span> <span class="w" style="--i:6">se</span> <span class="w" style="--i:7">entienden.</span></em></p>
+          <p class="statement"><span class="l l1"><span class="w" style="--i:0">Creo</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="sub"><span class="w" style="--i:2">que</span> <span class="w" style="--i:3">se</span> <span class="w" style="--i:4">usan</span></span> <span class="sub"><span class="w" style="--i:5">y</span> <span class="w" style="--i:6">se</span> <span class="w" style="--i:7">entienden.</span></span></em></p>
           <div class="hero-cta">
-            <a class="pill" href="mailto:robermaps@outlook.es">Escríbeme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <span class="hint">Baja para orbitar <i aria-hidden="true">↓</i></span>
           </div>
         </div>
@@ -682,12 +691,14 @@
       <div class="col">
         <div class="contact">
           <div>
+            <p class="sign">Roberto Jiménez López</p>
             <h2 id="t-contacto">¿Hablamos?</h2>
             <p>Para proyectos, colaboraciones o dudas sobre mis herramientas, escríbeme.</p>
             <div class="mail-row">
               <a class="mail" id="mail" href="mailto:robermaps@outlook.es">robermaps@outlook.es</a>
               <button class="btn btn-ghost" type="button" id="copy-mail" data-copy="robermaps@outlook.es">Copiar</button>
             </div>
+            <a class="pill contact-cta" href="mailto:robermaps@outlook.es">Escríbeme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </div>
           <ul class="social-list">
             <li><a href="https://www.linkedin.com/in/robermaps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn <small>/in/robermaps</small></a></li>
@@ -1243,7 +1254,7 @@
         var lastHeroH = 0;
         new ResizeObserver(function () {
           var h = Math.round(heroSection.getBoundingClientRect().height);
-          if (h !== lastHeroH) { lastHeroH = h; size(); draw(); }   // también en escritorio: el arco parte del texto
+          if (h !== lastHeroH) { lastHeroH = h; size(); draw(); moveBrand(); }   // también en escritorio: el arco parte del texto
         }).observe(heroSection);
       }
 
@@ -1254,17 +1265,44 @@
         var W = statement.getBoundingClientRect().width, rg = document.createRange();
         Array.prototype.forEach.call(statement.querySelectorAll('.l'), function (l) {
           l.style.fontSize = '';
-          rg.selectNodeContents(l);
-          var w = rg.getBoundingClientRect().width, fs = parseFloat(getComputedStyle(l).fontSize);
+          // Si la línea está apilada en varias, manda la más ancha
+          var parts = Array.prototype.filter.call(l.querySelectorAll('.sub'), function (x) { return getComputedStyle(x).display === 'block'; });
+          var w = 0;
+          (parts.length ? parts : [l]).forEach(function (x) { rg.selectNodeContents(x); w = Math.max(w, rg.getBoundingClientRect().width); });
+          var fs = parseFloat(getComputedStyle(l).fontSize);
           if (w > 0 && W > 0) l.style.fontSize = (fs * W / w).toFixed(2) + 'px';
         });
       }
 
+      /* La marca de la cabecera empieza en la portada, a tamaño grande, y sube hasta su sitio al bajar:
+         sigue exactamente al hueco de la portada mientras se acerca a la cabecera, se desplaza en
+         horizontal y se encoge a la vez, y queda fija en cuanto llega */
+      var brand = document.querySelector('.brand'), spot = document.querySelector('.brand-spot'), bm = null, rgB = document.createRange();
+      function measureBrand() {
+        brand.style.transform = '';
+        rgB.selectNodeContents(brand); var b = rgB.getBoundingClientRect(), box = brand.getBoundingClientRect();
+        brand.style.transformOrigin = (b.left - box.left) + 'px ' + (b.top - box.top) + 'px';
+        bm = { left: b.left, top: b.top, k: parseFloat(getComputedStyle(spot).fontSize) / parseFloat(getComputedStyle(brand).fontSize) };
+        moveBrand();
+      }
+      function moveBrand() {
+        if (!bm) return;
+        // El hueco se mide en cada fotograma, así la marca lo sigue aunque la portada cambie de alto
+        rgB.selectNodeContents(spot); var s = rgB.getBoundingClientRect();
+        var d = s.top - bm.top, d0 = d + window.scrollY;
+        var u = d > 0 && d0 > 0 ? d / d0 : 0;                    // 1 en la portada, 0 en la cabecera
+        brand.style.transform = u ? 'translate(' + ((s.left - bm.left) * u).toFixed(1) + 'px,' + d.toFixed(1) + 'px) scale(' + (1 + (bm.k - 1) * u).toFixed(4) + ')' : '';
+      }
+      var brandQueued = false;
+      window.addEventListener('scroll', function () { if (!brandQueued) { brandQueued = true; requestAnimationFrame(function () { brandQueued = false; moveBrand(); }); } }, { passive: true });
+      window.addEventListener('resize', measureBrand);
+
       readColors(); syncBtn();
       fitStatement();
+      measureBrand();
       showGlobe();
       // Con las fuentes cargadas cambia el ancho del texto, y con él el punto de salida del globo
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitStatement(); size(); draw(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitStatement(); measureBrand(); size(); draw(); });
       compact.addEventListener('change', function () { stop(); showGlobe(); });
 
       /* Los textos de Trayectoria se encienden palabra a palabra mientras cruzan la pantalla.
