@@ -349,15 +349,6 @@
     @keyframes nudge { 50% { transform: translateY(5px); } }
 
     /* Cinta: lo que hago, en letras huecas que dejan ver el globo */
-    .marquee { overflow: hidden; padding-block: clamp(8px, 1.6vh, 18px); user-select: none; -webkit-user-select: none; }
-    .marquee-track { display: flex; width: max-content; animation: marquee 64s linear infinite; }
-    .marquee-seq { display: flex; align-items: center; flex: none; font: 700 clamp(2.6rem, 7.6vw, 5.6rem)/1.15 var(--font-display); letter-spacing: -0.035em; }
-    .marquee-seq span { padding-inline: 0.26em; white-space: nowrap; color: var(--ink-2); }
-    .marquee-seq i { width: 0.2em; height: 0.2em; border-radius: 50%; background: var(--accent); flex: none; }
-    @supports (-webkit-text-stroke: 1px #000) {
-      .marquee-seq span { color: transparent; -webkit-text-stroke: 1.3px var(--ink); }
-    }
-    @keyframes marquee { to { transform: translateX(-50%); } }
 
     /* Proyectos: un índice. Cada fila entera es el enlace */
     .claim { font: 700 clamp(2rem, 5.3vw, 3.5rem)/1.02 var(--font-display); letter-spacing: -0.035em; text-wrap: balance; }
@@ -477,7 +468,7 @@
        tinta, palabra a palabra, mientras el bloque cruza la pantalla. Peso medio para que el trazo
        hueco no resulte pesado */
     .craft { font-size: clamp(1.4rem, 3.3vw, 2.15rem); }
-    .craft h3 { font: 500 1.35em/1.08 var(--font-display); font-size: max(2rem, 1.35em); letter-spacing: -0.015em; }
+    .craft h3 { font: 500 1.1em/1.1 var(--font-display); letter-spacing: -0.015em; }
     .craft h3 + p { margin-top: 0.22em; }
     @supports (-webkit-text-stroke: 1px #000) {
       .craft h3 .w { opacity: 1; color: transparent; -webkit-text-stroke: 1px var(--ink); paint-order: stroke fill; transition: color 0.45s ease; }
@@ -526,9 +517,6 @@
       font: 400 0.8125rem/1.4 var(--font-mono);
     }
 
-    /* Lectura de a bordo: meridiano que mira a cámara y tramo de órbita recorrido */
-    .hud { display: none; }
-
     /* Escritorio: el lienzo ocupa toda la ventana, detrás del contenido, y la portada llena la pantalla */
     @media (min-width: 1024px) {
       .globe-col { display: block; }
@@ -546,27 +534,6 @@
          segunda para cuando ya ha llegado a ese tope. */
       .statement { --fit: max(300px, min(100cqi, max(37vw + 78px, 50vw - 104px))); }
       .hint { display: inline-flex; align-items: center; gap: 8px; }
-      .hud {
-        position: fixed;
-        z-index: 5;
-        right: max(12px, env(safe-area-inset-right, 0px));
-        bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
-        display: grid;
-        gap: 4px;
-        justify-items: end;
-        padding: 7px 10px;
-        border-radius: 8px;
-        background: color-mix(in srgb, var(--surface) 72%, transparent);
-        -webkit-backdrop-filter: blur(6px);
-        backdrop-filter: blur(6px);
-        font: 400 0.72rem/1.2 var(--font-mono);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--ink-2);
-        font-variant-numeric: tabular-nums;
-        pointer-events: none;
-      }
-      .hud b { font-weight: 500; color: var(--ink); }
     }
 
     /* Pantallas estrechas: el globo va en la esquina superior derecha de la portada, junto al nombre,
@@ -589,7 +556,7 @@
     }
 
     /* El botón de pausa detiene todo lo que se mueve solo */
-    .is-paused .marquee-track, .is-paused .hint i, .is-paused .dot.blink, .is-paused .spin { animation-play-state: paused; }
+    .is-paused .hint i, .is-paused .dot.blink, .is-paused .spin { animation-play-state: paused; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .pfig *, .afig * { animation: none !important; transition: none !important; }
@@ -633,13 +600,6 @@
       </div>
     </section>
 
-    <!-- Cinta con los cuatro oficios (decorativa: el mismo contenido está en Trayectoria) -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        <div class="marquee-seq"><span>Cartografía y diseño</span><i></i><span>Geografía cuantitativa</span><i></i><span>Desarrollo web y apps</span><i></i><span>Automatización e IA</span><i></i></div>
-        <div class="marquee-seq"><span>Cartografía y diseño</span><i></i><span>Geografía cuantitativa</span><i></i><span>Desarrollo web y apps</span><i></i><span>Automatización e IA</span><i></i></div>
-      </div>
-    </div>
 
     <!-- Proyectos -->
     <section class="scene" id="proyectos" aria-labelledby="t-proy">
@@ -809,10 +769,6 @@
   </footer>
   </div>
 
-  <div class="hud" aria-hidden="true">
-    <span>Meridiano <b id="coords">20,3° E</b></span>
-    <span>Órbita <b id="orbit">0 %</b></span>
-  </div>
 
   <script>
     (function () {
@@ -876,7 +832,7 @@
       var MADRID = [-3.7038, 40.4168];
       var rot = -20.3;                     // meridiano central 20,3° E: al cargar, Madrid asoma junto al margen derecho
       // La animación arranca siempre activa, en escritorio y en móvil; se detiene con el botón de pausa
-      var running = true, raf = 0, last = 0, lastDraw = 0, lastReadout = 0;
+      var running = true, raf = 0, last = 0, lastDraw = 0;
       var vw = 0, vh = 0, R = 0, cx = 0, cy = 0, dpr = 1, colors = {};
       var land = null, borders = null, polys = [], grat = null, proj = null, path = null;
       var trails = [], BANDS = 10;
@@ -963,7 +919,6 @@
 
       /* Recorrido del globo en escritorio ---------------------------------- */
       var arcGeo = null, arcP = 0;
-      var orbitEl = document.getElementById('orbit'), lastOrbit = -1;
       function scrollProgress() {
         var max = document.documentElement.scrollHeight - window.innerHeight;
         return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
@@ -985,8 +940,6 @@
           cy = A.yM + (A.yE - A.yM) * Math.sin(ph);
         }
         R = A.R0 + (A.R1 - A.R0) * Math.pow(p, 1.2);
-        var op = Math.round(p * 100);
-        if (op !== lastOrbit) { lastOrbit = op; orbitEl.textContent = op + ' %'; }
         // Mientras pasa por detrás de la columna de texto, el globo se atenúa hasta quedarse en el 20 %
         // (salvo en la salida). El solape se mide sobre lo que puede llegar a taparse (el diámetro del
         // globo o el ancho de la columna, lo que sea menor), así que un globo más ancho que la columna
@@ -1216,8 +1169,6 @@
         ctx.globalAlpha = 1;
       }
 
-      function fmt(v) { var l = ((v + 540) % 360) - 180; return Math.abs(l).toFixed(1).replace('.', ',') + '° ' + (l >= 0 ? 'E' : 'O'); }
-      function readout() { document.getElementById('coords').textContent = fmt(-rot); }
 
       function tick(t) {
         if (!last) last = t;
@@ -1230,7 +1181,6 @@
         stepTrails(dt);
         last = t;
         if (t - lastDraw > 33) { draw(); lastDraw = t; }          // unos 30 fotogramas por segundo
-        if (t - lastReadout > 500) { readout(); lastReadout = t; }
         raf = requestAnimationFrame(tick);
       }
       function play() { if (!raf && running && inView && !document.hidden) { last = 0; raf = requestAnimationFrame(tick); } }
@@ -1324,7 +1274,7 @@
         if (compact.matches) { if (mapLayer.parentNode !== heroSection) heroSection.insertBefore(mapLayer, heroSection.firstChild); }
         else if (mapLayer.parentNode === heroSection) homeSpot.parentNode.insertBefore(mapLayer, homeSpot.nextSibling);
       }
-      function showGlobe() { place(); size(); draw(); readout(); play(); initGlobe(); }
+      function showGlobe() { place(); size(); draw(); play(); initGlobe(); }
 
       // Solo se anima mientras se ve (en móvil, mientras la portada está en pantalla)
       var inView = true;
@@ -1438,7 +1388,7 @@
         var h = window.innerHeight, atEnd = scrollProgress() > 0.995;   // al final de la página, todo encendido
         rvUnits.forEach(function (u) {
           var r = u.el.getBoundingClientRect();
-          var prog = atEnd ? 1 : (h * 0.9 - r.top) / (r.height + h * 0.3);   // de asomar por abajo a pasar del 60 % de la pantalla
+          var prog = atEnd ? 1 : (h * 0.75 - r.top) / (r.height + h * 0.35);  // empieza al pasar del 75 % de la pantalla y termina al 40 %
           var k = Math.max(0, Math.min(u.words.length, Math.round(prog * u.words.length)));
           if (k === u.lit) return;
           u.lit = k;
