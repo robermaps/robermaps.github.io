@@ -306,7 +306,7 @@
     }
 
     /* Portada */
-    .hero { position: relative; padding-top: calc(env(safe-area-inset-top, 0px) + 84px); padding-bottom: 28px; }
+    .hero { position: relative; padding-top: calc(env(safe-area-inset-top, 0px) + clamp(64px, 11vh, 84px)); padding-bottom: 28px; }
     .hero > .col { position: relative; z-index: 1; }
     .hero-top { display: flex; flex-direction: column; gap: 8px; }
     /* Hueco de la marca en la portada: la marca de la cabecera se dibuja aquí, a este tamaño, con la
@@ -571,13 +571,13 @@
         inset: 0;
         z-index: 0;
       }
-      .hero-top { min-height: calc(min(40vw, 180px) + 12px); padding-right: calc(min(40vw, 180px) + 16px); }
+      .hero-top { min-height: calc(min(40vw, 180px, 20vh) + 12px); padding-right: calc(min(40vw, 180px, 20vh) + 16px); }
       /* En móvil y tableta, la frase va arriba del todo y debajo @robermaps con el globo a su lado */
       .hero-text { display: flex; flex-direction: column; }
       .statement { order: -1; margin-top: 0; }
       .hero-top { margin-top: clamp(20px, 4vh, 36px); justify-content: center; }
       /* @robermaps cabe en el hueco que deja el globo (mide unos 6,3 em) */
-      .brand-spot { font-size: min(2.3rem, (100cqi - min(40vw, 180px) - 16px) / 6.4); }
+      .brand-spot { font-size: min(2.3rem, (100cqi - min(40vw, 180px, 20vh) - 16px) / 6.4); }
     }
 
     /* El botón de pausa detiene todo lo que se mueve solo */
@@ -894,7 +894,7 @@
         if (compact.matches) {
           // Pantallas estrechas: globo en la esquina superior derecha de la portada, junto al nombre
           var an = heroTop.getBoundingClientRect();
-          R = Math.round(Math.min(vw * 0.2, 90));
+          R = Math.round(Math.min(vw * 0.2, 90, window.innerHeight * 0.1));   // en pantallas bajas, más pequeño
           cx = Math.round(an.right - box.left) - R - 4;
           cy = Math.round(an.top - box.top) + R + 4;
           sun.vis = 0; setLight(-0.65, -0.76, 35 * Math.PI / 180);
@@ -1351,7 +1351,8 @@
           var fs = parseFloat(getComputedStyle(l).fontSize);
           if (!(w > 0 && W > 0)) return;
           var want = fs * W / w;
-          var min = (l.classList.contains('l1') ? 5 : (parts.length ? 3.5 : 2.75)) * rem;
+          var low = Math.max(0.75, Math.min(1, window.innerHeight / 820));       // pantallas bajas: mínimos menores
+          var min = (l.classList.contains('l1') ? 5 : (parts.length ? 3.5 : 2.75)) * rem * low;
           if (want < min) { l.style.fontSize = min + 'px'; l.classList.add('wrap'); }
           else l.style.fontSize = want.toFixed(2) + 'px';
         });
