@@ -570,10 +570,12 @@
         position: absolute;
         inset: 0;
         z-index: 0;
-        -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
-        mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
       }
       .hero-top { min-height: calc(min(40vw, 180px) + 12px); padding-right: calc(min(40vw, 180px) + 16px); }
+      /* En móvil y tableta, la frase va arriba del todo y debajo @robermaps con el globo a su lado */
+      .hero-text { display: flex; flex-direction: column; }
+      .statement { order: -1; margin-top: 0; }
+      .hero-top { margin-top: clamp(20px, 4vh, 36px); justify-content: center; }
       /* @robermaps cabe en el hueco que deja el globo (mide unos 6,3 em) */
       .brand-spot { font-size: min(2.3rem, (100cqi - min(40vw, 180px) - 16px) / 6.4); }
     }
