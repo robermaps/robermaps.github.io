@@ -458,6 +458,13 @@
     .lc { stroke: none; transition: opacity 0.4s; }
     .lc1 { fill: var(--veg-1); } .lc2 { fill: var(--veg-2); } .lc3 { fill: var(--mars-1); }
     .lcline { fill: none; stroke: var(--surface); stroke-width: 1.2; stroke-dasharray: 1; }
+    .flowline { fill: none; stroke: var(--line); stroke-width: 2; stroke-linejoin: round; }
+    .flowrun { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+    .node { fill: var(--surface-2); stroke: var(--ink-2); stroke-width: 1; }
+    .node.done { fill: var(--accent); stroke: none; transform-origin: center; transition: transform 0.35s ease 0.7s; }
+    .tick { fill: none; stroke: var(--surface); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .arow:is(:hover, .play) .flowrun { animation: draw 0.8s ease-in-out both; }
+    .arow:is(:hover, .play) .node.done { transform: scale(1.15); }
     .arow:is(:hover, .play) .lcline { animation: draw 0.9s cubic-bezier(0.3, 0.6, 0.2, 1) both; }
     .arrow { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
     .prow:hover .arrow, .prow:focus-within .arrow { transform: translate(5px, -5px); color: var(--accent); }
@@ -730,6 +737,22 @@
               </div>
               <div>
                 <p class="adesc">Procesamiento de imágenes de satélite y análisis de la cobertura del suelo.</p>
+              </div>
+            </li>
+            <li class="arow">
+              <svg class="afig fig-flow" viewBox="0 0 72 72" aria-hidden="true">
+                <path class="flowline" d="M14 20 H36 V52 H58"/>
+                <path class="flowrun" pathLength="1" d="M14 20 H36 V52 H58"/>
+                <rect class="node" x="6" y="12" width="16" height="16" rx="4"/>
+                <rect class="node" x="28" y="28" width="16" height="16" rx="4"/>
+                <circle class="node done" cx="58" cy="52" r="9"/>
+                <path class="tick" d="M54 52 l3 3 l5 -6"/>
+              </svg>
+              <div>
+                <h3>Automatización de negocio de formación</h3>
+              </div>
+              <div>
+                <p class="adesc">Confección a medida de herramientas que aumentan el rendimiento de los procesos.</p>
               </div>
             </li>
             <li class="arow">
