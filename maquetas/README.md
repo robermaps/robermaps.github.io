@@ -4,12 +4,11 @@ Propuestas para `robermaps.github.io`, hechas en HTML, CSS y JavaScript sin depe
 
 | Carpeta | Qué es |
 | --- | --- |
-| [`v2-orbita/`](v2-orbita/) | **V2 · Órbita.** Rediseño que conserva la animación de fondo (globo, estelas y sol ligados al scroll) y el contacto de la maqueta A, y rehace todo lo demás. Detalle en la sección 2. |
-| [`v3/`](v3/) | **V3.** La V2 con las imágenes de los proyectos repensadas: mismo lenguaje gráfico que el globo de fondo y una animación corta al pasar el ratón. Detalle en la sección 3. |
+| [`v3/`](v3/) | **V3 · Elegida.** Conserva la animación de fondo (globo, estelas y sol ligados al scroll) y rehace todo lo demás; las imágenes de los proyectos usan el lenguaje del globo y se animan al pasar el ratón. Parte de la V2, descrita en la sección 2; lo que cambia respecto a ella, en la sección 3. |
 
-Las demás maquetas (A, su copia guardada, B y la V2 en azul) se han descartado y se han quitado de la rama; siguen en el historial de git.
+**Decisión: V3.** Las demás maquetas (A, su copia guardada, B, la V2 y la V2 en azul) se han descartado y se han quitado de la rama; siguen en el historial de git.
 
-Ambas llevan `<meta name="robots" content="noindex">` para que no se indexen mientras sean maquetas.
+Lleva `<meta name="robots" content="noindex">` para que no se indexen mientras sean maquetas.
 
 **Cómo verlas en local** (en el Mac):
 
@@ -68,7 +67,7 @@ Hace falta servirlas por HTTP: el globo carga `world.json` con `fetch()` y eso n
 
 ---
 
-## 2. V2 · Órbita
+## 2. V2 · Órbita (base de la V3)
 
 Parte de la maqueta A y responde a que esta se sentía corporativa y rígida. Conserva tal cual la animación de fondo y la sección de contacto; el resto es nuevo. La columna central de 720 px se mantiene porque la coreografía la necesita: el globo y el sol viajan por los pasillos de los lados.
 
@@ -95,5 +94,5 @@ Copia de la V2 en la que solo cambian las imágenes de los proyectos. Todas usan
 ## 5. Siguientes pasos que recomiendo
 
 1. Arreglar el visor de la Luna y Marte ya, con independencia de la maqueta que elijas: quitar las tres referencias rotas, usar el Leaflet local 1.9.4, pasar las capas a `https://` y actualizar el panel con el SlideMenu restaurado o un panel propio.
-2. Pasar la maqueta elegida (V2 o V3) a `index.html` (quitando el `noindex`).
+2. Pasar la V3 a `index.html` (quitando el `noindex`).
 3. Limpiar el repo (ficheros sin uso, `.DS_Store`, acciones del workflow).
