@@ -655,18 +655,6 @@
     <section class="scene" id="otros" aria-labelledby="t-otros">
       <div class="col">
         <h2 class="claim" id="t-otros">Otros proyectos</h2>
-        <div class="soon">
-          <svg class="pfig fig-soon" viewBox="0 0 120 120" aria-hidden="true">
-          <circle class="proto" cx="60" cy="60" r="30"/>
-          <circle class="proto proto2" cx="60" cy="60" r="44"/>
-          <g class="spin"><circle class="seed" cx="60" cy="16" r="4"/></g>
-        </svg>
-          <div>
-            <p class="pmeta"><span class="dot on blink"></span>Muy pronto</p>
-            <p class="pdesc">Estoy preparando proyectos fuera del ámbito geoespacial. Aparecerán aquí en cuanto estén listos.</p>
-          </div>
-        </div>
-
         <div class="archive">
           <p class="eyebrow">Del archivo</p>
           <ul class="alist">
@@ -1356,7 +1344,7 @@
             el.classList.add('play'); setTimeout(function () { el.classList.remove('play'); }, 2600);
           });
         }, { threshold: 0.6 });
-        document.querySelectorAll('.prow, .arow, .soon').forEach(function (el) { figIO.observe(el); });
+        document.querySelectorAll('.prow, .arow').forEach(function (el) { figIO.observe(el); });
       }
 
       /* Los textos de Trayectoria se encienden palabra a palabra mientras cruzan la pantalla.
