@@ -604,7 +604,7 @@
     <!-- Proyectos -->
     <section class="scene" id="proyectos" aria-labelledby="t-proy">
       <div class="col">
-        <h2 class="claim" id="t-proy">Herramientas para explorar La Tierra y <em>otros mundos.</em></h2>
+        <h2 class="claim" id="t-proy">Herramientas para explorar La Tierra <em>y otros mundos.</em></h2>
 
         <ul class="plist">
           <li class="prow">
@@ -712,21 +712,21 @@
         <p class="manifesto" data-rv>Llevo más de <em>7 años</em> convirtiendo la información en solución.</p>
 
         <div class="crafts">
-          <div class="craft" data-rv>
-            <h3>Cartografía y diseño</h3>
-            <p>Información que por fin se entiende.</p>
+          <div class="craft">
+            <h3 data-rv>Cartografía y diseño</h3>
+            <p data-rv="pronto">Información que por fin se entiende.</p>
           </div>
-          <div class="craft" data-rv>
-            <h3>Geografía cuantitativa</h3>
-            <p>Por qué las cosas pasan donde pasan.</p>
+          <div class="craft">
+            <h3 data-rv>Geografía cuantitativa</h3>
+            <p data-rv="pronto">Por qué las cosas pasan donde pasan.</p>
           </div>
-          <div class="craft" data-rv>
-            <h3>Desarrollo web y apps</h3>
-            <p>Ruido y fricción reducidos hasta su límite físico.</p>
+          <div class="craft">
+            <h3 data-rv>Desarrollo web y apps</h3>
+            <p data-rv="pronto">Ruido y fricción reducidos hasta su límite físico.</p>
           </div>
-          <div class="craft" data-rv>
-            <h3>Automatización e IA aplicada</h3>
-            <p>Lo repetitivo se hace solo.</p>
+          <div class="craft">
+            <h3 data-rv>Automatización e IA aplicada</h3>
+            <p data-rv="pronto">Lo repetitivo se hace solo.</p>
           </div>
         </div>
       </div>
@@ -1380,7 +1380,7 @@
           });
         })(el);
         el.classList.add('rv');
-        return { el: el, words: words, lit: -1 };
+        return { el: el, words: words, lit: -1, early: el.getAttribute('data-rv') === 'pronto' };
       });
       var rvQueued = false;
       function litWords() {
@@ -1388,7 +1388,9 @@
         var h = window.innerHeight, atEnd = scrollProgress() > 0.995;   // al final de la página, todo encendido
         rvUnits.forEach(function (u) {
           var r = u.el.getBoundingClientRect();
-          var prog = atEnd ? 1 : (h * 0.75 - r.top) / (r.height + h * 0.35);  // empieza al pasar del 75 % de la pantalla y termina al 40 %
+          // Las frases gancho se encienden antes: nada más asomar por abajo y terminan al 60 % de la pantalla;
+          // el resto empieza al pasar del 75 % y termina al 40 %
+          var prog = atEnd ? 1 : u.early ? (h * 0.95 - r.top) / (r.height + h * 0.35) : (h * 0.75 - r.top) / (r.height + h * 0.35);
           var k = Math.max(0, Math.min(u.words.length, Math.round(prog * u.words.length)));
           if (k === u.lit) return;
           u.lit = k;
