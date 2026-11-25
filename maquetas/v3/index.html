@@ -324,6 +324,7 @@
        al tamaño que hace medir la más larga (5,592 em) todo el ancho; en escritorio va en una sola */
     .statement .l2 { margin-top: 0.1em; font-size: calc(var(--fit) / 5.592); line-height: 1.02; white-space: normal; }
     .statement .l2 .sub { display: block; white-space: nowrap; }
+    .statement .l.wrap, .statement .l.wrap .sub { white-space: normal; text-wrap: balance; }
     .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
     @keyframes rise { from { opacity: 0; transform: translateY(0.3em); } }
     .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4.4vh, 44px); }
@@ -573,6 +574,8 @@
         mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
       }
       .hero-top { min-height: calc(min(40vw, 180px) + 12px); padding-right: calc(min(40vw, 180px) + 16px); }
+      /* @robermaps cabe en el hueco que deja el globo (mide unos 6,3 em) */
+      .brand-spot { font-size: min(2.3rem, (100cqi - min(40vw, 180px) - 16px) / 6.4); }
     }
 
     /* El botón de pausa detiene todo lo que se mueve solo */
@@ -1333,16 +1336,22 @@
       // Las dos líneas de la portada se ajustan para medir exactamente el ancho disponible, con la
       // tipografía que haya cargado (el CSS ya da un valor muy cercano para el primer pintado)
       var statement = document.querySelector('.statement');
+      // Cada línea tiene un tamaño mínimo: si para caber tendría que quedar por debajo, se queda en ese
+      // mínimo y sus palabras saltan de línea (en pantallas estrechas «Creo / cosas», etc.)
       function fitStatement() {
-        var W = statement.getBoundingClientRect().width, rg = document.createRange();
+        var W = statement.getBoundingClientRect().width, rg = document.createRange(), rem = parseFloat(getComputedStyle(root).fontSize) || 16;
         Array.prototype.forEach.call(statement.querySelectorAll('.l'), function (l) {
-          l.style.fontSize = '';
+          l.style.fontSize = ''; l.classList.remove('wrap');
           // Si la línea está apilada en varias, manda la más ancha
           var parts = Array.prototype.filter.call(l.querySelectorAll('.sub'), function (x) { return getComputedStyle(x).display === 'block'; });
           var w = 0;
           (parts.length ? parts : [l]).forEach(function (x) { rg.selectNodeContents(x); w = Math.max(w, rg.getBoundingClientRect().width); });
           var fs = parseFloat(getComputedStyle(l).fontSize);
-          if (w > 0 && W > 0) l.style.fontSize = (fs * W / w).toFixed(2) + 'px';
+          if (!(w > 0 && W > 0)) return;
+          var want = fs * W / w;
+          var min = (l.classList.contains('l1') ? 5 : (parts.length ? 3.5 : 2.75)) * rem;
+          if (want < min) { l.style.fontSize = min + 'px'; l.classList.add('wrap'); }
+          else l.style.fontSize = want.toFixed(2) + 'px';
         });
       }
 

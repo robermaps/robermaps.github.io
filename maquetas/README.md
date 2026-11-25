@@ -89,6 +89,7 @@ Copia de la V2 en la que solo cambian las imágenes de los proyectos. Todas usan
 - **OpenPlanetaryMap Tile Loader:** Marte hecho de teselas, con una capa vectorial encima y la Luna y Mercurio en órbita. Al pasar el ratón, las teselas se recargan en oleada, la capa vectorial se vuelve a dibujar y los satélites avanzan por su órbita.
 - **Visor de la Luna y Marte:** tres capas apiladas en perspectiva (Luna con cráteres, Marte en tintas hipsométricas con curvas de nivel y un sombreado de relieve) que se separan como en un panel de capas.
 - **Otros proyectos · muy pronto:** un mundo aún en formación (dos círculos punteados) con una semilla en el color de acento que lo orbita despacio y acelera al pasar el ratón.
+- **Frase de portada en pantallas estrechas:** cada línea tiene un tamaño mínimo (5 rem «Creo cosas», 3,5 rem las líneas en cursiva apiladas, 2,75 rem la cursiva en una sola línea). Si para caber en el ancho tuviera que quedar por debajo, se queda en ese mínimo y sus palabras saltan de línea: en un móvil, «Creo» / «cosas»; en pantallas aún más estrechas, también «que se» / «entienden». «@robermaps» se ajusta al hueco que deja el globo.
 - **Archivo:** el plugin para QGIS 3 es la misma esfera en teselas, en grises y con el contorno punteado; sus teselas parpadean al pasar el ratón. @esmapbot es un encuadre de satélite sobre un terreno que una línea de barrido recorre.
 
 ## 5. Siguientes pasos que recomiendo
