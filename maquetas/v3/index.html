@@ -327,7 +327,7 @@
     .statement .l.wrap, .statement .l.wrap .sub { white-space: normal; text-wrap: balance; }
     .statement .w { display: inline-block; animation: rise 0.85s cubic-bezier(0.2, 0.75, 0.2, 1) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
     @keyframes rise { from { opacity: 0; transform: translateY(0.3em); } }
-    .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: clamp(24px, 4.4vh, 44px); }
+    .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: clamp(24px, 4.4vh, 44px); }
     .pill {
       display: inline-flex;
       align-items: center;
@@ -344,8 +344,10 @@
     .pill svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s; }
     .pill:hover { background: var(--accent); }
     .pill:hover svg { transform: translateX(4px); }
-    .hint { display: none; font: 500 0.78rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
-    .hint i { font-style: normal; animation: nudge 1.8s ease-in-out infinite; }
+    /* Segundo botón: solo contorno, en el color del texto */
+    .pill-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+    .pill-ghost:hover { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+    .pill-ghost:hover svg { transform: translateY(3px); }
     @keyframes nudge { 50% { transform: translateY(5px); } }
 
     /* Cinta: lo que hago, en letras huecas que dejan ver el globo */
@@ -401,7 +403,6 @@
     .sat { transform-box: view-box; transform-origin: 0 0; offset-path: path("M141.3 42.7 A70 20 -16 1 1 6.7 81.3 A70 20 -16 1 1 141.3 42.7"); offset-rotate: 0deg; transition: offset-distance 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
     .sat1 { offset-distance: 8%; }
     .sat2 { offset-distance: 58%; }
-    .tilt-hint { display: none; }
     @keyframes reload { 0% { opacity: 1; } 30% { opacity: 0.15; } 100% { opacity: 1; } }
     @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
     /* Visor: las capas se separan como en el panel de capas */
@@ -555,7 +556,6 @@
          bloque de texto (aprox. 0,32 × ancho + 190 px), hasta 400 px: de ahí las dos fórmulas, la
          segunda para cuando ya ha llegado a ese tope. */
       .statement { --fit: max(300px, min(100cqi, max(37vw + 78px, 50vw - 104px))); }
-      .hint { display: inline-flex; align-items: center; gap: 8px; }
     }
 
     /* Pantallas estrechas: el globo va en la esquina superior derecha de la portada, junto al nombre,
@@ -578,11 +578,11 @@
     }
 
     /* El botón de pausa detiene todo lo que se mueve solo */
-    .is-paused .hint i, .is-paused .dot.blink, .is-paused .spin { animation-play-state: paused; }
+    .is-paused .dot.blink, .is-paused .spin { animation-play-state: paused; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .pfig *, .afig * { animation: none !important; transition: none !important; }
-      .statement .w, .hint i { animation: none; }
+      .statement .w { animation: none; }
     }
   </style>
 </head>
@@ -616,7 +616,7 @@
           <p class="statement"><span class="l l1"><span class="w" style="--i:0">Creo</span> <span class="w" style="--i:1">cosas</span></span> <em class="l l2"><span class="sub"><span class="w" style="--i:2">que</span> <span class="w" style="--i:3">se</span> <span class="w" style="--i:4">entienden</span></span> <span class="sub"><span class="w" style="--i:5">y</span> <span class="w" style="--i:6">se</span> <span class="w" style="--i:7">usan.</span></span></em></p>
           <div class="hero-cta">
             <a class="pill" href="#contacto">Escríbeme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <span class="hint">Baja para orbitar <i aria-hidden="true">↓</i></span>
+            <a class="pill pill-ghost" href="#proyectos">Te lo muestro <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
           </div>
         </div>
       </div>
