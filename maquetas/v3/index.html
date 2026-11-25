@@ -436,6 +436,28 @@
     .prow:is(:hover, :focus-within, .play) .l1 { transform: translateY(-10px); }
     .soon:is(:hover, .play) .spin { animation-duration: 2.4s; }
     .arow:is(:hover, .play) .scanline { animation: scan 1.3s ease-in-out both; }
+    /* Proyectos profesionales */
+    .panel { fill: var(--surface-2); stroke: var(--line); }
+    .bar { fill: var(--globe-water); stroke: var(--globe-coast); stroke-width: 0.8; transform-origin: 50% 100%; transition: transform 0.5s cubic-bezier(0.2, 0.75, 0.2, 1) var(--d); }
+    .trend { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+    .arow:is(:hover, .play) .bar { transform: scaleY(0.6); }
+    .arow:is(:hover, .play) .trend { animation: draw 0.9s cubic-bezier(0.3, 0.6, 0.2, 1) both; }
+    .dtop { fill: var(--surface-2); stroke: var(--ink-2); stroke-width: 1; }
+    .d1 .dtop { fill: var(--globe-land); }
+    .parcel { fill: var(--veg-2); stroke: var(--ink-2); stroke-width: 0.6; }
+    .river { fill: none; stroke: var(--globe-coast); stroke-width: 1.6; stroke-linecap: round; }
+    .disk { transition: transform 0.5s cubic-bezier(0.2, 0.75, 0.2, 1); }
+    .arow:is(:hover, .play) .d1 { transform: translateY(-6px); }
+    .arow:is(:hover, .play) .d3 { transform: translateY(5px); }
+    .block { fill: var(--surface-2); stroke: var(--ink-2); stroke-width: 0.9; }
+    .risk { fill: var(--accent); fill-opacity: 0.18; stroke: var(--accent); stroke-width: 1.2; transform-origin: center; transition: transform 0.6s cubic-bezier(0.2, 0.75, 0.2, 1); }
+    .risk2 { fill-opacity: 0.07; stroke-dasharray: 2 3; transform: scale(0.7); }
+    .arow:is(:hover, .play) .risk { transform: scale(1.15); }
+    .arow:is(:hover, .play) .risk2 { transform: scale(1); }
+    .lc { stroke: none; transition: opacity 0.4s; }
+    .lc1 { fill: var(--veg-1); } .lc2 { fill: var(--veg-2); } .lc3 { fill: var(--mars-1); }
+    .lcline { fill: none; stroke: var(--surface); stroke-width: 1.2; stroke-dasharray: 1; }
+    .arow:is(:hover, .play) .lcline { animation: draw 0.9s cubic-bezier(0.3, 0.6, 0.2, 1) both; }
     .arrow { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
     .prow:hover .arrow, .prow:focus-within .arrow { transform: translate(5px, -5px); color: var(--accent); }
     /* Otros proyectos: una nota de lo que viene y, debajo, el archivo */
@@ -657,6 +679,63 @@
         <h2 class="claim" id="t-otros">Otros proyectos</h2>
         <div class="archive">
           <ul class="alist">
+            <li class="arow">
+              <svg class="afig fig-dash" viewBox="0 0 72 72" aria-hidden="true">
+                <rect class="panel" x="6" y="8" width="60" height="56" rx="6"/><rect class="bar" style="--d:0ms" x="12" y="40" width="7" height="18" rx="1"/><rect class="bar" style="--d:70ms" x="22" y="28" width="7" height="30" rx="1"/><rect class="bar" style="--d:140ms" x="32" y="36" width="7" height="22" rx="1"/><rect class="bar" style="--d:210ms" x="42" y="20" width="7" height="38" rx="1"/><rect class="bar" style="--d:280ms" x="52" y="30" width="7" height="28" rx="1"/>
+                <path class="trend" pathLength="1" d="M14 34 L24 26 L34 30 L44 18 L54 22"/>
+              </svg>
+              <div>
+                <h3>Visores de indicadores medioambientales</h3>
+                <p class="pmeta"><span class="dot on"></span>Ibertech · 2025 – hoy</p>
+              </div>
+              <div>
+                <p class="adesc">Visores cartográficos y dashboards para el seguimiento de indicadores medioambientales, alimentados por procesos ETL sobre grandes volúmenes de datos.</p>
+              </div>
+            </li>
+            <li class="arow">
+              <svg class="afig fig-db" viewBox="0 0 72 72" aria-hidden="true">
+                <g class="disk d3"><ellipse class="dtop" cx="36" cy="50" rx="24" ry="8"/></g>
+                <g class="disk d2"><ellipse class="dtop" cx="36" cy="36" rx="24" ry="8"/><path class="parcel" d="M24 34 l8 -4 l8 3 l-7 5 z M42 33 l8 -2 l2 5 l-8 2 z"/></g>
+                <g class="disk d1"><ellipse class="dtop" cx="36" cy="22" rx="24" ry="8"/><path class="river" d="M14 23 C24 18 30 27 40 21 S54 20 58 22"/></g>
+              </svg>
+              <div>
+                <h3>Bases de datos para consultoría territorial</h3>
+                <p class="pmeta"><span class="dot on"></span>Clothos · 2022 – 2025</p>
+              </div>
+              <div>
+                <p class="adesc">Bases de datos espaciales y análisis catastral, hidrológico y de transporte con fuentes oficiales, con informes que se generan solos.</p>
+              </div>
+            </li>
+            <li class="arow">
+              <svg class="afig fig-risk" viewBox="0 0 72 72" aria-hidden="true">
+                <rect class="block" x="10" y="10" width="12" height="12" rx="1.5"/><rect class="block" x="26" y="10" width="12" height="12" rx="1.5"/><rect class="block" x="42" y="10" width="12" height="12" rx="1.5"/><rect class="block" x="10" y="26" width="12" height="12" rx="1.5"/><rect class="block" x="26" y="26" width="12" height="12" rx="1.5"/><rect class="block" x="10" y="42" width="12" height="12" rx="1.5"/><rect class="block" x="42" y="42" width="12" height="12" rx="1.5"/><rect class="block" x="26" y="42" width="12" height="12" rx="1.5"/><rect class="block" x="42" y="26" width="12" height="12" rx="1.5"/>
+                <circle class="risk" cx="50" cy="50" r="14"/>
+                <circle class="risk risk2" cx="50" cy="50" r="22"/>
+              </svg>
+              <div>
+                <h3>Urbanismo y riesgos ambientales</h3>
+                <p class="pmeta"><span class="dot on"></span>IDOM · 2022</p>
+              </div>
+              <div>
+                <p class="adesc">Cartografía, dashboards y visores web para estudios urbanísticos y de evaluación de riesgos ambientales.</p>
+              </div>
+            </li>
+            <li class="arow">
+              <svg class="afig fig-lc" viewBox="0 0 72 72" aria-hidden="true">
+                <path class="lc lc1" d="M8 8 H40 L34 30 L8 36 Z"/>
+                <path class="lc lc2" d="M40 8 H64 V28 L46 34 L34 30 Z"/>
+                <path class="lc lc3" d="M8 36 L34 30 L46 34 L40 64 H8 Z"/>
+                <path class="lc lc1" d="M46 34 L64 28 V64 H40 Z"/>
+                <path class="lcline" pathLength="1" d="M8 36 L34 30 L46 34 L64 28 M34 30 L40 8 M46 34 L40 64"/>
+              </svg>
+              <div>
+                <h3>Usos del suelo en la Red Natura 2000</h3>
+                <p class="pmeta"><span class="dot on"></span>Telespazio Ibérica · Copernicus · 2018 – 2019</p>
+              </div>
+              <div>
+                <p class="adesc">Corrección de imágenes de satélite y fotointerpretación de usos y coberturas del suelo para el programa Copernicus.</p>
+              </div>
+            </li>
             <li class="arow">
               <svg class="afig fig-tiles" viewBox="0 0 72 72" aria-hidden="true">
               <defs><clipPath id="fd-c"><circle cx="36" cy="36" r="27"/></clipPath><radialGradient id="fd-sh" gradientUnits="userSpaceOnUse" cx="26.6" cy="25.2" r="41.9"><stop offset="0.35" class="sh0"/><stop offset="0.8" class="sh1"/><stop offset="1" class="sh2"/></radialGradient></defs>
