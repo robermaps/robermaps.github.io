@@ -479,14 +479,23 @@
     }
     /* Archivo: lo que ya no está activo, en pequeño */
     .archive { margin-top: clamp(30px, 5.4vh, 52px); }   /* misma distancia al encabezado que el índice de proyectos */
-    .alist { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+    .alist { list-style: none; margin: 0; padding: 0; display: grid; gap: 26px; }
     .arow { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: start; gap: 6px 20px; color: var(--ink-2); }
-    .arow > div:last-child { grid-column: 2; }
     .arow h3 { font-weight: 600; font-size: 1.125rem; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
     .arow .pmeta { margin-top: 6px; }
     .arow .adesc { font-size: 0.98rem; }
+    /* El texto de cada proyecto se abre al pulsar su título */
+    .atoggle { display: inline-flex; align-items: baseline; gap: 10px; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
+    .atoggle:hover { color: var(--accent); }
+    .plus { position: relative; width: 11px; height: 11px; flex: none; align-self: center; color: var(--ink-2); transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
+    .plus::before, .plus::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -0.75px; background: currentColor; }
+    .plus::after { transform: rotate(90deg); }
+    .atoggle[aria-expanded="true"] .plus { transform: rotate(45deg); color: var(--accent); }
+    .arow > .afig { grid-row: span 2; }               /* la imagen ocupa las dos filas: el texto abierto queda justo bajo el título */
+    .amore { grid-column: 2; }
+    .amore:not([hidden]) { animation: open 0.35s ease both; }
+    @keyframes open { from { opacity: 0; transform: translateY(-4px); } }
     .arow .plinks { margin-top: 8px; }
-    @media (min-width: 641px) { .arow { grid-template-columns: 64px minmax(0, 5fr) minmax(0, 7fr); } .arow > div:last-child { grid-column: auto; } }
 
     /* Trayectoria: sin título. Una frase grande y cuatro oficios, cada uno con su frase gancho;
        todo el texto se enciende palabra a palabra mientras cruza la pantalla */
@@ -589,7 +598,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .pfig *, .afig * { animation: none !important; transition: none !important; }
-      .statement .w { animation: none; }
+      .statement .w, .amore:not([hidden]) { animation: none; }
     }
   </style>
 </head>
@@ -692,9 +701,9 @@
                 <path class="trend" pathLength="1" d="M14 34 L24 26 L34 30 L44 18 L54 22"/>
               </svg>
               <div>
-                <h3>Desarrollo de flujos de datos</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-1">Desarrollo de flujos de datos<span class="plus" aria-hidden="true"></span></button></h3>
               </div>
-              <div>
+              <div class="amore" id="ad-1" hidden>
                 <p class="adesc">Procesamiento de grandes volúmenes de datos para el seguimiento de indicadores ambientales en la Unión Europea.</p>
               </div>
             </li>
@@ -705,9 +714,9 @@
                 <g class="disk d1"><ellipse class="dtop" cx="36" cy="22" rx="24" ry="8"/><path class="river" d="M14 23 C24 18 30 27 40 21 S54 20 58 22"/></g>
               </svg>
               <div>
-                <h3>Plan de Carreteras de la Comunidad de Madrid</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-2">Plan de Carreteras de la Comunidad de Madrid<span class="plus" aria-hidden="true"></span></button></h3>
               </div>
-              <div>
+              <div class="amore" id="ad-2" hidden>
                 <p class="adesc">Análisis y visualización de datos de población, tráfico e infraestructuras para planificar la red viaria.</p>
               </div>
             </li>
@@ -718,9 +727,9 @@
                 <circle class="risk risk2" cx="50" cy="50" r="22"/>
               </svg>
               <div>
-                <h3>Estudio de riesgos ambientales en Lima y Callao</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-3">Estudio de riesgos ambientales en Lima y Callao<span class="plus" aria-hidden="true"></span></button></h3>
               </div>
-              <div>
+              <div class="amore" id="ad-3" hidden>
                 <p class="adesc">Mapas y dashboards para detectar las zonas de riesgo, dentro del proyecto «Ciudades Sostenibles».</p>
               </div>
             </li>
@@ -733,9 +742,9 @@
                 <path class="lcline" pathLength="1" d="M8 36 L34 30 L46 34 L64 28 M34 30 L40 8 M46 34 L40 64"/>
               </svg>
               <div>
-                <h3>Cartografía de la Red Natura 2000</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-4">Cartografía de la Red Natura 2000<span class="plus" aria-hidden="true"></span></button></h3>
               </div>
-              <div>
+              <div class="amore" id="ad-4" hidden>
                 <p class="adesc">Procesamiento de imágenes de satélite y análisis de la cobertura del suelo.</p>
               </div>
             </li>
@@ -749,9 +758,9 @@
                 <path class="tick" d="M54 52 l3 3 l5 -6"/>
               </svg>
               <div>
-                <h3>Automatización de negocio de formación</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-5">Automatización de negocio de formación<span class="plus" aria-hidden="true"></span></button></h3>
               </div>
-              <div>
+              <div class="amore" id="ad-5" hidden>
                 <p class="adesc">Confección a medida de herramientas que aumentan el rendimiento de los procesos.</p>
               </div>
             </li>
@@ -762,10 +771,10 @@
               <circle cx="36" cy="36" r="27" fill="url(#fd-sh)"/><circle class="rim dash" cx="36" cy="36" r="31"/>
             </svg>
               <div>
-                <h3>OpenPlanetary Tile Loader</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-6">OpenPlanetary Tile Loader<span class="plus" aria-hidden="true"></span></button></h3>
                 <p class="pmeta"><span class="dot"></span>Plugin para QGIS 3.x · sin mantenimiento</p>
               </div>
-              <div>
+              <div class="amore" id="ad-6" hidden>
                 <p class="adesc">Primera versión de OpenPlanetaryMap Tile Loader: capas de teselas de la Luna y Marte publicadas por OpenPlanetary. La sustituye la versión para QGIS 4.</p>
                 <p class="plinks"><a href="https://github.com/robermaps/optileloader">Repositorio</a><a href="https://plugins.qgis.org/plugins/optileloader/">Ficha en QGIS Plugins</a></p>
               </div>
@@ -778,10 +787,10 @@
               <rect class="scanline" x="10" y="10" width="52" height="2"/>
             </svg>
               <div>
-                <h3>España desde el cielo</h3>
+                <h3><button class="atoggle" type="button" aria-expanded="false" aria-controls="ad-7">España desde el cielo<span class="plus" aria-hidden="true"></span></button></h3>
                 <p class="pmeta"><span class="dot"></span>@esmapbot · bot de Twitter · inactivo</p>
               </div>
-              <div>
+              <div class="amore" id="ad-7" hidden>
                 <p class="adesc">Publicaba cada día una imagen de satélite aleatoria de España, hasta que cambiaron las API de Mapbox y Twitter.</p>
               </div>
             </li>
@@ -1442,6 +1451,15 @@
         }, { threshold: 0.6 });
         document.querySelectorAll('.prow, .arow').forEach(function (el) { figIO.observe(el); });
       }
+
+      /* «Qué más»: el título de cada proyecto abre y cierra su texto */
+      document.querySelectorAll('.atoggle').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var open = b.getAttribute('aria-expanded') !== 'true';
+          b.setAttribute('aria-expanded', String(open));
+          document.getElementById(b.getAttribute('aria-controls')).hidden = !open;
+        });
+      });
 
       /* Los textos de Trayectoria se encienden palabra a palabra mientras cruzan la pantalla.
          Cada bloque marcado con data-rv es una unidad: sus palabras se envuelven en <span> y se
