@@ -591,7 +591,7 @@
       .globe-col .map-layer { position: fixed; inset: 0; z-index: 0; }
       .scene { padding-block: clamp(84px, 13vh, 150px); }
       /* Las palabras aún sin encender se ven algo más que en móvil, porque aquí el globo pasa por detrás */
-      .rv .w { --lo: 0.28; }
+      .rv .w { --lo: 0.2; }
       .hero { display: flex; align-items: center; min-height: calc(100svh - clamp(96px, 15vh, 150px)); }
       .brand-spot { font-size: 2.6rem; }
       .statement .l2 .sub { display: inline; }
@@ -1522,21 +1522,31 @@
         return { el: el, words: words, lit: -1 };
       });
       var rvQueued = false;
-      // Altura de lectura: el 62 % de la ventana. Cada palabra tiene su avance t: la línea que la contiene
-      // tarda una altura de línea en cruzar esa altura, y durante ese tiempo las palabras se encienden de
-      // izquierda a derecha según su posición en la línea; así el texto se enciende al ritmo de la lectura
+      // Un «frente de lectura» recorre cada bloque línea a línea y, dentro de cada línea, de izquierda a
+      // derecha. El frente arranca cuando el bloque asoma por el 88 % de la ventana y avanza una línea
+      // por cada tramo de scroll (al menos un 14 % de la ventana), así que el barrido se ve; el bloque
+      // queda entero encendido antes de llegar al 30 % superior. Al final de la página, todo encendido
       function litWords() {
         rvQueued = false;
-        var h = window.innerHeight, yr = h * 0.62, atEnd = scrollProgress() > 0.995;
+        var h = window.innerHeight, atEnd = scrollProgress() > 0.995;
         rvUnits.forEach(function (u) {
           var box = u.el.getBoundingClientRect();
-          if (!atEnd && (box.top > h || box.bottom < 0) && u.lit !== -1) return;   // fuera de la pantalla: nada que recalcular
+          if (!atEnd && (box.top > h || box.bottom < 0) && u.lit !== -1) return;   // fuera de la pantalla
           u.lit = 0;
-          for (var i = 0; i < u.words.length; i++) {
-            var w = u.words[i], r = w.getBoundingClientRect();
-            var lh = r.height || 1, xf = box.width ? (r.left - box.left) / box.width : 0;
-            var t = atEnd ? 1 : (yr - r.top) / lh - xf * 0.9;
+          var rs = u.words.map(function (w) { return w.getBoundingClientRect(); });
+          var line = 0, lineTop = rs.length ? rs[0].top : 0, idx = [];
+          for (var i = 0; i < rs.length; i++) {
+            if (rs[i].top - lineTop > rs[i].height * 0.5) { line++; lineTop = rs[i].top; }
+            idx.push(line);
+          }
+          var n = line + 1, lh = rs.length ? rs[0].height : 20;
+          var step = Math.min(Math.max(lh * 3, h * 0.14), (h * 0.58) / (n + 0.4));
+          var front = (h * 0.88 - box.top) / step, soft = 0.4;
+          for (var j = 0; j < rs.length; j++) {
+            var xf = box.width ? (rs[j].left - box.left) / box.width : 0;
+            var t = atEnd ? 1 : (front - idx[j] - xf * 0.85) / soft;
             t = Math.max(0, Math.min(1, t));
+            var w = u.words[j];
             if (w._o !== t) { w._o = t; w.style.setProperty('--o', t.toFixed(3)); }
           }
         });
