@@ -537,19 +537,14 @@
     .manifesto { font: 600 clamp(1.65rem, 4.3vw, 2.9rem)/1.1 var(--font-display); letter-spacing: -0.03em; text-wrap: pretty; }
     .crafts { display: grid; gap: clamp(34px, 6vh, 58px); margin-top: clamp(56px, 10vh, 100px); }
     /* Cada oficio: su nombre en grande y, debajo, la frase gancho en cursiva y en el color de acento.
-       El nombre usa el estilo de la cinta: letras huecas que dejan ver el globo y que se rellenan de
-       tinta, palabra a palabra, mientras el bloque cruza la pantalla. Peso medio para que el trazo
-       hueco no resulte pesado */
+       El nombre, en la grotesca de siempre, en peso medio */
     .craft { font-size: clamp(1.4rem, 3.3vw, 2.15rem); }
     .craft h3 { font: 500 1.1em/1.1 var(--font-display); letter-spacing: -0.015em; }
     .craft h3 + p { margin-top: 0.22em; }
-    @supports (-webkit-text-stroke: 1px #000) {
-      .craft h3 .w { opacity: 1; color: transparent; -webkit-text-stroke: 1px var(--ink); paint-order: stroke fill; transition: color 0.45s ease; }
-      .craft h3 .w.lit { color: var(--ink); }
-    }
     .craft p { margin-top: 0.08em; font: italic 400 1.08em/1.12 var(--font-serif); letter-spacing: -0.02em; color: var(--accent); text-wrap: balance; }
-    .rv .w { opacity: 0.16; transition: opacity 0.45s ease; }
-    .rv .w.lit { opacity: 1; }
+    /* Cada palabra se enciende cuando la línea en la que está cruza la altura de lectura y, dentro de la
+       línea, de izquierda a derecha: el encendido sigue el recorrido de los ojos. El script fija --o */
+    .rv .w { --lo: 0.16; opacity: calc(var(--lo) + (1 - var(--lo)) * var(--o, 0)); transition: opacity 0.18s linear; }
 
     /* Contacto (igual que en la versión anterior) */
     .btn {
@@ -596,7 +591,7 @@
       .globe-col .map-layer { position: fixed; inset: 0; z-index: 0; }
       .scene { padding-block: clamp(84px, 13vh, 150px); }
       /* Las palabras aún sin encender se ven algo más que en móvil, porque aquí el globo pasa por detrás */
-      .rv .w { opacity: 0.28; }
+      .rv .w { --lo: 0.28; }
       .hero { display: flex; align-items: center; min-height: calc(100svh - clamp(96px, 15vh, 150px)); }
       .brand-spot { font-size: 2.6rem; }
       .statement .l2 .sub { display: inline; }
@@ -632,6 +627,7 @@
       html { scroll-behavior: auto; }
       .pfig *, .afig * { animation: none !important; transition: none !important; }
       .statement .w, .amore:not([hidden]) { animation: none; }
+      .rv .w { --o: 1 !important; transition: none; }
     }
   </style>
 </head>
@@ -849,19 +845,19 @@
         <div class="crafts">
           <div class="craft">
             <h3 data-rv>Cartografía y diseño</h3>
-            <p data-rv="pronto">Información que por fin se entiende.</p>
+            <p data-rv>Información que por fin se entiende.</p>
           </div>
           <div class="craft">
             <h3 data-rv>Geografía cuantitativa</h3>
-            <p data-rv="pronto">Por qué las cosas pasan donde pasan.</p>
+            <p data-rv>Por qué las cosas pasan donde pasan.</p>
           </div>
           <div class="craft">
             <h3 data-rv>Desarrollo web y apps</h3>
-            <p data-rv="pronto">Ruido y fricción reducidos hasta su límite físico.</p>
+            <p data-rv>Ruido y fricción reducidos hasta su límite físico.</p>
           </div>
           <div class="craft">
             <h3 data-rv>Automatización e IA aplicada</h3>
-            <p data-rv="pronto">Lo repetitivo se hace solo.</p>
+            <p data-rv>Lo repetitivo se hace solo.</p>
           </div>
         </div>
       </div>
@@ -1523,21 +1519,26 @@
           });
         })(el);
         el.classList.add('rv');
-        return { el: el, words: words, lit: -1, early: el.getAttribute('data-rv') === 'pronto' };
+        return { el: el, words: words, lit: -1 };
       });
       var rvQueued = false;
+      // Altura de lectura: el 62 % de la ventana. Cada palabra tiene su avance t: la línea que la contiene
+      // tarda una altura de línea en cruzar esa altura, y durante ese tiempo las palabras se encienden de
+      // izquierda a derecha según su posición en la línea; así el texto se enciende al ritmo de la lectura
       function litWords() {
         rvQueued = false;
-        var h = window.innerHeight, atEnd = scrollProgress() > 0.995;   // al final de la página, todo encendido
+        var h = window.innerHeight, yr = h * 0.62, atEnd = scrollProgress() > 0.995;
         rvUnits.forEach(function (u) {
-          var r = u.el.getBoundingClientRect();
-          // Las frases gancho se encienden antes: nada más asomar por abajo y terminan al 60 % de la pantalla;
-          // el resto empieza al pasar del 75 % y termina al 40 %
-          var prog = atEnd ? 1 : u.early ? (h * 0.95 - r.top) / (r.height + h * 0.35) : (h * 0.75 - r.top) / (r.height + h * 0.35);
-          var k = Math.max(0, Math.min(u.words.length, Math.round(prog * u.words.length)));
-          if (k === u.lit) return;
-          u.lit = k;
-          for (var i = 0; i < u.words.length; i++) u.words[i].classList.toggle('lit', i < k);
+          var box = u.el.getBoundingClientRect();
+          if (!atEnd && (box.top > h || box.bottom < 0) && u.lit !== -1) return;   // fuera de la pantalla: nada que recalcular
+          u.lit = 0;
+          for (var i = 0; i < u.words.length; i++) {
+            var w = u.words[i], r = w.getBoundingClientRect();
+            var lh = r.height || 1, xf = box.width ? (r.left - box.left) / box.width : 0;
+            var t = atEnd ? 1 : (yr - r.top) / lh - xf * 0.9;
+            t = Math.max(0, Math.min(1, t));
+            if (w._o !== t) { w._o = t; w.style.setProperty('--o', t.toFixed(3)); }
+          }
         });
       }
       function queueLit() { if (!rvQueued) { rvQueued = true; requestAnimationFrame(litWords); } }
